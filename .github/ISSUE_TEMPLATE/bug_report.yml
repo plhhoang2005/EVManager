@@ -1,0 +1,32 @@
+name: Bug report
+description: Báo cáo lỗi cần khắc phục
+title: "[Bug]: "
+labels: ["Type: bug", "Status: todo"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Mô tả lỗi
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Các bước tái hiện
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Kết quả mong đợi và kết quả thực tế
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Môi trường
+      placeholder: Browser/OS/phiên bản ứng dụng

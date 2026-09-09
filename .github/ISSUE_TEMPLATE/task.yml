@@ -1,0 +1,25 @@
+name: Task
+description: Công việc kỹ thuật, tài liệu hoặc quản lý dự án
+title: "[Task]: "
+labels: ["Status: todo"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Công việc cần thực hiện
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Kết quả bàn giao
+      placeholder: "Ví dụ: link tài liệu, Pull Request, ảnh chụp hoặc bản build."
+    validations:
+      required: true
+  - type: textarea
+    id: checklist
+    attributes:
+      label: Checklist
+      placeholder: |
+        - [ ] ...
+        - [ ] ...

@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+jobs:
+  placeholder:
+    name: CI placeholder
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Await technology selection
+        run: echo "Configure install, lint, test, and build steps after the team selects its tech stack."
