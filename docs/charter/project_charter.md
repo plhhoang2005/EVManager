@@ -1,4 +1,4 @@
-﻿# Project Charter — LV34-001
+# Project Charter — LV34-001
 **EVManager: Hệ thống quản lý tổng thể cho dịch vụ sự kiện**
 
 | Thông tin | Nội dung |
@@ -6,9 +6,10 @@
 | Mã dự án | LV34-001 |
 | Học phần | MAN104 — Quản lý Dự án CNTT |
 | Ngày lập | 07/09/2026 |
-| Phiên bản | v1.0 |
+| Phiên bản | v1.1 |
 | PM | Hoàng |
 | Trạng thái | Draft → chờ GV duyệt |
+| Cập nhật | 11/09/2026 — Bổ sung quyết định tính năng AI/thông minh |
 
 ---
 
@@ -32,6 +33,7 @@ Các công ty tổ chức sự kiện (cưới hỏi, tiệc, hội nghị) hi�
 | 3 | Kiểm thử đầy đủ ≥ 35 test case | Test report + defect log | Có | Hậu phụ trách | 25/10/2026 |
 | 4 | Deploy demo hoặc cloud | Link truy cập được | Có | CI/CD hoặc manual | 25/10/2026 |
 | 5 | Hoàn thiện toàn bộ hồ sơ quản lý dự án | 14 loại tài liệu theo checklist | Có | Phân công rõ | 01/11/2026 |
+| 6 | *(Bonus)* Tích hợp tính năng thông minh nếu MVP xong trước Tuần 7 | Ít nhất 1 trong 3 tính năng AI bên dưới | Có — nếu đúng tiến độ | Không bắt buộc | 25/10/2026 |
 
 ---
 
@@ -56,9 +58,22 @@ Các công ty tổ chức sự kiện (cưới hỏi, tiệc, hội nghị) hi�
 
 - Ứng dụng di động (iOS/Android)
 - Tích hợp thanh toán trực tuyến thực tế (chỉ mô phỏng)
-- AI/ML dự báo chi phí — **chỉ thực hiện nếu MVP hoàn chỉnh và còn thời gian**
 - Đa ngôn ngữ
 - Chức năng chat/video nội bộ
+
+### 3.3 Quyết định tính năng thông minh / AI (11/09/2026)
+
+> Nhóm đã phân tích và phân loại 3 tầng rõ ràng:
+
+| Tầng | Tính năng | Bản chất | Người làm | Khi nào |
+|---|---|---|---|---|
+| 🟢 **Bắt buộc** | Kiểm tra xung đột lịch tự động | Algorithm (không phải ML) | Phúc | Tuần 3 |
+| 🟡 **Nên làm** | Dự báo chi phí sự kiện | ML — Linear/Random Forest | Phúc + Hậu | Tuần 7 (sau MVP) |
+| 🔵 **Bonus** | Phân loại tin nhắn khách hàng | Gọi Gemini/OpenAI API | Phúc | Tuần 7 (nếu còn thời gian) |
+
+**Nguyên tắc:** MVP hoàn chỉnh → mới làm AI. Nếu MVP trễ, bỏ AI để bảo vệ chất lượng.
+
+**Chi tiết kỹ thuật:** xem `docs/design/ai-feature-spec.md`
 
 ---
 
@@ -116,6 +131,8 @@ Các công ty tổ chức sự kiện (cưới hỏi, tiệc, hội nghị) hi�
 | Frontend/Backend không khớp API | Cao | Chốt API contract ở Tuần 2 |
 | Database thay đổi muộn | Cao | ERD v1 chốt Tuần 2, migration có version |
 | Thành viên không có minh chứng | Cao | Commit + issue + timesheet hằng tuần |
+| AI làm trễ MVP | Trung bình | Chỉ bắt đầu AI sau khi Gate 3 (25/10) xác nhận MVP ổn định |
+| Dữ liệu không đủ cho ML | Trung bình | Dùng dữ liệu seed phong phú (≥50 hợp đồng mẫu) từ Tuần 2 |
 
 ---
 
