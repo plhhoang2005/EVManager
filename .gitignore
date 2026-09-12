@@ -27,3 +27,7 @@ Thumbs.db
 *.sqlite
 *.sqlite3
 uploads/
+
+# Ignore generated document files
+*.docx
+*.pdf
