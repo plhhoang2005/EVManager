@@ -19,7 +19,7 @@
 | 4 | Không để lộ secret hoặc dữ liệu nhạy cảm |  |  |  |
 | 5 | Không có dependency không sử dụng hoặc không cần thiết |  |  |  |
 | 6 | Không có code trùng lặp rõ ràng |  |  |  |
-| 7 | Không có `any` không cần thiết |  |  |  |
+| 7 | Không có raw type hoặc unchecked cast không cần thiết |  |  |  |
 | 8 | Không có `catch` rỗng hoặc exception bị nuốt |  |  |  |
 | 9 | Input validation đầy đủ |  |  |  |
 | 10 | Authentication đúng |  |  |  |

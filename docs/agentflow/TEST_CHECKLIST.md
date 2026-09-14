@@ -14,7 +14,7 @@ Chỉ đánh dấu `Pass` hoặc `Fail` sau khi thực sự chạy. Dùng `Not A
 | # | Kiểm tra | Lệnh/Cách kiểm tra | Trạng thái (Pass/Fail/Not Applicable) | Kết quả/Bằng chứng |
 |---|---|---|---|---|
 | 1 | Lint |  |  |  |
-| 2 | TypeScript build |  |  |  |
+| 2 | Maven compile/package |  |  |  |
 | 3 | Unit test |  |  |  |
 | 4 | Integration test |  |  |  |
 | 5 | Smoke test/API check |  |  |  |

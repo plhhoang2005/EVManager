@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:evmanager;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  flyway:
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+app:
+  security:
+    jwt:
+      secret: test-only-placeholder-secret-with-at-least-32-characters

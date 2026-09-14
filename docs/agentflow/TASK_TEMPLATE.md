@@ -32,7 +32,7 @@
 ## Test cần chạy
 
 - [ ] Lint:
-- [ ] TypeScript build:
+- [ ] Maven compile/package:
 - [ ] Unit test:
 - [ ] Integration test:
 - [ ] Smoke test:

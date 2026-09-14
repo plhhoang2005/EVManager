@@ -1,6 +1,12 @@
+target/
 node_modules/
 dist/
-coverage/
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+.vscode/
 .env
 .env.*
 !.env.example

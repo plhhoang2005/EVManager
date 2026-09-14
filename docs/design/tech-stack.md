@@ -1,45 +1,43 @@
-# Tech Stack
+# Tech Stack chính thức
+
+Quyết định này thay thế toàn bộ đề xuất Backend trước đây dùng Node.js, Express và Prisma.
 
 ## Stack đã thống nhất
 
 | Lớp | Công nghệ |
 |---|---|
-| Frontend | React, TypeScript, Vite, Axios, React Router |
-| Backend | Node.js LTS, TypeScript strict, Express.js, Express Router |
-| Validation và bảo mật | Zod, Helmet, CORS; JWT và RBAC ở issue riêng |
-| Database | PostgreSQL, Prisma ORM, Prisma Migrate |
-| API documentation | Swagger/OpenAPI |
-| Logging | Winston |
-| Testing | Jest, Supertest |
-| Package manager | npm |
-| DevOps dự kiến | Docker, Docker Compose, GitHub Actions, GitHub |
-
-## Lý do lựa chọn
-
-- **Node.js:** phù hợp REST API I/O-bound và dùng chung hệ sinh thái JavaScript với Frontend.
-- **TypeScript:** thống nhất ngôn ngữ giữa Frontend và Backend, tăng an toàn kiểu dữ liệu và khả năng bảo trì.
-- **Express:** gọn, phổ biến và đủ linh hoạt cho phạm vi đồ án tám tuần.
-- **Prisma:** cung cấp type-safe database access, schema rõ ràng và quy trình migration có kiểm soát.
-- **PostgreSQL:** cơ sở dữ liệu quan hệ ổn định, phù hợp dữ liệu khách hàng, hợp đồng, lịch và thanh toán.
+| Frontend | TypeScript, React, Vite, Axios, React Router |
+| Backend | Java 21 LTS, Spring Boot, Spring Web |
+| ORM | Spring Data JPA, Hibernate |
+| Migration | Flyway |
+| Validation | Jakarta Bean Validation |
+| Authentication/Authorization | Spring Security, JWT |
+| API documentation | Springdoc OpenAPI/Swagger |
+| Build | Maven |
+| Testing | JUnit 5, Mockito, Spring Boot Test |
+| Logging | SLF4J, Logback |
+| Database | PostgreSQL |
+| DevOps | Docker, Docker Compose, GitHub Actions, Git, GitHub |
 
 ## Kiến trúc tổng thể
 
 ```text
-React + TypeScript
-        │
-        │ HTTPS / REST JSON
-        ▼
-Node.js + Express + TypeScript
-        │
-        │ Prisma ORM / Prisma Migrate
-        ▼
+React Frontend
+      │
+      │ HTTPS / REST JSON
+      ▼
+Spring Boot REST API
+      │
+      │ Spring Data JPA / Hibernate / Flyway
+      ▼
 PostgreSQL
 ```
 
-Frontend chỉ gọi REST API; các quy tắc nghiệp vụ, Authentication và Authorization được thực thi ở Backend. Schema nghiệp vụ sẽ được bổ sung sau khi ERD được nhóm duyệt.
+React phụ trách giao diện và gọi API. Spring Boot cung cấp REST API, validation, bảo mật và xử lý nghiệp vụ. PostgreSQL lưu trữ dữ liệu; Flyway quản lý thay đổi schema có phiên bản.
 
 ## Kiểm thử và DevOps
 
-- Jest thực thi unit test; Supertest kiểm thử tích hợp HTTP mà không cần mở cổng mạng.
-- Health Check skeleton không phụ thuộc PostgreSQL.
-- Docker, Docker Compose và GitHub Actions được dự kiến cho các issue DevOps sau; chưa được triển khai trong BE-001.
+- JUnit 5, Mockito và Spring Boot Test phục vụ unit test và integration test.
+- SLF4J với Logback là cơ chế logging mặc định.
+- Docker, Docker Compose và GitHub Actions sẽ được triển khai trong các issue DevOps riêng.
+- BE-001 chỉ khởi tạo skeleton, chưa có API, entity, migration nghiệp vụ hoặc container.

@@ -70,7 +70,7 @@ Sau khi sửa phát hiện, review lại phần diff liên quan. Task không ho�
 ## 6. Tester
 
 - Chọn lệnh phù hợp từ cấu hình thực tế của repository; không đoán lệnh.
-- Chạy lint, TypeScript build, unit test và integration test liên quan.
+- Chạy static analysis, Maven build, unit test và integration test liên quan.
 - Kiểm tra API bằng automated test hoặc smoke test khi có API bị ảnh hưởng.
 - Dùng [`TEST_CHECKLIST.md`](TEST_CHECKLIST.md) để ghi lệnh, kết quả và bằng chứng.
 - Không ghi “đã kiểm tra” nếu chưa thực sự chạy. Nếu một kiểm tra không áp dụng hoặc bị chặn, ghi rõ lý do.

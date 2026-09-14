@@ -12,7 +12,7 @@ Tệp này là nguồn quy tắc chính khi Codex làm việc trong repository E
 6. Viết kế hoạch ngắn cùng danh sách file dự kiến tạo hoặc sửa.
 7. Dừng để xin Human Approval khi có quyết định quan trọng chưa được chốt theo [các approval gate](docs/agentflow/WORKFLOW.md#human-approval-gates).
 8. Chỉ sửa file liên quan, với thay đổi nhỏ nhất đáp ứng issue.
-9. Chạy lint, TypeScript build và các test phù hợp với phần thay đổi.
+9. Chạy static analysis, build và các test phù hợp với phần thay đổi.
 10. Review toàn bộ diff theo [Review Checklist](docs/agentflow/REVIEW_CHECKLIST.md).
 11. Báo cáo kết quả, lệnh đã chạy, kết quả kiểm tra và rủi ro còn lại.
 12. Không commit, push, merge hoặc deploy nếu người dùng chưa yêu cầu rõ ràng.
@@ -41,18 +41,18 @@ Có thể dùng [Task Template](docs/agentflow/TASK_TEMPLATE.md) để ghi nhậ
 
 ## Backend
 
-- Bật và duy trì TypeScript strict mode; không hạ tiêu chuẩn TypeScript để che lỗi.
-- Không dùng `any` nếu không có lý do rõ ràng được ghi chú.
+- Sử dụng Java 21 LTS, Spring Boot và Maven; không hạ tiêu chuẩn compiler hoặc build để che lỗi.
+- Không dùng raw type hoặc unchecked cast nếu không có lý do rõ ràng được ghi chú.
 - Controller chỉ tiếp nhận request, gọi lớp phù hợp và trả response.
 - Business logic đặt trong service.
-- Database access đặt trong repository hoặc lớp Prisma phù hợp với kiến trúc đã thống nhất.
-- Validate toàn bộ input không tin cậy bằng Zod.
+- Database access đặt trong Spring Data JPA repository hoặc lớp persistence phù hợp.
+- Validate toàn bộ input không tin cậy bằng Jakarta Bean Validation.
 - Luôn kiểm tra Authentication và Authorization ở Backend; không dựa vào giao diện để bảo vệ quyền truy cập.
 - Response thành công và error response phải nhất quán với API contract.
 - Không dùng `catch` rỗng hoặc nuốt exception; xử lý, chuyển tiếp hoặc log lỗi an toàn.
-- Dùng transaction cho nghiệp vụ nhiều bước cần tính nguyên tử, đặc biệt là thanh toán và hợp đồng.
-- API danh sách có khả năng tăng lớn phải hỗ trợ pagination.
-- Không dùng `prisma db push` thay cho migration trong quy trình chính thức.
+- Dùng `@Transactional` cho nghiệp vụ nhiều bước cần tính nguyên tử, đặc biệt là thanh toán và hợp đồng.
+- API danh sách có khả năng tăng lớn phải hỗ trợ pagination bằng cơ chế Spring Data phù hợp.
+- Quản lý thay đổi schema bằng Flyway; không dùng Hibernate `ddl-auto` để thay thế migration trong quy trình chính thức.
 - Không trả stack trace trong production.
 
 ## Testing
@@ -60,7 +60,7 @@ Có thể dùng [Task Template](docs/agentflow/TASK_TEMPLATE.md) để ghi nhậ
 - Mỗi business rule quan trọng phải có test.
 - Bug fix phải có regression test khi phù hợp.
 - Không xóa, bỏ qua hoặc làm yếu test chỉ để build thành công.
-- Không giảm tiêu chuẩn TypeScript, lint hoặc validation để che lỗi.
+- Không giảm tiêu chuẩn compiler, static analysis, build hoặc validation để che lỗi.
 - Luôn xét happy path, validation error, unauthorized, forbidden, not found và duplicate/conflict khi phù hợp.
 - Nghiệp vụ thanh toán và kiểm tra trùng lịch phải có test cho edge case và tính nhất quán dữ liệu.
 - Chỉ báo một kiểm tra là đã chạy khi có lệnh và kết quả thực tế; nếu không chạy được phải ghi rõ lý do.
