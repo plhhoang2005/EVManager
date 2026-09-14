@@ -1,0 +1,13 @@
+target/
+node_modules/
+dist/
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+.vscode/
+.env
+.env.*
+!.env.example
+*.log
