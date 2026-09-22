@@ -11,6 +11,8 @@
 | Nguồn đối chiếu | BRD, kiến trúc Backend và ERD dbdiagram cập nhật ngày 22/09/2026 |
 | Trạng thái | Bản phân tích ban đầu, chưa phải schema/migration chính thức |
 
+Tài liệu thiết kế kế tiếp: [Chuẩn hóa dữ liệu và ERD logic](data-normalization.md). Mã DBML để nhập vào dbdiagram.io: [`erd-logical.dbml`](erd-logical.dbml).
+
 ## 2. Mục tiêu và tiêu chuẩn đối chiếu
 
 Tài liệu này chuyển các yêu cầu nghiệp vụ của BA thành danh mục dữ liệu ban đầu để làm đầu vào cho ERD, Data Dictionary và migration. Phạm vi được duyệt gồm **11 thực thể cốt lõi**, nằm trong tiêu chuẩn đồ án mức Khá là **8–12 bảng** ở mức phân tích nghiệp vụ.
