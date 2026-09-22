@@ -15,6 +15,27 @@ Hệ thống được chia thành các module độc lập theo ngữ cảnh ngh
 - **Payments**: Quản lý giao dịch thanh toán, lịch sử đóng tiền, công nợ.
 - **Reports**: Xử lý logic tính toán doanh thu, thống kê, xuất báo cáo.
 
+### Sơ đồ các module (Modules Diagram)
+
+```mermaid
+graph TD
+    A[API Router / Controllers] --> B(Auth)
+    A --> C(Users)
+    A --> D(Customers)
+    A --> E(Venues)
+    A --> F(Events)
+    A --> G(Contracts)
+    A --> H(Payments)
+    A --> I(Reports)
+    
+    B -.->|Token Verification| C
+    F -.->|Use| E
+    G -.->|Bind to| F
+    H -.->|Pay for| G
+    I -.->|Aggregate data| H
+    I -.->|Aggregate data| G
+```
+
 ## 3. Kiến Trúc Phân Lớp (Layer Architecture)
 Mỗi module được thiết kế theo mô hình Clean Architecture để tách biệt trách nhiệm:
 
