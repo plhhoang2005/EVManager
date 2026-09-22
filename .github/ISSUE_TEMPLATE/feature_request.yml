@@ -1,0 +1,35 @@
+name: Feature request
+description: Đề xuất một chức năng mới
+title: "[Feature]: "
+labels: ["Type: feature", "Status: todo"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Vấn đề / nhu cầu
+      description: Chức năng này giải quyết vấn đề gì?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Giải pháp đề xuất
+      description: Mô tả hành vi mong muốn, actor và luồng chính.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Mức ưu tiên
+      options: [high, medium, low]
+    validations:
+      required: true

@@ -1,0 +1,547 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LV34-001 - Kế hoạch đồ án QLDA CNTT</title>
+<style>
+:root{
+  --bg:#f5f7fb; --card:#fff; --text:#172033; --muted:#667085;
+  --primary:#2563eb; --primary2:#1d4ed8; --line:#e5e7eb;
+  --success:#16a34a; --warning:#d97706; --danger:#dc2626;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.container{max-width:1250px;margin:auto;padding:28px}
+.hero{background:linear-gradient(135deg,#172554,#2563eb);color:#fff;border-radius:24px;padding:42px;margin-bottom:24px;box-shadow:0 18px 45px rgba(37,99,235,.18)}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700}
+.hero h1{font-size:38px;line-height:1.15;margin:16px 0 10px}
+.hero p{max-width:850px;color:#dbeafe;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.stat strong{display:block;font-size:25px;color:var(--primary)}
+.stat span{font-size:13px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:25px;margin:20px 0;box-shadow:0 4px 16px rgba(15,23,42,.04)}
+h2{font-size:25px;margin:0 0 16px}
+h3{font-size:19px;margin:20px 0 8px}
+.badge{display:inline-block;padding:4px 9px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:700}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{border:1px solid var(--line);padding:11px 12px;text-align:left;vertical-align:top}
+th{background:#f8fafc;font-size:13px}
+td{font-size:14px}
+.role{border-left:5px solid var(--primary);padding:17px 18px;background:#f8fbff;border-radius:12px;margin:14px 0}
+.role h3{margin-top:0}
+ul{margin-top:8px}
+li{margin:5px 0}
+.timeline{position:relative;margin:20px 0}
+.week{display:grid;grid-template-columns:110px 1fr;gap:18px;border-bottom:1px solid var(--line);padding:18px 0}
+.week:last-child{border-bottom:0}
+.weekno{font-weight:800;color:var(--primary)}
+.milestone{display:inline-block;margin-top:8px;padding:4px 9px;background:#ecfdf3;color:#166534;border-radius:999px;font-size:12px;font-weight:700}
+.check{color:var(--success);font-weight:700}
+.warn{color:var(--warning);font-weight:700}
+.danger{color:var(--danger);font-weight:700}
+.flow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.flow span{background:#eff6ff;border:1px solid #bfdbfe;padding:9px 12px;border-radius:10px;font-size:13px}
+.arrow{color:var(--muted);font-weight:bold}
+.callout{padding:15px 18px;border-radius:12px;background:#fffbeb;border:1px solid #fde68a}
+.footer{color:var(--muted);font-size:13px;text-align:center;padding:30px}
+@media(max-width:900px){
+ .grid{grid-template-columns:repeat(2,1fr)}
+ .week{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+ .container{padding:14px}.hero{padding:28px 22px}.hero h1{font-size:29px}
+ .grid{grid-template-columns:1fr}.card{padding:18px}table{font-size:12px}
+ th,td{padding:8px}
+}
+@media print{
+ body{background:#fff}.card,.hero{box-shadow:none}.hero{color:#fff;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<section class="hero">
+  <span class="tag">MAN104 · QUẢN LÝ DỰ ÁN CNTT</span>
+  <h1>LV34-001 — Hệ thống quản lý tổng thể cho dịch vụ sự kiện</h1>
+  <p>
+    Kế hoạch triển khai đồ án 8 tuần cho nhóm 5 thành viên. Tài liệu này gom các yêu cầu
+    từ slide/Excel môn học thành một kế hoạch thực thi: phạm vi, vai trò, nhiệm vụ,
+    thời gian, thời khóa biểu, phân công, sản phẩm phải nộp và checklist nghiệm thu.
+  </p>
+</section>
+
+<div class="grid">
+  <div class="stat"><strong>07/09 → 01/11/2026</strong><span>Thời gian dự án</span></div>
+  <div class="stat"><strong>8 tuần · 9 buổi</strong><span>Tiến độ học phần</span></div>
+  <div class="stat"><strong>10–14 UC</strong><span>Mức Khá: Use Case/User Story</span></div>
+  <div class="stat"><strong>8–12 bảng</strong><span>Mức Khá: Database</span></div>
+</div>
+
+<section class="card">
+<h2>1. Tóm tắt yêu cầu của đề tài</h2>
+<table>
+<tr><th>Thông tin</th><th>Nội dung</th></tr>
+<tr><td>Mã đề tài</td><td><b>LV34-001</b></td></tr>
+<tr><td>Tên đề tài</td><td><b>Hệ thống quản lý tổng thể cho dịch vụ sự kiện</b></td></tr>
+<tr><td>Lĩnh vực</td><td>Dịch vụ cưới hỏi / sự kiện</td></tr>
+<tr><td>Nền tảng</td><td>Web + Desktop</td></tr>
+<tr><td>Mức độ</td><td><b>Khá</b></td></tr>
+<tr><td>Thực thể lõi</td><td>Khách hàng, gói dịch vụ, lịch sự kiện, hợp đồng</td></tr>
+<tr><td>Chức năng lõi</td><td>Đăng nhập/RBAC, CRUD, tìm kiếm/lọc, dashboard, import/export, báo cáo PDF/Excel, kiểm thử</td></tr>
+<tr><td>AI/ML gợi ý</td><td>Dự báo chi phí — chỉ làm sau khi MVP hoàn chỉnh</td></tr>
+</table>
+
+<h3>Mục tiêu MVP</h3>
+<p>Xây dựng một hệ thống có thể quản lý xuyên suốt quy trình từ khách hàng yêu cầu dịch vụ → tư vấn/gói dịch vụ → lập lịch sự kiện → hợp đồng → thanh toán → theo dõi trạng thái → báo cáo.</p>
+
+<div class="flow">
+<span>Khách hàng</span><b class="arrow">→</b>
+<span>Tư vấn / Gói dịch vụ</span><b class="arrow">→</b>
+<span>Lịch sự kiện</span><b class="arrow">→</b>
+<span>Hợp đồng</span><b class="arrow">→</b>
+<span>Thanh toán</span><b class="arrow">→</b>
+<span>Hoàn tất & Báo cáo</span>
+</div>
+</section>
+
+<section class="card">
+<h2>2. Yêu cầu bắt buộc của mức “Khá”</h2>
+<table>
+<tr><th>Tiêu chí</th><th>Yêu cầu</th></tr>
+<tr><td>Actor</td><td><b>≥ 4 actor</b></td></tr>
+<tr><td>Use Case/User Story</td><td><b>10–14</b></td></tr>
+<tr><td>Database</td><td><b>8–12 bảng</b></td></tr>
+<tr><td>Quy trình nghiệp vụ</td><td><b>3 quy trình lõi</b></td></tr>
+<tr><td>Phân quyền</td><td>Phân quyền chi tiết theo vai trò</td></tr>
+<tr><td>Báo cáo</td><td><b>2 báo cáo</b></td></tr>
+<tr><td>Tích hợp</td><td><b>1 dịch vụ bên ngoài</b> — đề xuất email notification / Google Maps / dịch vụ phù hợp</td></tr>
+<tr><td>Kiểm thử</td><td><b>≥ 35 test case</b></td></tr>
+<tr><td>Triển khai</td><td>CI/CD hoặc deploy cloud</td></tr>
+<tr><td>Ngoại lệ</td><td>Có xử lý lỗi/nghiệp vụ ngoại lệ</td></tr>
+<tr><td>Logging</td><td>Có nhật ký thao tác ở mức hợp lý</td></tr>
+<tr><td>Dữ liệu</td><td>Dữ liệu mẫu hợp lý, không dùng dữ liệu cá nhân thật không được phép</td></tr>
+</table>
+
+<div class="callout">
+<b>Nguyên tắc quan trọng:</b> ưu tiên MVP hoàn chỉnh hơn là làm quá nhiều chức năng.
+Không để toàn bộ việc code, test và deploy dồn vào 1–2 tuần cuối.
+</div>
+</section>
+
+<section class="card">
+<h2>3. Các sản phẩm phần mềm bắt buộc</h2>
+<ul>
+<li><b>Frontend:</b> giao diện Web và phần Desktop theo phạm vi nhóm thống nhất.</li>
+<li><b>Backend/API:</b> API phục vụ nghiệp vụ và kết nối frontend/database.</li>
+<li><b>Database:</b> ERD, schema, migration/seed, data dictionary.</li>
+<li><b>Authentication:</b> đăng nhập, đăng xuất, bảo vệ API.</li>
+<li><b>Authorization/RBAC:</b> quyền theo vai trò.</li>
+<li><b>CRUD:</b> thêm/sửa/xóa/xem + validation.</li>
+<li><b>Search/Filter:</b> tìm kiếm và lọc dữ liệu.</li>
+<li><b>Dashboard:</b> thống kê tổng quan.</li>
+<li><b>Reports:</b> tối thiểu 2 báo cáo; hỗ trợ PDF/Excel theo phạm vi đề tài.</li>
+<li><b>External integration:</b> ít nhất 1 dịch vụ bên ngoài.</li>
+<li><b>Testing:</b> unit/integration/system/UAT + regression; ≥35 test case.</li>
+<li><b>Deployment:</b> deploy demo hoặc cloud, có hướng dẫn chạy.</li>
+</ul>
+</section>
+
+<section class="card">
+<h2>4. Khái niệm và nhiệm vụ từng vai trò</h2>
+
+<div class="role">
+<h3>👑 Hoàng — PM/Scrum Master + Integration</h3>
+<p><span class="badge">Quản lý dự án · Điều phối · Tích hợp</span></p>
+<p><b>Khái niệm:</b> PM chịu trách nhiệm lập kế hoạch, điều phối nguồn lực, theo dõi phạm vi–thời gian–chi phí–chất lượng–rủi ro. Scrum Master hỗ trợ nhóm làm việc đúng quy trình. Integration chịu trách nhiệm ghép các phần Frontend, Backend, Database thành một hệ thống chạy end-to-end.</p>
+<p><b>Công việc chính:</b></p>
+<ul>
+<li>Project Charter, PMP, mục tiêu SMART.</li>
+<li>Scope, WBS, WBS Dictionary, Gantt và baseline.</li>
+<li>Phân công RACI, workload, timesheet.</li>
+<li>Theo dõi planned vs actual mỗi tuần.</li>
+<li>Quản lý risk register, issue log, change log.</li>
+<li>Điều phối họp, biên bản, status report.</li>
+<li>Quản lý Git workflow/milestone và phối hợp merge.</li>
+<li>Tích hợp frontend + backend + database + deploy.</li>
+<li>Release checklist, demo rehearsal, đóng dự án, lessons learned.</li>
+</ul>
+<p><b>Thời gian trọng tâm:</b> Tuần 1–8; tích hợp mạnh từ Tuần 3–7.</p>
+</div>
+
+<div class="role">
+<h3>📋 Ba — BA/PO</h3>
+<p><span class="badge">Phân tích nghiệp vụ · Quản lý yêu cầu</span></p>
+<p><b>Khái niệm:</b> BA (Business Analyst) phân tích vấn đề, người dùng và quy trình nghiệp vụ; PO (Product Owner) xác định giá trị sản phẩm, ưu tiên backlog và xác nhận chức năng đáp ứng nhu cầu.</p>
+<p><b>Công việc chính:</b></p>
+<ul>
+<li>Xác định stakeholder và actor.</li>
+<li>Khảo sát nghiệp vụ dịch vụ sự kiện.</li>
+<li>Viết problem statement và mục tiêu SMART.</li>
+<li>Xây dựng SRS, User Story/Use Case.</li>
+<li>Viết Acceptance Criteria.</li>
+<li>Chia In-scope / Out-of-scope.</li>
+<li>Ưu tiên backlog Must-have / Should-have / Could-have.</li>
+<li>WBS phần nghiệp vụ và Requirement Traceability Matrix.</li>
+<li>Phối hợp QA để đảm bảo yêu cầu truy vết được tới test case.</li>
+<li>Nghiệm thu nghiệp vụ/UAT.</li>
+</ul>
+<p><b>Thời gian trọng tâm:</b> Tuần 1–2 là cao nhất; tiếp tục hỗ trợ xuyên suốt Tuần 3–8.</p>
+</div>
+
+<div class="role">
+<h3>🎨 Nhân — UI/UX + Frontend</h3>
+<p><span class="badge">Thiết kế trải nghiệm · Xây dựng giao diện</span></p>
+<p><b>Khái niệm:</b> UI/UX thiết kế cách người dùng tương tác với hệ thống; Frontend hiện thực thiết kế thành giao diện thật và kết nối với API.</p>
+<p><b>Công việc chính:</b></p>
+<ul>
+<li>User flow và information architecture.</li>
+<li>Wireframe → prototype → UI final.</li>
+<li>Design system: màu, font, button, form, table, modal, trạng thái.</li>
+<li>Thiết kế dashboard và các màn hình CRUD.</li>
+<li>Responsive và usability.</li>
+<li>Validation/error/loading/empty state.</li>
+<li>Gọi API và xử lý dữ liệu frontend.</li>
+<li>Quản lý state và route/navigation.</li>
+<li>Đóng góp source Git và sửa lỗi UI.</li>
+</ul>
+<p><b>Thời gian trọng tâm:</b> Tuần 2–7; Tuần 8 tập trung hoàn thiện UX và fix lỗi.</p>
+</div>
+
+<div class="role">
+<h3>⚙️ Phúc — Backend/API + DevOps</h3>
+<p><span class="badge">Nghiệp vụ server · API · Triển khai</span></p>
+<p><b>Khái niệm:</b> Backend xử lý business logic, validation, authentication/authorization và cung cấp API. DevOps đảm bảo môi trường chạy, version control, CI/CD và deployment.</p>
+<p><b>Công việc chính:</b></p>
+<ul>
+<li>Thiết kế kiến trúc backend.</li>
+<li>API contract/spec.</li>
+<li>Authentication + JWT/session theo công nghệ chọn.</li>
+<li>RBAC và authorization.</li>
+<li>CRUD + business logic + validation.</li>
+<li>Error handling và security cơ bản.</li>
+<li>Search/filter, dashboard/report API.</li>
+<li>Tích hợp dịch vụ ngoài.</li>
+<li>Docker/environment/config nếu phù hợp.</li>
+<li>CI/CD hoặc deploy cloud.</li>
+<li>README/deployment guide.</li>
+</ul>
+<p><b>Thời gian trọng tâm:</b> Tuần 2–8; deploy mạnh ở Tuần 7.</p>
+</div>
+
+<div class="role">
+<h3>🗄️ Hậu — Database + QA/Tester</h3>
+<p><span class="badge">Dữ liệu · Kiểm thử · Chất lượng</span></p>
+<p><b>Khái niệm:</b> Database chịu trách nhiệm thiết kế và bảo đảm tính toàn vẹn dữ liệu. QA/Tester lập chiến lược kiểm thử, tạo test case, phát hiện defect và xác nhận hệ thống đạt tiêu chí chất lượng.</p>
+<p><b>Công việc chính:</b></p>
+<ul>
+<li>ERD, schema và data dictionary.</li>
+<li>Thiết kế 8–12 bảng theo yêu cầu mức Khá.</li>
+<li>Khóa chính/ngoại, constraint, index và quan hệ.</li>
+<li>Migration/seed dữ liệu mẫu.</li>
+<li>Query phục vụ nghiệp vụ, dashboard và báo cáo.</li>
+<li>Test plan, test strategy, Definition of Done.</li>
+<li>Tối thiểu ≥35 test case.</li>
+<li>Unit/integration/system/UAT/regression phối hợp cùng team.</li>
+<li>Defect log, severity/priority, owner, retest.</li>
+<li>Traceability giữa requirement → test case → kết quả.</li>
+</ul>
+<p><b>Thời gian trọng tâm:</b> Database Tuần 2–4; QA xuyên suốt Tuần 3–8, cao điểm Tuần 6–7.</p>
+</div>
+</section>
+
+<section class="card">
+<h2>5. Đề xuất phạm vi nghiệp vụ cụ thể cho LV34-001</h2>
+<h3>4 actor chính</h3>
+<table>
+<tr><th>Actor</th><th>Vai trò</th></tr>
+<tr><td>Admin/Quản lý</td><td>Quản lý người dùng, quyền, xem dashboard/báo cáo.</td></tr>
+<tr><td>Nhân viên tư vấn</td><td>Quản lý khách hàng, tư vấn gói dịch vụ, tạo yêu cầu/báo giá.</td></tr>
+<tr><td>Điều phối sự kiện</td><td>Quản lý lịch, dịch vụ được thực hiện, trạng thái sự kiện.</td></tr>
+<tr><td>Khách hàng</td><td>Xem/yêu cầu dịch vụ, xác nhận thông tin, theo dõi trạng thái theo phạm vi.</td></tr>
+</table>
+
+<h3>3 quy trình lõi</h3>
+<ol>
+<li><b>Tiếp nhận & tư vấn:</b> Khách hàng → thông tin nhu cầu → nhân viên → gói dịch vụ → báo giá.</li>
+<li><b>Chốt dịch vụ:</b> xác nhận → hợp đồng → đặt cọc/thanh toán → cập nhật trạng thái.</li>
+<li><b>Điều phối sự kiện:</b> lịch sự kiện → kiểm tra trùng lịch → phân bổ dịch vụ → thực hiện → hoàn tất → báo cáo.</li>
+</ol>
+
+<h3>Danh sách Use Case/User Story đề xuất</h3>
+<table>
+<tr><th>#</th><th>Use Case</th><th>Actor chính</th></tr>
+<tr><td>1</td><td>Đăng nhập/đăng xuất</td><td>Tất cả nhân sự</td></tr>
+<tr><td>2</td><td>Quản lý người dùng & phân quyền</td><td>Admin</td></tr>
+<tr><td>3</td><td>Quản lý khách hàng</td><td>Tư vấn</td></tr>
+<tr><td>4</td><td>Quản lý gói dịch vụ</td><td>Admin/Tư vấn</td></tr>
+<tr><td>5</td><td>Tạo yêu cầu/báo giá</td><td>Tư vấn</td></tr>
+<tr><td>6</td><td>Quản lý lịch sự kiện</td><td>Điều phối</td></tr>
+<tr><td>7</td><td>Kiểm tra xung đột lịch</td><td>Điều phối</td></tr>
+<tr><td>8</td><td>Quản lý hợp đồng</td><td>Tư vấn/Quản lý</td></tr>
+<tr><td>9</td><td>Quản lý đặt cọc/thanh toán</td><td>Tư vấn/Quản lý</td></tr>
+<tr><td>10</td><td>Cập nhật trạng thái sự kiện</td><td>Điều phối</td></tr>
+<tr><td>11</td><td>Dashboard thống kê</td><td>Quản lý</td></tr>
+<tr><td>12</td><td>Báo cáo doanh thu/hợp đồng</td><td>Quản lý</td></tr>
+<tr><td>13</td><td>Import/Export dữ liệu</td><td>Quản lý/Nhân viên</td></tr>
+<tr><td>14</td><td>Thông báo qua dịch vụ ngoài</td><td>Hệ thống</td></tr>
+</table>
+
+<h3>Database đề xuất 10 bảng</h3>
+<p>Users, Roles, Customers, ServicePackages, ServiceItems, Events, EventServices, Contracts, Payments, AuditLogs.</p>
+</section>
+
+<section class="card">
+<h2>6. Thời gian công việc của từng vai trò</h2>
+<table>
+<tr><th>Thành viên</th><th>Tuần chính</th><th>Đầu việc lớn</th><th>Đầu ra cần có</th></tr>
+<tr><td><b>Hoàng</b></td><td>1–8</td><td>PM, kế hoạch, RACI, Gantt, risk, change, họp, integration, release</td><td>PMP, Gantt, status, risk/change log, integrated release</td></tr>
+<tr><td><b>Ba</b></td><td>1–8</td><td>Khảo sát, SRS, use case, backlog, acceptance, UAT</td><td>SRS, backlog, UC/US, RTM, acceptance/UAT</td></tr>
+<tr><td><b>Nhân</b></td><td>2–8</td><td>Flow, prototype, frontend, API integration, UX fix</td><td>Prototype, frontend source, UI checklist</td></tr>
+<tr><td><b>Phúc</b></td><td>2–8</td><td>API, auth/RBAC, business logic, integration, deploy</td><td>API spec, backend source, CI/CD/deploy</td></tr>
+<tr><td><b>Hậu</b></td><td>2–8</td><td>ERD, schema, seed, test plan, test case, defect, regression</td><td>ERD, data dictionary, test report, defect log</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>7. Thời khóa biểu công việc 8 tuần</h2>
+<div class="timeline">
+
+<div class="week"><div class="weekno">TUẦN 1<br>07–13/09</div><div>
+<b>Khởi động & chốt phạm vi</b>
+<ul>
+<li><b>Hoàng:</b> Charter, mục tiêu, RACI, kế hoạch tuần, tạo repo/board.</li>
+<li><b>Ba:</b> stakeholder, problem statement, actor, quy trình nghiệp vụ.</li>
+<li><b>Nhân:</b> nghiên cứu user flow, màn hình chính.</li>
+<li><b>Phúc:</b> chọn stack, kiến trúc sơ bộ, chuẩn bị backend repo.</li>
+<li><b>Hậu:</b> xác định entity sơ bộ, data requirements.</li>
+</ul>
+<span class="milestone">Gate 1 — GV duyệt đề tài & scope</span>
+</div></div>
+
+<div class="week"><div class="weekno">TUẦN 2<br>14–20/09</div><div>
+<b>Phân tích & thiết kế</b>
+<ul>
+<li><b>Hoàng:</b> WBS, Gantt baseline, effort/cost, risk v1.</li>
+<li><b>Ba:</b> SRS v1, 10–14 UC/US, acceptance criteria.</li>
+<li><b>Nhân:</b> wireframe/prototype.</li>
+<li><b>Phúc:</b> API spec, auth/RBAC skeleton.</li>
+<li><b>Hậu:</b> ERD v1, schema, data dictionary.</li>
+</ul>
+<span class="milestone">Gate 2 — Kế hoạch khả thi & truy vết yêu cầu</span>
+</div></div>
+
+<div class="week"><div class="weekno">TUẦN 3<br>21–27/09</div><div>
+<b>Xây dựng lõi</b>
+<ul>
+<li><b>Hoàng:</b> kiểm soát tiến độ + integration branch.</li>
+<li><b>Ba:</b> review nghiệp vụ/API.</li>
+<li><b>Nhân:</b> login + layout + CRUD screens.</li>
+<li><b>Phúc:</b> auth/RBAC + CRUD API lõi.</li>
+<li><b>Hậu:</b> migration/seed + test case đầu tiên.</li>
+</ul>
+<span class="milestone">Demo increment 1 — Login + dữ liệu lõi</span>
+</div></div>
+
+<div class="week"><div class="weekno">TUẦN 4<br>28/09–04/10</div><div>
+<b>Đạt ≥50% giữa kỳ</b>
+<ul>
+<li>Hoàn thiện các module lõi: khách hàng, gói dịch vụ, lịch, hợp đồng.</li>
+<li>Frontend gọi API thật; Database ổn định.</li>
+<li>QA test sớm và ghi defect.</li>
+<li>Hoàng chuẩn bị status report, planned vs actual và slide giữa kỳ.</li>
+</ul>
+<span class="milestone">04/10 — Demo ≥50% + thuyết trình giữa kỳ</span>
+</div></div>
+
+<div class="week"><div class="weekno">TUẦN 5<br>05–11/10</div><div>
+<b>70% nghiệp vụ + Dashboard/Report</b>
+<ul>
+<li><b>Ba:</b> chốt yêu cầu thay đổi và acceptance.</li>
+<li><b>Nhân:</b> dashboard, report UI, UX polish.</li>
+<li><b>Phúc:</b> report API, external integration.</li>
+<li><b>Hậu:</b> quality review, test case mở rộng.</li>
+<li><b>Hoàng:</b> change control, tiến độ/rủi ro.</li>
+</ul>
+<span class="milestone">Demo increment 3 + quality report</span>
+</div></div>
+
+<div class="week"><div class="weekno">TUẦN 6<br>12–18/10</div><div>
+<b>Feature Complete + sửa lỗi</b>
+<ul>
+<li>100% Must-have được code.</li>
+<li>Unit/integration/system test.</li>
+<li>Hoàn thiện ≥35 test case.</li>
+<li>Sửa lỗi theo severity/priority.</li>
+<li>Cập nhật tài liệu theo source thực tế.</li>
+</ul>
+<span class="milestone">Release Candidate 1 — Không còn Critical</span>
+</div></div>
+
+<div class="week"><div class="weekno">TUẦN 7<br>19–25/10</div><div>
+<b>UAT + Deploy + chuẩn bị bảo vệ</b>
+<ul>
+<li>UAT và regression.</li>
+<li>Deploy demo/cloud.</li>
+<li>Dữ liệu mẫu + tài khoản theo vai trò.</li>
+<li>Backup/restore ở mức yêu cầu.</li>
+<li>Hoàn thiện báo cáo, slide, video, kịch bản demo.</li>
+</ul>
+<span class="milestone">Gate 3 — Ready for Defense · 25/10</span>
+</div></div>
+
+<div class="week"><div class="weekno">TUẦN 8<br>26/10–01/11</div><div>
+<b>Đóng dự án & bảo vệ</b>
+<ul>
+<li>Final release + repository + /docs.</li>
+<li>Closure + lessons learned.</li>
+<li>Demo end-to-end.</li>
+<li>Mỗi thành viên chuẩn bị trả lời phần mình làm.</li>
+<li>Kiểm tra commit/ticket/timesheet/minh chứng cá nhân.</li>
+</ul>
+<span class="milestone">26/10–01/11 — Bảo vệ theo lịch GV</span>
+</div></div>
+
+</div>
+</section>
+
+<section class="card">
+<h2>8. Thời khóa biểu hằng tuần của nhóm</h2>
+<table>
+<tr><th>Thời điểm</th><th>Hoạt động</th><th>Người phụ trách</th></tr>
+<tr><td>Đầu tuần</td><td>Planning: xác định mục tiêu, task, deadline, phụ thuộc</td><td>Hoàng + cả nhóm</td></tr>
+<tr><td>Trong tuần</td><td>Làm task cá nhân theo role, cập nhật board/Git</td><td>Từng thành viên</td></tr>
+<tr><td>Giữa tuần</td><td>Sync ngắn: kiểm tra blocker và phụ thuộc</td><td>Hoàng</td></tr>
+<tr><td>Cuối tuần</td><td>Demo nội bộ + review + QA</td><td>Cả nhóm + Hậu</td></tr>
+<tr><td>Cuối tuần</td><td>Cập nhật timesheet, risk, planned vs actual</td><td>Hoàng</td></tr>
+<tr><td>Cuối tuần</td><td>Chốt biên bản họp/status report</td><td>Hoàng / thư ký luân phiên</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>9. Bộ hồ sơ quản lý dự án bắt buộc</h2>
+<table>
+<tr><th>Hồ sơ</th><th>Owner chính</th><th>Mốc</th></tr>
+<tr><td>Project Charter + PMP</td><td>Hoàng</td><td>Tuần 1</td></tr>
+<tr><td>SRS + Scope + WBS + WBS Dictionary</td><td>Ba + Hoàng</td><td>Tuần 1–2</td></tr>
+<tr><td>Requirement Traceability Matrix</td><td>Ba + Hậu</td><td>Tuần 2–8</td></tr>
+<tr><td>Gantt + Baseline + Planned vs Actual</td><td>Hoàng</td><td>Tuần 1–8</td></tr>
+<tr><td>Effort + Cost Budget</td><td>Hoàng</td><td>Tuần 2–8</td></tr>
+<tr><td>RACI + Timesheet</td><td>Hoàng + cả nhóm</td><td>Tuần 1–8</td></tr>
+<tr><td>Quality Plan + DoD</td><td>Hậu</td><td>Tuần 2–8</td></tr>
+<tr><td>Test Plan + Test Cases + Test Report</td><td>Hậu</td><td>Tuần 3–8</td></tr>
+<tr><td>Defect Log</td><td>Hậu</td><td>Tuần 3–8</td></tr>
+<tr><td>Communication/Meeting Minutes</td><td>Hoàng</td><td>Hàng tuần</td></tr>
+<tr><td>Risk Register</td><td>Hoàng + owner</td><td>Tuần 2–8</td></tr>
+<tr><td>Procurement Plan</td><td>Hoàng + Phúc</td><td>Tuần 3–6</td></tr>
+<tr><td>Change Log / Change Request</td><td>Hoàng + Ba</td><td>Tuần 4–8</td></tr>
+<tr><td>Closure + Lessons Learned</td><td>Hoàng + cả nhóm</td><td>Tuần 8</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>10. GitHub & minh chứng cá nhân</h2>
+<ul>
+<li>Repository có <b>README</b>, hướng dẫn cài đặt/chạy, cấu trúc branch, issue/milestone.</li>
+<li>Mỗi thành viên phải có <b>commit</b> và <b>ticket/issue</b> phản ánh đúng phần việc.</li>
+<li>Không để một người làm toàn bộ source rồi các thành viên chỉ đứng tên.</li>
+<li>Thống nhất branch: <b>main</b> → <b>develop</b> → feature branches.</li>
+<li>Pull Request nên có review trước khi merge vào develop/main.</li>
+<li>Folder <b>/docs</b> chứa toàn bộ hồ sơ quản lý dự án.</li>
+<li>Mỗi người duy trì timesheet và danh sách đầu việc cá nhân.</li>
+</ul>
+</section>
+
+<section class="card">
+<h2>11. Rủi ro lớn cần theo dõi ngay</h2>
+<table>
+<tr><th>Rủi ro</th><th>Mức</th><th>Phòng ngừa</th></tr>
+<tr><td>Scope quá lớn</td><td class="danger">Cao</td><td>Chốt 3 quy trình lõi, Must-have trước.</td></tr>
+<tr><td>Frontend/Backend không khớp API</td><td class="danger">Cao</td><td>Phúc + Nhân thống nhất API contract từ Tuần 2.</td></tr>
+<tr><td>Database thay đổi muộn</td><td class="danger">Cao</td><td>Hậu chốt ERD v1 Tuần 2, migration có version.</td></tr>
+<tr><td>Đến giữa kỳ chưa đạt 50%</td><td class="danger">Cao</td><td>Tuần 3 phải có login + CRUD lõi; Tuần 4 chỉ hoàn thiện và demo.</td></tr>
+<tr><td>Test quá muộn</td><td class="warning">Trung bình/Cao</td><td>Hậu test từ Tuần 3, không đợi Tuần 6.</td></tr>
+<tr><td>Deploy thất bại sát ngày bảo vệ</td><td class="danger">Cao</td><td>Deploy thử từ Tuần 6–7, có backup demo/local.</td></tr>
+<tr><td>Thành viên không có minh chứng</td><td class="warning">Cao</td><td>Commit + issue + timesheet hằng tuần.</td></tr>
+<tr><td>AI chiếm quá nhiều thời gian</td><td class="warning">Trung bình</td><td>Chỉ làm AI sau MVP; nếu thiếu thời gian thì bỏ AI.</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>12. Điều kiện nghiệm thu cuối kỳ</h2>
+<ul>
+<li class="check">Đề tài và phạm vi đã được GV duyệt.</li>
+<li class="check">Sản phẩm chạy end-to-end.</li>
+<li class="check">≥80% phạm vi baseline.</li>
+<li class="check">100% chức năng Must-have hoàn thành.</li>
+<li class="check">Đủ hồ sơ quản lý dự án.</li>
+<li class="check">Test pass ≥90% và test ưu tiên cao đạt.</li>
+<li class="check">Không còn lỗi Critical/High chưa xử lý.</li>
+<li class="check">Repository có đóng góp của cả 5 thành viên.</li>
+<li class="check">Mỗi thành viên giải thích được phần mình phụ trách khi vấn đáp.</li>
+<li class="check">Có demo, dữ liệu mẫu và tài khoản theo vai trò.</li>
+</ul>
+
+<h3>Sản phẩm nộp cuối kỳ</h3>
+<ul>
+<li>Repository + source code.</li>
+<li>Ứng dụng chạy/deploy + tài khoản demo.</li>
+<li>SRS + scope + use case/user story + acceptance + RTM.</li>
+<li>Architecture + ERD + data dictionary + API spec + deployment diagram.</li>
+<li>PMP + Gantt + cost + RACI/timesheet + communication + risk + procurement + quality + change + closure.</li>
+<li>Test plan + ≥35 test case + test report + defect log + UAT/regression evidence.</li>
+<li>Báo cáo cuối kỳ.</li>
+<li>Slide 12–18 trang.</li>
+<li>Video demo 5–8 phút.</li>
+<li>Minh chứng cá nhân: task + commit + ticket + timesheet + tự đánh giá/đánh giá chéo.</li>
+</ul>
+</section>
+
+<section class="card">
+<h2>13. Checklist theo thành viên</h2>
+<table>
+<tr><th>Người</th><th>Checklist phải hoàn thành</th></tr>
+<tr><td><b>Hoàng</b></td><td>☐ Charter ☐ PMP ☐ WBS ☐ Gantt baseline ☐ RACI ☐ Cost ☐ Risk ☐ Communication ☐ Change ☐ Integration ☐ Release ☐ Closure</td></tr>
+<tr><td><b>Ba</b></td><td>☐ Stakeholder ☐ SRS ☐ Scope ☐ 10–14 UC/US ☐ Acceptance Criteria ☐ Backlog ☐ RTM ☐ UAT nghiệp vụ</td></tr>
+<tr><td><b>Nhân</b></td><td>☐ User flow ☐ Wireframe ☐ Prototype ☐ Design system ☐ CRUD UI ☐ Dashboard UI ☐ Responsive ☐ API integration ☐ UX fix</td></tr>
+<tr><td><b>Phúc</b></td><td>☐ Architecture ☐ API spec ☐ Auth ☐ RBAC ☐ CRUD API ☐ Validation ☐ Error handling ☐ External service ☐ CI/CD/Cloud ☐ Deploy guide</td></tr>
+<tr><td><b>Hậu</b></td><td>☐ ERD ☐ 8–12 tables ☐ Data dictionary ☐ Migration/Seed ☐ Query/report ☐ Test plan ☐ ≥35 test case ☐ Defect log ☐ Regression ☐ Final test report</td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2>14. Chiến lược để nhóm hoàn thành đúng 8 tuần</h2>
+<ol>
+<li><b>Tuần 1–2:</b> không code nhiều; khóa phạm vi, SRS, WBS, ERD, prototype, API contract.</li>
+<li><b>Tuần 3:</b> phải có hệ thống chạy được luồng login + CRUD thật.</li>
+<li><b>Tuần 4:</b> đạt ít nhất 50% và demo được giữa kỳ.</li>
+<li><b>Tuần 5:</b> hoàn thiện nghiệp vụ, dashboard, report và integration.</li>
+<li><b>Tuần 6:</b> feature complete; bắt đầu sửa lỗi nghiêm túc.</li>
+<li><b>Tuần 7:</b> UAT + regression + deploy + tài liệu + video.</li>
+<li><b>Tuần 8:</b> chỉ chốt release, hồ sơ, slide và luyện vấn đáp; không bắt đầu chức năng lớn mới.</li>
+<li><b>AI dự báo chi phí:</b> chỉ thực hiện nếu MVP đã ổn định. Nếu không đủ thời gian, bỏ AI để bảo vệ chất lượng MVP.</li>
+</ol>
+</section>
+
+<section class="card">
+<h2>15. Phân công tổng hợp — nhìn một lần là hiểu</h2>
+<table>
+<tr><th>Thành viên</th><th>Vai trò</th><th>Chịu trách nhiệm chính</th><th>Phối hợp mạnh với</th></tr>
+<tr><td>Hoàng</td><td><b>PM + Integration</b></td><td>Quản lý toàn dự án + tích hợp/release</td><td>Tất cả</td></tr>
+<tr><td>Ba</td><td><b>BA/PO</b></td><td>Nghiệp vụ + yêu cầu + nghiệm thu</td><td>Hoàng, Hậu, Nhân</td></tr>
+<tr><td>Nhân</td><td><b>UI/UX + Frontend</b></td><td>Thiết kế + giao diện + kết nối API</td><td>Ba, Phúc</td></tr>
+<tr><td>Phúc</td><td><b>Backend/API + DevOps</b></td><td>API + business logic + auth/RBAC + deploy</td><td>Hậu, Nhân, Hoàng</td></tr>
+<tr><td>Hậu</td><td><b>Database + QA/Tester</b></td><td>Dữ liệu + test + chất lượng</td><td>Ba, Phúc, Hoàng</td></tr>
+</table>
+</section>
+
+<div class="footer">
+Tài liệu kế hoạch nội bộ nhóm · LV34-001 · MAN104 · 07/09/2026–01/11/2026
+</div>
+
+</div>
+</body>
+</html>
