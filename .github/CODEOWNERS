@@ -1,0 +1,18 @@
+# ==============================================================================
+# GitHub Code Owners Configuration for EVManager
+# Project Manager (PM) is the sole gatekeeper for merging into develop and main
+# ==============================================================================
+
+# Toàn bộ mã nguồn, cấu hình và tài liệu bắt buộc phải do PM (@plhhoang2005) phê duyệt
+* @plhhoang2005
+
+# Phân hệ Backend & Database
+/backend/ @plhhoang2005
+/database/ @plhhoang2005
+
+# Phân hệ Frontend & UI
+/frontend/ @plhhoang2005
+
+# Tài liệu quản trị dự án & kế hoạch
+/docs/ @plhhoang2005
+/.github/ @plhhoang2005
