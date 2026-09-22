@@ -216,6 +216,10 @@ Audit log chỉ nên cho phép ghi thêm và không được chứa mật khẩu
 
 ## 6. Quan hệ dữ liệu sơ bộ
 
+![Sơ đồ ERD ý niệm của EVManager](erd-conceptual.png)
+
+*Hình 1. Các quan hệ 1-N và các quan hệ N-N được tách qua `MenuDishes`, `ContractServices`.*
+
 | Quan hệ | Bội số | Ý nghĩa |
 |---|---|---|
 | `Roles` → `Users` | 1–N | Một vai trò có nhiều người dùng; mỗi người dùng thuộc một vai trò trong mô hình ban đầu |
