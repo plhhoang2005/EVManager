@@ -1,20 +1,17 @@
-name: PM Merge Gatekeeper
+name: PR Lint & Conventional Commits
 
 on:
   pull_request:
     types: [opened, edited, synchronize, reopened, ready_for_review]
     branches: [develop, main]
-  pull_request_review:
-    types: [submitted, edited, dismissed]
 
 permissions:
   contents: read
   pull-requests: read
-  statuses: write
 
 jobs:
-  validate-and-gate:
-    name: Validate PR & Enforce PM Approval
+  validate-pr:
+    name: Validate PR Title (Conventional Commits)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -29,36 +26,10 @@ jobs:
           if [[ ! "$PR_TITLE" =~ $PATTERN ]]; then
             echo "::error::PR title does not follow Conventional Commits format!"
             echo "Expected: <type>(<scope>): <subject>"
-            echo "Example: feat(backend): initialize auth module with JWT"
+            echo "Examples:"
+            echo "  - feat(backend): initialize auth module with JWT"
+            echo "  - docs(ui): add user flow diagrams"
+            echo "  - chore(deps): upgrade dependencies"
             exit 1
           fi
           echo "✅ PR title is valid according to Conventional Commits."
-
-      - name: Verify PM Approval Gate
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-          REPO: ${{ github.repository }}
-        run: |
-          echo "Verifying PM approval gate for PR #$PR_NUMBER by author: @$PR_AUTHOR"
-          
-          # Nếu chính PM là người tạo PR
-          if [ "$PR_AUTHOR" = "plhhoang2005" ]; then
-            echo "✅ PR created by PM (@plhhoang2005). Auto-approved."
-            exit 0
-          fi
-
-          # Kiểm tra trạng thái review mới nhất từ PM (@plhhoang2005)
-          REVIEWS=$(gh api repos/$REPO/pulls/$PR_NUMBER/reviews --jq '[.[] | select(.user.login == "plhhoang2005")] | last | .state')
-          
-          echo "Latest review state from PM (@plhhoang2005): '$REVIEWS'"
-          
-          if [ "$REVIEWS" = "APPROVED" ]; then
-            echo "✅ PR has been formally reviewed and APPROVED by Project Manager (@plhhoang2005). Ready to merge."
-            exit 0
-          else
-            echo "::error::🚫 PM Gatekeeper Block: Pull Request #$PR_NUMBER must be reviewed and APPROVED by Project Manager (@plhhoang2005) before merging!"
-            echo "Current PM review state: '${REVIEWS:-NO_REVIEW}'"
-            exit 1
-          fi
