@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
       POSTGRES_DB: ${DB_NAME:-evmanager}
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "${DB_PORT:-5434}:5432"
     volumes:
       - evmanager_pgdata:/var/lib/postgresql/data
 
