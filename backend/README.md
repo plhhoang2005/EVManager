@@ -30,8 +30,12 @@ Check `.env.example` for details.
 
 ## How to Run
 
-1. Make sure you have PostgreSQL running with the configured credentials.
-2. Navigate to the `backend` directory.
+1. Start the PostgreSQL database using Docker Compose:
+```bash
+cd backend
+docker compose up -d
+```
+2. Navigate to the `backend` directory (if not already there).
 3. Use Maven to run the application:
 ```bash
 cd backend
