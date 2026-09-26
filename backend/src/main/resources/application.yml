@@ -27,8 +27,9 @@ spring:
     resources:
       add-mappings: false
 
-jwt:
-  secret: ${JWT_SECRET:default_secret_key_needs_to_be_replaced_in_production}
+app:
+  jwt-secret: 4b29598f828a472c1c1f7b8801d014eb0237e3d1d1f0545f94943fcf11bb9e5f
+  jwt-expiration-milliseconds: 604800000 # 7 days
 
 springdoc:
   api-docs:
