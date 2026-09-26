@@ -1,0 +1,33 @@
+Tôn chỉ Dự án (Project Charter)
+Tên dự án (Project Title): EVManager — Hệ thống quản lý Trung tâm Hội nghị & Tiệc cưới (Nhóm Prime)
+Ngày bắt đầu (Project Start Date): 07/09/2026				
+Ngày kết thúc (Projected Finish Date): 01/11/2026
+Thông tin về Kinh phí (Budget Information):
+Dự án được triển khai theo mô hình phát triển phần mềm theo yêu cầu trong 8 tuần:
+- Chi phí nhân sự (5 người x 20h/tuần x 8 tuần = 800 giờ x 100.000đ/giờ): 80.000.000 VNĐ
+- Chi phí hạ tầng (Cloud Server, Database, Domain, SSL): 3.000.000 VNĐ
+- Chi phí công cụ & Quản lý (Bản quyền phần mềm, Tools): 2.000.000 VNĐ
+- Quỹ dự phòng rủi ro (Contingency Reserve - 10%): 8.500.000 VNĐ
+=> Tổng ngân sách dự toán (Estimated Budget): 93.500.000 VNĐ.
+GĐ Dự án (Project Manager): Hoàng, ĐT: 0389574747, Email: plhhoang2005@gmail.com.
+Mục tiêu dự án (Project Objectives):
+Xây dựng hệ thống quản lý chuyên biệt cho Trung tâm Hội nghị & Tiệc cưới nhằm số hóa toàn bộ quy trình vận hành: Tiếp nhận khách -> Tư vấn chọn sảnh/thực đơn -> Báo giá -> Hợp đồng & Đặt cọc -> Điều phối sự kiện -> Thanh toán.
+Hệ thống hỗ trợ 4 phân hệ (Quản trị, Sales/Tư vấn, Điều phối/Bếp, Khách hàng), tự động cảnh báo xung đột lịch sảnh tiệc, cung cấp báo cáo doanh thu real-time. Đảm bảo hệ thống đạt hiệu năng cao, vận hành ổn định và bảo mật dữ liệu khách hàng.
+Cách tiếp cận (Approach):
+1. Lấy bài toán thực tế: Khảo sát quy trình vận hành của trung tâm tiệc cưới để phân tích nghiệp vụ lõi.
+2. Phương pháp Agile/Scrum: Phát triển trong 8 tuần, chia các Sprint 2 tuần để liên tục nghiệm thu tính năng và nhận feedback từ End-user.
+3. Quy trình kỹ thuật: Phân vai trò rõ ràng (PM, BA, Frontend, Backend, QA). Quản lý version qua Git, áp dụng tự động kiểm thử (CI/CD) và triển khai bản Beta (UAT) vào tuần 7.
+Vai trò và Trách nhiệm (Roles and Responsibilities):
+
+Ký tên (Sign-off): (Chữ ký của các bên liên quan để xác nhận tài liệu.)
+
+Hoàng		Hiển		Nhân		Phúc		Hậu
+..................	..................	..................	..................	..................
+
+Chú thích (Comments): Các tài liệu đặc tả yêu cầu (SRS), kế hoạch dự án (PMP) và thiết kế chi tiết được đính kèm ở thư mục /docs thuộc hệ thống quản trị dự án nội bộ.
+PHÁT BIỂU VỀ PHẠM VI - Scope Statement
+
+
+CẤU TRÚC PHÂN RÃ CÔNG VIỆC (WORK BREAKDOWN STRUCTURE – WBS)
+Tên dự án (Project Title): EVManager - Hệ thống quản lý Trung tâm Hội nghị & Tiệc cưới
+WBS phân rã dự án thành 6 nhóm công việc: (1) Quản lý dự án xuyên suốt; (2) - (5) bốn Sprint, mỗi Sprint 2 tuần; và (6) dự phòng phí 10%. Tổng thời gian 07/09–01/11/2026 (56 ngày), tổng chi phí 93.500.000 VNĐ. Nguồn lực: PM – Hoàng; BA – Hiển; BE – Phúc; FE – Nhân; QA – Hậu.
