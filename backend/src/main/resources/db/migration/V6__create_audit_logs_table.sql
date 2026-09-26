@@ -7,7 +7,6 @@ CREATE TABLE audit_logs (
     old_values JSONB,
     new_values JSONB,
     ip_address INET,
-    user_agent VARCHAR(255),
     occurred_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT chk_audit_logs_action CHECK (action <> ''),
     CONSTRAINT chk_audit_logs_entity_type CHECK (entity_type <> ''),

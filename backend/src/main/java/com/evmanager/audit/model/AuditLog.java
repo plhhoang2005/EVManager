@@ -44,9 +44,6 @@ public class AuditLog {
     @Column(name = "ip_address", columnDefinition = "inet")
     private String ipAddress;
 
-    @Column(name = "user_agent", length = 255)
-    private String userAgent;
-
     @Column(name = "occurred_at", nullable = false, updatable = false)
     private OffsetDateTime occurredAt;
 

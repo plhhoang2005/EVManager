@@ -54,10 +54,17 @@ public class AuditLogEventListener {
             if (request != null) {
                 auditLog.setIpAddress(getClientIp(request));
                 String userAgent = request.getHeader("User-Agent");
-                if (userAgent != null && userAgent.length() > 255) {
-                    userAgent = userAgent.substring(0, 255);
+                if (userAgent != null) {
+                    // Embed user_agent into new_values JSON since DB schema has no user_agent column
+                    String newValues = auditLog.getNewValues();
+                    if (newValues == null) newValues = "{}";
+                    if (newValues.endsWith("}")) {
+                        newValues = newValues.substring(0, newValues.length() - 1);
+                        if (newValues.length() > 1) newValues += ",";
+                        newValues += "\"_userAgent\":\"" + userAgent.replace("\"", "\\\"") + "\"}";
+                        auditLog.setNewValues(newValues);
+                    }
                 }
-                auditLog.setUserAgent(userAgent);
             }
 
             // Get current user

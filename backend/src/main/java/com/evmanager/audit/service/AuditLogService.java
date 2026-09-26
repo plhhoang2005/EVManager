@@ -38,7 +38,6 @@ public class AuditLogService {
         response.setOldValues(log.getOldValues());
         response.setNewValues(log.getNewValues());
         response.setIpAddress(log.getIpAddress());
-        response.setUserAgent(log.getUserAgent());
         response.setOccurredAt(log.getOccurredAt());
         return response;
     }

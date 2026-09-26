@@ -17,6 +17,5 @@ public class AuditLogResponse {
     private String oldValues;
     private String newValues;
     private String ipAddress;
-    private String userAgent;
     private OffsetDateTime occurredAt;
 }
