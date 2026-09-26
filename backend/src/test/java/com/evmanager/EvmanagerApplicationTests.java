@@ -14,6 +14,9 @@ class EvmanagerApplicationTests {
     @org.springframework.boot.test.mock.mockito.MockBean
     private com.evmanager.users.repository.RoleRepository roleRepository;
 
+    @org.springframework.boot.test.mock.mockito.MockBean
+    private com.evmanager.customers.repository.CustomerRepository customerRepository;
+
     @Test
     void contextLoads() {
         // Test if application context loads successfully
