@@ -8,6 +8,12 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 class EvmanagerApplicationTests {
 
+    @org.springframework.boot.test.mock.mockito.MockBean
+    private com.evmanager.users.repository.UserRepository userRepository;
+    
+    @org.springframework.boot.test.mock.mockito.MockBean
+    private com.evmanager.users.repository.RoleRepository roleRepository;
+
     @Test
     void contextLoads() {
         // Test if application context loads successfully
