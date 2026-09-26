@@ -1,0 +1,226 @@
+// This is your Prisma schema file for EVManager Database
+// Generated based on normalized 3NF ERD and Data Dictionary
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  role_id     BigInt   @id @default(autoincrement())
+  role_name   String   @unique @db.VarChar(50)
+  description String?  @db.VarChar(255)
+  status      String   @default("ACTIVE") @db.VarChar(30)
+  created_at  DateTime @default(now()) @db.Timestamptz
+  updated_at  DateTime @default(now()) @updatedAt @db.Timestamptz
+
+  users User[]
+
+  @@map("roles")
+}
+
+model User {
+  user_id       BigInt    @id @default(autoincrement())
+  role_id       BigInt
+  username      String    @unique @db.VarChar(50)
+  password_hash String    @db.VarChar(255)
+  full_name     String    @db.VarChar(100)
+  email         String?   @unique @db.VarChar(100)
+  phone         String?   @db.VarChar(20)
+  status        String    @default("ACTIVE") @db.VarChar(30)
+  last_login_at DateTime? @db.Timestamptz
+  created_at    DateTime  @default(now()) @db.Timestamptz
+  updated_at    DateTime  @default(now()) @updatedAt @db.Timestamptz
+
+  role       Role       @relation(fields: [role_id], references: [role_id], onDelete: Restrict, onUpdate: Restrict)
+  audit_logs AuditLog[]
+
+  @@index([role_id], map: "idx_users_role_id")
+  @@map("users")
+}
+
+model Customer {
+  customer_id BigInt   @id @default(autoincrement())
+  full_name   String   @db.VarChar(100)
+  phone       String?  @db.VarChar(20)
+  email       String?  @db.VarChar(100)
+  address     String?  @db.VarChar(255)
+  created_at  DateTime @default(now()) @db.Timestamptz
+  updated_at  DateTime @default(now()) @updatedAt @db.Timestamptz
+
+  contracts Contract[]
+
+  @@map("customers")
+}
+
+model Venue {
+  venue_id     BigInt   @id @default(autoincrement())
+  venue_name   String   @db.VarChar(100)
+  min_capacity Int      @default(0)
+  max_capacity Int
+  rental_price Decimal  @db.Decimal(18, 2)
+  address      String   @db.VarChar(255)
+  status       String   @default("AVAILABLE") @db.VarChar(30)
+  created_at   DateTime @default(now()) @db.Timestamptz
+  updated_at   DateTime @default(now()) @updatedAt @db.Timestamptz
+
+  events Event[]
+
+  @@unique([venue_name, address], map: "uk_venues_name_address")
+  @@map("venues")
+}
+
+model Dish {
+  dish_id     BigInt   @id @default(autoincrement())
+  dish_name   String   @db.VarChar(100)
+  category    String   @db.VarChar(50)
+  price       Decimal  @db.Decimal(18, 2)
+  description String?  @db.Text
+  status      String   @default("ACTIVE") @db.VarChar(30)
+  created_at  DateTime @default(now()) @db.Timestamptz
+  updated_at  DateTime @default(now()) @updatedAt @db.Timestamptz
+
+  menu_dishes MenuDish[]
+
+  @@unique([dish_name, category], map: "uk_dishes_name_category")
+  @@map("dishes")
+}
+
+model Menu {
+  menu_id     BigInt   @id @default(autoincrement())
+  menu_name   String   @unique @db.VarChar(100)
+  description String?  @db.Text
+  price       Decimal  @db.Decimal(18, 2)
+  status      String   @default("ACTIVE") @db.VarChar(30)
+  created_at  DateTime @default(now()) @db.Timestamptz
+  updated_at  DateTime @default(now()) @updatedAt @db.Timestamptz
+
+  menu_dishes MenuDish[]
+  contracts   Contract[]
+
+  @@map("menus")
+}
+
+model MenuDish {
+  menu_id  BigInt
+  dish_id  BigInt
+  quantity Int     @default(1)
+  note     String? @db.VarChar(255)
+
+  menu Menu @relation(fields: [menu_id], references: [menu_id], onDelete: Cascade, onUpdate: Restrict)
+  dish Dish @relation(fields: [dish_id], references: [dish_id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@id([menu_id, dish_id], map: "pk_menu_dishes")
+  @@index([dish_id], map: "idx_menu_dishes_dish_id")
+  @@map("menu_dishes")
+}
+
+model Service {
+  service_id   BigInt   @id @default(autoincrement())
+  service_name String   @unique @db.VarChar(100)
+  description  String?  @db.Text
+  unit_price   Decimal  @db.Decimal(18, 2)
+  status       String   @default("ACTIVE") @db.VarChar(30)
+  created_at   DateTime @default(now()) @db.Timestamptz
+  updated_at   DateTime @default(now()) @updatedAt @db.Timestamptz
+
+  contract_services ContractService[]
+
+  @@map("services")
+}
+
+model Event {
+  event_id    BigInt   @id @default(autoincrement())
+  venue_id    BigInt
+  event_name  String   @db.VarChar(100)
+  start_at    DateTime @db.Timestamptz
+  end_at      DateTime @db.Timestamptz
+  guest_count Int
+  status      String   @default("SCHEDULED") @db.VarChar(30)
+  created_at  DateTime @default(now()) @db.Timestamptz
+  updated_at  DateTime @default(now()) @updatedAt @db.Timestamptz
+
+  venue    Venue     @relation(fields: [venue_id], references: [venue_id], onDelete: Restrict, onUpdate: Restrict)
+  contract Contract?
+
+  @@index([venue_id, start_at, end_at], map: "idx_events_venue_time")
+  @@map("events")
+}
+
+model Contract {
+  contract_id   BigInt   @id @default(autoincrement())
+  customer_id   BigInt
+  event_id      BigInt?  @unique(map: "uk_contracts_event_id")
+  menu_id       BigInt?
+  contract_code String   @unique @db.VarChar(50)
+  contract_date DateTime @db.Date
+  total_amount  Decimal  @db.Decimal(18, 2)
+  deposit_amount Decimal @default(0) @db.Decimal(18, 2)
+  status        String   @default("DRAFT") @db.VarChar(30)
+  created_at    DateTime @default(now()) @db.Timestamptz
+  updated_at    DateTime @default(now()) @updatedAt @db.Timestamptz
+
+  customer          Customer          @relation(fields: [customer_id], references: [customer_id], onDelete: Restrict, onUpdate: Restrict)
+  event             Event?            @relation(fields: [event_id], references: [event_id], onDelete: Restrict, onUpdate: Restrict)
+  menu              Menu?             @relation(fields: [menu_id], references: [menu_id], onDelete: Restrict, onUpdate: Restrict)
+  contract_services ContractService[]
+  payments          Payment[]
+
+  @@index([customer_id], map: "idx_contracts_customer_id")
+  @@index([menu_id], map: "idx_contracts_menu_id")
+  @@map("contracts")
+}
+
+model ContractService {
+  contract_id       BigInt
+  service_id        BigInt
+  quantity          Int     @default(1)
+  agreed_unit_price Decimal @db.Decimal(18, 2)
+  note              String? @db.VarChar(255)
+
+  contract Contract @relation(fields: [contract_id], references: [contract_id], onDelete: Cascade, onUpdate: Restrict)
+  service  Service  @relation(fields: [service_id], references: [service_id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@id([contract_id, service_id], map: "pk_contract_services")
+  @@index([service_id], map: "idx_contract_services_service_id")
+  @@map("contract_services")
+}
+
+model Payment {
+  payment_id         BigInt   @id @default(autoincrement())
+  contract_id        BigInt
+  external_reference String?  @unique @db.VarChar(100)
+  payment_type       String   @db.VarChar(30)
+  amount             Decimal  @db.Decimal(18, 2)
+  payment_date       DateTime @db.Timestamptz
+  payment_method     String   @db.VarChar(50)
+  status             String   @default("PENDING") @db.VarChar(30)
+  created_at         DateTime @default(now()) @db.Timestamptz
+
+  contract Contract @relation(fields: [contract_id], references: [contract_id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([contract_id], map: "idx_payments_contract_id")
+  @@map("payments")
+}
+
+model AuditLog {
+  audit_log_id BigInt   @id @default(autoincrement())
+  user_id      BigInt?
+  action       String   @db.VarChar(100)
+  entity_type  String   @db.VarChar(100)
+  entity_id    String   @db.VarChar(100)
+  old_values   Json?
+  new_values   Json?
+  ip_address   String?  @db.VarChar(45)
+  occurred_at  DateTime @default(now()) @db.Timestamptz
+
+  user User? @relation(fields: [user_id], references: [user_id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([user_id], map: "idx_audit_logs_user_id")
+  @@index([entity_type, entity_id, occurred_at], map: "idx_audit_logs_entity_history")
+  @@map("audit_logs")
+}
