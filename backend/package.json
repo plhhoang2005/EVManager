@@ -1,0 +1,20 @@
+{
+  "name": "evmanager-backend",
+  "version": "1.0.0",
+  "description": "EVManager Backend Service",
+  "main": "index.js",
+  "scripts": {
+    "db:seed": "prisma db seed"
+  },
+  "prisma": {
+    "seed": "npx ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.10.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
