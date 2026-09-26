@@ -1,8 +1,9 @@
 version: '3.8'
+
 services:
   db:
     image: postgres:16
-    container_name: evmanager_db_be04
+    container_name: evmanager_db
     restart: always
     environment:
       POSTGRES_USER: ${DB_USERNAME:-postgres}
@@ -11,6 +12,7 @@ services:
     ports:
       - "${DB_PORT:-5434}:5432"
     volumes:
-      - evmanager_pgdata_be04:/var/lib/postgresql/data
+      - evmanager_pgdata:/var/lib/postgresql/data
+
 volumes:
-  evmanager_pgdata_be04:
+  evmanager_pgdata:
