@@ -17,12 +17,26 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import com.evmanager.users.dto.UserProfileUpdateRequest;
+
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> getCurrentUser(Authentication authentication) {
+        return ResponseEntity.ok(userService.getUserProfile(authentication.getName()));
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<UserResponse> updateCurrentUser(
+            Authentication authentication,
+            @Valid @RequestBody UserProfileUpdateRequest request) {
+        return ResponseEntity.ok(userService.updateUserProfile(authentication.getName(), request));
+    }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")

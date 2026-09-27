@@ -49,7 +49,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.ok) {
                     sessionStorage.setItem('accessToken', data.accessToken);
                     sessionStorage.setItem('currentUser', usernameOrEmail);
-                    window.location.href = 'admin.html';
+                    if (usernameOrEmail.toLowerCase() === 'admin') {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
                 } else {
                     let errorMsg = 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.';
                     if (data) {
@@ -72,16 +76,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } catch (err) {
                 // Khi máy chủ Backend chưa bật (Lỗi Failed to fetch / Máy chủ offline)
-                if (usernameOrEmail === 'admin' && password === '123') {
+                if (usernameOrEmail && password) {
                     console.warn('Backend offline (Failed to fetch). Tự động kích hoạt tài khoản Demo để kiểm thử Frontend.');
                     sessionStorage.setItem('accessToken', 'mock-demo-token-123456');
-                    sessionStorage.setItem('currentUser', 'admin');
-                    window.location.href = 'admin.html';
+                    sessionStorage.setItem('currentUser', usernameOrEmail);
+                    if (usernameOrEmail.toLowerCase() === 'admin') {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
                     return;
                 }
 
                 if (error) {
-                    error.textContent = 'Máy chủ Backend chưa bật (http://localhost:8080). Nhập admin/123 để test thử chế độ Demo.';
+                    error.textContent = 'Máy chủ Backend chưa bật (http://localhost:8080). Vui lòng nhập thông tin bất kỳ để test thử chế độ Demo.';
                     error.hidden = false;
                 }
             }

@@ -20,12 +20,6 @@ class EvmanagerApplicationTests {
     @org.springframework.boot.test.mock.mockito.MockBean
     private com.evmanager.audit.repository.AuditLogRepository auditLogRepository;
 
-    @org.springframework.boot.test.mock.mockito.MockBean
-    private com.evmanager.venues.repository.VenueRepository venueRepository;
-
-    @org.springframework.boot.test.mock.mockito.MockBean
-    private com.evmanager.events.repository.EventRepository eventRepository;
-
     @Test
     void contextLoads() {
         // Test if application context loads successfully

@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.evmanager.users.dto.UserProfileUpdateRequest;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -23,6 +25,34 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Transactional(readOnly = true)
+    public UserResponse getUserProfile(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
+        return mapToResponse(user);
+    }
+
+    @Transactional
+    public UserResponse updateUserProfile(String username, UserProfileUpdateRequest request) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
+
+        if (request.getEmail() != null && !request.getEmail().equalsIgnoreCase(user.getEmail())) {
+            userRepository.findByEmail(request.getEmail()).ifPresent(existingUser -> {
+                if (!existingUser.getUserId().equals(user.getUserId())) {
+                    throw new ResourceConflictException("Email already in use");
+                }
+            });
+        }
+
+        user.setFullName(request.getFullName());
+        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
+
+        User updatedUser = userRepository.save(user);
+        return mapToResponse(updatedUser);
+    }
 
     @Transactional(readOnly = true)
     public Page<UserResponse> getUsers(Pageable pageable, String roleName) {
