@@ -88,6 +88,35 @@ public class VenueService {
         venueRepository.save(venue);
     }
 
+    @Transactional(readOnly = true)
+    public java.util.List<VenueResponse> getAvailableVenues(java.time.LocalDate date, String session) {
+        if (date == null) {
+            throw new IllegalArgumentException("Date must not be null");
+        }
+        
+        java.time.OffsetDateTime startTime;
+        java.time.OffsetDateTime endTime;
+        java.time.ZoneOffset offset = java.time.ZoneOffset.ofHours(7); // Default VN time
+        
+        if ("LUNCH".equalsIgnoreCase(session)) {
+            startTime = date.atTime(11, 0).atOffset(offset);
+            endTime = date.atTime(14, 0).atOffset(offset);
+        } else if ("DINNER".equalsIgnoreCase(session)) {
+            startTime = date.atTime(17, 0).atOffset(offset);
+            endTime = date.atTime(22, 0).atOffset(offset);
+        } else {
+            throw new IllegalArgumentException("Invalid session. Must be LUNCH or DINNER");
+        }
+        
+        java.time.OffsetDateTime bufferedStart = startTime.minusMinutes(60);
+        java.time.OffsetDateTime bufferedEnd = endTime.plusMinutes(60);
+        
+        return venueRepository.findAvailableVenues(bufferedStart, bufferedEnd)
+                .stream()
+                .map(this::mapToResponse)
+                .collect(java.util.stream.Collectors.toList());
+    }
+
     private VenueResponse mapToResponse(Venue venue) {
         VenueResponse response = new VenueResponse();
         response.setVenueId(venue.getVenueId());

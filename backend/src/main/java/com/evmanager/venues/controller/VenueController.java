@@ -38,6 +38,13 @@ public class VenueController {
         return ResponseEntity.ok(venueService.getVenueById(id));
     }
 
+    @GetMapping("/available")
+    public ResponseEntity<java.util.List<VenueResponse>> getAvailableVenues(
+            @RequestParam java.time.LocalDate date,
+            @RequestParam String session) {
+        return ResponseEntity.ok(venueService.getAvailableVenues(date, session));
+    }
+
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<VenueResponse> updateVenue(

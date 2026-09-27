@@ -15,4 +15,13 @@ public interface VenueRepository extends JpaRepository<Venue, Long> {
 
     @Query(value = "SELECT COUNT(*) FROM events WHERE venue_id = :venueId AND status IN ('SCHEDULED', 'PREPARING', 'IN_PROGRESS')", nativeQuery = true)
     long countActiveEventsForVenue(@Param("venueId") Long venueId);
+
+    @Query("SELECT v FROM Venue v WHERE v.status = 'AVAILABLE' " +
+           "AND v.venueId NOT IN (" +
+           "  SELECT e.venue.venueId FROM Event e WHERE e.status != 'CANCELLED' " +
+           "  AND e.startAt < :bufferedEnd AND e.endAt > :bufferedStart" +
+           ")")
+    java.util.List<Venue> findAvailableVenues(
+            @Param("bufferedStart") java.time.OffsetDateTime bufferedStart, 
+            @Param("bufferedEnd") java.time.OffsetDateTime bufferedEnd);
 }

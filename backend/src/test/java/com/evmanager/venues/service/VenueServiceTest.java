@@ -131,4 +131,17 @@ class VenueServiceTest {
         assertThrows(IllegalStateException.class, () -> venueService.deleteVenue(1L));
         assertEquals("AVAILABLE", activeVenue.getStatus());
     }
+
+    @Test
+    void testGetAvailableVenues() {
+        java.time.LocalDate date = java.time.LocalDate.of(2026, 10, 10);
+        when(venueRepository.findAvailableVenues(any(), any())).thenReturn(java.util.List.of(activeVenue));
+
+        java.util.List<VenueResponse> lunchVenues = venueService.getAvailableVenues(date, "LUNCH");
+        assertEquals(1, lunchVenues.size());
+        assertEquals("Diamond Hall", lunchVenues.get(0).getVenueName());
+
+        assertThrows(IllegalArgumentException.class, () -> venueService.getAvailableVenues(date, "INVALID"));
+        assertThrows(IllegalArgumentException.class, () -> venueService.getAvailableVenues(null, "LUNCH"));
+    }
 }

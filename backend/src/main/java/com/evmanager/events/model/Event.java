@@ -1,5 +1,6 @@
 package com.evmanager.events.model;
 
+import com.evmanager.venues.model.Venue;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,8 +20,9 @@ public class Event {
     @Column(name = "event_id")
     private Long eventId;
 
-    @Column(name = "venue_id", nullable = false)
-    private Long venueId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "venue_id", nullable = false)
+    private Venue venue;
 
     @Column(name = "event_name", nullable = false, length = 100)
     private String eventName;
