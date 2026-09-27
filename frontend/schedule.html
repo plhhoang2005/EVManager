@@ -1,0 +1,149 @@
+<!-- Module Lịch sự kiện (schedule.js)
+ * Xử lý tương tác trên trang schedule.html
+ -->
+
+ <!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch Sự Kiện Sắp Diễn Ra - LV34 Event Operations</title>
+    <meta name="description" content="Lịch trình các sự kiện cộng đồng, triển lãm và đêm nhạc từ thiện do LV34 triển khai.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="home-wrapper">
+        <!-- HEADER / NAVBAR -->
+        <header class="home-navbar" id="topNavbar">
+            <div class="nav-container">
+                <a href="index.html" class="nav-brand">
+                    <span class="brand-icon">◒</span>
+                    <span class="brand-text">LV34 <span>EVENTS</span></span>
+                </a>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link">Trang chủ</a>
+                    <a href="services.html" class="nav-link">Dịch vụ</a>
+                    <a href="calculator.html" class="nav-link">Tính chi phí</a>
+                    <a href="gallery.html" class="nav-link">Sự kiện tiêu biểu</a>
+                    <a href="schedule.html" class="nav-link active">Lịch sắp tới</a>
+                    <a href="contact.html" class="nav-link">Liên hệ</a>
+                </nav>
+
+                <div class="nav-actions" id="navActions">
+                    <a href="login.html" class="btn btn-outline btn-sm">Đăng nhập</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">Đăng ký</a>
+                    <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGE BANNER -->
+        <section class="hero-section" style="padding: 50px 0 30px;">
+            <div class="section-container" style="padding: 0; text-align: center;">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    <span>LỊCH TRÌNH CỘNG ĐỒNG</span>
+                </div>
+                <h1 class="hero-title" style="font-size: 3rem; margin-bottom: 16px;">
+                    Lịch Sự Kiện <span>Sắp Diễn Ra</span>
+                </h1>
+                <p class="section-subtitle">
+                    Theo dõi và đăng ký tham gia các sự kiện mở công khai do LV34 đồng tổ chức.
+                </p>
+            </div>
+        </section>
+
+        <!-- PUBLIC SCHEDULE SECTION -->
+        <section class="schedule-section" style="padding: 40px 0 80px;">
+            <div class="section-container">
+                <div class="schedule-list">
+                    <div class="schedule-card">
+                        <div class="date-badge">
+                            <span class="date-day">25</span>
+                            <span class="date-month">THÁNG 9</span>
+                        </div>
+                        <div class="schedule-info">
+                            <span class="event-tag badge-live">Đang diễn ra</span>
+                            <h3>Triển lãm Công nghệ Vận hành Sự kiện LV34</h3>
+                            <p>📍 Trung tâm Triển lãm SECC, Q.7, TP.HCM | ⏰ 09:00 - 18:00</p>
+                        </div>
+                        <a href="contact.html?event=Triển lãm Công nghệ Vận hành Sự kiện" class="btn btn-outline btn-sm">Xem chi tiết</a>
+                    </div>
+
+                    <div class="schedule-card">
+                        <div class="date-badge">
+                            <span class="date-day">28</span>
+                            <span class="date-month">THÁNG 9</span>
+                        </div>
+                        <div class="schedule-info">
+                            <span class="event-tag badge-upcoming">Sắp diễn ra</span>
+                            <h3>Đêm Nhạc Từ Thiện - Nối Tròn Vòng Tay</h3>
+                            <p>📍 Nhà hát Hòa Bình, Q.10, TP.HCM | ⏰ 19:30 - 22:00</p>
+                        </div>
+                        <a href="contact.html?event=Đêm Nhạc Từ Thiện - Nối Tròn Vòng Tay" class="btn btn-outline btn-sm">Đăng ký tham gia</a>
+                    </div>
+
+                    <div class="schedule-card">
+                        <div class="date-badge">
+                            <span class="date-day">05</span>
+                            <span class="date-month">THÁNG 10</span>
+                        </div>
+                        <div class="schedule-info">
+                            <span class="event-tag badge-upcoming">Sắp diễn ra</span>
+                            <h3>Hội Thảo Xu Hướng Đột Phá Tổ Chức Sự Kiện 2026</h3>
+                            <p>📍 Khách sạn InterContinental, Q.1, TP.HCM | ⏰ 14:00 - 17:30</p>
+                        </div>
+                        <a href="contact.html?event=Hội Thảo Xu Hướng Sự Kiện 2026" class="btn btn-outline btn-sm">Đăng ký tham gia</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="home-footer">
+            <div class="section-container footer-content">
+                <div class="footer-brand-col">
+                    <div class="nav-brand">
+                        <span class="brand-icon">◒</span>
+                        <span class="brand-text">LV34 <span>EVENTS</span></span>
+                    </div>
+                    <p>Hệ thống quản lý và tổ chức sự kiện chuyên nghiệp hàng đầu. Kiến tạo những trải nghiệm độc đáo và dịch vụ hoàn hảo.</p>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Liên kết nhanh</h4>
+                    <ul>
+                        <li><a href="index.html">Trang chủ</a></li>
+                        <li><a href="services.html">Dịch vụ tổ chức</a></li>
+                        <li><a href="calculator.html">Công cụ tính chi phí</a></li>
+                        <li><a href="gallery.html">Thư viện sự kiện</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Tài khoản & Hệ thống</h4>
+                    <ul>
+                        <li><a href="login.html">Đăng nhập Quản trị</a></li>
+                        <li><a href="register.html">Đăng ký tài khoản</a></li>
+                        <li><a href="admin.html">Bảng điều khiển (Admin)</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 LV34 Event Operations. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Script riêng cho trang Lịch sắp tới -->
+    <script src="js/schedule.js"></script>
+</body>
+</html>

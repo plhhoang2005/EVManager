@@ -1,0 +1,471 @@
+<!-- Bảng quản trị Admin (dashboard.js, calendar.js, app.js)
+ * Giao diện Quản trị viên độc lập: Quản lý Sự kiện & Quản lý Khách hàng
+-->
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Trị Admin - LV34 Event Operations</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Third-party Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="admin-body">
+    <div class="admin-wrapper">
+        <!-- SIDEBAR NAVIGATION (Giao diện Admin chuyên biệt - KHÔNG CÓ TRANG CHỦ) -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">◒</span>
+                <div class="brand-info">
+                    <span class="brand-title">LV34 <span>EVENTS</span></span>
+                    <span class="brand-badge">ADMIN PORTAL</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">TỔNG QUAN & QUẢN LÝ</div>
+                <button class="nav-item active" data-tab="tab-dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Bảng tổng quan</span>
+                </button>
+                <button class="nav-item" data-tab="tab-events">
+                    <span class="nav-icon">🎉</span>
+                    <span class="nav-text">Quản lý sự kiện</span>
+                    <span class="nav-pill" id="badgeEventsCount">0</span>
+                </button>
+                <button class="nav-item" data-tab="tab-customers">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">Quản lý khách hàng</span>
+                    <span class="nav-pill" id="badgeCustomersCount">0</span>
+                </button>
+                <button class="nav-item" data-tab="tab-calendar">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-text">Lịch trình sự kiện</span>
+                </button>
+
+                <div class="nav-section-label">HỆ THỐNG</div>
+                <button class="nav-item" data-tab="tab-reports">
+                    <span class="nav-icon">📈</span>
+                    <span class="nav-text">Báo cáo doanh thu</span>
+                </button>
+                <button class="nav-item" data-tab="tab-settings">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Cấu hình hệ thống</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="admin-user-card">
+                    <div class="user-avatar">AD</div>
+                    <div class="user-meta">
+                        <strong id="adminSidebarGreeting">Admin System</strong>
+                        <span>Quản trị viên</span>
+                    </div>
+                </div>
+                <button id="logoutButton" class="btn-sidebar-logout" type="button" title="Đăng xuất">
+                    🚪 Đăng xuất
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN ADMIN CONTENT AREA -->
+        <main class="admin-main">
+            <!-- TOP NAVBAR FOR ADMIN -->
+            <header class="admin-topbar">
+                <div class="topbar-left">
+                    <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Toggle Sidebar">
+                        ☰
+                    </button>
+                    <div>
+                        <h1 class="topbar-title" id="pageTitle">Bảng tổng quan</h1>
+                        <p class="topbar-subtitle" id="pageSubtitle">Tổng quan doanh thu, sự kiện & hoạt động mới nhất</p>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <div class="topbar-search">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="globalSearchInput" placeholder="Tìm kiếm nhanh sự kiện, khách hàng..." />
+                    </div>
+                    <div class="topbar-actions">
+                        <div class="status-indicator">
+                            <span class="indicator-dot"></span>
+                            <span>Hệ thống online</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <!-- TAB 1: DASHBOARD OVERVIEW -->
+                <section id="tab-dashboard" class="admin-tab-pane active">
+                    <div class="overview-grid">
+                        <article class="metric-card metric-card--revenue">
+                            <div class="metric-header">
+                                <div class="metric-icon">₫</div>
+                                <span class="metric-trend positive">+14.5%</span>
+                            </div>
+                            <div class="metric-body">
+                                <h2>Tổng doanh thu</h2>
+                                <p id="doanhThu" class="metric-value">0 ₫</p>
+                                <p class="metric-note">Doanh thu sự kiện tích lũy</p>
+                            </div>
+                        </article>
+                        <article class="metric-card metric-card--events">
+                            <div class="metric-header">
+                                <div class="metric-icon">🎉</div>
+                                <span class="metric-trend positive" id="trendEventsText">+0 sự kiện</span>
+                            </div>
+                            <div class="metric-body">
+                                <h2>Số sự kiện</h2>
+                                <p id="soSuKien" class="metric-value">0</p>
+                                <p class="metric-note">Sự kiện đang quản lý</p>
+                            </div>
+                        </article>
+                        <article class="metric-card metric-card--customers">
+                            <div class="metric-header">
+                                <div class="metric-icon">👥</div>
+                                <span class="metric-trend positive" id="trendCustomersText">0 VIP</span>
+                            </div>
+                            <div class="metric-body">
+                                <h2>Khách hàng</h2>
+                                <p id="soKhachHang" class="metric-value">0</p>
+                                <p class="metric-note">Đối tác & Khách cá nhân</p>
+                            </div>
+                        </article>
+                        <article class="metric-card metric-card--contracts">
+                            <div class="metric-header">
+                                <div class="metric-icon">⌛</div>
+                                <span class="metric-trend warning">Cần xử lý</span>
+                            </div>
+                            <div class="metric-body">
+                                <h2>Hợp đồng chờ</h2>
+                                <p id="hopDongCho" class="metric-value">0</p>
+                                <p class="metric-note">Đang chờ chuẩn bị</p>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="content-grid">
+                        <article class="panel chart-panel">
+                            <div class="panel-heading">
+                                <div>
+                                    <p class="panel-kicker">HIỆU SUẤT TÀI CHÍNH</p>
+                                    <h2>Biểu đồ doanh thu 6 tháng gần nhất</h2>
+                                </div>
+                                <span class="panel-period">Đơn vị: Triệu VNĐ</span>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="revenueChart" aria-label="Biểu đồ doanh thu" role="img"></canvas>
+                            </div>
+                        </article>
+
+                        <article class="panel quick-events-panel">
+                            <div class="panel-heading">
+                                <div>
+                                    <p class="panel-kicker">SỰ KIỆN GẦN ĐÂY</p>
+                                    <h2>Danh sách mới nhất</h2>
+                                </div>
+                                <button class="btn-action" id="btnGoToEvents">Xem tất cả →</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="admin-table mini-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Sự kiện</th>
+                                            <th>Khách hàng</th>
+                                            <th>Trạng thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="quickEventsTableBody">
+                                        <!-- Rendered by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- TAB 2: QUẢN LÝ SỰ KIỆN -->
+                <section id="tab-events" class="admin-tab-pane">
+                    <div class="tab-header-row">
+                        <div class="tab-summary-pills">
+                            <button class="summary-pill active" data-event-filter="ALL">Tất cả (<span id="countEvAll">0</span>)</button>
+                            <button class="summary-pill confirmed" data-event-filter="Đã xác nhận">Đã xác nhận (<span id="countEvConfirmed">0</span>)</button>
+                            <button class="summary-pill pending" data-event-filter="Đang chuẩn bị">Đang chuẩn bị (<span id="countEvPending">0</span>)</button>
+                            <button class="summary-pill completed" data-event-filter="Hoàn thành">Hoàn thành (<span id="countEvCompleted">0</span>)</button>
+                        </div>
+                        <button class="btn btn-primary" id="btnOpenAddEventModal">
+                            ➕ Thêm sự kiện mới
+                        </button>
+                    </div>
+
+                    <div class="table-filter-bar">
+                        <div class="filter-group">
+                            <span class="filter-icon">🔍</span>
+                            <input type="text" id="eventSearchInput" placeholder="Tìm theo tên sự kiện, khách hàng, địa điểm..." />
+                        </div>
+                        <div class="filter-group select-group">
+                            <label for="eventStatusFilter">Trạng thái:</label>
+                            <select id="eventStatusFilter">
+                                <option value="ALL">Tất cả trạng thái</option>
+                                <option value="Đã xác nhận">Đã xác nhận</option>
+                                <option value="Đang chuẩn bị">Đang chuẩn bị</option>
+                                <option value="Hoàn thành">Hoàn thành</option>
+                                <option value="Đã hủy">Đã hủy</option>
+                            </select>
+                        </div>
+                        <div class="filter-group select-group">
+                            <label for="eventTypeFilter">Loại sự kiện:</label>
+                            <select id="eventTypeFilter">
+                                <option value="ALL">Tất cả loại hình</option>
+                                <option value="Tiệc cưới">Tiệc cưới</option>
+                                <option value="Hội nghị">Hội nghị / Gala</option>
+                                <option value="Concert">Concert / Liveshow</option>
+                                <option value="Sinh nhật">Sinh nhật / Kỷ niệm</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="panel table-panel">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã SK</th>
+                                        <th>Tên sự kiện</th>
+                                        <th>Khách hàng</th>
+                                        <th>Loại hình</th>
+                                        <th>Thời gian</th>
+                                        <th>Địa điểm</th>
+                                        <th>Ngân sách</th>
+                                        <th>Trạng thái</th>
+                                        <th class="text-right">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="eventsTableBody">
+                                    <!-- Rendered dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 3: QUẢN LÝ KHÁCH HÀNG -->
+                <section id="tab-customers" class="admin-tab-pane">
+                    <div class="tab-header-row">
+                        <div class="tab-summary-pills">
+                            <button class="summary-pill active" data-cust-filter="ALL">Tất cả (<span id="countCustAll">0</span>)</button>
+                            <button class="summary-pill vip" data-cust-filter="VIP">VIP (<span id="countCustVip">0</span>)</button>
+                            <button class="summary-pill normal" data-cust-filter="Thường">Thường (<span id="countCustNormal">0</span>)</button>
+                            <button class="summary-pill lead" data-cust-filter="Tiềm năng">Tiềm năng (<span id="countCustLead">0</span>)</button>
+                        </div>
+                        <button class="btn btn-primary" id="btnOpenAddCustomerModal">
+                            ➕ Thêm khách hàng mới
+                        </button>
+                    </div>
+
+                    <div class="table-filter-bar">
+                        <div class="filter-group">
+                            <span class="filter-icon">🔍</span>
+                            <input type="text" id="customerSearchInput" placeholder="Tìm theo tên khách hàng, số điện thoại, email..." />
+                        </div>
+                        <div class="filter-group select-group">
+                            <label for="customerTierFilter">Phân loại khách hàng:</label>
+                            <select id="customerTierFilter">
+                                <option value="ALL">Tất cả nhóm</option>
+                                <option value="VIP">Khách VIP</option>
+                                <option value="Thường">Khách Thường</option>
+                                <option value="Tiềm năng">Khách Tiềm Năng</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="panel table-panel">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã KH</th>
+                                        <th>Họ và tên</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Email</th>
+                                        <th>Phân loại</th>
+                                        <th>Sự kiện</th>
+                                        <th>Tổng chi tiêu</th>
+                                        <th>Ngày tham gia</th>
+                                        <th class="text-right">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customersTableBody">
+                                    <!-- Rendered dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 4: LỊCH TRÌNH SỰ KIỆN -->
+                <section id="tab-calendar" class="admin-tab-pane">
+                    <div class="panel calendar-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <p class="panel-kicker">LỊCH VẬN HÀNH TRỰC QUAN</p>
+                                <h2>Lịch trình các sự kiện đã đặt</h2>
+                            </div>
+                        </div>
+                        <div id="calendar"></div>
+                    </div>
+                </section>
+
+                <!-- TAB 5 & 6 PLACEHOLDERS -->
+                <section id="tab-reports" class="admin-tab-pane">
+                    <div class="panel empty-state-panel">
+                        <div class="empty-icon">📊</div>
+                        <h2>Báo cáo Doanh thu & Chi phí</h2>
+                        <p>Tính năng báo cáo chuyên sâu đang được tổng hợp dữ liệu thời gian thực.</p>
+                    </div>
+                </section>
+                <section id="tab-settings" class="admin-tab-pane">
+                    <div class="panel empty-state-panel">
+                        <div class="empty-icon">⚙️</div>
+                        <h2>Cấu hình Hệ thống</h2>
+                        <p>Quản lý phân quyền tài khoản admin, cấu hình thông báo và kết nối email.</p>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: THÊM / SỬA SỰ KIỆN -->
+    <div class="admin-modal" id="eventModal" aria-hidden="true">
+        <div class="modal-backdrop" id="eventModalBackdrop"></div>
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="eventModalTitle">Thêm sự kiện mới</h3>
+                <button class="modal-close" id="btnCloseEventModal" type="button">✕</button>
+            </div>
+            <form id="eventForm" class="modal-body">
+                <input type="hidden" id="eventEditId" />
+                <div class="form-group">
+                    <label for="eventTitle">Tên sự kiện *</label>
+                    <input type="text" id="eventTitle" placeholder="Ví dụ: Tiệc cưới Anh Nam & Chị Hoa" required />
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventClient">Tên khách hàng / Đơn vị *</label>
+                        <input type="text" id="eventClient" placeholder="Ví dụ: Nguyễn Văn Minh" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="eventType">Loại hình sự kiện *</label>
+                        <select id="eventType" required>
+                            <option value="Tiệc cưới">Tiệc cưới</option>
+                            <option value="Hội nghị">Hội nghị / Gala</option>
+                            <option value="Concert">Concert / Liveshow</option>
+                            <option value="Sinh nhật">Sinh nhật / Kỷ niệm</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventDate">Ngày & Giờ tổ chức *</label>
+                        <input type="datetime-local" id="eventDate" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="eventBudget">Dự trù ngân sách (VNĐ) *</label>
+                        <input type="number" id="eventBudget" placeholder="150000000" step="1000000" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="eventLocation">Địa điểm tổ chức *</label>
+                    <input type="text" id="eventLocation" placeholder="Ví dụ: Trung tâm hội nghị GEM Center, Q.1" required />
+                </div>
+                <div class="form-group">
+                    <label for="eventStatus">Trạng thái *</label>
+                    <select id="eventStatus" required>
+                        <option value="Đã xác nhận">Đã xác nhận</option>
+                        <option value="Đang chuẩn bị">Đang chuẩn bị</option>
+                        <option value="Hoàn thành">Hoàn thành</option>
+                        <option value="Đã hủy">Đã hủy</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="btnCancelEventForm">Hủy bỏ</button>
+                    <button type="submit" class="btn btn-primary" id="btnSaveEvent">Lưu sự kiện</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: THÊM / SỬA KHÁCH HÀNG -->
+    <div class="admin-modal" id="customerModal" aria-hidden="true">
+        <div class="modal-backdrop" id="customerModalBackdrop"></div>
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="customerModalTitle">Thêm khách hàng mới</h3>
+                <button class="modal-close" id="btnCloseCustomerModal" type="button">✕</button>
+            </div>
+            <form id="customerForm" class="modal-body">
+                <input type="hidden" id="customerEditId" />
+                <div class="form-group">
+                    <label for="customerName">Họ và tên khách hàng *</label>
+                    <input type="text" id="customerName" placeholder="Ví dụ: Nguyễn Văn A" required />
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerPhone">Số điện thoại *</label>
+                        <input type="tel" id="customerPhone" placeholder="0901234567" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="customerEmail">Email</label>
+                        <input type="email" id="customerEmail" placeholder="nguyenvana@gmail.com" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerTier">Phân loại khách hàng *</label>
+                        <select id="customerTier" required>
+                            <option value="VIP">Khách VIP</option>
+                            <option value="Thường">Khách Thường</option>
+                            <option value="Tiềm năng">Khách Tiềm Năng</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerTotalSpent">Tổng chi tiêu ước tính (VNĐ)</label>
+                        <input type="number" id="customerTotalSpent" placeholder="0" step="1000000" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="customerNotes">Ghi chú / Yêu cầu đặc biệt</label>
+                    <textarea id="customerNotes" rows="3" placeholder="Ghi chú về sở thích, ngân sách hay dịch vụ quan tâm..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="btnCancelCustomerForm">Hủy bỏ</button>
+                    <button type="submit" class="btn btn-primary" id="btnSaveCustomer">Lưu thông tin</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts riêng cho Admin -->
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

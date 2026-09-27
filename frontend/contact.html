@@ -1,0 +1,170 @@
+<!-- Module Liên hệ (contact.js)
+ * Xử lý tương tác trên trang contact.html
+ -->
+ 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên Hệ Tư Vấn - LV34 Event Operations</title>
+    <meta name="description" content="Liên hệ với đội ngũ chuyên viên tư vấn sự kiện LV34 để nhận phương án báo giá và kế hoạch chi tiết trong 15 phút.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="home-wrapper">
+        <!-- HEADER / NAVBAR -->
+        <header class="home-navbar" id="topNavbar">
+            <div class="nav-container">
+                <a href="index.html" class="nav-brand">
+                    <span class="brand-icon">◒</span>
+                    <span class="brand-text">LV34 <span>EVENTS</span></span>
+                </a>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link">Trang chủ</a>
+                    <a href="services.html" class="nav-link">Dịch vụ</a>
+                    <a href="calculator.html" class="nav-link">Tính chi phí</a>
+                    <a href="gallery.html" class="nav-link">Sự kiện tiêu biểu</a>
+                    <a href="schedule.html" class="nav-link">Lịch sắp tới</a>
+                    <a href="contact.html" class="nav-link active">Liên hệ</a>
+                </nav>
+
+                <div class="nav-actions" id="navActions">
+                    <a href="login.html" class="btn btn-outline btn-sm">Đăng nhập</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">Đăng ký</a>
+                    <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGE BANNER -->
+        <section class="hero-section" style="padding: 50px 0 30px;">
+            <div class="section-container" style="padding: 0; text-align: center;">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    <span>TƯ VẤN 24/7</span>
+                </div>
+                <h1 class="hero-title" style="font-size: 3rem; margin-bottom: 16px;">
+                    Liên Hệ <span>LV34 Events</span>
+                </h1>
+                <p class="section-subtitle">
+                    Gửi thông tin cho chúng tôi để nhận kế hoạch & phương án ngân sách tối ưu nhất.
+                </p>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section class="contact-section" style="padding: 40px 0 80px;">
+            <div class="section-container">
+                <div class="contact-card">
+                    <div class="contact-info-side">
+                        <p class="eyebrow">KẾT NỐI VỚI CHÚNG TÔI</p>
+                        <h2>Sẵn Sàng Cho Sự Kiện Đáng Nhớ Của Bạn?</h2>
+                        <p>Hãy gửi thông tin cho LV34. Chuyên viên tư vấn sự kiện của chúng tôi sẽ liên hệ và gửi bản kế hoạch chi tiết trong vòng 15 phút!</p>
+                        
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <span class="icon">📍</span>
+                                <div>
+                                    <strong>Địa chỉ văn phòng:</strong>
+                                    <p>Tòa nhà LV34 Tower, Đường 3/2, Quận 10, TP. Hồ Chí Minh</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <span class="icon">📞</span>
+                                <div>
+                                    <strong>Hotline tư vấn 24/7:</strong>
+                                    <p>0908 123 456 - 028 38 888 999</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <span class="icon">✉️</span>
+                                <div>
+                                    <strong>Email hỗ trợ:</strong>
+                                    <p>contact@lv34events.vn</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-side">
+                        <form id="publicContactForm" class="contact-form">
+                            <h3>Đăng Ký Tư Vấn Nhanh</h3>
+                            <div class="form-group">
+                                <label for="contactName">Họ và tên *</label>
+                                <input type="text" id="contactName" name="name" placeholder="Nguyễn Văn A" required />
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contactPhone">Số điện thoại *</label>
+                                    <input type="tel" id="contactPhone" name="phone" placeholder="0901234567" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactEmail">Email</label>
+                                    <input type="email" id="contactEmail" name="email" placeholder="example@gmail.com" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactEventType">Loại sự kiện & Ngày dự kiến</label>
+                                <input type="text" id="contactEventType" name="eventType" placeholder="Ví dụ: Tiệc cưới ngày 15/10/2026" />
+                            </div>
+                            <div class="form-group">
+                                <label for="contactMessage">Yêu cầu chi tiết</label>
+                                <textarea id="contactMessage" name="message" rows="3" placeholder="Ghi chú thêm về quy mô, ngân sách dự kiến..."></textarea>
+                            </div>
+                            <p id="contactSuccessMsg" class="form-success-alert" hidden></p>
+                            <button type="submit" class="btn btn-primary btn-block">Gửi Yêu Cầu Tư Vấn →</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="home-footer">
+            <div class="section-container footer-content">
+                <div class="footer-brand-col">
+                    <div class="nav-brand">
+                        <span class="brand-icon">◒</span>
+                        <span class="brand-text">LV34 <span>EVENTS</span></span>
+                    </div>
+                    <p>Hệ thống quản lý và tổ chức sự kiện chuyên nghiệp hàng đầu. Kiến tạo những trải nghiệm độc đáo và dịch vụ hoàn hảo.</p>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Liên kết nhanh</h4>
+                    <ul>
+                        <li><a href="index.html">Trang chủ</a></li>
+                        <li><a href="services.html">Dịch vụ tổ chức</a></li>
+                        <li><a href="calculator.html">Công cụ tính chi phí</a></li>
+                        <li><a href="gallery.html">Thư viện sự kiện</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Tài khoản & Hệ thống</h4>
+                    <ul>
+                        <li><a href="login.html">Đăng nhập Quản trị</a></li>
+                        <li><a href="register.html">Đăng ký tài khoản</a></li>
+                        <li><a href="admin.html">Bảng điều khiển (Admin)</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 LV34 Event Operations. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Script riêng cho trang Liên hệ -->
+    <script src="js/contact.js"></script>
+</body>
+</html>
