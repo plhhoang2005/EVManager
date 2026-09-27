@@ -1,0 +1,63 @@
+<!-- Module Đăng ký (register.js)
+ * Xử lý tương tác trên trang register.html
+ -->
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký tài khoản - LV34 Event Operations</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <main class="auth-shell">
+        <section class="login-panel" aria-labelledby="login-title">
+            <div class="auth-top-nav">
+                <a href="index.html" class="back-home-link">← Trang chủ</a>
+            </div>
+            <p class="eyebrow">Chào mừng bạn đến với chúng tôi</p>
+            <h1 id="login-title">Đăng ký</h1>
+            <form id="registerForm" class="login-form">
+                <label for="username">Tên đăng nhập/Email</label>
+                <input id="username" name="username" type="text" autocomplete="username" placeholder="Nhập tên đăng nhập hoặc email" required>
+                
+                <label for="password">Mật khẩu</label>
+                <div class="password-field">
+                    <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu" required>
+                    <button type="button" class="password-toggle" aria-label="Hiện mật khẩu" aria-pressed="false">Hiện</button>
+                </div>
+                
+                <label for="confirmPassword">Xác nhận mật khẩu</label>
+                <div class="password-field">
+                    <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="current-password" placeholder="Xác nhận mật khẩu" required>
+                    <button type="button" class="password-toggle" aria-label="Hiện mật khẩu" aria-pressed="false">Hiện</button>
+                </div>
+                
+                <p id="registerError" class="login-error" role="alert" hidden></p>
+                <button type="submit" class="login-button">Đăng ký <span aria-hidden="true">→</span></button>
+                
+                <p>Nếu bạn đã có tài khoản? <a href="login.html" class="forgot-password">Đăng nhập</a></p>
+            </form>
+            <p class="login-hint">Tài khoản demo: <strong>admin</strong> / <strong>123</strong></p>
+        </section>  
+        
+        <aside class="auth-aside" aria-label="Thông tin hệ thống">
+            <span class="aside-mark" aria-hidden="true">◒</span>
+            <p class="eyebrow">Event operations</p>
+            <h2>Mọi sự kiện<br>trong tầm mắt.</h2>
+            <p>Theo dõi doanh thu, lịch trình và hợp đồng trong một không gian làm việc rõ ràng.</p>
+        </aside>
+    </main>
+
+    <!-- Script riêng cho trang Đăng ký -->
+    <script src="js/register.js"></script>
+</body>
+</html>

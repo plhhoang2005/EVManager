@@ -1,0 +1,530 @@
+<!-- Module Trang chủ (index.js)
+ * Xử lý tương tác trên trang index.html
+ -->
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LV34 Event Operations - Hệ Thống Quản Lý & Tổ Chức Sự Kiện Đẳng Cấp</title>
+    <meta name="description"
+        content="Giải pháp quản lý và tổ chức sự kiện chuyên nghiệp: Tiệc cưới, Hội nghị doanh nghiệp, Liveshow âm nhạc. Dự trù ngân sách và quản lý vận hành trọn gói.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="home-wrapper">
+        <!-- HEADER / NAVBAR -->
+        <header class="home-navbar" id="topNavbar">
+            <div class="nav-container">
+                <a href="index.html" class="nav-brand" id="brandLogo">
+                    <span class="brand-icon">◒</span>
+                    <span class="brand-text">LV34 <span>EVENTS</span></span>
+                </a>
+
+                <nav class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link active">Trang chủ</a>
+                    <a href="services.html" class="nav-link">Dịch vụ</a>
+                    <a href="calculator.html" class="nav-link">Tính chi phí</a>
+                    <a href="gallery.html" class="nav-link">Sự kiện tiêu biểu</a>
+                    <a href="schedule.html" class="nav-link">Lịch sắp tới</a>
+                    <a href="contact.html" class="nav-link">Liên hệ</a>
+                </nav>
+
+                <div class="nav-actions" id="navActions">
+                    <a href="login.html" class="btn btn-outline btn-sm">Đăng nhập</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">Đăng ký</a>
+                    <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- HERO SECTION -->
+        <section class="hero-section" id="hero">
+            <div class="hero-bg-glow"></div>
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-dot"></span>
+                        <span>Hệ Thống Tổ Chức & Quản Lý Sự Kiện Hàng Đầu</span>
+                    </div>
+                    <h1 class="hero-title">Tạo Nên Những Sự Kiện <span>Đẳng Cấp & Đáng Nhớ</span></h1>
+                    <p class="hero-subtitle">
+                        Từ tiệc cưới sang trọng, hội nghị doanh nghiệp quy mô lớn đến các liveshow âm nhạc bùng nổ.
+                        LV34 mang đến giải pháp trọn gói từ khâu thiết kế, nhân sự, thiết bị đến vận hành hoàn hảo.
+                    </p>
+
+                    <div class="hero-cta-group">
+                        <a href="calculator.html" class="btn btn-primary btn-lg">
+                            📊 Tính Báo Giá Nhanh
+                        </a>
+                        <a href="contact.html" class="btn btn-secondary btn-lg">
+                            📞 Đặt Lịch Tư Vấn
+                        </a>
+                    </div>
+
+                    <!-- Stats Pill -->
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">550+</span>
+                            <span class="stat-label">Sự kiện thành công</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <span class="stat-number">99.4%</span>
+                            <span class="stat-label">Khách hàng hài lòng</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Đối tác địa điểm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="visual-card-wrapper">
+                        <img src="images/hero_banner.jpg" alt="LV34 Luxury Event Banner" class="hero-img" />
+                        <div class="visual-glass-overlay">
+                            <div class="glass-badge">
+                                <span class="glass-icon">🌟</span>
+                                <div>
+                                    <strong>Đạt chuẩn 5 sao</strong>
+                                    <p>Âm thanh & Ánh sáng High-End</p>
+                                </div>
+                            </div>
+                            <div class="glass-badge floating-right">
+                                <span class="glass-icon">🎉</span>
+                                <div>
+                                    <strong>100% Trọn Gói</strong>
+                                    <p>Không chi phí phát sinh</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES SECTION -->
+        <section class="services-section" id="services">
+            <div class="section-container">
+                <div class="section-header center">
+                    <p class="eyebrow">DỊCH VỤ CỦA CHÚNG TÔI</p>
+                    <h2 class="section-title">Giải Pháp Tổ Chức Trọn Gói</h2>
+                    <p class="section-subtitle">Lựa chọn dịch vụ phù hợp nhất với quy mô và mong muốn của bạn</p>
+                </div>
+
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-img-box">
+                            <img src="images/wedding.jpg" alt="Tiệc cưới sang trọng" />
+                            <span class="service-tag">Phổ biến nhất</span>
+                        </div>
+                        <div class="service-body">
+                            <div class="service-icon-wrap">💒</div>
+                            <h3>Tổ Chức Tiệc Cưới Sang Trọng</h3>
+                            <p>Thiết kế không gian lãng mạn, kịch bản độc đáo, trang trí hoa tươi tinh tế và phục vụ
+                                chuyên nghiệp.</p>
+                            <ul class="service-features">
+                                <li>✓ Thiết kế concept cưới theo yêu cầu</li>
+                                <li>✓ Sân khấu, âm thanh, ánh sáng hiện đại</li>
+                                <li>✓ Nhân sự MC, Band nhạc, Chụp ảnh chuyên nghiệp</li>
+                            </ul>
+                            <div class="service-footer">
+                                <span class="service-price">Từ <span>50.000.000đ</span></span>
+                                <button class="btn btn-outline btn-sm open-booking-btn"
+                                    data-service="Tiệc Cưới Sang Trọng">Đăng ký ngay</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-img-box">
+                            <img src="images/corporate.jpg" alt="Hội nghị doanh nghiệp" />
+                            <span class="service-tag highlight">Doanh nghiệp</span>
+                        </div>
+                        <div class="service-body">
+                            <div class="service-icon-wrap">👔</div>
+                            <h3>Hội Nghị & Gala Doanh Nghiệp</h3>
+                            <p>Tổ chức sự kiện hội thảo, ra mắt sản phẩm, lễ kỷ niệm thành lập và Gala Dinner nâng tầm
+                                thương hiệu.</p>
+                            <ul class="service-features">
+                                <li>✓ Màn hình LED cong 4K siêu nét</li>
+                                <li>✓ Hệ thống livestream & dịch thuật cabin</li>
+                                <li>✓ Quản lý check-in QR Code tự động</li>
+                            </ul>
+                            <div class="service-footer">
+                                <span class="service-price">Từ <span>35.000.000đ</span></span>
+                                <button class="btn btn-outline btn-sm open-booking-btn"
+                                    data-service="Hội Nghị & Gala Doanh Nghiệp">Đăng ký ngay</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-img-box">
+                            <img src="images/hero_banner.jpg" alt="Liveshow & Event Âm Nhạc" />
+                            <span class="service-tag">Quy mô lớn</span>
+                        </div>
+                        <div class="service-body">
+                            <div class="service-icon-wrap">🎸</div>
+                            <h3>Liveshow & Đại Nhạc Hội</h3>
+                            <p>Dàn dựng sân khấu quy mô hàng ngàn khán giả với hiệu ứng khói lửa, laser và kỹ thuật âm
+                                thanh trình diễn đỉnh cao.</p>
+                            <ul class="service-features">
+                                <li>✓ Dàn âm thanh Line Array tiêu chuẩn quốc tế</li>
+                                <li>✓ Hệ thống chiếu sáng lập trình 3D DMX</li>
+                                <li>✓ Đội ngũ an ninh & hậu cần bài bản</li>
+                            </ul>
+                            <div class="service-footer">
+                                <span class="service-price">Từ <span>120.000.000đ</span></span>
+                                <button class="btn btn-outline btn-sm open-booking-btn"
+                                    data-service="Liveshow & Đại Nhạc Hội">Đăng ký ngay</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE COST CALCULATOR -->
+        <section class="calculator-section" id="calculator">
+            <div class="section-container">
+                <div class="calc-card">
+                    <div class="calc-header">
+                        <p class="eyebrow">DỰ TRÙ NGÂN SÁCH NHANH</p>
+                        <h2>Công Cụ Tính Chi Phí Sự Kiện Nhanh</h2>
+                        <p>Chọn các thông số bên dưới để nhận ước tính ngân sách chính xác trong 3 giây!</p>
+                    </div>
+
+                    <div class="calc-grid">
+                        <div class="calc-inputs">
+                            <!-- Step 1: Loại sự kiện -->
+                            <div class="calc-group">
+                                <label class="calc-label">1. Loại hình sự kiện</label>
+                                <div class="calc-options" id="eventTypeGroup">
+                                    <button class="calc-opt-btn active" data-type="wedding" data-base="40000000">💒 Tiệc
+                                        cưới</button>
+                                    <button class="calc-opt-btn" data-type="corporate" data-base="30000000">👔 Hội nghị
+                                        / Gala</button>
+                                    <button class="calc-opt-btn" data-type="birthday" data-base="15000000">🎂 Sinh nhật
+                                        / Kỷ niệm</button>
+                                    <button class="calc-opt-btn" data-type="concert" data-base="90000000">🎵 Concert /
+                                        Festival</button>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Số lượng khách -->
+                            <div class="calc-group">
+                                <div class="calc-label-row">
+                                    <label class="calc-label" for="guestRange">2. Quy mô khách mời</label>
+                                    <span class="calc-value-badge" id="guestCountVal">150 khách</span>
+                                </div>
+                                <input type="range" id="guestRange" min="20" max="1000" step="10" value="150"
+                                    class="calc-slider" />
+                            </div>
+
+                            <!-- Step 3: Hạng mục dịch vụ đi kèm -->
+                            <div class="calc-group">
+                                <label class="calc-label">3. Hạng mục bổ sung</label>
+                                <div class="calc-checkboxes">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" id="optStage" value="15000000" checked />
+                                        <span>Sân khấu & Màn LED HD (+15 triệu)</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" id="optSound" value="12000000" checked />
+                                        <span>Âm thanh & Ánh sáng cao cấp (+12 triệu)</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" id="optMC" value="8000000" />
+                                        <span>MC & Vũ đoàn biểu diễn (+8 triệu)</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" id="optMedia" value="10000000" checked />
+                                        <span>Quay phim 4K & Chụp ảnh Flycam (+10 triệu)</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="calc-result-box">
+                            <div class="result-card">
+                                <span class="result-badge">Ước tính ngân sách</span>
+                                <div class="result-amount" id="totalEstimatePrice">67.000.000 VNĐ</div>
+                                <p class="result-note">* Giá chưa bao gồm VAT và địa điểm. Đã bao gồm trọn gói nhân sự
+                                    kỹ thuật & chi phí vận chuyển trong nội thành.</p>
+
+                                <hr class="result-divider" />
+
+                                <div class="result-breakdown">
+                                    <div class="bd-row">
+                                        <span>Phí gói cơ bản:</span>
+                                        <strong id="basePriceLabel">40.000.000đ</strong>
+                                    </div>
+                                    <div class="bd-row">
+                                        <span>Phụ thu số lượng khách:</span>
+                                        <strong id="guestPriceLabel">15.000.000đ</strong>
+                                    </div>
+                                    <div class="bd-row">
+                                        <span>Dịch vụ bổ sung:</span>
+                                        <strong id="addonPriceLabel">37.000.000đ</strong>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary btn-block margin-top" id="calcSubmitBtn">
+                                    📩 Nhận Báo Giá Chi Tiết Qua Email
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SHOWCASE GALLERY SECTION -->
+        <section class="gallery-section" id="gallery">
+            <div class="section-container">
+                <div class="section-header space-between">
+                    <div>
+                        <p class="eyebrow">DỰ ÁN ĐÃ THỰC HIỆN</p>
+                        <h2 class="section-title">Hình Ảnh Sự Kiện Tiêu Biểu</h2>
+                    </div>
+                    <div class="gallery-filters">
+                        <button class="filter-btn active">Tất cả</button>
+                        <button class="filter-btn">Tiệc cưới</button>
+                        <button class="filter-btn">Hội nghị</button>
+                    </div>
+                </div>
+
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="images/wedding.jpg" alt="Lễ cưới Hoàng Gia tại GEM Center" />
+                        <div class="item-overlay">
+                            <div>
+                                <h4>Lễ Cưới Hoàng Gia</h4>
+                                <p>GEM Center • 500 Khách</p>
+                            </div>
+                            <span class="zoom-icon">🔍</span>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/corporate.jpg" alt="Hội Nghị Tech Summit 2026" />
+                        <div class="item-overlay">
+                            <div>
+                                <h4>Global Tech Summit 2026</h4>
+                                <p>White Palace • 800 Khách</p>
+                            </div>
+                            <span class="zoom-icon">🔍</span>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/hero_banner.jpg" alt="Gala & Liveshow Âm Nhạc Trực Tiếp" />
+                        <div class="item-overlay">
+                            <div>
+                                <h4>Liveshow Âm Nhạc Đêm Hội</h4>
+                                <p>Sân vận động Quân Khu 7 • 3000 Khách</p>
+                            </div>
+                            <span class="zoom-icon">🔍</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PUBLIC SCHEDULE SECTION -->
+        <section class="schedule-section" id="schedule">
+            <div class="section-container">
+                <div class="section-header center">
+                    <p class="eyebrow">LỊCH SỰ KIỆN SẮP DIỄN RA</p>
+                    <h2 class="section-title">Lịch Trình Hoạt Động Cộng Đồng</h2>
+                    <p class="section-subtitle">Theo dõi các sự kiện mở rộng công khai do LV34 tổ chức</p>
+                </div>
+
+                <div class="schedule-list">
+                    <div class="schedule-card">
+                        <div class="date-badge">
+                            <span class="date-day">25</span>
+                            <span class="date-month">THÁNG 9</span>
+                        </div>
+                        <div class="schedule-info">
+                            <span class="event-tag badge-live">Đang diễn ra</span>
+                            <h3>Triển lãm Công nghệ Vận hành Sự kiện LV34</h3>
+                            <p>📍 Trung tâm Triển lãm SECC, Q.7, TP.HCM | ⏰ 09:00 - 18:00</p>
+                        </div>
+                        <button class="btn btn-outline btn-sm">Xem chi tiết</button>
+                    </div>
+
+                    <div class="schedule-card">
+                        <div class="date-badge">
+                            <span class="date-day">28</span>
+                            <span class="date-month">THÁNG 9</span>
+                        </div>
+                        <div class="schedule-info">
+                            <span class="event-tag badge-upcoming">Sắp diễn ra</span>
+                            <h3>Đêm Nhạc Từ Thiện - Nối Tròn Vòng Tay</h3>
+                            <p>📍 Nhà hát Hòa Bình, Q.10, TP.HCM | ⏰ 19:30 - 22:00</p>
+                        </div>
+                        <button class="btn btn-outline btn-sm">Đăng ký tham gia</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials-section">
+            <div class="section-container">
+                <div class="section-header center">
+                    <p class="eyebrow">ĐÁNH GIÁ TỪ KHÁCH HÀNG</p>
+                    <h2 class="section-title">Niềm Tin Từ Hàng Trăm Đối Tác</h2>
+                </div>
+
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p class="quote">"LV34 đã làm việc hết sức chuyên nghiệp trong tiệc cưới của vợ chồng mình. Mọi
+                            khâu âm thanh, ánh sáng và hoa tươi đều hoàn hảo vượt mong đợi!"</p>
+                        <div class="author">
+                            <strong>Anh Minh & Chị Mai</strong>
+                            <span>Khách hàng Tiệc Cưới</span>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p class="quote">"Sự kiện Gala 10 Năm của tập đoàn chúng tôi diễn ra cực kỳ suôn sẻ. Hệ thống
+                            check-in QR và màn hình LED 4K vô cùng ấn tượng."</p>
+                        <div class="author">
+                            <strong>Ông Trần Văn Nam</strong>
+                            <span>Giám đốc MKT Tập đoàn TechCorp</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT FORM SECTION -->
+        <section class="contact-section" id="contact">
+            <div class="section-container">
+                <div class="contact-card">
+                    <div class="contact-info-side">
+                        <p class="eyebrow">KẾT NỐI VỚI CHÚNG TÔI</p>
+                        <h2>Sẵn Sàng Cho Sự Kiện Đáng Nhớ Của Bạn?</h2>
+                        <p>Hãy gửi thông tin cho LV34. Chuyên viên tư vấn sự kiện của chúng tôi sẽ liên hệ và gửi bản kế
+                            hoạch chi tiết trong vòng 15 phút!</p>
+
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <span class="icon">📍</span>
+                                <div>
+                                    <strong>Địa chỉ văn phòng:</strong>
+                                    <p>Tòa nhà LV34 Tower, Đường 3/2, Quận 10, TP. Hồ Chí Minh</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <span class="icon">📞</span>
+                                <div>
+                                    <strong>Hotline tư vấn 24/7:</strong>
+                                    <p>0908 123 456 - 028 38 888 999</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <span class="icon">✉️</span>
+                                <div>
+                                    <strong>Email hỗ trợ:</strong>
+                                    <p>contact@lv34events.vn</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-side">
+                        <form id="publicContactForm" class="contact-form">
+                            <h3>Đăng Ký Tư Vấn Nhanh</h3>
+                            <div class="form-group">
+                                <label for="contactName">Họ và tên *</label>
+                                <input type="text" id="contactName" name="name" placeholder="Nguyễn Văn A" required />
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contactPhone">Số điện thoại *</label>
+                                    <input type="tel" id="contactPhone" name="phone" placeholder="0901234567"
+                                        required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactEmail">Email</label>
+                                    <input type="email" id="contactEmail" name="email"
+                                        placeholder="example@gmail.com" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactEventType">Loại sự kiện & Ngày dự kiến</label>
+                                <input type="text" id="contactEventType" name="eventType"
+                                    placeholder="Ví dụ: Tiệc cưới ngày 15/10/2026" />
+                            </div>
+                            <div class="form-group">
+                                <label for="contactMessage">Yêu cầu chi tiết</label>
+                                <textarea id="contactMessage" name="message" rows="3"
+                                    placeholder="Ghi chú thêm về quy mô, ngân sách dự kiến..."></textarea>
+                            </div>
+                            <p id="contactSuccessMsg" class="form-success-alert" hidden></p>
+                            <button type="submit" class="btn btn-primary btn-block">Gửi Yêu Cầu Tư Vấn →</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="home-footer">
+            <div class="section-container footer-content">
+                <div class="footer-brand-col">
+                    <div class="nav-brand">
+                        <span class="brand-icon">◒</span>
+                        <span class="brand-text">LV34 <span>EVENTS</span></span>
+                    </div>
+                    <p>Hệ thống quản lý và tổ chức sự kiện chuyên nghiệp hàng đầu. Kiến tạo những trải nghiệm độc đáo và
+                        dịch vụ hoàn hảo.</p>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Liên kết nhanh</h4>
+                    <ul>
+                        <li><a href="index.html">Trang chủ</a></li>
+                        <li><a href="services.html">Dịch vụ tổ chức</a></li>
+                        <li><a href="calculator.html">Công cụ tính chi phí</a></li>
+                        <li><a href="gallery.html">Thư viện sự kiện</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Tài khoản & Hệ thống</h4>
+                    <ul>
+                        <li><a href="login.html">Đăng nhập Quản trị</a></li>
+                        <li><a href="register.html">Đăng ký tài khoản</a></li>
+                        <li><a href="admin.html">Bảng điều khiển (Admin)</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 LV34 Event Operations. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Script riêng cho Trang chủ -->
+    <script src="js/home.js"></script>
+</body>
+
+</html>

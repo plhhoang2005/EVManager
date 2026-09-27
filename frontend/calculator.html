@@ -1,0 +1,186 @@
+<!-- Module Tính chi phí (calculator.js)
+ * Xử lý tương tác trên trang calculator.html
+ -->
+    
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công Cụ Tính Chi Phí Sự Kiện - LV34 Event Operations</title>
+    <meta name="description" content="Ước tính ngân sách dự kiến cho sự kiện tiệc cưới, hội nghị, sinh nhật, liveshow chính xác trong 3 giây.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="home-wrapper">
+        <!-- HEADER / NAVBAR -->
+        <header class="home-navbar" id="topNavbar">
+            <div class="nav-container">
+                <a href="index.html" class="nav-brand">
+                    <span class="brand-icon">◒</span>
+                    <span class="brand-text">LV34 <span>EVENTS</span></span>
+                </a>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link">Trang chủ</a>
+                    <a href="services.html" class="nav-link">Dịch vụ</a>
+                    <a href="calculator.html" class="nav-link active">Tính chi phí</a>
+                    <a href="gallery.html" class="nav-link">Sự kiện tiêu biểu</a>
+                    <a href="schedule.html" class="nav-link">Lịch sắp tới</a>
+                    <a href="contact.html" class="nav-link">Liên hệ</a>
+                </nav>
+
+                <div class="nav-actions" id="navActions">
+                    <a href="login.html" class="btn btn-outline btn-sm">Đăng nhập</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">Đăng ký</a>
+                    <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGE BANNER -->
+        <section class="hero-section" style="padding: 50px 0 30px;">
+            <div class="section-container" style="padding: 0; text-align: center;">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    <span>DỰ TRÙ NGÂN SÁCH TỰ ĐỘNG</span>
+                </div>
+                <h1 class="hero-title" style="font-size: 3rem; margin-bottom: 16px;">
+                    Công Cụ Tính <span>Chi Phí Sự Kiện Nhanh</span>
+                </h1>
+                <p class="section-subtitle">
+                    Tùy chỉnh thông số quy mô, loại hình và các dịch vụ đi kèm để nhận báo giá dự kiến tức thì.
+                </p>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE COST CALCULATOR SECTION -->
+        <section class="calculator-section" style="padding: 40px 0 80px;">
+            <div class="section-container">
+                <div class="calc-card">
+                    <div class="calc-grid">
+                        <div class="calc-inputs">
+                            <!-- Step 1: Loại sự kiện -->
+                            <div class="calc-group">
+                                <label class="calc-label">1. Loại hình sự kiện</label>
+                                <div class="calc-options" id="eventTypeGroup">
+                                    <button class="calc-opt-btn active" data-type="wedding" data-base="40000000">💒 Tiệc cưới</button>
+                                    <button class="calc-opt-btn" data-type="corporate" data-base="30000000">👔 Hội nghị / Gala</button>
+                                    <button class="calc-opt-btn" data-type="birthday" data-base="15000000">🎂 Sinh nhật / Kỷ niệm</button>
+                                    <button class="calc-opt-btn" data-type="concert" data-base="90000000">🎵 Concert / Festival</button>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Số lượng khách -->
+                            <div class="calc-group">
+                                <div class="calc-label-row">
+                                    <label class="calc-label" for="guestRange">2. Quy mô khách mời</label>
+                                    <span class="calc-value-badge" id="guestCountVal">150 khách</span>
+                                </div>
+                                <input type="range" id="guestRange" min="20" max="1000" step="10" value="150" class="calc-slider" />
+                            </div>
+
+                            <!-- Step 3: Hạng mục dịch vụ đi kèm -->
+                            <div class="calc-group">
+                                <label class="calc-label">3. Hạng mục bổ sung</label>
+                                <div class="calc-checkboxes">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" id="optStage" value="15000000" checked />
+                                        <span>Sân khấu & Màn LED HD (+15 triệu)</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" id="optSound" value="12000000" checked />
+                                        <span>Âm thanh & Ánh sáng cao cấp (+12 triệu)</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" id="optMC" value="8000000" />
+                                        <span>MC & Vũ đoàn biểu diễn (+8 triệu)</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" id="optMedia" value="10000000" checked />
+                                        <span>Quay phim 4K & Chụp ảnh Flycam (+10 triệu)</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="calc-result-box">
+                            <div class="result-card">
+                                <span class="result-badge">Ước tính ngân sách</span>
+                                <div class="result-amount" id="totalEstimatePrice">67.000.000 VNĐ</div>
+                                <p class="result-note">* Giá chưa bao gồm VAT và địa điểm. Đã bao gồm trọn gói nhân sự kỹ thuật & chi phí vận chuyển trong nội thành.</p>
+                                
+                                <hr class="result-divider" />
+
+                                <div class="result-breakdown">
+                                    <div class="bd-row">
+                                        <span>Phí gói cơ bản:</span>
+                                        <strong id="basePriceLabel">40.000.000đ</strong>
+                                    </div>
+                                    <div class="bd-row">
+                                        <span>Phụ thu số lượng khách:</span>
+                                        <strong id="guestPriceLabel">15.000.000đ</strong>
+                                    </div>
+                                    <div class="bd-row">
+                                        <span>Dịch vụ bổ sung:</span>
+                                        <strong id="addonPriceLabel">37.000.000đ</strong>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary btn-block margin-top" id="calcSubmitBtn">
+                                    📩 Nhận Báo Giá Chi Tiết Qua Email
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="home-footer">
+            <div class="section-container footer-content">
+                <div class="footer-brand-col">
+                    <div class="nav-brand">
+                        <span class="brand-icon">◒</span>
+                        <span class="brand-text">LV34 <span>EVENTS</span></span>
+                    </div>
+                    <p>Hệ thống quản lý và tổ chức sự kiện chuyên nghiệp hàng đầu. Kiến tạo những trải nghiệm độc đáo và dịch vụ hoàn hảo.</p>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Liên kết nhanh</h4>
+                    <ul>
+                        <li><a href="index.html">Trang chủ</a></li>
+                        <li><a href="services.html">Dịch vụ tổ chức</a></li>
+                        <li><a href="calculator.html">Công cụ tính chi phí</a></li>
+                        <li><a href="gallery.html">Thư viện sự kiện</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Tài khoản & Hệ thống</h4>
+                    <ul>
+                        <li><a href="login.html">Đăng nhập Quản trị</a></li>
+                        <li><a href="register.html">Đăng ký tài khoản</a></li>
+                        <li><a href="admin.html">Bảng điều khiển (Admin)</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 LV34 Event Operations. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Script riêng cho trang Tính chi phí -->
+    <script src="js/calculator.js"></script>
+</body>
+</html>

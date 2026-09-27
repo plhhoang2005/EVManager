@@ -1,0 +1,153 @@
+<!-- Module Thư viện sự kiện (gallery.js)
+ * Xử lý tương tác trên trang gallery.html
+ -->
+ 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sự Kiện Tiêu Biểu - LV34 Event Operations</title>
+    <meta name="description" content="Thư viện hình ảnh các dự án sự kiện thực tế: Tiệc cưới hoàng gia, Hội nghị công nghệ, Liveshow âm nhạc.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="home-wrapper">
+        <!-- HEADER / NAVBAR -->
+        <header class="home-navbar" id="topNavbar">
+            <div class="nav-container">
+                <a href="index.html" class="nav-brand">
+                    <span class="brand-icon">◒</span>
+                    <span class="brand-text">LV34 <span>EVENTS</span></span>
+                </a>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link">Trang chủ</a>
+                    <a href="services.html" class="nav-link">Dịch vụ</a>
+                    <a href="calculator.html" class="nav-link">Tính chi phí</a>
+                    <a href="gallery.html" class="nav-link active">Sự kiện tiêu biểu</a>
+                    <a href="schedule.html" class="nav-link">Lịch sắp tới</a>
+                    <a href="contact.html" class="nav-link">Liên hệ</a>
+                </nav>
+
+                <div class="nav-actions" id="navActions">
+                    <a href="login.html" class="btn btn-outline btn-sm">Đăng nhập</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">Đăng ký</a>
+                    <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGE BANNER -->
+        <section class="hero-section" style="padding: 50px 0 30px;">
+            <div class="section-container" style="padding: 0; text-align: center;">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    <span>THƯ VIỆN DỰ ÁN THỰC TẾ</span>
+                </div>
+                <h1 class="hero-title" style="font-size: 3rem; margin-bottom: 16px;">
+                    Hình Ảnh <span>Sự Kiện Tiêu Biểu</span>
+                </h1>
+                <p class="section-subtitle">
+                    Khám phá hình ảnh và thông tin chi tiết từ các sự kiện quy mô do LV34 thiết kế và thực thi.
+                </p>
+            </div>
+        </section>
+
+        <!-- GALLERY SECTION -->
+        <section class="gallery-section" style="padding: 40px 0 80px;">
+            <div class="section-container">
+                <div class="section-header space-between" style="margin-bottom: 30px;">
+                    <div>
+                        <p class="eyebrow">BỘ SƯU TẬP DỰ ÁN</p>
+                        <h2 class="section-title">Hình Ảnh Thực Tế</h2>
+                    </div>
+                    <div class="gallery-filters" id="galleryFilters">
+                        <button class="filter-btn active" data-filter="all">Tất cả</button>
+                        <button class="filter-btn" data-filter="wedding">Tiệc cưới</button>
+                        <button class="filter-btn" data-filter="corporate">Hội nghị</button>
+                    </div>
+                </div>
+
+                <div class="gallery-grid" id="galleryGrid">
+                    <div class="gallery-item" data-category="wedding">
+                        <img src="images/wedding.jpg" alt="Lễ cưới Hoàng Gia tại GEM Center" />
+                        <div class="item-overlay">
+                            <div>
+                                <h4>Lễ Cưới Hoàng Gia</h4>
+                                <p>GEM Center • 500 Khách</p>
+                            </div>
+                            <span class="zoom-icon">🔍</span>
+                        </div>
+                    </div>
+                    <div class="gallery-item" data-category="corporate">
+                        <img src="images/corporate.jpg" alt="Hội Nghị Tech Summit 2026" />
+                        <div class="item-overlay">
+                            <div>
+                                <h4>Global Tech Summit 2026</h4>
+                                <p>White Palace • 800 Khách</p>
+                            </div>
+                            <span class="zoom-icon">🔍</span>
+                        </div>
+                    </div>
+                    <div class="gallery-item" data-category="wedding">
+                        <img src="images/hero_banner.jpg" alt="Gala & Liveshow Âm Nhạc Trực Tiếp" />
+                        <div class="item-overlay">
+                            <div>
+                                <h4>Liveshow Âm Nhạc Đêm Hội</h4>
+                                <p>Sân vận động Quân Khu 7 • 3000 Khách</p>
+                            </div>
+                            <span class="zoom-icon">🔍</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="home-footer">
+            <div class="section-container footer-content">
+                <div class="footer-brand-col">
+                    <div class="nav-brand">
+                        <span class="brand-icon">◒</span>
+                        <span class="brand-text">LV34 <span>EVENTS</span></span>
+                    </div>
+                    <p>Hệ thống quản lý và tổ chức sự kiện chuyên nghiệp hàng đầu. Kiến tạo những trải nghiệm độc đáo và dịch vụ hoàn hảo.</p>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Liên kết nhanh</h4>
+                    <ul>
+                        <li><a href="index.html">Trang chủ</a></li>
+                        <li><a href="services.html">Dịch vụ tổ chức</a></li>
+                        <li><a href="calculator.html">Công cụ tính chi phí</a></li>
+                        <li><a href="gallery.html">Thư viện sự kiện</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Tài khoản & Hệ thống</h4>
+                    <ul>
+                        <li><a href="login.html">Đăng nhập Quản trị</a></li>
+                        <li><a href="register.html">Đăng ký tài khoản</a></li>
+                        <li><a href="admin.html">Bảng điều khiển (Admin)</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 LV34 Event Operations. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Script riêng cho trang Thư viện sự kiện -->
+    <script src="js/gallery.js"></script>
+</body>
+</html>
