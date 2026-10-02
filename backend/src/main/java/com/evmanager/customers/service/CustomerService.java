@@ -39,22 +39,25 @@ public class CustomerService {
 
     @Transactional
     public CustomerResponse createCustomer(CustomerCreateRequest request) {
-        if (request.getPhone() == null && request.getEmail() == null) {
+        boolean hasPhone = request.getPhone() != null && !request.getPhone().trim().isEmpty();
+        boolean hasEmail = request.getEmail() != null && !request.getEmail().trim().isEmpty();
+        
+        if (!hasPhone && !hasEmail) {
             throw new IllegalArgumentException("Customer must have either a phone number or an email");
         }
         
-        if (request.getPhone() != null && customerRepository.findByPhone(request.getPhone()).isPresent()) {
+        if (hasPhone && customerRepository.findByPhone(request.getPhone().trim()).isPresent()) {
             throw new ResourceConflictException("Phone number already exists");
         }
-        if (request.getEmail() != null && customerRepository.findByEmail(request.getEmail()).isPresent()) {
+        if (hasEmail && customerRepository.findByEmailIgnoreCase(request.getEmail().trim()).isPresent()) {
             throw new ResourceConflictException("Email already exists");
         }
 
         Customer customer = new Customer();
-        customer.setFullName(request.getFullName());
-        customer.setPhone(request.getPhone());
-        customer.setEmail(request.getEmail());
-        customer.setAddress(request.getAddress());
+        customer.setFullName(request.getFullName().trim());
+        customer.setPhone(hasPhone ? request.getPhone().trim() : null);
+        customer.setEmail(hasEmail ? request.getEmail().trim().toLowerCase() : null);
+        customer.setAddress(request.getAddress() != null && !request.getAddress().trim().isEmpty() ? request.getAddress().trim() : null);
 
         return mapToResponse(customerRepository.save(customer));
     }
@@ -64,24 +67,27 @@ public class CustomerService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found with ID: " + customerId));
 
-        if (request.getPhone() == null && request.getEmail() == null) {
+        boolean hasPhone = request.getPhone() != null && !request.getPhone().trim().isEmpty();
+        boolean hasEmail = request.getEmail() != null && !request.getEmail().trim().isEmpty();
+
+        if (!hasPhone && !hasEmail) {
             throw new IllegalArgumentException("Customer must have either a phone number or an email");
         }
 
-        if (request.getPhone() != null && !request.getPhone().equals(customer.getPhone()) 
-                && customerRepository.findByPhone(request.getPhone()).isPresent()) {
+        if (hasPhone && !request.getPhone().trim().equals(customer.getPhone()) 
+                && customerRepository.findByPhone(request.getPhone().trim()).isPresent()) {
             throw new ResourceConflictException("Phone number already exists");
         }
         
-        if (request.getEmail() != null && !request.getEmail().equals(customer.getEmail()) 
-                && customerRepository.findByEmail(request.getEmail()).isPresent()) {
+        if (hasEmail && !request.getEmail().trim().equalsIgnoreCase(customer.getEmail()) 
+                && customerRepository.findByEmailIgnoreCase(request.getEmail().trim()).isPresent()) {
             throw new ResourceConflictException("Email already exists");
         }
 
-        customer.setFullName(request.getFullName());
-        customer.setPhone(request.getPhone());
-        customer.setEmail(request.getEmail());
-        customer.setAddress(request.getAddress());
+        customer.setFullName(request.getFullName().trim());
+        customer.setPhone(hasPhone ? request.getPhone().trim() : null);
+        customer.setEmail(hasEmail ? request.getEmail().trim().toLowerCase() : null);
+        customer.setAddress(request.getAddress() != null && !request.getAddress().trim().isEmpty() ? request.getAddress().trim() : null);
 
         return mapToResponse(customerRepository.save(customer));
     }
@@ -91,7 +97,11 @@ public class CustomerService {
         if (!customerRepository.existsById(customerId)) {
             throw new ResourceNotFoundException("Customer not found with ID: " + customerId);
         }
-        customerRepository.deleteById(customerId);
+        try {
+            customerRepository.deleteById(customerId);
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            throw new com.evmanager.exception.ResourceConflictException("Cannot delete customer because they have related contracts or events");
+        }
     }
 
     private CustomerResponse mapToResponse(Customer customer) {

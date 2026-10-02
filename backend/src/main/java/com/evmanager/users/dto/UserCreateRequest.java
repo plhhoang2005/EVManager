@@ -11,6 +11,7 @@ public class UserCreateRequest {
 
     @NotBlank(message = "Username cannot be blank")
     @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
+    @Pattern(regexp = "^[a-zA-Z0-9_]{3,50}$", message = "Username can only contain letters, numbers, and underscores")
     private String username;
 
     @NotBlank(message = "Password cannot be blank")
@@ -26,6 +27,7 @@ public class UserCreateRequest {
     @NotBlank(message = "Full name cannot be blank")
     private String fullName;
 
+    @Pattern(regexp = "^(0|\\+84)[0-9]{9}$", message = "Invalid phone number format")
     private String phone;
 
     @NotBlank(message = "Role name cannot be blank")

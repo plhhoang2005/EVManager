@@ -13,8 +13,13 @@ import java.time.OffsetDateTime;
 @Repository
 public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
 
-    @Query("SELECT a FROM AuditLog a " +
+    @Query(value = "SELECT a FROM AuditLog a " +
            "LEFT JOIN FETCH a.user " +
+           "WHERE (:action IS NULL OR a.action = :action) " +
+           "AND (:entityType IS NULL OR a.entityType = :entityType) " +
+           "AND (cast(:fromDate as timestamp) IS NULL OR a.occurredAt >= :fromDate) " +
+           "AND (cast(:toDate as timestamp) IS NULL OR a.occurredAt <= :toDate)",
+           countQuery = "SELECT count(a) FROM AuditLog a " +
            "WHERE (:action IS NULL OR a.action = :action) " +
            "AND (:entityType IS NULL OR a.entityType = :entityType) " +
            "AND (cast(:fromDate as timestamp) IS NULL OR a.occurredAt >= :fromDate) " +

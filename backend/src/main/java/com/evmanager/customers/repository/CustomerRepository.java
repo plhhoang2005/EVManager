@@ -15,7 +15,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     
     Optional<Customer> findByPhone(String phone);
     
-    Optional<Customer> findByEmail(String email);
+    Optional<Customer> findByEmailIgnoreCase(String email);
 
     @Query("SELECT c FROM Customer c WHERE " +
            "(:keyword IS NULL OR LOWER(c.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
