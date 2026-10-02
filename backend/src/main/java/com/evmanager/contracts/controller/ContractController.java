@@ -16,11 +16,47 @@ import org.springframework.web.bind.annotation.*;
 public class ContractController {
 
     private final ContractService contractService;
+    private final com.evmanager.contracts.service.ContractLifecycleService contractLifecycleService;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'SALES')")
     public ResponseEntity<ContractResponse> createContract(@Valid @RequestBody ContractRequest request) {
         ContractResponse response = contractService.createContract(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{id}/actions/approve")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> approveContract(@PathVariable Long id) {
+        contractLifecycleService.approveContract(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/actions/reject")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> rejectContract(@PathVariable Long id) {
+        contractLifecycleService.rejectContract(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/actions/cancel")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SALES')")
+    public ResponseEntity<Void> cancelContract(@PathVariable Long id) {
+        contractLifecycleService.cancelContract(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/actions/start")
+    @PreAuthorize("hasAnyRole('ADMIN', 'COORDINATOR')")
+    public ResponseEntity<Void> startContract(@PathVariable Long id) {
+        contractLifecycleService.startContract(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/actions/complete")
+    @PreAuthorize("hasAnyRole('ADMIN', 'COORDINATOR')")
+    public ResponseEntity<Void> completeContract(@PathVariable Long id) {
+        contractLifecycleService.completeContract(id);
+        return ResponseEntity.ok().build();
     }
 }
