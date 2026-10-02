@@ -18,6 +18,9 @@ class EvmanagerApplicationTests {
     private com.evmanager.customers.repository.CustomerRepository customerRepository;
 
     @org.springframework.boot.test.mock.mockito.MockBean
+    private com.evmanager.payments.repository.PaymentRepository paymentRepository;
+
+    @org.springframework.boot.test.mock.mockito.MockBean
     private com.evmanager.audit.repository.AuditLogRepository auditLogRepository;
 
     @org.springframework.boot.test.mock.mockito.MockBean
