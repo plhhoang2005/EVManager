@@ -2,7 +2,6 @@ package com.evmanager.contracts.model;
 
 import com.evmanager.customers.model.Customer;
 import com.evmanager.events.model.Event;
-import com.evmanager.menus.model.Menu;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,9 +33,6 @@ public class Contract {
     @JoinColumn(name = "event_id", nullable = false, unique = true)
     private Event event;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_id")
-    private Menu menu;
 
     @Column(name = "contract_code", nullable = false, unique = true, length = 50)
     private String contractCode;
@@ -56,6 +52,12 @@ public class Contract {
     @Column(name = "total_amount", nullable = false, precision = 18, scale = 2)
     private BigDecimal totalAmount = BigDecimal.ZERO;
 
+    @Column(name = "deposit_amount", nullable = false, precision = 18, scale = 2)
+    private BigDecimal depositAmount = BigDecimal.ZERO;
+
+    @Column(name = "backup_table_count", nullable = false)
+    private Integer backupTableCount = 0;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 30)
     private ContractStatus status = ContractStatus.DRAFT;
@@ -63,6 +65,8 @@ public class Contract {
     @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContractService> contractServices = new ArrayList<>();
 
+    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ContractMenu> contractMenus = new ArrayList<>();
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
@@ -74,5 +78,10 @@ public class Contract {
     public void addContractService(ContractService cs) {
         contractServices.add(cs);
         cs.setContract(this);
+    }
+
+    public void addContractMenu(ContractMenu cm) {
+        contractMenus.add(cm);
+        cm.setContract(this);
     }
 }

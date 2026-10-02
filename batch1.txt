@@ -1,0 +1,155 @@
+
+--- 113.md ---
+[Backend] BE-16: Phát triển Module Dishes & Menu: API Quản lý món ăn và danh mục thực đơn
+
+### 🎯 Mục tiêu
+
+Phát triển Module Dishes & Menu: API Quản lý danh mục món ăn và bộ thực đơn tiệc cưới.
+
+
+
+### 📋 Checklist công việc
+
+- [ ] Tạo bảng `dishes` và bảng trung gian `menu_dishes` trong JPA Entity.
+
+- [ ] Viết API `GET /api/dishes`: Lấy danh sách món ăn, hỗ trợ lọc theo thể loại (Khai vị, Món chính, Tráng miệng, Đồ uống).
+
+- [ ] Viết API `POST /api/menus`: Tạo set menu mẫu mới kèm danh sách mã món ăn và đơn giá bàn trọn gói.
+
+- [ ] Viết API `GET /api/menus/:id`: Xem chi tiết các món ăn có trong một set menu.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn: `backend/src/dishes/` và `backend/src/menus/`.
+
+- Kiểm tra các endpoint hoạt động chính xác trên Postman.
+
+
+
+**Deadline:** 11/10/2026
+
+
+
+--- 114.md ---
+[Backend] BE-17: Phát triển Module Services: API Quản lý danh mục gói dịch vụ tiệc cưới
+
+### 🎯 Mục tiêu
+Phát triển Module Services: API Quản lý danh mục các gói dịch vụ gia tăng tiệc cưới.
+
+### 📋 Checklist công việc
+- [ ] Tạo bảng `services` (MC, Ban nhạc, Hoa tươi, Tháp rượu, Pháo kim tuyến) kèm đơn giá và đơn vị tính.
+- [ ] Viết API `GET /api/services`: Lấy danh sách dịch vụ đang hoạt động phục vụ màn hình chọn dịch vụ.
+- [ ] Viết API `POST /api/services`: Thêm mới gói dịch vụ tùy chọn.
+- [ ] Viết API `PATCH /api/services/:id`: Cập nhật đơn giá hoặc trạng thái tạm ngừng cung cấp dịch vụ.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn: `backend/src/services-catalog/`.
+- Tích hợp API với màn hình chọn dịch vụ của Frontend.
+
+**Deadline:** 11/10/2026
+
+
+--- 115.md ---
+[Backend] BE-18: Phát triển Module Contracts: API Tạo đơn đặt tiệc, tính chi phí và chiết khấu
+
+### 🎯 Mục tiêu
+Phát triển Module Contracts: API Tạo đơn đặt tiệc, tính toán tổng chi phí và sinh mã hợp đồng tự động.
+
+### 📋 Checklist công việc
+- [ ] Viết DTO `CreateContractDto` nhận: customerId, venueId, eventDate, shift, tableCount, menuId, serviceIds, discountPercent.
+- [ ] Tự động tính toán chi phí: $Tổng = (Số bàn \times Giá bàn) + Tổng tiền dịch vụ - Tiền giảm giá + VAT$.
+- [ ] Tự động sinh mã hợp đồng duy nhất theo quy tắc: `HD-YYYYMMDD-STT` (VD: `HD-20261010-001`).
+- [ ] Trước khi tạo hợp đồng, gọi Conflict Checker để khóa giữ sảnh tiệc tức thì.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn: `backend/src/contracts/` controller và service.
+- Kiểm tra tính toán tiền chính xác tuyệt đối không bị lỗi làm tròn số.
+
+**Deadline:** 11/10/2026
+
+
+--- 116.md ---
+[Backend] BE-19: Xây dựng State Machine quản lý vòng đời hợp đồng (Draft -> Confirmed -> Completed)
+
+### 🎯 Mục tiêu
+
+Xây dựng State Machine quản lý nghiêm ngặt vòng đời của Hợp đồng tiệc cưới (Contract Lifecycle).
+
+
+
+### 📋 Checklist công việc
+
+- [ ] Định nghĩa enum ContractStatus: `DRAFT` (Bản thảo) -> `PENDING_DEPOSIT` (Chờ cọc) -> `CONFIRMED` (Đã cọc) -> `IN_PROGRESS` (Đang tổ chức) -> `COMPLETED` (Đã thanh lý) -> `CANCELLED` (Đã hủy).
+
+- [ ] Viết logic kiểm tra điều kiện chuyển trạng thái: Chỉ được chuyển sang `CONFIRMED` khi số tiền cọc $\ge 30\%$.
+
+- [ ] Chặn cập nhật thực đơn hoặc số bàn đối với hợp đồng đã ở trạng thái `COMPLETED` hoặc `CANCELLED`.
+
+- [ ] Tự động giải phóng sảnh tiệc khi hợp đồng bị chuyển sang trạng thái `CANCELLED`.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn: `backend/src/contracts/contract-state-machine.java`.
+
+- Viết unit test kiểm thử các bước chuyển trạng thái hợp lệ và bất hợp lệ.
+
+
+
+**Deadline:** 11/10/2026
+
+
+
+--- 117.md ---
+[Backend] BE-20: Phát triển Module Payments: API Ghi nhận tiền đặt cọc đợt 1 và thanh toán đợt 2
+
+### 🎯 Mục tiêu
+Phát triển Module Payments: API Ghi nhận đặt cọc đợt 1 và quyết toán đợt 2 của hợp đồng.
+
+### 📋 Checklist công việc
+- [ ] Tạo bảng `payments`: contractId, amount, paymentDate, paymentMethod (CASH, BANK_TRANSFER, POS), paymentType (DEPOSIT, FINAL), notes.
+- [ ] Viết API `POST /api/payments`: Ghi nhận giao dịch nộp tiền, tự động cập nhật số tiền đã trả và công nợ còn lại trong bảng contracts.
+- [ ] Viết API `GET /api/contracts/:id/payments`: Lấy lịch sử toàn bộ các lần thanh toán của một hợp đồng.
+- [ ] Chặn ghi nhận thanh toán vượt quá tổng giá trị hợp đồng cần thu.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn: `backend/src/payments/` controller và service.
+- Kiểm tra đồng bộ số dư công nợ sau mỗi lần nạp tiền.
+
+**Deadline:** 11/10/2026
+
+
+--- 118.md ---
+[Backend] BE-21: Xây dựng Database Transaction đảm bảo tính nguyên tử khi tạo Hợp đồng & Cọc
+
+### 🎯 Mục tiêu
+
+Xây dựng Database Transaction đảm bảo tính toàn vẹn (ACID) khi đồng thời tạo Hợp đồng, giữ sảnh và thu cọc.
+
+
+
+### 📋 Checklist công việc
+
+- [ ] Sử dụng tính năng `JPA / Hibernate.$transaction()` để bọc toàn bộ thao tác tạo hợp đồng và cập nhật trạng thái sảnh.
+
+- [ ] Áp dụng cơ chế khóa dữ liệu (Pessimistic Lock / Serialized Transaction) để chống tình trạng Race Condition khi 2 tư vấn viên cùng bấm giữ sảnh cùng 1 giây.
+
+- [ ] Nếu có bất kỳ bước nào thất bại (VD: lỗi thanh toán), tự động Rollback toàn bộ dữ liệu về trạng thái ban đầu.
+
+- [ ] Ghi log chi tiết các trường hợp giao dịch bị Rollback để theo dõi.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn xử lý Transaction trong `ContractsService.createContractWithTransaction()`.
+
+- Viết kịch bản test giả lập 2 request đồng thời để kiểm tra tính toàn vẹn.
+
+
+
+**Deadline:** 11/10/2026
+

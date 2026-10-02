@@ -21,6 +21,7 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping("/calendar")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('ADMIN', 'SALES', 'COORDINATOR')")
     public ResponseEntity<List<CalendarEventResponse>> getEventsForCalendar(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime start,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime end) {

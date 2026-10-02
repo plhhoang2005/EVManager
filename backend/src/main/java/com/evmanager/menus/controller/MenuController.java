@@ -20,14 +20,14 @@ public class MenuController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MenuResponse> createMenu(@Valid @RequestBody MenuRequest request) {
         MenuResponse response = menuService.createMenu(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SALES', 'COORDINATOR', 'CUSTOMER')")
     public ResponseEntity<MenuResponse> getMenuById(@PathVariable Long id) {
         MenuResponse response = menuService.getMenuById(id);
         return ResponseEntity.ok(response);

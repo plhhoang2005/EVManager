@@ -1,0 +1,1 @@
+﻿{"mcpServers": {"evmanager-tools": {"command": "c:\\Users\\ASUS\\Desktop\\EVManager\\.agents\\evm-mcp\\venv\\Scripts\\python.exe", "args": ["-u", "c:\\Users\\ASUS\\Desktop\\EVManager\\.agents\\evm-mcp\\server.py"], "env": {}}}}

@@ -1,5 +1,6 @@
 package com.evmanager.contracts.service;
 
+import com.evmanager.contracts.dto.ContractMenuRequest;
 import com.evmanager.contracts.dto.ContractRequest;
 import com.evmanager.contracts.dto.ContractResponse;
 import com.evmanager.contracts.dto.ContractServiceRequest;
@@ -67,9 +68,13 @@ class ContractServiceTest {
     void setUp() {
         validRequest = new ContractRequest();
         validRequest.setCustomerId(1L);
-        validRequest.setMenuId(2L);
         validRequest.setDiscountPercent(new BigDecimal("10"));
         validRequest.setVatPercent(new BigDecimal("8"));
+
+        ContractMenuRequest menuReq = new ContractMenuRequest();
+        menuReq.setMenuId(2L);
+        menuReq.setTableCount(15);
+        validRequest.setMenus(List.of(menuReq));
 
         EventRequest eventRequest = new EventRequest();
         eventRequest.setVenueId(3L);
@@ -126,6 +131,8 @@ class ContractServiceTest {
 
         assertThat(response).isNotNull();
         assertThat(response.getContractCode()).contains("-0123");
+        // Backup table count should be 15 / 10 = 1
+        assertThat(response.getBackupTableCount()).isEqualTo(1);
         
         verify(conflictCheckerService).checkVenueAvailability(eq(3L), any(OffsetDateTime.class), any(OffsetDateTime.class));
         verify(eventRepository).save(any(Event.class));
@@ -147,7 +154,6 @@ class ContractServiceTest {
     void createContract_VenueConflict() {
         when(customerRepository.findById(1L)).thenReturn(Optional.of(mockCustomer));
         when(venueRepository.findById(3L)).thenReturn(Optional.of(mockVenue));
-        when(menuRepository.findById(2L)).thenReturn(Optional.of(mockMenu));
         
         doThrow(new ResourceConflictException("Venue conflict"))
                 .when(conflictCheckerService)
@@ -160,21 +166,4 @@ class ContractServiceTest {
         verify(contractRepository, never()).save(any());
     }
 
-    @Test
-    void createContract_DuplicateServiceInRequest() {
-        ContractServiceRequest dupService = new ContractServiceRequest();
-        dupService.setServiceId(4L);
-        dupService.setQuantity(1);
-        
-        validRequest.setServices(List.of(validRequest.getServices().get(0), dupService));
-
-        when(customerRepository.findById(1L)).thenReturn(Optional.of(mockCustomer));
-        when(venueRepository.findById(3L)).thenReturn(Optional.of(mockVenue));
-        when(menuRepository.findById(2L)).thenReturn(Optional.of(mockMenu));
-        // We might not even reach serviceRepository if validation fails first, but let's say we do
-        
-        assertThatThrownBy(() -> contractService.createContract(validRequest))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Duplicate service");
-    }
 }

@@ -18,7 +18,7 @@ public class ContractController {
     private final ContractService contractService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SALES')")
     public ResponseEntity<ContractResponse> createContract(@Valid @RequestBody ContractRequest request) {
         ContractResponse response = contractService.createContract(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

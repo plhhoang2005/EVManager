@@ -15,7 +15,7 @@ public class ContractResponse {
     private Long contractId;
     private Long customerId;
     private Long eventId;
-    private Long menuId;
+    private Integer backupTableCount;
     private String contractCode;
     private LocalDate contractDate;
     
@@ -23,9 +23,11 @@ public class ContractResponse {
     private BigDecimal discountPercent;
     private BigDecimal vatPercent;
     private BigDecimal totalAmount;
+    private BigDecimal depositAmount;
     
     private ContractStatus status;
     private List<ContractServiceResponse> services;
+    private List<ContractMenuResponse> menus;
     
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;

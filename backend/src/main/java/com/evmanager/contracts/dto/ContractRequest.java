@@ -19,8 +19,8 @@ public class ContractRequest {
     @NotNull(message = "Event information is required")
     private EventRequest event;
 
-    private Long menuId;
-
+    @Valid
+    private List<ContractMenuRequest> menus;
     @Valid
     private List<ContractServiceRequest> services;
 

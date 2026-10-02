@@ -25,7 +25,7 @@ public class ServiceController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SALES', 'COORDINATOR', 'CUSTOMER')")
     public ResponseEntity<Page<ServiceResponse>> getServices(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -40,14 +40,14 @@ public class ServiceController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ServiceResponse> createService(@Valid @RequestBody ServiceRequest request) {
         ServiceResponse response = serviceService.createService(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ServiceResponse> updateService(
             @PathVariable Long id, 
             @Valid @RequestBody ServiceUpdateRequest request) {

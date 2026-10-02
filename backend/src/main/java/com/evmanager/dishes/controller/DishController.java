@@ -21,7 +21,7 @@ public class DishController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SALES', 'COORDINATOR', 'CUSTOMER')")
     public ResponseEntity<Page<DishResponse>> getDishes(
             @RequestParam(required = false) String category,
             @RequestParam(defaultValue = "0") int page,

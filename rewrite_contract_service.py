@@ -1,4 +1,4 @@
-package com.evmanager.contracts.service;
+content = """package com.evmanager.contracts.service;
 
 import com.evmanager.contracts.dto.ContractRequest;
 import com.evmanager.contracts.dto.ContractResponse;
@@ -179,3 +179,7 @@ public class ContractService {
                 .build();
     }
 }
+"""
+
+with open('backend/src/main/java/com/evmanager/contracts/service/ContractService.java', 'w', encoding='utf-8') as f:
+    f.write(content)
