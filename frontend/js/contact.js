@@ -3,46 +3,25 @@
  * Xử lý tự động điền dịch vụ và gửi form liên hệ trên trang contact.html
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const currentUser = sessionStorage.getItem('currentUser');
     const navActions = document.getElementById('navActions');
 
-    if (navActions && currentUser) {
-        if (currentUser.toLowerCase() === 'admin') {
-            navActions.innerHTML = `
-                <a href="admin.html" class="btn btn-primary btn-sm">
-                    <span>⚡ Trang Quản Trị</span>
-                </a>
-                <button class="btn btn-outline btn-sm logout-button">Đăng xuất</button>
-                <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation">
-                    <span></span><span></span><span></span>
-                </button>
-            `;
-        } else {
-            navActions.innerHTML = `
-                <a href="user.html" class="nav-user-badge" id="userBadgeNav">
-                    <span>👤</span> <span id="navUsername">${currentUser}</span>
-                </a>
-                <button class="btn btn-outline btn-sm logout-button">Đăng xuất</button>
-                <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation">
-                    <span></span><span></span><span></span>
-                </button>
-            `;
-        }
-
-        document.querySelectorAll('.logout-button').forEach(btn => {
-            btn.addEventListener('click', function() {
-                sessionStorage.removeItem('accessToken');
-                sessionStorage.removeItem('currentUser');
-                window.location.href = 'index.html';
-            });
-        });
+    if (navActions && currentUser === 'admin') {
+        navActions.innerHTML = `
+            <a href="admin.html" class="btn btn-primary btn-sm">
+                <span>⚡ Trang Quản Trị</span>
+            </a>
+            <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation">
+                <span></span><span></span><span></span>
+            </button>
+        `;
     }
 
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const navMenu = document.getElementById('navMenu');
     if (mobileMenuBtn && navMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
+        mobileMenuBtn.addEventListener('click', function () {
             navMenu.classList.toggle('open');
         });
     }
@@ -67,11 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Form Submit
     const contactForm = document.getElementById('publicContactForm');
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
             const successMsg = document.getElementById('contactSuccessMsg');
             if (successMsg) {
-                successMsg.textContent = '🎉 Yêu cầu của bạn đã được gửi thành công! Chuyên viên LV34 sẽ liên hệ lại trong ít phút.';
+                successMsg.textContent = '🎉 Yêu cầu của bạn đã được gửi thành công! Chuyên viên tư vấn EVManager sẽ liên hệ lại trong ít phút.';
                 successMsg.hidden = false;
                 contactForm.reset();
             }

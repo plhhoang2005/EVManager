@@ -1,14 +1,13 @@
-<!-- Module Đăng nhập (login.js)
- * Xử lý tương tác trên trang login.html
- -->
-
+<!-- EVManager - Màn hình Đăng Nhập (login.html)
+     Tuân thủ đặc tả UC-01 và SRS v1.0
+-->
 <!DOCTYPE html>
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập - LV34 Event Operations</title>
+    <title>Đăng nhập - EVManager Quản Trị Trung Tâm Tiệc Cưới</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,16 +23,16 @@
     <main class="auth-shell">
         <section class="login-panel" aria-labelledby="login-title">
             <div class="auth-top-nav">
-                <a href="index.html" class="back-home-link">← Trang chủ</a>
+                <a href="index.html" class="back-home-link">← Trang chủ EVManager</a>
             </div>
-            <p class="eyebrow">Chào mừng bạn đến với chúng tôi</p>
+            <p class="eyebrow" style="color: var(--teal); font-weight: 700;">HỆ THỐNG VẬN HÀNH TIỆC CƯỚI</p>
             <h1 id="login-title">Đăng nhập</h1>
             <form id="loginForm" class="login-form">
-                <label for="username">Tên đăng nhập/Email</label>
+                <label for="username">Tên đăng nhập hoặc Email *</label>
                 <input id="username" name="username" type="text" autocomplete="username"
-                    placeholder="Nhập tên đăng nhập hoặc email" required>
+                    placeholder="Tên đăng nhập hoặc Email" required>
 
-                <label for="password">Mật khẩu</label>
+                <label for="password">Mật khẩu *</label>
                 <div class="password-field">
                     <input id="password" name="password" type="password" autocomplete="current-password"
                         placeholder="Nhập mật khẩu" required>
@@ -41,25 +40,40 @@
                         aria-pressed="false">Hiện</button>
                 </div>
 
-                <a href="forgotPassword.html" class="forgot-password">Quên mật khẩu?</a>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                    <a href="forgotPassword.html" class="forgot-password">Quên mật khẩu?</a>
+                </div>
+
                 <p id="loginError" class="login-error" role="alert" hidden></p>
 
-                <button type="submit" class="login-button">Đăng nhập <span aria-hidden="true">→</span></button>
+                <button type="submit" class="login-button" style="margin-top: 14px;">
+                    Đăng nhập hệ thống <span aria-hidden="true">→</span>
+                </button>
 
-                <p>Nếu bạn chưa có tài khoản? <a href="register.html" class="forgot-password">Đăng ký</a></p>
+                <p style="margin-top: 16px; font-size: 0.85rem; color: var(--muted);">
+                    Khách hàng   chưa có tài khoản? <a href="register.html" class="forgot-password" style="font-weight: 700;">Đăng ký tài khoản</a>
+                </p>
             </form>
-            <p class="login-hint">Tài khoản demo: <strong>admin</strong> / <strong>123</strong></p>
+
+            <div style="margin-top: 24px; padding: 14px; background: #f8fafc; border: 1px solid var(--line); border-radius: 8px; font-size: 0.8rem; line-height: 1.6;">
+                <strong style="color: var(--teal);">🔑 Thông tin đăng nhập hệ thống:</strong><br>
+                • <strong>Khi kết nối Backend Spring Boot & DB:</strong><br>
+                &nbsp;&nbsp;&nbsp;- User: <code style="background:#e2e8f0; padding:2px 4px; border-radius:4px;">admin</code> / Mật khẩu: <code style="background:#e2e8f0; padding:2px 4px; border-radius:4px; font-weight:700;">Password1!</code> (Role ADMIN)<br>
+                &nbsp;&nbsp;&nbsp;- User: <code style="background:#e2e8f0; padding:2px 4px; border-radius:4px;">user</code> / Mật khẩu: <code style="background:#e2e8f0; padding:2px 4px; border-radius:4px; font-weight:700;">Password1!</code> (Role USER)<br>
+                • <strong>Khi chạy thử nghiệm giao diện (Offline Demo):</strong><br>
+                &nbsp;&nbsp;&nbsp;- <code style="background:#e2e8f0; padding:2px 4px; border-radius:4px;">admin</code> / <code style="background:#e2e8f0; padding:2px 4px; border-radius:4px;">123</code> | <code style="background:#e2e8f0; padding:2px 4px; border-radius:4px;">user</code> / <code style="background:#e2e8f0; padding:2px 4px; border-radius:4px;">123</code> | <code style="background:#e2e8f0; padding:2px 4px; border-radius:4px;">sale</code> / <code style="background:#e2e8f0; padding:2px 4px; border-radius:4px;">123</code> | <code style="background:#e2e8f0; padding:2px 4px; border-radius:4px;">coord</code> / <code style="background:#e2e8f0; padding:2px 4px; border-radius:4px;">123</code>
+            </div>
         </section>
 
         <aside class="auth-aside" aria-label="Thông tin hệ thống">
-            <span class="aside-mark" aria-hidden="true">◒</span>
-            <p class="eyebrow">Event operations</p>
-            <h2>Mọi sự kiện<br>trong tầm mắt.</h2>
-            <p>Theo dõi doanh thu, lịch trình và hợp đồng trong một không gian làm việc rõ ràng.</p>
+            <span class="aside-mark" aria-hidden="true">🏛️</span>
+            <p class="eyebrow">EVManager Convention & Wedding</p>
+            <h2>Vận hành sảnh tiệc<br>chuyên nghiệp.</h2>
+            <p>Hệ thống tự động phát hiện xung đột lịch, quản lý thực đơn, tính toán báo giá chuẩn xác và điều phối nhân sự hiệu quả.</p>
         </aside>
     </main>
 
-    <!-- Script riêng cho trang Đăng nhập -->
+    <!-- Scripts -->
     <script src="js/api.js"></script>
     <script src="js/login.js"></script>
 </body>

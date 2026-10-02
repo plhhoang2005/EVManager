@@ -44,6 +44,7 @@ async function fetchAPI(endpoint, options = {}) {
         if (response.status === 401 || response.status === 403) {
             sessionStorage.removeItem('accessToken');
             sessionStorage.removeItem('currentUser');
+            sessionStorage.removeItem('userRole');
             if (!window.location.pathname.includes('login.html')) {
                 window.location.href = 'login.html';
             }

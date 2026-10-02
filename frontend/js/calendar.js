@@ -1,70 +1,92 @@
 /**
- * Module Lịch sự kiện (calendar.js)
- * Tích hợp FullCalendar hiển thị lịch trình sự kiện từ dữ liệu Quản trị
+ * EVManager - Module Lịch Sự Kiện & Lịch Sảnh (calendar.js)
+ * Tích hợp FullCalendar v6 hiển thị ca tiệc sảnh theo tháng và tuần
+ * Đồng bộ với Backend API /api/v1/events/calendar và dữ liệu hợp đồng tiệc cưới EVManager
  */
 
 let fullCalendarInstance = null;
 
-// Biến mockEvents dự phòng khi Backend chưa có API Events (404)
-const mockEvents = [
-    { title: 'Lễ cưới Hoàng Gia - Anh Minh', start: '2026-10-15T17:30:00', backgroundColor: '#087f82', borderColor: '#087f82', extendedProps: { location: 'GEM Center, Q.1', status: 'Đã xác nhận' } },
-    { title: 'Hội nghị Tech Summit 2026', start: '2026-10-20T08:00:00', backgroundColor: '#d9763d', borderColor: '#d9763d', extendedProps: { location: 'White Palace, Q. Phú Nhuận', status: 'Đang chuẩn bị' } },
-    { title: 'Đại nhạc hội EDM Summer Splash', start: '2026-11-05T19:00:00', backgroundColor: '#7865a7', borderColor: '#7865a7', extendedProps: { location: 'Sân vận động QK7', status: 'Đã xác nhận' } }
-];
-
-function formatCalendarEvents(eventsList) {
-    const colors = {
-        'Tiệc cưới': '#087f82',
-        'Hội nghị': '#d9763d',
-        'Concert': '#7865a7',
-        'Sinh nhật': '#2563eb'
+// Chuyển đổi dữ liệu Hợp đồng thành Event cho FullCalendar
+function formatContractsToCalendarEvents(contractsList) {
+    const hallColors = {
+        'S01': '#087f82', // Kim Cương - Teal
+        'S02': '#d9763d', // Vàng - Cam
+        'S03': '#7865a7', // Bạch Kim - Tím
+        'S04': '#2563eb', // Ngọc Trai - Xanh Dương
+        'S05': '#dc2626'  // Ruby - Đỏ
     };
 
-    return eventsList.map(ev => ({
-        title: ev.client ? `${ev.title} (${ev.client})` : ev.title,
-        start: ev.date || ev.start,
-        backgroundColor: colors[ev.type] || '#087f82',
-        borderColor: colors[ev.type] || '#087f82',
-        extendedProps: {
-            location: ev.location || 'Chưa cập nhật',
-            status: ev.status || 'Đã xác nhận',
-            budget: ev.budget || 0
-        }
-    }));
+    return contractsList.map(c => {
+        const dateStr = c.weddingDate;
+        const isLunch = c.session === 'Trưa';
+        const start = isLunch ? `${dateStr}T10:00:00` : `${dateStr}T17:00:00`;
+        const end = isLunch ? `${dateStr}T14:00:00` : `${dateStr}T21:00:00`;
+        const color = hallColors[c.hallId] || '#087f82';
+
+        return {
+            id: c.contractId,
+            title: `[${c.hallName || 'Sảnh'}] ${c.customerName} (${c.tables} bàn)`,
+            start: start,
+            end: end,
+            backgroundColor: color,
+            borderColor: color,
+            extendedProps: {
+                contractId: c.contractId,
+                hallName: c.hallName,
+                customerName: c.customerName,
+                phone: c.phone,
+                tables: c.tables,
+                session: c.session,
+                menuName: c.menuName,
+                status: c.status
+            }
+        };
+    });
 }
 
-function getCalendarEventsFromStorage() {
-    const savedEvents = localStorage.getItem('lv34_events');
-    if (!savedEvents) {
-        return mockEvents;
-    }
-
+// Lấy danh sách lịch tiệc từ Backend API /api/v1/events/calendar
+async function fetchCalendarEvents(startStr, endStr) {
     try {
-        const eventsList = JSON.parse(savedEvents);
-        return formatCalendarEvents(eventsList);
+        const startIso = startStr ? new Date(startStr).toISOString() : new Date(Date.now() - 30 * 86400000).toISOString();
+        const endIso = endStr ? new Date(endStr).toISOString() : new Date(Date.now() + 60 * 86400000).toISOString();
+
+        const response = await fetchAPI(`/api/v1/events/calendar?start=${encodeURIComponent(startIso)}&end=${encodeURIComponent(endIso)}`);
+        if (response.ok) {
+            const data = await response.json();
+            if (Array.isArray(data) && data.length > 0) {
+                return data.map(ev => ({
+                    id: ev.id,
+                    title: ev.title,
+                    start: ev.start,
+                    end: ev.end,
+                    backgroundColor: '#087f82',
+                    borderColor: '#087f82',
+                    extendedProps: ev.extendedProps || {}
+                }));
+            }
+        }
     } catch (e) {
-        return mockEvents;
+        console.warn("Backend /api/v1/events/calendar offline, nạp từ hợp đồng tiệc:", e.message);
     }
-}
 
-// Gọi API lấy sự kiện với try...catch tự động kích hoạt mockEvents nếu API bị lỗi (404)
-async function getCalendarEvents() {
-    try {
-        const response = await fetchAPI('/api/v1/events');
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: API Events chưa sẵn sàng.`);
-        }
-        const data = await response.json();
-        return formatCalendarEvents(data);
-    } catch (error) {
-        console.warn('Backend chưa có API Events (Lỗi 404/kết nối). Tự động kích hoạt mockEvents:', error.message);
-        return getCalendarEventsFromStorage();
+    // Fallback: Lấy từ danh sách hợp đồng tiệc cưới đang lưu trong localStorage
+    const savedContracts = localStorage.getItem('ev_contracts');
+    if (savedContracts) {
+        try {
+            const contracts = JSON.parse(savedContracts);
+            return formatContractsToCalendarEvents(contracts);
+        } catch (err) {}
     }
+
+    // Nếu chưa có, lấy từ BA Mock Data contracts
+    if (typeof BA_MOCK_DATA !== 'undefined' && BA_MOCK_DATA.contracts) {
+        return formatContractsToCalendarEvents(BA_MOCK_DATA.contracts);
+    }
+
+    return [];
 }
 
 async function initCalendar() {
-    console.log("Đã tải module Lịch sự kiện!");
-
     const calendarEl = document.getElementById('calendar');
     if (!calendarEl) return;
 
@@ -72,7 +94,7 @@ async function initCalendar() {
         fullCalendarInstance.destroy();
     }
 
-    const eventsData = await getCalendarEvents();
+    const eventsData = await fetchCalendarEvents();
 
     fullCalendarInstance = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -82,11 +104,25 @@ async function initCalendar() {
             center: 'title',
             right: 'dayGridMonth,timeGridWeek'
         },
+        buttonText: {
+            today: 'Hôm nay',
+            month: 'Tháng',
+            week: 'Tuần'
+        },
         events: eventsData,
         eventClick: function(info) {
-            const loc = info.event.extendedProps.location || 'Chưa cập nhật';
-            const status = info.event.extendedProps.status || 'Đã xác nhận';
-            alert(`🎉 ${info.event.title}\n⏰ Thời gian: ${info.event.start ? info.event.start.toLocaleString('vi-VN') : ''}\n📍 Địa điểm: ${loc}\n📌 Trạng thái: ${status}`);
+            const props = info.event.extendedProps || {};
+            alert(
+                `🎉 CHI TIẾT LỊCH TIỆC CƯỚI:\n` +
+                `------------------------------------\n` +
+                `• Mã HĐ: ${props.contractId || info.event.id}\n` +
+                `• Khách hàng: ${props.customerName || 'N/A'}\n` +
+                `• Sảnh tổ chức: ${props.hallName || 'Chưa rõ'}\n` +
+                `• Ca tiệc: Ca ${props.session || 'Tối'} (${info.event.start ? info.event.start.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) : ''})\n` +
+                `• Quy mô: ${props.tables || 0} bàn\n` +
+                `• Thực đơn: ${props.menuName || 'N/A'}\n` +
+                `• Trạng thái: ${props.status || 'Đã xác nhận'}`
+            );
         }
     });
 
@@ -94,13 +130,16 @@ async function initCalendar() {
 }
 
 window.refreshFullCalendar = async function() {
-    const eventsData = await getCalendarEvents();
-    if (fullCalendarInstance) {
-        fullCalendarInstance.removeAllEvents();
-        fullCalendarInstance.addEventSource(eventsData);
-    } else {
+    if (!fullCalendarInstance) {
         await initCalendar();
+        return;
     }
+    const eventsData = await fetchCalendarEvents();
+    fullCalendarInstance.removeAllEvents();
+    fullCalendarInstance.addEventSource(eventsData);
 };
 
-document.addEventListener('dashboard:ready', initCalendar);
+document.addEventListener('DOMContentLoaded', function() {
+    // Kích hoạt khi vào tab calendar
+    setTimeout(initCalendar, 500);
+});
