@@ -166,4 +166,37 @@ class ContractServiceTest {
         verify(contractRepository, never()).save(any());
     }
 
+
+    @Test
+    void createContract_DuplicateServiceInRequest() {
+        ContractServiceRequest dupService = new ContractServiceRequest();
+        dupService.setServiceId(4L);
+        dupService.setQuantity(1);
+        
+        validRequest.setServices(List.of(validRequest.getServices().get(0), dupService));
+
+        when(customerRepository.findById(1L)).thenReturn(Optional.of(mockCustomer));
+        when(venueRepository.findById(3L)).thenReturn(Optional.of(mockVenue));
+        when(menuRepository.findById(2L)).thenReturn(Optional.of(mockMenu));
+        
+        assertThatThrownBy(() -> contractService.createContract(validRequest))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Duplicate service");
+    }
+
+    @Test
+    void createContract_DuplicateMenuInRequest() {
+        ContractMenuRequest dupMenu = new ContractMenuRequest();
+        dupMenu.setMenuId(2L);
+        dupMenu.setTableCount(5);
+        
+        validRequest.setMenus(List.of(validRequest.getMenus().get(0), dupMenu));
+
+        when(customerRepository.findById(1L)).thenReturn(Optional.of(mockCustomer));
+        when(venueRepository.findById(3L)).thenReturn(Optional.of(mockVenue));
+        
+        assertThatThrownBy(() -> contractService.createContract(validRequest))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Duplicate menu");
+    }
 }

@@ -8,6 +8,17 @@ CREATE TABLE contract_menus (
     CONSTRAINT fk_cm_menu FOREIGN KEY (menu_id) REFERENCES menus (menu_id) ON DELETE RESTRICT
 );
 
+-- Data Migration: Migrate existing menus to contract_menus
+INSERT INTO contract_menus (contract_id, menu_id, table_count, agreed_price)
+SELECT c.contract_id, c.menu_id, 
+       GREATEST(COALESCE((e.guest_count + 9) / 10, 1), 1) as table_count, 
+       m.price
+FROM contracts c
+JOIN menus m ON c.menu_id = m.menu_id
+JOIN events e ON c.event_id = e.event_id
+WHERE c.menu_id IS NOT NULL;
+
+-- Drop foreign key and column after data migration
 ALTER TABLE contracts DROP CONSTRAINT IF EXISTS fk_contracts_menu;
 ALTER TABLE contracts DROP COLUMN IF EXISTS menu_id;
 

@@ -75,6 +75,14 @@ public class ContractService {
         BigDecimal totalMenuPrice = BigDecimal.ZERO;
         int totalTableCount = 0;
         if (request.getMenus() != null) {
+            long uniqueMenuCount = request.getMenus().stream()
+                    .map(ContractMenuRequest::getMenuId)
+                    .distinct()
+                    .count();
+            if (uniqueMenuCount < request.getMenus().size()) {
+                throw new IllegalArgumentException("Duplicate menu in request");
+            }
+
             for (ContractMenuRequest cmr : request.getMenus()) {
                 com.evmanager.menus.model.Menu m = menuRepository.findById(cmr.getMenuId())
                         .orElseThrow(() -> new com.evmanager.exception.ResourceNotFoundException("Menu not found with id: " + cmr.getMenuId()));
@@ -97,6 +105,14 @@ public class ContractService {
         // 7. Add ContractServices
         BigDecimal totalServicePrice = BigDecimal.ZERO;
         if (request.getServices() != null) {
+            long uniqueServiceCount = request.getServices().stream()
+                    .map(com.evmanager.contracts.dto.ContractServiceRequest::getServiceId)
+                    .distinct()
+                    .count();
+            if (uniqueServiceCount < request.getServices().size()) {
+                throw new IllegalArgumentException("Duplicate service in request");
+            }
+
             for (com.evmanager.contracts.dto.ContractServiceRequest csr : request.getServices()) {
                 com.evmanager.services.model.Service s = serviceRepository.findById(csr.getServiceId())
                         .orElseThrow(() -> new com.evmanager.exception.ResourceNotFoundException("Service not found with id: " + csr.getServiceId()));
