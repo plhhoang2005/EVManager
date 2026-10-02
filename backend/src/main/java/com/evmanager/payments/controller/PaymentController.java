@@ -28,8 +28,8 @@ public class PaymentController {
 
     @GetMapping("/contracts/{contractId}/payments")
     @PreAuthorize("hasAnyRole('CUSTOMER', 'SALES', 'ACCOUNTANT', 'ADMIN')")
-    public ResponseEntity<List<PaymentResponse>> getPaymentsByContract(@PathVariable Long contractId) {
-        List<PaymentResponse> response = paymentService.getPaymentsByContract(contractId);
+    public ResponseEntity<com.evmanager.payments.dto.ContractPaymentSummaryResponse> getPaymentsByContract(@PathVariable Long contractId) {
+        com.evmanager.payments.dto.ContractPaymentSummaryResponse response = paymentService.getPaymentsByContract(contractId);
         return ResponseEntity.ok(response);
     }
 

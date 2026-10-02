@@ -73,14 +73,25 @@ public class PaymentService {
     }
 
     @Transactional(readOnly = true)
-    public List<PaymentResponse> getPaymentsByContract(Long contractId) {
+    public com.evmanager.payments.dto.ContractPaymentSummaryResponse getPaymentsByContract(Long contractId) {
         Contract contract = contractRepository.findById(contractId)
                 .orElseThrow(() -> new ResourceNotFoundException("Contract not found"));
         checkCustomerOwnership(contract);
 
-        return paymentRepository.findByContract_ContractId(contractId).stream()
+        List<PaymentResponse> payments = paymentRepository.findByContract_ContractId(contractId).stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
+
+        BigDecimal paidAmount = paymentRepository.sumAmountByContractIdAndStatus(contractId, PaymentStatus.SUCCESS);
+        BigDecimal remainingAmount = contract.getTotalAmount().subtract(paidAmount);
+
+        return com.evmanager.payments.dto.ContractPaymentSummaryResponse.builder()
+                .contractId(contractId)
+                .totalAmount(contract.getTotalAmount())
+                .paidAmount(paidAmount)
+                .remainingAmount(remainingAmount)
+                .payments(payments)
+                .build();
     }
 
     @Transactional

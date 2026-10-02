@@ -103,12 +103,12 @@ public class PaymentServiceTest {
                 .contract(contract)
                 .amount(new BigDecimal("300.00"))
                 .paymentType(PaymentType.DEPOSIT)
-                .paymentMethod(PaymentMethod.TRANSFER)
+                .paymentMethod(PaymentMethod.BANK_TRANSFER)
                 .status(PaymentStatus.PENDING)
                 .build();
         when(paymentRepository.save(any(Payment.class))).thenReturn(payment);
 
-        PaymentRequest request = new PaymentRequest(10L, new BigDecimal("300.00"), PaymentType.DEPOSIT, PaymentMethod.TRANSFER);
+        PaymentRequest request = new PaymentRequest(10L, new BigDecimal("300.00"), PaymentType.DEPOSIT, PaymentMethod.BANK_TRANSFER);
         PaymentResponse response = paymentService.createPayment(request);
 
         assertThat(response).isNotNull();
@@ -121,7 +121,7 @@ public class PaymentServiceTest {
         contract.setStatus(ContractStatus.DRAFT);
         when(contractRepository.findById(10L)).thenReturn(Optional.of(contract));
 
-        PaymentRequest request = new PaymentRequest(10L, new BigDecimal("300.00"), PaymentType.DEPOSIT, PaymentMethod.TRANSFER);
+        PaymentRequest request = new PaymentRequest(10L, new BigDecimal("300.00"), PaymentType.DEPOSIT, PaymentMethod.BANK_TRANSFER);
         
         assertThatThrownBy(() -> paymentService.createPayment(request))
                 .isInstanceOf(IllegalStateException.class)
@@ -135,7 +135,7 @@ public class PaymentServiceTest {
         when(paymentRepository.sumAmountByContractIdAndStatus(10L, PaymentStatus.SUCCESS))
                 .thenReturn(new BigDecimal("800.00")); // already paid 800 out of 1000
 
-        PaymentRequest request = new PaymentRequest(10L, new BigDecimal("300.00"), PaymentType.DEPOSIT, PaymentMethod.TRANSFER);
+        PaymentRequest request = new PaymentRequest(10L, new BigDecimal("300.00"), PaymentType.DEPOSIT, PaymentMethod.BANK_TRANSFER);
         
         assertThatThrownBy(() -> paymentService.createPayment(request))
                 .isInstanceOf(IllegalStateException.class)
@@ -151,7 +151,7 @@ public class PaymentServiceTest {
         Payment payment = Payment.builder().contract(contract).status(PaymentStatus.PENDING).build();
         when(paymentRepository.save(any(Payment.class))).thenReturn(payment);
 
-        PaymentRequest request = new PaymentRequest(10L, new BigDecimal("300.00"), PaymentType.DEPOSIT, PaymentMethod.TRANSFER);
+        PaymentRequest request = new PaymentRequest(10L, new BigDecimal("300.00"), PaymentType.DEPOSIT, PaymentMethod.BANK_TRANSFER);
         paymentService.createPayment(request);
         
         verify(paymentRepository, times(1)).save(any(Payment.class));
@@ -166,7 +166,7 @@ public class PaymentServiceTest {
 
         when(contractRepository.findById(10L)).thenReturn(Optional.of(contract));
         
-        PaymentRequest request = new PaymentRequest(10L, new BigDecimal("300.00"), PaymentType.DEPOSIT, PaymentMethod.TRANSFER);
+        PaymentRequest request = new PaymentRequest(10L, new BigDecimal("300.00"), PaymentType.DEPOSIT, PaymentMethod.BANK_TRANSFER);
         
         assertThatThrownBy(() -> paymentService.createPayment(request))
                 .isInstanceOf(org.springframework.security.access.AccessDeniedException.class)
@@ -231,5 +231,46 @@ public class PaymentServiceTest {
 
         assertThat(response.getStatus()).isEqualTo(PaymentStatus.FAILED);
         verify(contractLifecycleService, never()).transitionToConfirmed(anyLong());
+    }
+
+    @Test
+    void testConfirmPayment_TerminalState() {
+        Payment payment = Payment.builder().status(PaymentStatus.SUCCESS).build();
+        when(paymentRepository.findById(100L)).thenReturn(Optional.of(payment));
+
+        assertThatThrownBy(() -> paymentService.confirmPayment(100L))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Only PENDING payments can be confirmed");
+    }
+
+    @Test
+    void testRejectPayment_TerminalState() {
+        Payment payment = Payment.builder().status(PaymentStatus.FAILED).build();
+        when(paymentRepository.findById(100L)).thenReturn(Optional.of(payment));
+
+        assertThatThrownBy(() -> paymentService.rejectPayment(100L))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Only PENDING payments can be rejected");
+    }
+
+    @Test
+    void testGetPaymentsSummary() {
+        mockSecurityUser("SALES");
+        when(contractRepository.findById(10L)).thenReturn(Optional.of(contract));
+        
+        Payment payment1 = Payment.builder().paymentId(1L).contract(contract).amount(new BigDecimal("100.00")).status(PaymentStatus.SUCCESS).build();
+        Payment payment2 = Payment.builder().paymentId(2L).contract(contract).amount(new BigDecimal("200.00")).status(PaymentStatus.SUCCESS).build();
+        Payment payment3 = Payment.builder().paymentId(3L).contract(contract).amount(new BigDecimal("500.00")).status(PaymentStatus.FAILED).build();
+        
+        when(paymentRepository.findByContract_ContractId(10L)).thenReturn(java.util.Arrays.asList(payment1, payment2, payment3));
+        when(paymentRepository.sumAmountByContractIdAndStatus(10L, PaymentStatus.SUCCESS)).thenReturn(new BigDecimal("300.00")); // 100 + 200
+
+        com.evmanager.payments.dto.ContractPaymentSummaryResponse summary = paymentService.getPaymentsByContract(10L);
+
+        assertThat(summary.getContractId()).isEqualTo(10L);
+        assertThat(summary.getTotalAmount()).isEqualTo(new BigDecimal("1000.00"));
+        assertThat(summary.getPaidAmount()).isEqualTo(new BigDecimal("300.00"));
+        assertThat(summary.getRemainingAmount()).isEqualTo(new BigDecimal("700.00"));
+        assertThat(summary.getPayments()).hasSize(3);
     }
 }
