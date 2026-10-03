@@ -27,6 +27,7 @@ public class VenueController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'SALES', 'COORDINATOR', 'CUSTOMER')")
     public ResponseEntity<Page<VenueResponse>> getVenues(
             @RequestParam(required = false) String keyword,
             Pageable pageable) {
@@ -34,11 +35,13 @@ public class VenueController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SALES', 'COORDINATOR', 'CUSTOMER')")
     public ResponseEntity<VenueResponse> getVenueById(@PathVariable Long id) {
         return ResponseEntity.ok(venueService.getVenueById(id));
     }
 
     @GetMapping("/available")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SALES', 'COORDINATOR', 'CUSTOMER')")
     public ResponseEntity<java.util.List<VenueResponse>> getAvailableVenues(
             @RequestParam java.time.LocalDate date,
             @RequestParam String session) {
