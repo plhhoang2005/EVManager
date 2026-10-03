@@ -3,7 +3,7 @@
  * Xử lý bộ lọc và tương tác trên trang gallery.html
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const currentUser = sessionStorage.getItem('currentUser');
     const navActions = document.getElementById('navActions');
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const navMenu = document.getElementById('navMenu');
     if (mobileMenuBtn && navMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
+        mobileMenuBtn.addEventListener('click', function () {
             navMenu.classList.toggle('open');
         });
     }
@@ -30,14 +30,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const filterBtns = document.querySelectorAll('#galleryFilters .filter-btn');
     const galleryItems = document.querySelectorAll('#galleryGrid .gallery-item');
 
-    filterBtns.forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            filterBtns.forEach(function(b) { b.classList.remove('active'); });
+    filterBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            filterBtns.forEach(function (b) { b.classList.remove('active'); });
             btn.classList.add('active');
 
             const filter = btn.getAttribute('data-filter');
 
-            galleryItems.forEach(function(item) {
+            galleryItems.forEach(function (item) {
                 const category = item.getAttribute('data-category');
                 if (filter === 'all' || category === filter) {
                     item.style.display = 'block';

@@ -18,6 +18,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+import com.evmanager.exception.ResourceConflictException;
+import com.evmanager.users.dto.UserProfileUpdateRequest;
+import com.evmanager.users.dto.UserResponse;
+import com.evmanager.users.model.Role;
+
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
@@ -31,12 +36,69 @@ class UserServiceTest {
     private UserService userService;
 
     private User user;
+    private Role role;
 
     @BeforeEach
     void setUp() {
+        role = new Role();
+        role.setRoleId(1L);
+        role.setRoleName("ROLE_USER");
+
         user = new User();
+        user.setUserId(1L);
         user.setUsername("testuser");
+        user.setEmail("test@example.com");
+        user.setFullName("Test User");
+        user.setPhone("0987654321");
+        user.setRole(role);
         user.setPasswordHash("hashed_old_password");
+    }
+
+    @Test
+    void getUserProfile_Success() {
+        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+
+        UserResponse response = userService.getUserProfile("testuser");
+
+        assertNotNull(response);
+        assertEquals("testuser", response.getUsername());
+        assertEquals("Test User", response.getFullName());
+        assertEquals("test@example.com", response.getEmail());
+    }
+
+    @Test
+    void updateUserProfile_Success() {
+        UserProfileUpdateRequest request = new UserProfileUpdateRequest();
+        request.setFullName("Updated Name");
+        request.setEmail("updated@example.com");
+        request.setPhone("0123456789");
+
+        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+        when(userRepository.findByEmail("updated@example.com")).thenReturn(Optional.empty());
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        UserResponse response = userService.updateUserProfile("testuser", request);
+
+        assertNotNull(response);
+        assertEquals("Updated Name", response.getFullName());
+        assertEquals("updated@example.com", response.getEmail());
+        assertEquals("0123456789", response.getPhone());
+    }
+
+    @Test
+    void updateUserProfile_EmailConflict() {
+        User otherUser = new User();
+        otherUser.setUserId(2L);
+        otherUser.setEmail("existing@example.com");
+
+        UserProfileUpdateRequest request = new UserProfileUpdateRequest();
+        request.setFullName("Updated Name");
+        request.setEmail("existing@example.com");
+
+        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+        when(userRepository.findByEmail("existing@example.com")).thenReturn(Optional.of(otherUser));
+
+        assertThrows(ResourceConflictException.class, () -> userService.updateUserProfile("testuser", request));
     }
 
     @Test

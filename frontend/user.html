@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LV34 Event Operations - Hệ Thống Quản Lý & Tổ Chức Sự Kiện Đẳng Cấp</title>
+    <meta name="description"
+        content="Giải pháp quản lý và tổ chức sự kiện chuyên nghiệp: Tiệc cưới, Hội nghị doanh nghiệp, Liveshow âm nhạc. Dự trù ngân sách và quản lý vận hành trọn gói.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="home-wrapper">
+        <!-- HEADER / NAVBAR -->
+        <header class="home-navbar" id="topNavbar">
+            <div class="nav-container">
+                <a href="index.html" class="nav-brand" id="brandLogo">
+                    <span class="brand-icon">◒</span>
+                    <span class="brand-text">LV34 <span>EVENTS</span></span>
+                </a>
+
+                <nav class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link active">Trang chủ</a>
+                    <a href="services.html" class="nav-link">Dịch vụ</a>
+                    <a href="calculator.html" class="nav-link">Tính chi phí</a>
+                    <a href="gallery.html" class="nav-link">Sự kiện tiêu biểu</a>
+                    <a href="schedule.html" class="nav-link">Lịch sắp tới</a>
+                    <a href="contact.html" class="nav-link">Liên hệ</a>
+                </nav>
+
+                <div class="nav-actions" id="navActions">
+                    <a href="#profile" class="nav-user-badge" id="userBadgeNav">
+                        <span>👤</span> <span id="navUsername">User</span>
+                    </a>
+                    <button class="btn btn-outline btn-sm logout-button" id="userLogoutBtn" type="button">Đăng
+                        xuất</button>
+                    <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <!-- USER PROFILE SECTION -->
+        <section class="user-profile-section" id="profile">
+            <div class="section-container">
+                <div class="section-header">
+                    <p class="eyebrow">QUẢN LÝ TÀI KHOẢN CÁ NHÂN</p>
+                    <h2 class="section-title">Hồ Sơ & Thông Tin Cá Nhân</h2>
+                </div>
+
+                <div class="profile-grid-container">
+                    <!-- Left Sidebar Card -->
+                    <div class="profile-summary-card">
+                        <div class="profile-avatar-wrapper">
+                            <div class="profile-avatar-circle" id="profileAvatarIcon">👤</div>
+                        </div>
+                        <h3 id="displayFullName">Người dùng LV34</h3>
+                        <div class="profile-username" id="displayUsername">@user</div>
+                        <span class="profile-role-badge" id="displayRole">Thành viên</span>
+
+                        <div class="profile-meta-list">
+                            <div class="profile-meta-item">
+                                <span class="meta-icon">📧</span>
+                                <div>
+                                    <strong style="display:block; font-size:0.75rem; color:#64748b;">Email:</strong>
+                                    <span id="displayEmail">user@example.com</span>
+                                </div>
+                            </div>
+                            <div class="profile-meta-item">
+                                <span class="meta-icon">📱</span>
+                                <div>
+                                    <strong style="display:block; font-size:0.75rem; color:#64748b;">Số điện
+                                        thoại:</strong>
+                                    <span id="displayPhone">Chưa cập nhật</span>
+                                </div>
+                            </div>
+                            <div class="profile-meta-item">
+                                <span class="meta-icon">🕒</span>
+                                <div>
+                                    <strong style="display:block; font-size:0.75rem; color:#64748b;">Tham gia
+                                        từ:</strong>
+                                    <span id="displayCreatedAt">2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Edit Form Cards -->
+                    <div class="profile-tabs-wrapper">
+                        <!-- Card 1: Update Profile Details -->
+                        <div class="profile-form-card">
+                            <div class="card-header-row">
+                                <h3>✏️ Cập Nhật Thông Tin</h3>
+                            </div>
+                            <form id="userProfileForm">
+                                <div class="profile-form-grid">
+                                    <div class="profile-form-group">
+                                        <label for="profileUsernameInput">Tên tài khoản (Username)</label>
+                                        <input type="text" id="profileUsernameInput" readonly disabled value="user" />
+                                    </div>
+                                    <div class="profile-form-group">
+                                        <label for="profileRoleInput">Quyền hạn (Role)</label>
+                                        <input type="text" id="profileRoleInput" readonly disabled value="ROLE_USER" />
+                                    </div>
+                                    <div class="profile-form-group full-width">
+                                        <label for="profileFullNameInput">Họ và tên *</label>
+                                        <input type="text" id="profileFullNameInput" name="fullName"
+                                            placeholder="Nhập họ và tên đầy đủ" required />
+                                    </div>
+                                    <div class="profile-form-group">
+                                        <label for="profileEmailInput">Địa chỉ Email *</label>
+                                        <input type="email" id="profileEmailInput" name="email"
+                                            placeholder="example@domain.com" required />
+                                    </div>
+                                    <div class="profile-form-group">
+                                        <label for="profilePhoneInput">Số điện thoại</label>
+                                        <input type="tel" id="profilePhoneInput" name="phone"
+                                            placeholder="0901234567" />
+                                    </div>
+                                </div>
+                                <p id="profileStatusMsg" class="form-status-alert" hidden></p>
+                                <div style="margin-top: 24px; text-align: right;">
+                                    <button type="submit" class="btn btn-primary" id="saveProfileBtn">
+                                        💾 Lưu Thay Đổi
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Card 2: Change Password -->
+                        <div class="profile-form-card">
+                            <div class="card-header-row">
+                                <h3>🔒 Đổi Mật Khẩu</h3>
+                            </div>
+                            <form id="changePasswordForm">
+                                <div class="profile-form-grid">
+                                    <div class="profile-form-group full-width">
+                                        <label for="oldPasswordInput">Mật khẩu hiện tại *</label>
+                                        <input type="password" id="oldPasswordInput" name="oldPassword"
+                                            placeholder="Nhập mật khẩu hiện tại" required />
+                                    </div>
+                                    <div class="profile-form-group">
+                                        <label for="newPasswordInput">Mật khẩu mới *</label>
+                                        <input type="password" id="newPasswordInput" name="newPassword"
+                                            placeholder="Ít nhất 8 ký tự" required />
+                                    </div>
+                                    <div class="profile-form-group">
+                                        <label for="confirmPasswordInput">Xác nhận mật khẩu mới *</label>
+                                        <input type="password" id="confirmPasswordInput" name="confirmPassword"
+                                            placeholder="Nhập lại mật khẩu mới" required />
+                                    </div>
+                                </div>
+                                <p id="passwordStatusMsg" class="form-status-alert" hidden></p>
+                                <div style="margin-top: 24px; text-align: right;">
+                                    <button type="submit" class="btn btn-secondary" id="savePasswordBtn">
+                                        🔑 Cập Nhật Mật Khẩu
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>

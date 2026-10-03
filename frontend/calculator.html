@@ -1,33 +1,34 @@
-<!-- Module Tính chi phí (calculator.js)
- * Xử lý tương tác trên trang calculator.html
- -->
-    
+<!-- EVManager - Công Cụ Dự Trù Ngân Sách Tiệc Cưới Chuẩn BA (calculator.html)
+     Tuân thủ UC-06, UC-07, UC-08 và SRS v1.0
+-->
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Công Cụ Tính Chi Phí Sự Kiện - LV34 Event Operations</title>
-    <meta name="description" content="Ước tính ngân sách dự kiến cho sự kiện tiệc cưới, hội nghị, sinh nhật, liveshow chính xác trong 3 giây.">
-    
+    <title>Dự Trù Ngân Sách Tiệc Cưới - EVManager</title>
+    <meta name="description" content="Công cụ tự động tính toán chi phí tiệc cưới theo số bàn, Set Menu, dịch vụ và VAT 8% theo chuẩn EVManager.">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- Stylesheet -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <div class="home-wrapper">
         <!-- HEADER / NAVBAR -->
         <header class="home-navbar" id="topNavbar">
             <div class="nav-container">
                 <a href="index.html" class="nav-brand">
-                    <span class="brand-icon">◒</span>
-                    <span class="brand-text">LV34 <span>EVENTS</span></span>
+                    <span class="brand-icon">🏛️</span>
+                    <span class="brand-text">EV<span>MANAGER</span></span>
                 </a>
-                
+
                 <nav class="nav-menu" id="navMenu">
                     <a href="index.html" class="nav-link">Trang chủ</a>
                     <a href="services.html" class="nav-link">Dịch vụ</a>
@@ -52,92 +53,118 @@
             <div class="section-container" style="padding: 0; text-align: center;">
                 <div class="hero-badge">
                     <span class="badge-dot"></span>
-                    <span>DỰ TRÙ NGÂN SÁCH TỰ ĐỘNG</span>
+                    <span>CÔNG CỤ BÁO GIÁ TỰ ĐỘNG - CHUẨN SRS v1.0</span>
                 </div>
-                <h1 class="hero-title" style="font-size: 3rem; margin-bottom: 16px;">
-                    Công Cụ Tính <span>Chi Phí Sự Kiện Nhanh</span>
+                <h1 class="hero-title" style="font-size: 2.8rem; margin-bottom: 14px;">
+                    Dự Trù Ngân Sách <span>Tiệc Cưới & Hội Nghị</span>
                 </h1>
                 <p class="section-subtitle">
-                    Tùy chỉnh thông số quy mô, loại hình và các dịch vụ đi kèm để nhận báo giá dự kiến tức thì.
+                    Hệ thống tự động tính tiền Set Menu, dịch vụ bổ sung, ưu đãi tặng kèm khi trên 25 bàn và thuế VAT 8%.
                 </p>
             </div>
         </section>
 
-        <!-- INTERACTIVE COST CALCULATOR SECTION -->
-        <section class="calculator-section" style="padding: 40px 0 80px;">
+        <!-- INTERACTIVE WEDDING CALCULATOR SECTION -->
+        <section class="calculator-section" style="padding: 30px 0 80px;">
             <div class="section-container">
                 <div class="calc-card">
                     <div class="calc-grid">
                         <div class="calc-inputs">
-                            <!-- Step 1: Loại sự kiện -->
-                            <div class="calc-group">
-                                <label class="calc-label">1. Loại hình sự kiện</label>
-                                <div class="calc-options" id="eventTypeGroup">
-                                    <button class="calc-opt-btn active" data-type="wedding" data-base="40000000">💒 Tiệc cưới</button>
-                                    <button class="calc-opt-btn" data-type="corporate" data-base="30000000">👔 Hội nghị / Gala</button>
-                                    <button class="calc-opt-btn" data-type="birthday" data-base="15000000">🎂 Sinh nhật / Kỷ niệm</button>
-                                    <button class="calc-opt-btn" data-type="concert" data-base="90000000">🎵 Concert / Festival</button>
-                                </div>
-                            </div>
-
-                            <!-- Step 2: Số lượng khách -->
+                            <!-- Bước 1: Quy mô bàn tiệc -->
                             <div class="calc-group">
                                 <div class="calc-label-row">
-                                    <label class="calc-label" for="guestRange">2. Quy mô khách mời</label>
-                                    <span class="calc-value-badge" id="guestCountVal">150 khách</span>
+                                    <label class="calc-label" for="tableRange">1. Quy mô số bàn tiệc chính thức *</label>
+                                    <span class="calc-value-badge" id="tableCountVal" style="background:#087f82; color:#fff;">30 bàn (300 khách)</span>
                                 </div>
-                                <input type="range" id="guestRange" min="20" max="1000" step="10" value="150" class="calc-slider" />
+                                <input type="range" id="tableRange" min="10" max="60" step="1" value="30" class="calc-slider" />
+                                <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:var(--muted); margin-top:4px;">
+                                    <span>10 bàn (Ấm cúng)</span>
+                                    <span>30 bàn (Phổ biến)</span>
+                                    <span>60 bàn (Đại tiệc)</span>
+                                </div>
                             </div>
 
-                            <!-- Step 3: Hạng mục dịch vụ đi kèm -->
+                            <!-- Bước 2: Chọn Set Menu -->
                             <div class="calc-group">
-                                <label class="calc-label">3. Hạng mục bổ sung</label>
+                                <label class="calc-label">2. Lựa chọn phân khúc Set Menu (UC-06)</label>
+                                <div class="calc-options" id="menuTypeGroup">
+                                    <button class="calc-opt-btn" data-menu="basic" data-price="3800000">
+                                        🥗 Set Cơ Bản<br><small style="font-weight:400;">3.800.000đ/bàn</small>
+                                    </button>
+                                    <button class="calc-opt-btn active" data-menu="popular" data-price="5500000">
+                                        🍲 Set Phổ Biến<br><small style="font-weight:400;">5.500.000đ/bàn</small>
+                                    </button>
+                                    <button class="calc-opt-btn" data-menu="premium" data-price="8500000">
+                                        🦞 Set Cao Cấp<br><small style="font-weight:400;">8.500.000đ/bàn</small>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Bước 3: Dịch vụ bổ sung & Quy tắc tặng kèm -->
+                            <div class="calc-group">
+                                <label class="calc-label">3. Gói dịch vụ bổ sung (UC-07)</label>
+
+                                <div id="autoGiftBadge" style="display: block; padding: 10px 14px; background: #ecfdf5; border: 1px solid #10b981; border-radius: 8px; color: #065f46; font-size: 0.85rem; font-weight: 700; margin-bottom: 12px;">
+                                    🎁 Tiệc cưới trên 25 bàn: Tự động TẶNG MC và Tháp rượu (0 VNĐ)!
+                                </div>
+
                                 <div class="calc-checkboxes">
                                     <label class="checkbox-item">
-                                        <input type="checkbox" id="optStage" value="15000000" checked />
-                                        <span>Sân khấu & Màn LED HD (+15 triệu)</span>
+                                        <input type="checkbox" id="svcFlower" value="12000000" checked />
+                                        <span>Gói trang trí hoa tươi sảnh & bàn tiệc (+12 triệu)</span>
                                     </label>
                                     <label class="checkbox-item">
-                                        <input type="checkbox" id="optSound" value="12000000" checked />
-                                        <span>Âm thanh & Ánh sáng cao cấp (+12 triệu)</span>
+                                        <input type="checkbox" id="svcSound" value="10000000" checked />
+                                        <span>Âm thanh & Ánh sáng sân khấu biểu diễn (+10 triệu)</span>
                                     </label>
                                     <label class="checkbox-item">
-                                        <input type="checkbox" id="optMC" value="8000000" />
-                                        <span>MC & Vũ đoàn biểu diễn (+8 triệu)</span>
+                                        <input type="checkbox" id="svcMusic" value="6000000" />
+                                        <span>Ban nhạc hòa tấu Acoustic đón khách (+6 triệu)</span>
                                     </label>
                                     <label class="checkbox-item">
-                                        <input type="checkbox" id="optMedia" value="10000000" checked />
-                                        <span>Quay phim 4K & Chụp ảnh Flycam (+10 triệu)</span>
+                                        <input type="checkbox" id="svcMedia" value="8000000" />
+                                        <span>Quay phim 4K & Chụp ảnh phóng sự tiệc (+8 triệu)</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- CỘT KẾT QUẢ DỰ TRÙ & BẢNG TỔNG HỢP (UC-08) -->
                         <div class="calc-result-box">
                             <div class="result-card">
-                                <span class="result-badge">Ước tính ngân sách</span>
-                                <div class="result-amount" id="totalEstimatePrice">67.000.000 VNĐ</div>
-                                <p class="result-note">* Giá chưa bao gồm VAT và địa điểm. Đã bao gồm trọn gói nhân sự kỹ thuật & chi phí vận chuyển trong nội thành.</p>
-                                
+                                <span class="result-badge">DỰ TOÁN NGÂN SÁCH ĐÃ GỒM VAT</span>
+                                <div class="result-amount" id="totalEstimatePrice" style="color: var(--teal); font-size: 2.2rem; margin: 12px 0;">
+                                    0 VNĐ
+                                </div>
+                                <p class="result-note">* Báo giá có giá trị tham khảo theo biểu giá chính thức của EVManager. Đã áp dụng ưu đãi tặng kèm & VAT 8%.</p>
+
                                 <hr class="result-divider" />
 
                                 <div class="result-breakdown">
                                     <div class="bd-row">
-                                        <span>Phí gói cơ bản:</span>
-                                        <strong id="basePriceLabel">40.000.000đ</strong>
+                                        <span>Tiền thực đơn Set Menu:</span>
+                                        <strong id="menuPriceLabel">0đ</strong>
                                     </div>
                                     <div class="bd-row">
-                                        <span>Phụ thu số lượng khách:</span>
-                                        <strong id="guestPriceLabel">15.000.000đ</strong>
+                                        <span>Tiền dịch vụ đi kèm:</span>
+                                        <strong id="servicePriceLabel">0đ</strong>
                                     </div>
                                     <div class="bd-row">
-                                        <span>Dịch vụ bổ sung:</span>
-                                        <strong id="addonPriceLabel">37.000.000đ</strong>
+                                        <span>Dịch vụ tặng kèm (>25 bàn):</span>
+                                        <strong id="giftNoticeLabel" style="color:#059669;">Tặng MC & Tháp rượu</strong>
+                                    </div>
+                                    <div class="bd-row">
+                                        <span>Thuế VAT (8%):</span>
+                                        <strong id="vatPriceLabel">0đ</strong>
+                                    </div>
+                                    <div class="bd-row" style="background:#fffbeb; padding:8px 10px; border-radius:6px; margin-top:8px;">
+                                        <span style="color:#b45309; font-weight:700;">Tiền cọc đợt 1 (30%):</span>
+                                        <strong id="deposit30Label" style="color:#b45309;">0đ</strong>
                                     </div>
                                 </div>
 
-                                <button class="btn btn-primary btn-block margin-top" id="calcSubmitBtn">
-                                    📩 Nhận Báo Giá Chi Tiết Qua Email
+                                <button class="btn btn-primary btn-block margin-top" id="calcSubmitBtn" style="font-weight: 700; height: 48px;">
+                                    📝 Đặt Tư Vấn & Giữ Sảnh Ngay
                                 </button>
                             </div>
                         </div>
@@ -151,36 +178,36 @@
             <div class="section-container footer-content">
                 <div class="footer-brand-col">
                     <div class="nav-brand">
-                        <span class="brand-icon">◒</span>
-                        <span class="brand-text">LV34 <span>EVENTS</span></span>
+                        <span class="brand-icon">🏛️</span>
+                        <span class="brand-text">EV<span>MANAGER</span></span>
                     </div>
-                    <p>Hệ thống quản lý và tổ chức sự kiện chuyên nghiệp hàng đầu. Kiến tạo những trải nghiệm độc đáo và dịch vụ hoàn hảo.</p>
+                    <p>Trung tâm Hội nghị & Tiệc cưới hàng đầu. Cung cấp không gian đẳng cấp, ẩm thực tinh hoa và giải pháp tổ chức trọn gói.</p>
                 </div>
                 <div class="footer-links-col">
                     <h4>Liên kết nhanh</h4>
                     <ul>
                         <li><a href="index.html">Trang chủ</a></li>
-                        <li><a href="services.html">Dịch vụ tổ chức</a></li>
-                        <li><a href="calculator.html">Công cụ tính chi phí</a></li>
-                        <li><a href="gallery.html">Thư viện sự kiện</a></li>
+                        <li><a href="services.html">Sảnh tiệc & Dịch vụ</a></li>
+                        <li><a href="calculator.html">Dự trù ngân sách</a></li>
+                        <li><a href="schedule.html">Lịch vận hành</a></li>
                     </ul>
                 </div>
                 <div class="footer-links-col">
-                    <h4>Tài khoản & Hệ thống</h4>
+                    <h4>Cổng Quản Trị</h4>
                     <ul>
-                        <li><a href="login.html">Đăng nhập Quản trị</a></li>
-                        <li><a href="register.html">Đăng ký tài khoản</a></li>
-                        <li><a href="admin.html">Bảng điều khiển (Admin)</a></li>
+                        <li><a href="login.html">Đăng nhập nhân viên</a></li>
+                        <li><a href="admin.html">Bảng điều khiển Trung tâm</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2026 LV34 Event Operations. Tất cả quyền được bảo lưu.</p>
+                <p>© 2026 EVManager - Trung tâm Hội nghị & Tiệc cưới. Thiết kế theo tiêu chuẩn SRS v1.0.</p>
             </div>
         </footer>
     </div>
 
-    <!-- Script riêng cho trang Tính chi phí -->
+    <!-- Scripts -->
     <script src="js/calculator.js"></script>
 </body>
+
 </html>

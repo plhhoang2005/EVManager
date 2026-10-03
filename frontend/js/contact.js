@@ -3,7 +3,7 @@
  * Xử lý tự động điền dịch vụ và gửi form liên hệ trên trang contact.html
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const currentUser = sessionStorage.getItem('currentUser');
     const navActions = document.getElementById('navActions');
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const navMenu = document.getElementById('navMenu');
     if (mobileMenuBtn && navMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
+        mobileMenuBtn.addEventListener('click', function () {
             navMenu.classList.toggle('open');
         });
     }
@@ -46,11 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Form Submit
     const contactForm = document.getElementById('publicContactForm');
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
             const successMsg = document.getElementById('contactSuccessMsg');
             if (successMsg) {
-                successMsg.textContent = '🎉 Yêu cầu của bạn đã được gửi thành công! Chuyên viên LV34 sẽ liên hệ lại trong ít phút.';
+                successMsg.textContent = '🎉 Yêu cầu của bạn đã được gửi thành công! Chuyên viên tư vấn EVManager sẽ liên hệ lại trong ít phút.';
                 successMsg.hidden = false;
                 contactForm.reset();
             }

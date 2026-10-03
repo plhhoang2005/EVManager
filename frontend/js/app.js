@@ -13,6 +13,34 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
+    // Kiểm tra nếu tài khoản đang đăng nhập đã bị Quản trị viên khóa
+    if (currentUser) {
+        const lockedRaw = localStorage.getItem('ev_locked_accounts');
+        const lockedList = lockedRaw ? JSON.parse(lockedRaw) : [];
+        const isLockedDirect = lockedList.includes(currentUser.toLowerCase());
+
+        let isLockedInUsers = false;
+        const usersRaw = localStorage.getItem('ev_users');
+        if (usersRaw) {
+            try {
+                const uList = JSON.parse(usersRaw);
+                const found = uList.find(u => u.username && u.username.toLowerCase() === currentUser.toLowerCase());
+                if (found && (found.status === 'LOCKED' || found.status === 'INACTIVE')) {
+                    isLockedInUsers = true;
+                }
+            } catch (e) {}
+        }
+
+        if (isLockedDirect || isLockedInUsers) {
+            alert(`⚠️ Tài khoản "${currentUser}" đã bị Quản trị viên KHÓA. Phiên làm việc của bạn kết thúc!`);
+            sessionStorage.removeItem('accessToken');
+            sessionStorage.removeItem('currentUser');
+            sessionStorage.removeItem('userRole');
+            window.location.href = 'login.html';
+            return;
+        }
+    }
+
     const greetingElems = [
         document.getElementById('adminUserGreeting'),
         document.getElementById('adminSidebarGreeting')
@@ -28,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function() {
             sessionStorage.removeItem('accessToken');
             sessionStorage.removeItem('currentUser');
+            sessionStorage.removeItem('userRole');
             window.location.href = 'login.html';
         });
     });
