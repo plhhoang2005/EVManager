@@ -7,7 +7,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng ký tài khoản - LV34 Event Operations</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Đăng ký tài khoản - LV34 (Bản mới)</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,18 +29,24 @@
             <p class="eyebrow">Chào mừng bạn đến với chúng tôi</p>
             <h1 id="login-title">Đăng ký</h1>
             <form id="registerForm" class="login-form">
-                <label for="username">Tên đăng nhập/Email</label>
-                <input id="username" name="username" type="text" autocomplete="username" placeholder="Nhập tên đăng nhập hoặc email" required>
+                <label for="username">Tên đăng nhập</label>
+                <input id="username" name="username" type="text" autocomplete="username" placeholder="Nhập tên đăng nhập" required>
                 
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="Nhập email" required>
+
+                <label for="fullName">Tên hiển thị (Full Name)</label>
+                <input id="fullName" name="fullName" type="text" autocomplete="name" placeholder="Nhập tên của bạn" required>
+
                 <label for="password">Mật khẩu</label>
                 <div class="password-field">
-                    <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu" required>
+                    <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Nhập mật khẩu" required>
                     <button type="button" class="password-toggle" aria-label="Hiện mật khẩu" aria-pressed="false">Hiện</button>
                 </div>
                 
                 <label for="confirmPassword">Xác nhận mật khẩu</label>
                 <div class="password-field">
-                    <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="current-password" placeholder="Xác nhận mật khẩu" required>
+                    <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Xác nhận mật khẩu" required>
                     <button type="button" class="password-toggle" aria-label="Hiện mật khẩu" aria-pressed="false">Hiện</button>
                 </div>
                 
@@ -46,7 +55,6 @@
                 
                 <p>Nếu bạn đã có tài khoản? <a href="login.html" class="forgot-password">Đăng nhập</a></p>
             </form>
-            <p class="login-hint">Tài khoản demo: <strong>admin</strong> / <strong>123</strong></p>
         </section>  
         
         <aside class="auth-aside" aria-label="Thông tin hệ thống">
@@ -57,7 +65,8 @@
         </aside>
     </main>
 
-    <!-- Script riêng cho trang Đăng ký -->
+    <!-- Script kết nối API và xử lý Đăng ký -->
+    <script src="js/api.js"></script>
     <script src="js/register.js"></script>
 </body>
 </html>

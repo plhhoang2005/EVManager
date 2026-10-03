@@ -37,10 +37,10 @@ public class UserService {
 
     @Transactional
     public UserResponse createUser(UserCreateRequest request) {
-        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+        if (userRepository.findByUsernameIgnoreCase(request.getUsername().trim()).isPresent()) {
             throw new ResourceConflictException("Username already exists");
         }
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+        if (userRepository.findByEmailIgnoreCase(request.getEmail().trim()).isPresent()) {
             throw new ResourceConflictException("Email already exists");
         }
 
@@ -48,11 +48,11 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("Role not found: " + request.getRoleName()));
 
         User user = new User();
-        user.setUsername(request.getUsername());
+        user.setUsername(request.getUsername().trim());
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
-        user.setEmail(request.getEmail());
-        user.setFullName(request.getFullName());
-        user.setPhone(request.getPhone());
+        user.setEmail(request.getEmail().trim().toLowerCase());
+        user.setFullName(request.getFullName().trim());
+        user.setPhone(request.getPhone() != null ? request.getPhone().trim() : null);
         user.setRole(role);
         user.setStatus("ACTIVE");
 
@@ -76,7 +76,7 @@ public class UserService {
 
     @Transactional
     public void changePassword(String username, ChangePasswordRequest request) {
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByUsernameIgnoreCase(username.trim())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!passwordEncoder.matches(request.getOldPassword(), user.getPasswordHash())) {

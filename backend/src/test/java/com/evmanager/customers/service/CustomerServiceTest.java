@@ -59,7 +59,7 @@ class CustomerServiceTest {
     @Test
     void createCustomer_Success() {
         when(customerRepository.findByPhone(anyString())).thenReturn(Optional.empty());
-        when(customerRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(customerRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.empty());
         when(customerRepository.save(any(Customer.class))).thenReturn(mockCustomer);
 
         CustomerResponse response = customerService.createCustomer(mockCreateRequest);
@@ -81,7 +81,7 @@ class CustomerServiceTest {
     void updateCustomer_Success() {
         when(customerRepository.findById(1L)).thenReturn(Optional.of(mockCustomer));
         when(customerRepository.findByPhone(anyString())).thenReturn(Optional.empty());
-        when(customerRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(customerRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.empty());
         when(customerRepository.save(any(Customer.class))).thenReturn(mockCustomer);
 
         CustomerResponse response = customerService.updateCustomer(1L, mockUpdateRequest);

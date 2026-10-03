@@ -22,4 +22,10 @@ public class AuthController {
         String token = authService.login(loginRequest);
         return ResponseEntity.ok(new LoginResponse(token));
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@Valid @RequestBody com.evmanager.users.dto.UserRegistrationRequest request) {
+        authService.register(request);
+        return ResponseEntity.status(org.springframework.http.HttpStatus.CREATED).body("User registered successfully");
+    }
 }

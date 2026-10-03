@@ -45,7 +45,7 @@ class UserServiceTest {
         request.setOldPassword("old_password");
         request.setNewPassword("new_password123");
 
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+        when(userRepository.findByUsernameIgnoreCase("testuser")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("old_password", "hashed_old_password")).thenReturn(true);
         when(passwordEncoder.matches("new_password123", "hashed_old_password")).thenReturn(false);
         when(passwordEncoder.encode("new_password123")).thenReturn("hashed_new_password");
@@ -62,7 +62,7 @@ class UserServiceTest {
         request.setOldPassword("old_password");
         request.setNewPassword("new_password123");
 
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.empty());
+        when(userRepository.findByUsernameIgnoreCase("testuser")).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () -> userService.changePassword("testuser", request));
         verify(userRepository, never()).save(any(User.class));
@@ -74,7 +74,7 @@ class UserServiceTest {
         request.setOldPassword("wrong_old_password");
         request.setNewPassword("new_password123");
 
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+        when(userRepository.findByUsernameIgnoreCase("testuser")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("wrong_old_password", "hashed_old_password")).thenReturn(false);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
@@ -90,7 +90,7 @@ class UserServiceTest {
         request.setOldPassword("old_password");
         request.setNewPassword("old_password");
 
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+        when(userRepository.findByUsernameIgnoreCase("testuser")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("old_password", "hashed_old_password")).thenReturn(true);
         // Assuming passwordEncoder.matches returns true if new password matches old hash
         when(passwordEncoder.matches("old_password", "hashed_old_password")).thenReturn(true);

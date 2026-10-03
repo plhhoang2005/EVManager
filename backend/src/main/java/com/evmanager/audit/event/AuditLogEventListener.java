@@ -72,7 +72,7 @@ public class AuditLogEventListener {
             if (authentication != null && authentication.isAuthenticated() 
                     && !"anonymousUser".equals(authentication.getPrincipal())) {
                 String username = authentication.getName();
-                Optional<User> userOpt = userRepository.findByUsername(username);
+                Optional<User> userOpt = userRepository.findByUsernameIgnoreCase(username);
                 userOpt.ifPresent(auditLog::setUser);
             }
 
