@@ -1,0 +1,34 @@
+131: [Backend] BE-34: BĂ n giao toĂ n bá»™ mĂ£ nguá»“n Backend, cáº¥u hĂ¬nh mĂ´i trÆ°á»ng vĂ  tĂ i liá»‡u API
+130: [Backend] BE-33: Thiáº¿t láº­p ká»‹ch báº£n sao lÆ°u vĂ  phá»¥c há»“i dá»¯ liá»‡u tá»± Ä‘á»™ng (Backup & Restore)
+129: [Backend] BE-32: TĂ­ch há»£p Swagger / OpenAPI Spec tá»± Ä‘á»™ng sinh tĂ i liá»‡u API Ä‘áº§y Ä‘á»§
+128: [Backend] BE-31: Sá»­a cĂ¡c lá»—i backend do QA ghi nháº­n trong Defect Log
+127: [Backend] BE-30: Triá»ƒn khai Backend API lĂªn mĂ´i trÆ°á»ng Staging/Cloud phá»¥c vá»¥ kiá»ƒm thá»­ UAT
+126: [Backend] BE-29: Cáº¥u hĂ¬nh CORS, Rate Limiting vĂ  báº£o máº­t Header vá»›i Helmet
+125: [Backend] BE-28: Tá»‘i Æ°u hĂ³a hiá»‡u nÄƒng cÆ¡ sá»Ÿ dá»¯ liá»‡u: ÄĂ¡nh chá»‰ má»¥c Index cho cĂ¡c trÆ°á»ng tra cá»©u
+124: [Backend] BE-27: Thiáº¿t láº­p GitHub Actions Workflow: Tá»± Ä‘á»™ng cháº¡y Lint, Build vĂ  Unit Test (CI)
+123: [Backend] BE-26: TĂ­ch há»£p dá»‹ch vá»¥ gá»­i Email thĂ´ng bĂ¡o tá»± Ä‘á»™ng khi khĂ¡ch kĂ½ há»£p Ä‘á»“ng/Ä‘áº·t cá»c
+122: [Backend] BE-25: XĂ¢y dá»±ng Service xuáº¥t dá»¯ liá»‡u há»£p Ä‘á»“ng tiá»‡c cÆ°á»›i ra Ä‘á»‹nh dáº¡ng PDF
+121: [Backend] BE-24: XĂ¢y dá»±ng Service xuáº¥t bĂ¡o cĂ¡o thá»‘ng kĂª danh sĂ¡ch sá»± kiá»‡n ra file Excel (ExcelJS)
+120: [Backend] BE-23: PhĂ¡t triá»ƒn API BĂ¡o cĂ¡o: Thá»‘ng kĂª sá»‘ lÆ°á»£ng tiá»‡c cÆ°á»›i vĂ  tá»· lá»‡ láº¥p Ä‘áº§y sáº£nh
+119: [Backend] BE-22: PhĂ¡t triá»ƒn Module Dashboard: Viáº¿t cĂ¢u lá»‡nh tá»•ng há»£p thá»‘ng kĂª doanh thu theo thĂ¡ng
+118: [Backend] BE-21: XĂ¢y dá»±ng Database Transaction Ä‘áº£m báº£o tĂ­nh nguyĂªn tá»­ khi táº¡o Há»£p Ä‘á»“ng & Cá»c
+117: [Backend] BE-20: PhĂ¡t triá»ƒn Module Payments: API Ghi nháº­n tiá»n Ä‘áº·t cá»c Ä‘á»£t 1 vĂ  thanh toĂ¡n Ä‘á»£t 2
+116: [Backend] BE-19: XĂ¢y dá»±ng State Machine quáº£n lĂ½ vĂ²ng Ä‘á»i há»£p Ä‘á»“ng (Draft -> Confirmed -> Completed)
+115: [Backend] BE-18: PhĂ¡t triá»ƒn Module Contracts: API Táº¡o Ä‘Æ¡n Ä‘áº·t tiá»‡c, tĂ­nh chi phĂ­ vĂ  chiáº¿t kháº¥u
+114: [Backend] BE-17: PhĂ¡t triá»ƒn Module Services: API Quáº£n lĂ½ danh má»¥c gĂ³i dá»‹ch vá»¥ tiá»‡c cÆ°á»›i
+113: [Backend] BE-16: PhĂ¡t triá»ƒn Module Dishes & Menu: API Quáº£n lĂ½ mĂ³n Äƒn vĂ  danh má»¥c thá»±c Ä‘Æ¡n
+112: [Backend] BE-15: TĂ­ch há»£p API ÄÄƒng nháº­p vĂ  KhĂ¡ch hĂ ng cho báº£n Demo giá»¯a ká»³ 50%
+111: [Backend] BE-14: PhĂ¡t triá»ƒn API Tra cá»©u tĂ¬nh tráº¡ng sáº£nh trá»‘ng theo khung ngĂ y vĂ  buá»•i tiá»‡c
+110: [Backend] BE-13: XĂ¢y dá»±ng Thuáº­t toĂ¡n kiá»ƒm tra xung Ä‘á»™t trĂ¹ng lá»‹ch sáº£nh tiá»‡c (Booking Conflict Checker)
+109: [Backend] BE-12: PhĂ¡t triá»ƒn Module Venues
+108: [Backend] BE-11: XĂ¢y dá»±ng Audit Log
+107: [Backend] BE-10: PhĂ¡t triá»ƒn Module Customers
+106: [Backend] BE-09: PhĂ¡t triá»ƒn Module Users
+105: [Backend] BE-08: XĂ¢y dá»±ng RBAC phĂ¢n quyá»n ngÆ°á»i dĂ¹ng
+104: # [Backend] BE-07: PhĂ¡t triá»ƒn Module Auth: ÄÄƒng nháº­p vĂ  JWT
+103: [Backend] BE-06: Cáº¥u hĂ¬nh Validation toĂ n cá»¥c cho DTO
+102: [Backend] BE-05: XĂ¢y dá»±ng Global Exception Handling
+101: [Backend] BE-04: Khá»Ÿi táº¡o Spring Boot Backend Skeleton
+100: [Backend] BE-03: Cáº¥u hĂ¬nh Docker Compose mĂ´i trÆ°á»ng cÆ¡ sá»Ÿ dá»¯ liá»‡u PostgreSQL cá»¥c bá»™
+99: [Backend] BE-02: Thiáº¿t káº¿ kiáº¿n trĂºc Modular Backend theo chuáº©n Clean Architecture
+98: [Backend] BE-01: Kháº£o sĂ¡t vĂ  lá»±a chá»n cĂ´ng nghá»‡ Backend: NestJS, TypeScript, PostgreSQL

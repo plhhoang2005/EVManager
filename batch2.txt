@@ -1,0 +1,1126 @@
+
+--- 100.md ---
+[Backend] BE-03: Cấu hình Docker Compose môi trường cơ sở dữ liệu PostgreSQL cục bộ
+
+# [Backend] BE-03: Cấu hình PostgreSQL Docker Environment
+
+## 🎯 Mục tiêu
+
+Cấu hình môi trường PostgreSQL local bằng Docker Compose phục vụ phát triển Backend.
+
+## 📋 Checklist công việc
+
+* [x] Tạo `backend/docker-compose.yml` với PostgreSQL 16.
+* [x] Cấu hình thông tin kết nối Database qua `.env.example`.
+* [x] Thiết lập Volume để lưu dữ liệu PostgreSQL.
+* [x] Kiểm tra kết nối PostgreSQL từ máy local.
+* [x] Cập nhật hướng dẫn khởi động bằng `docker compose up -d`.
+
+## 📦 Kết quả cần giao nộp
+
+* [x] `backend/docker-compose.yml`
+* [x] `backend/.env.example`
+* [x] PostgreSQL khởi động và kết nối thành công.
+
+## 🛠 Tech Stack
+
+* PostgreSQL 16
+* Docker
+* Docker Compose
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+**Deadline:** 20/09/2026
+
+
+--- 101.md ---
+[Backend] BE-04: Khởi tạo Spring Boot Backend Skeleton
+
+# [Backend] BE-04: Khởi tạo Spring Boot Backend Skeleton
+
+## 🎯 Mục tiêu
+
+Khởi tạo Backend Skeleton cho EVManager bằng Java 21 và Spring Boot.
+
+## 📋 Checklist công việc
+
+* [x] Khởi tạo project Spring Boot tại `backend/`
+* [x] Cấu hình Java 21 và Maven
+* [x] Cấu hình Spring Web
+* [x] Cấu hình Spring Data JPA + Hibernate
+* [x] Cấu hình kết nối PostgreSQL
+* [x] Cấu hình biến môi trường cho Database
+* [x] Tạo cấu trúc package Backend cơ bản
+* [x] Tạo API Health Check `GET /api/health`
+* [x] Kiểm tra Backend khởi động thành công
+* [x] Kiểm tra project build thành công
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Mã nguồn Backend tại `backend/`
+* [x] Backend chạy thành công
+* [x] Kết nối PostgreSQL thành công
+* [x] API `GET /api/health` hoạt động
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21 LTS
+* Spring Boot
+* Spring Web
+* Spring Data JPA + Hibernate
+* PostgreSQL
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+20/09/2026
+
+
+--- 102.md ---
+[Backend] BE-05: Xây dựng Global Exception Handling
+
+🎯 Mục tiêu
+
+Xây dựng cơ chế xử lý Exception tập trung cho Backend Spring Boot và chuẩn hóa JSON Error Response.
+
+📋 Checklist công việc
+
+Tạo Global Exception Handler bằng @RestControllerAdvice
+
+Xử lý các lỗi HTTP phổ biến
+
+Xử lý lỗi Validation từ @Valid
+
+Xử lý lỗi Resource Not Found
+
+Xử lý lỗi Conflict
+
+Chuẩn hóa cấu trúc JSON Error Response
+
+Ghi log lỗi Server
+
+Kiểm tra các API trả về Error Response đúng format
+
+📦 Kết quả cần giao nộp
+
+Global Exception Handler trong backend/
+
+Error Response DTO/Model
+
+Các lỗi được xử lý tập trung
+
+API trả về JSON Error Response thống nhất
+
+Pull Request vào develop
+
+🛠 Tech Stack
+Java 21 LTS
+Spring Boot
+Spring Web
+Jakarta Bean Validation
+Maven
+👤 Owner
+
+Phúc – Backend/DevOps
+
+📅 Deadline
+
+20/09/2026
+
+--- 103.md ---
+[Backend] BE-06: Cấu hình Validation toàn cục cho DTO
+
+## 🎯 Mục tiêu
+
+Cấu hình cơ chế Validation toàn cục để kiểm tra dữ liệu đầu vào của DTO trong Backend Spring Boot.
+
+## 📋 Checklist công việc
+
+* [x] Cấu hình Jakarta Bean Validation
+* [x] Sử dụng annotation Validation cho DTO
+* [x] Kích hoạt validation với `@Valid`
+* [x] Kiểm tra dữ liệu đầu vào không hợp lệ
+* [x] Chuẩn hóa thông báo lỗi Validation
+* [x] Tích hợp với Global Exception Handler
+* [x] Kiểm tra Validation trên API mẫu
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Cấu hình Validation trong `backend/`
+* [x] DTO mẫu có Validation
+* [x] Validation hoạt động với API
+* [x] JSON Error Response khi dữ liệu không hợp lệ
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21 LTS
+* Spring Boot
+* Spring Web
+* Jakarta Bean Validation
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+20/09/2026
+
+
+--- 104.md ---
+# [Backend] BE-07: Phát triển Module Auth: Đăng nhập và JWT
+
+
+
+## 🎯 Mục tiêu
+
+Phát triển Module Auth cho phép đăng nhập, kiểm tra mật khẩu bằng BCrypt và xác thực bằng JWT.
+
+## 📋 Checklist công việc
+
+* [x] Cấu hình Spring Security và JWT
+* [x] Cấu hình BCrypt Password Encoder
+* [x] Tạo Auth Controller và Auth Service
+* [x] Xây dựng API `POST /api/v1/auth/login`
+* [x] Kiểm tra username/email và mật khẩu
+* [x] Sinh JWT Access Token sau khi đăng nhập thành công
+* [x] Xác thực JWT từ Header `Authorization: Bearer <token>`
+* [x] Xử lý đăng nhập sai và token không hợp lệ
+* [x] Kiểm tra API đăng nhập bằng Postman
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Module Auth trong `backend/`
+* [x] API `POST /api/v1/auth/login`
+* [x] BCrypt Password Encoder hoạt động
+* [x] JWT Authentication hoạt động
+* [x] JSON Response đăng nhập và lỗi đúng chuẩn
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21 LTS
+* Spring Boot
+* Spring Security
+* JWT
+* Jakarta Bean Validation
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+27/09/2026
+
+
+--- 105.md ---
+[Backend] BE-08: Xây dựng RBAC phân quyền người dùng
+
+
+
+## 🎯 Mục tiêu
+
+Xây dựng cơ chế phân quyền người dùng theo vai trò (Role-Based Access Control - RBAC) bằng Spring Security.
+
+## 📋 Checklist công việc
+
+* [x] Cấu hình Role-based Authorization với Spring Security
+* [x] Định nghĩa các Role của hệ thống
+* [x] Đọc Role từ thông tin người dùng sau khi xác thực JWT
+* [x] Phân quyền truy cập theo Role cho API
+* [x] Trả về HTTP 403 Forbidden khi không đủ quyền
+* [x] Áp dụng phân quyền mẫu cho API quản lý sảnh tiệc
+* [x] Kiểm tra quyền truy cập bằng Postman
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Cấu hình RBAC trong `backend/`
+* [x] Role Authorization hoạt động với JWT
+* [x] API được bảo vệ theo Role
+* [x] Xử lý lỗi 403 đúng chuẩn JSON Response
+* [x] Tài liệu phân quyền cho Frontend và QA
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21 LTS
+* Spring Boot
+* Spring Security
+* JWT
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+27/09/2026
+
+
+--- 106.md ---
+[Backend] BE-09: Phát triển Module Users
+
+
+
+## 🎯 Mục tiêu
+
+Phát triển Module Users để quản lý tài khoản nhân viên, đổi mật khẩu và khóa/mở khóa tài khoản.
+
+## 📋 Checklist công việc
+
+* [x] Xây dựng Entity và Repository cho User
+* [x] Xây dựng API lấy danh sách User có phân trang và lọc theo Role
+* [x] Xây dựng API tạo User mới
+* [x] Băm mật khẩu bằng BCrypt khi tạo hoặc cập nhật mật khẩu
+* [x] Xây dựng API khóa/mở khóa tài khoản
+* [x] Xây dựng API đổi mật khẩu cá nhân
+* [x] Kiểm tra quyền truy cập bằng Spring Security
+* [x] Viết unit test cho xử lý mật khẩu và đổi mật khẩu
+* [x] Kiểm tra các API bằng Postman
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Module Users trong `backend/`
+* [x] CRUD User hoạt động
+* [x] Phân trang và lọc theo Role
+* [x] Khóa/mở khóa tài khoản hoạt động
+* [x] Đổi mật khẩu hoạt động
+* [x] Unit test đạt yêu cầu
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21 LTS
+* Spring Boot
+* Spring Web
+* Spring Data JPA + Hibernate
+* Spring Security
+* BCrypt
+* PostgreSQL
+* Maven
+* JUnit 5
+* Mockito
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+27/09/2026
+
+
+--- 107.md ---
+[Backend] BE-10: Phát triển Module Customers
+
+
+## 🎯 Mục tiêu
+
+Phát triển Module Customers quản lý khách hàng với CRUD, tìm kiếm và phân trang.
+
+## 📋 Checklist công việc
+
+* [x] Tạo Entity, Repository và DTO Customer
+* [x] Thêm Validation email và số điện thoại
+* [x] Xây dựng API CRUD Customer
+* [x] Thêm tìm kiếm theo tên hoặc số điện thoại
+* [x] Thêm phân trang
+* [x] Kiểm tra trùng số điện thoại và trả về `409 Conflict`
+* [x] Kiểm tra API bằng Postman
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Module Customers hoàn chỉnh
+* [x] CRUD, tìm kiếm và phân trang hoạt động
+* [x] Validation và xử lý lỗi hoạt động
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21
+* Spring Boot
+* Spring Data JPA + Hibernate
+* PostgreSQL
+* Jakarta Bean Validation
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+27/09/2026
+
+
+--- 108.md ---
+[Backend] BE-11: Xây dựng Audit Log
+
+
+## 🎯 Mục tiêu
+
+Xây dựng cơ chế ghi nhật ký thao tác người dùng để lưu vết các thay đổi quan trọng trong hệ thống.
+
+## 📋 Checklist công việc
+
+* [x] Tạo Entity và Repository cho Audit Log
+* [x] Ghi nhận các thao tác POST, PATCH, DELETE
+* [x] Lưu User, Action, Entity, Entity ID và thời gian
+* [x] Lưu IP và User-Agent
+* [x] Lưu thông tin trước và sau khi thay đổi
+* [x] Xây dựng API `GET /api/v1/audit-logs` cho Admin
+* [x] Kiểm tra Audit Log được lưu vào Database
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Module Audit Log trong `backend/`
+* [x] Audit Log tự động ghi nhận thao tác
+* [x] API tra cứu Audit Log hoạt động
+* [x] Phân quyền Admin hoạt động
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21
+* Spring Boot
+* Spring Data JPA + Hibernate
+* Spring Security
+* PostgreSQL
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+27/09/2026
+
+
+--- 109.md ---
+[Backend] BE-12: Phát triển Module Venues
+
+
+## 🎯 Mục tiêu
+
+Phát triển Module Venues quản lý sảnh tiệc, sức chứa, đơn giá và trạng thái.
+
+## 📋 Checklist công việc
+
+* [x] Tạo Entity, Repository và DTO Venue
+* [x] Xây dựng API CRUD Venue
+* [x] Quản lý sức chứa và đơn giá sảnh
+* [x] Quản lý trạng thái sảnh, bao gồm trạng thái Bảo trì
+* [x] Phân quyền Admin cho thao tác thêm và xóa
+* [x] Xóa mềm và kiểm tra sảnh đang có hợp đồng
+* [x] Tích hợp Swagger API
+* [x] Kiểm tra API bằng Postman
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Module Venues hoàn chỉnh
+* [x] CRUD và quản lý trạng thái hoạt động
+* [x] Xóa mềm hoạt động đúng
+* [x] Phân quyền Admin hoạt động
+* [x] Swagger API được cập nhật
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21
+* Spring Boot
+* Spring Data JPA + Hibernate
+* Spring Security
+* PostgreSQL
+* Springdoc OpenAPI
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+04/10/2026
+
+
+--- 110.md ---
+[Backend] BE-13: Xây dựng Thuật toán kiểm tra xung đột trùng lịch sảnh tiệc (Booking Conflict Checker)
+
+### 🎯 Mục tiêu
+Xây dựng Thuật toán kiểm tra xung đột trùng lịch sảnh tiệc (Booking Conflict Checker Engine) - Nghiệp vụ trọng tâm.
+
+### 📋 Checklist công việc
+- [x] Thiết kế logic kiểm tra giao thoa thời gian: Hai tiệc tại cùng 1 sảnh sẽ xung đột nếu: `(StartA < EndB) AND (EndA > StartB)`.
+- [x] Bổ sung thời gian đệm (Buffer Time 60 phút) giữa 2 ca tiệc để phục vụ dọn dẹp và chuẩn bị sảnh.
+- [x] Xây dựng hàm `checkVenueAvailability(venueId, eventDate, shift, startTime, endTime)` sử dụng Spring Data JPA Query / JPQL tối ưu.
+- [x] Ném ngoại lệ `ConflictException` (HTTP 409) kèm thông tin chi tiết về tiệc đã đặt đè nếu có xung đột.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn: `backend/src/events/services/conflict-checker.service.java`.
+- Bộ Unit Test `conflict-checker.spec.java` kiểm thử đầy đủ các trường hợp biên.
+
+**Deadline:** 04/10/2026
+
+
+--- 111.md ---
+[Backend] BE-14: Phát triển API Tra cứu tình trạng sảnh trống theo khung ngày và buổi tiệc
+
+### 🎯 Mục tiêu
+Phát triển API Tra cứu tình trạng sảnh trống theo khung ngày và buổi tiệc phục vụ chức năng Calendar.
+
+### 📋 Checklist công việc
+- [x] Viết API `GET /api/venues/available`: Nhận query params `date` (YYYY-MM-DD) và `shift` (LUNCH/DINNER).
+- [x] Truy vấn danh sách các sảnh tiệc chưa có lịch đặt hợp lệ trong khung thời gian yêu cầu.
+- [x] Viết API `GET /api/events/calendar`: Trả về toàn bộ các sự kiện tiệc cưới trong tháng phục vụ hiển thị lịch FullCalendar.
+- [x] Định dạng dữ liệu trả về chuẩn FullCalendar Event Object: `{ id, title, start, end, backgroundColor, extendedProps }`.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn endpoint trong `VenuesController` và `EventsController`.
+- Bàn giao API cho Nhân tích hợp lên giao diện Calendar.
+
+**Deadline:** 04/10/2026
+
+
+--- 112.md ---
+[Backend] BE-15: Tích hợp API Đăng nhập và Khách hàng cho bản Demo giữa kỳ 50%
+
+### 🎯 Mục tiêu
+Tích hợp và kiểm thử API Đăng nhập và Khách hàng cho bản Demo giữa kỳ 50%.
+
+### 📋 Checklist công việc
+- [x] Phối hợp với Frontend Nhân kiểm thử luồng gọi API thực tế qua mạng nội bộ.
+- [x] Cấu hình CORS trong `cấu hình Spring (SecurityConfig / WebMvcConfigurer)` cho phép origin `http://localhost:3000` truy cập API.
+- [x] Nạp 10 khách hàng mẫu và 5 sảnh tiệc vào cơ sở dữ liệu.
+- [x] Chạy thử kịch bản Demo giữa kỳ trơn tru, không phát sinh lỗi 500.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Bản build backend chạy ổn định trên nhánh `develop`.
+- Xác nhận nghiệm thu nội bộ cùng PM Hoàng trước buổi báo cáo.
+
+**Deadline:** 04/10/2026
+
+
+--- 119.md ---
+[Backend] BE-22: Phát triển Module Dashboard: Viết câu lệnh tổng hợp thống kê doanh thu theo tháng
+
+### 🎯 Mục tiêu
+
+Phát triển Module Dashboard: Viết câu truy vấn tổng hợp thống kê doanh thu và chỉ số vận hành.
+
+
+
+### 📋 Checklist công việc
+
+- [ ] Viết API `GET /api/dashboard/stats`: Thống kê tổng doanh thu tháng hiện tại, tỷ lệ tăng trưởng so với tháng trước.
+
+- [ ] Viết câu lệnh SQL Group By tổng hợp doanh thu theo từng tháng trong năm để phục vụ biểu đồ cột.
+
+- [ ] Thống kê số lượng hợp đồng theo từng trạng thái (Đã cọc, Đang tiệc, Đã thanh lý, Đã hủy).
+
+- [ ] Tối ưu hóa query database sử dụng câu lệnh Raw Query hoặc JPA / Hibernate Aggregate để tăng tốc độ phản hồi < 500ms.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn: `backend/src/dashboard/` controller và service.
+
+- Tích hợp API số liệu Dashboard cho Frontend Nhân.
+
+
+
+**Deadline:** 18/10/2026
+
+
+
+--- 120.md ---
+[Backend] BE-23: Phát triển API Báo cáo: Thống kê số lượng tiệc cưới và tỷ lệ lấp đầy sảnh
+
+### 🎯 Mục tiêu
+Phát triển API Báo cáo: Thống kê tần suất sử dụng và tỷ lệ lấp đầy của từng sảnh tiệc.
+
+### 📋 Checklist công việc
+- [ ] Viết API `GET /api/reports/venue-occupancy`: Nhận khoảng thời gian từ ngày... đến ngày...
+- [ ] Tính tỷ lệ lấp đầy sảnh: $Occupancy = (Số ca tiệc thực tế / Tổng số ca tiệc khả dụng trong tháng) \times 100\%$.
+- [ ] Xếp hạng các sảnh tiệc mang lại doanh thu cao nhất cho trung tâm.
+- [ ] Cung cấp số liệu để Ban Giám đốc đưa ra chính sách điều chỉnh giá thuê sảnh mùa thấp điểm.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn endpoint trong `ReportsController`.
+- Xuất tài liệu mô tả công thức tính toán vào comment issue.
+
+**Deadline:** 18/10/2026
+
+
+--- 121.md ---
+[Backend] BE-24: Xây dựng Service xuất báo cáo thống kê danh sách sự kiện ra file Excel (ExcelJS)
+
+### 🎯 Mục tiêu
+
+
+Xây dựng Service xuất báo cáo danh sách tiệc cưới và doanh thu ra file Excel chuẩn định dạng bằng Apache POI.
+
+
+
+
+
+### 📋 Checklist công việc
+
+
+- [ ] Cài đặt thư viện `Apache POI` trong dự án Spring Boot.
+
+
+- [ ] Tạo Service định dạng file Excel chuyên nghiệp: Thêm tiêu đề công ty, định dạng màu sắc header, kẻ khung viền (Borders).
+
+
+- [ ] Thêm cột công thức tính tổng tiền tự động trong Excel: `=SUM(G5:G20)`.
+
+
+- [ ] Trả về file dưới dạng Stream kèm Header HTTP: `Content-Disposition: attachment; filename=BaoCao_DoanhThu.xlsx`.
+
+
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+
+- Mã nguồn: `backend/src/reports/excel-export.service.java`.
+
+
+- Tải thử nghiệm file Excel và mở kiểm tra trên Microsoft Excel.
+
+
+
+
+
+**Deadline:** 18/10/2026
+
+
+
+
+--- 122.md ---
+[Backend] BE-25: Xây dựng Service xuất dữ liệu hợp đồng tiệc cưới ra định dạng PDF
+
+### 🎯 Mục tiêu
+
+Xây dựng Service xuất dữ liệu hợp đồng tiệc cưới và phiếu thu ra file PDF bằng PDFKit / Puppeteer.
+
+
+
+### 📋 Checklist công việc
+
+- [ ] Cài đặt thư viện `pdfmake` hoặc `puppeteer` để chuyển đổi HTML template thành file PDF.
+
+- [ ] Thiết kế mẫu PDF chuẩn văn bản pháp lý: Logo trung tâm, hoa văn trang trí, bảng kê chi phí, điều khoản hợp đồng.
+
+- [ ] Hỗ trợ gõ tiếng Việt có dấu hoàn hảo không bị lỗi font chữ (sử dụng font Roboto / Times New Roman nhúng base64).
+
+- [ ] Viết API `GET /api/contracts/:id/pdf`: Tải file hợp đồng PDF về máy.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn: `backend/src/reports/pdf-export.service.java`.
+
+- File mẫu PDF xuất ra lưu tại `docs/design/sample-contract.pdf`.
+
+
+
+**Deadline:** 18/10/2026
+
+
+
+--- 123.md ---
+[Backend] BE-26: Tích hợp dịch vụ gửi Email thông báo tự động khi khách ký hợp đồng/đặt cọc
+
+### 🎯 Mục tiêu
+
+Tích hợp dịch vụ gửi Email thông báo tự động (Notification Service) khi khách ký hợp đồng hoặc nộp cọc.
+
+
+
+### 📋 Checklist công việc
+
+- [ ] Cài đặt thư viện `@Spring Boot-modules/mailer` và `nodemailer`.
+
+- [ ] Cấu hình SMTP Gmail hoặc SendGrid trong file `.env`.
+
+- [ ] Thiết kế template email HTML đẹp mắt: Thư cảm ơn khách hàng, thông tin ngày giờ tiệc cưới và mã hợp đồng.
+
+- [ ] Tự động đính kèm file hợp đồng PDF vào email khi nhân viên bấm 'Gửi hợp đồng cho khách'.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn: `backend/src/mail/` controller, service và template HTML.
+
+- Chụp ảnh hộp thư email nhận được thư xác nhận thực tế dán vào issue.
+
+
+
+**Deadline:** 18/10/2026
+
+
+
+--- 124.md ---
+[Backend] BE-27: Thiết lập GitHub Actions Workflow: Tự động chạy Lint, Build và Unit Test (CI)
+
+### 🎯 Mục tiêu
+
+
+Thiết lập GitHub Actions CI Pipeline tự động chạy Lint, Build và Unit Test mỗi khi có Pull Request.
+
+
+
+
+
+### 📋 Checklist công việc
+
+
+- [ ] Tạo file workflow `.github/workflows/backend-ci.yml` kích hoạt khi có Push hoặc PR vào nhánh `develop`.
+
+
+- [ ] Thiết lập môi trường Ubuntu, cài đặt Java 20, cache dependencies để tăng tốc độ chạy.
+
+
+- [ ] Chạy các bước kiểm tra tự động: `Maven run lint` -> `npx JPA / Hibernate generate` -> `Maven run test` -> `Maven run build`.
+
+
+- [ ] Chặn việc merge Pull Request nếu Pipeline CI bị báo đỏ (Fail).
+
+
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+
+- File cấu hình `.github/workflows/backend-ci.yml`.
+
+
+- Badge trạng thái CI xanh mướt hiển thị trên file `README.md` của repo.
+
+
+
+
+
+**Deadline:** 18/10/2026
+
+
+
+
+--- 125.md ---
+[Backend] BE-28: Tối ưu hóa hiệu năng cơ sở dữ liệu: Đánh chỉ mục Index cho các trường tra cứu
+
+### 🎯 Mục tiêu
+
+
+Tối ưu hóa hiệu năng cơ sở dữ liệu: Đánh chỉ mục Index cho các trường tra cứu thường xuyên.
+
+
+
+
+
+### 📋 Checklist công việc
+
+
+- [ ] Phân tích các câu truy vấn chậm (Slow Queries) bằng lệnh `EXPLAIN ANALYZE` trong PostgreSQL.
+
+
+- [ ] Thêm Index trong `schema.JPA / Hibernate` cho các cột: `customer_phone`, `event_date`, `contract_status`, `venue_id`.
+
+
+- [ ] Thêm Composite Index `[venueId, eventDate]` để tối ưu hóa tốc độ của hàm Conflict Checker.
+
+
+- [ ] Chạy migration bổ sung index và đo lường thời gian truy vấn giảm từ >200ms xuống <30ms.
+
+
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+
+- File migration JPA / Hibernate bổ sung Index và file `schema.JPA / Hibernate` cập nhật.
+
+
+- Báo cáo kết quả đo thời gian phản hồi trước và sau khi đánh index.
+
+
+
+
+
+**Deadline:** 25/10/2026
+
+
+
+
+--- 126.md ---
+[Backend] BE-29: Cấu hình CORS, Rate Limiting và bảo mật Header với Helmet
+
+### 🎯 Mục tiêu
+
+
+Cấu hình Bảo mật Backend: Chống tấn công Brute-force với Rate Limiting và bảo vệ HTTP Header bằng Spring Security Headers.
+
+
+
+
+
+### 📋 Checklist công việc
+
+
+- [ ] Cài đặt thư viện `@Spring Boot/throttler` cấu hình giới hạn số lượng request (VD: Tối đa 100 req/phút, riêng route Login tối đa 5 req/phút).
+
+
+- [ ] Cài đặt thư viện `Spring Security Headers` để che giấu thông tin công nghệ (ẩn header X-Powered-By) và chống tấn công XSS, Clickjacking.
+
+
+- [ ] Cấu hình CORS nghiêm ngặt: Chỉ chấp nhận request từ domain chính thức của Frontend.
+
+
+- [ ] Chặn các chuỗi ký tự tấn công SQL Injection thông qua việc sử dụng tham số hóa của JPA / Hibernate ORM.
+
+
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+
+- Mã nguồn cấu hình bảo mật trong `backend/src/app.module.java` và `cấu hình Spring (SecurityConfig / WebMvcConfigurer)`.
+
+
+- Kiểm tra thử nghiệm gửi request dồn dập và nhận mã lỗi HTTP 429 Too Many Requests.
+
+
+
+
+
+**Deadline:** 25/10/2026
+
+
+
+
+--- 127.md ---
+[Backend] BE-30: Triển khai Backend API lên môi trường Staging/Cloud phục vụ kiểm thử UAT
+
+### 🎯 Mục tiêu
+
+
+Triển khai Backend API và Database PostgreSQL lên hạ tầng Cloud (Render / Railway / VPS) phục vụ kiểm thử UAT.
+
+
+
+
+
+### 📋 Checklist công việc
+
+
+- [ ] Tạo cơ sở dữ liệu PostgreSQL Managed Database trên Cloud (Supabase hoặc Neon).
+
+
+- [ ] Chạy lệnh `npx JPA / Hibernate migrate deploy` để đồng bộ toàn bộ cấu trúc bảng lên database cloud.
+
+
+- [ ] Nạp dữ liệu mẫu (Seed Data) lên môi trường cloud bằng lệnh `npx JPA / Hibernate db seed`.
+
+
+- [ ] Deploy ứng dụng Spring Boot lên Render/Railway, cấu hình đầy đủ các biến môi trường Production.
+
+
+- [ ] Kiểm tra endpoint Health Check `GET /api/health` trả về `{ status: 'ok' }` với tên miền HTTPS công khai.
+
+
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+
+- Đường link API Staging công khai (VD: `https://evmanager-api.onrender.com/api`).
+
+
+- Bàn giao link API cho Frontend và QA kiểm thử UAT.
+
+
+
+
+
+**Deadline:** 25/10/2026
+
+
+
+
+--- 128.md ---
+[Backend] BE-31: Sửa các lỗi backend do QA ghi nhận trong Defect Log
+
+### 🎯 Mục tiêu
+Sửa các lỗi logic Backend do đội ngũ QA ghi nhận trong Defect Log trong đợt kiểm thử tích hợp.
+
+### 📋 Checklist công việc
+- [ ] Sửa lỗi BUG-01: Chuẩn hóa username/email về chữ thường (lowercase) trước khi đối chiếu đăng nhập.
+- [ ] Sửa lỗi BUG-02: Đồng bộ múi giờ UTC+7 cho các trường DateTime để tránh lệch ngày đặt tiệc.
+- [ ] Sửa lỗi BUG-03: Sửa lại công thức tính chiết khấu kép trong Service tính tiền hợp đồng.
+- [ ] Sửa lỗi BUG-04: Bổ sung Transaction lock ngăn chặn đặt trùng sảnh khi có 2 request đồng thời.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Các commit sửa bug trên nhánh `feature/backend-core`.
+- Gửi tag QA Hậu vào re-test và đóng các ticket bug tương ứng.
+
+**Deadline:** 25/10/2026
+
+
+--- 129.md ---
+[Backend] BE-32: Tích hợp Swagger / OpenAPI Spec tự động sinh tài liệu API đầy đủ
+
+### 🎯 Mục tiêu
+
+Tích hợp tài liệu Swagger / OpenAPI Spec tự động và tương tác trực tiếp trên trình duyệt.
+
+
+
+### 📋 Checklist công việc
+
+- [ ] Cài đặt thư viện `@Spring Boot/swagger` và `swagger-ui-Spring Web`.
+
+- [ ] Gắn các decorator `@ApiTags()`, `@ApiOperation()`, `@ApiResponse()`, `@ApiBearerAuth()` cho toàn bộ controllers.
+
+- [ ] Gắn `@ApiProperty()` mô tả kiểu dữ liệu, ví dụ mẫu và tính bắt buộc cho toàn bộ DTOs.
+
+- [ ] Xuất bản tài liệu tương tác tại đường dẫn `/api/docs` cho phép gửi request test trực tiếp trên web.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Giao diện Swagger UI hoạt động hoàn hảo tại `/api/docs`.
+
+- Xuất file `swagger-spec.json` lưu tại `docs/design/openapi-spec.json`.
+
+
+
+**Deadline:** 01/11/2026
+
+
+
+--- 130.md ---
+[Backend] BE-33: Thiết lập kịch bản sao lưu và phục hồi dữ liệu tự động (Backup & Restore)
+
+### 🎯 Mục tiêu
+Thiết lập kịch bản sao lưu và phục hồi dữ liệu tự động (Database Backup & Restore Script) phòng ngừa rủi ro.
+
+### 📋 Checklist công việc
+- [ ] Viết script bash `backup.sh` sử dụng tiện ích `pg_dump` để xuất dữ liệu ra file `.sql.gz` có gắn timestamp.
+- [ ] Viết script phục hồi `restore.sh` cho phép khôi phục lại dữ liệu nguyên vẹn khi xảy ra sự cố hỏng hóc CSDL.
+- [ ] Kiểm tra thực tế: Tạo dữ liệu rác -> Chạy lệnh restore -> Xác nhận dữ liệu phục hồi chính xác 100%.
+- [ ] Soạn thảo quy trình sao lưu định kỳ lưu trữ vào hồ sơ vận hành dự án.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Bộ script: `backend/scripts/backup.sh` và `restore.sh`.
+- Tài liệu hướng dẫn khôi phục dữ liệu `docs/planning/backup-restore-guide.md`.
+
+**Deadline:** 01/11/2026
+
+
+--- 131.md ---
+[Backend] BE-34: Bàn giao toàn bộ mã nguồn Backend, cấu hình môi trường và tài liệu API
+
+### 🎯 Mục tiêu
+
+Hoàn thiện tài liệu bàn giao kỹ thuật Backend, đóng gói mã nguồn và bàn giao trọn vẹn cho PM nghiệm thu.
+
+
+
+### 📋 Checklist công việc
+
+- [ ] Viết tài liệu `backend/README.md` chi tiết: Yêu cầu môi trường (Java 20+, Docker), các bước cài đặt và chạy migrate.
+
+- [ ] Dọn dẹp mã nguồn: Xóa các route thử nghiệm, xóa file log rác và tối ưu hóa file `pom.xml`.
+
+- [ ] Tạo Pull Request cuối cùng merge toàn bộ code Backend vào nhánh `develop`.
+
+- [ ] Bàn giao thông tin tài khoản Cloud và cơ sở dữ liệu cho PM Hoàng đóng dự án.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn Backend hoàn chỉnh trên nhánh `develop`.
+
+- Tài liệu bàn giao kỹ thuật `docs/design/backend-handover.md`.
+
+
+
+**Deadline:** 01/11/2026
+
+
+
+--- 98.md ---
+[Backend] BE-01: Khảo sát và lựa chọn công nghệ Backend: NestJS, TypeScript, PostgreSQL
+
+## 🎯 Mục tiêu
+
+Khảo sát, đánh giá và thống nhất Tech Stack chính thức cho hệ thống EVManager, làm cơ sở triển khai Frontend, Backend, Database và DevOps trong các giai đoạn tiếp theo.
+
+Sau khi trao đổi với PM và BA, nhóm thống nhất sử dụng:
+
+### Frontend
+
+- HTML5
+- CSS3
+- JavaScript
+- Bootstrap 5
+- Chart.js
+- FullCalendar
+- JavaScript `fetch()` để gọi REST API
+
+### Backend
+
+- Java 21 LTS
+- Spring Boot
+- Spring Web
+- Spring Data JPA + Hibernate
+- Flyway
+- Jakarta Bean Validation
+- Spring Security + JWT
+- Springdoc OpenAPI/Swagger
+- Maven
+- JUnit 5 + Mockito + Spring Boot Test
+- SLF4J + Logback
+
+### Database & DevOps
+
+- PostgreSQL
+- Docker + Docker Compose
+- GitHub Actions
+- Git + GitHub
+
+---
+
+## 📋 Checklist công việc
+
+### 1. Khảo sát Backend
+
+- [x] Đánh giá kiến trúc Spring Boot và khả năng tổ chức hệ thống theo các module.
+- [x] Đánh giá mô hình Controller → Service → Repository.
+- [x] Đánh giá Spring Data JPA + Hibernate trong việc thao tác với PostgreSQL.
+- [x] Đánh giá Spring Security + JWT cho Authentication/Authorization.
+- [x] Đánh giá Flyway cho Database Migration.
+- [x] Đánh giá Jakarta Bean Validation cho kiểm tra dữ liệu đầu vào.
+- [x] Đánh giá Springdoc OpenAPI/Swagger cho tài liệu REST API.
+
+### 2. Khảo sát Frontend
+
+- [x] Đánh giá HTML5, CSS3 và JavaScript thuần cho giao diện hệ thống.
+- [x] Đánh giá Bootstrap 5 cho giao diện responsive và các component UI.
+- [x] Đánh giá Chart.js cho Dashboard và biểu đồ thống kê.
+- [x] Đánh giá FullCalendar cho quản lý và hiển thị lịch sự kiện.
+- [x] Đánh giá JavaScript `fetch()` cho việc gọi REST API từ Backend.
+
+### 3. Khảo sát Database và DevOps
+
+- [x] Đánh giá PostgreSQL cho dữ liệu quan hệ của hệ thống.
+- [x] Đánh giá khả năng xử lý dữ liệu quan hệ phức tạp và JSON của PostgreSQL.
+- [x] Đánh giá Docker + Docker Compose cho môi trường phát triển.
+- [x] Đánh giá GitHub Actions cho CI/CD.
+- [x] Thống nhất Git + GitHub cho quản lý mã nguồn và Pull Request.
+
+### 4. Thống nhất Tech Stack
+
+- [x] Trao đổi với PM và BA.
+- [x] Xác nhận Tech Stack chính thức.
+- [x] Cập nhật tài liệu kiến trúc kỹ thuật.
+- [x] Đảm bảo các Issue Backend/Frontend tiếp theo sử dụng đúng Tech Stack đã thống nhất.
+
+---
+
+## 📦 Kết quả cần giao nộp (Deliverables)
+
+- [x] Tài liệu `docs/design/tech-stack.md`.
+- [x] Tài liệu mô tả kiến trúc kỹ thuật của hệ thống.
+- [x] Danh sách Tech Stack chính thức.
+- [x] Ghi nhận quyết định công nghệ vào hồ sơ dự án.
+
+---
+
+## 🏗️ Kiến trúc hệ thống
+
+```text
+HTML
+CSS
+JavaScript
+Bootstrap 5
+Chart.js
+FullCalendar
+        │
+        │ fetch()
+        ▼
+Spring Boot REST API
+        │
+        ├── Spring Web
+        ├── Spring Security + JWT
+        ├── Spring Data JPA
+        ├── Hibernate
+        └── Flyway
+        │
+        ▼
+PostgreSQL
+
+--- 99.md ---
+[Backend] BE-02: Thiết kế kiến trúc Modular Backend theo chuẩn Clean Architecture
+
+# [Backend] BE-02: Thiết kế kiến trúc Modular Backend theo chuẩn Clean Architecture
+
+## 🎯 Mục tiêu
+
+Thiết kế kiến trúc Backend cho EVManager sử dụng **Java 21 + Spring Boot**, theo hướng Modular Architecture và Clean Architecture.
+
+## 📋 Checklist công việc
+
+- [x] Phân chia các module: Auth, Users, Customers, Venues, Events, Contracts, Payments, Reports.
+- [x] Thiết kế kiến trúc Layer: Controller → Service / Use Case → Repository → JPA / Hibernate → PostgreSQL.
+- [x] Chuẩn hóa RESTful API với prefix `/api/v1` và endpoint dạng số nhiều.
+- [x] Chuẩn hóa HTTP Status Code: 200, 201, 400, 401, 403, 404, 409, 500.
+- [x] Thiết kế cấu trúc thư mục Backend phù hợp với Spring Boot.
+- [x] Định hướng Validation và Exception Handling.
+- [x] Định hướng Authentication/Authorization bằng Spring Security + JWT.
+
+## 📦 Kết quả cần giao nộp
+
+- [x] Tạo tài liệu `docs/design/backend-architecture.md`.
+- [x] Tạo sơ đồ kiến trúc Backend.
+- [x] Tạo sơ đồ các module để cả nhóm tham khảo.
+
+## 🛠 Tech Stack
+
+- Java 21
+- Spring Boot
+- Spring Web
+- Spring Data JPA + Hibernate
+- PostgreSQL
+- Flyway
+- Spring Security + JWT
+- Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+**Deadline:** 13/09/2026

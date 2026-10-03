@@ -21,7 +21,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'STAFF')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SALES', 'COORDINATOR')")
     public ResponseEntity<Page<CustomerResponse>> getCustomers(
             @RequestParam(required = false) String keyword,
             Pageable pageable) {
@@ -29,19 +29,19 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'STAFF')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SALES', 'COORDINATOR')")
     public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable Long id) {
         return ResponseEntity.ok(customerService.getCustomerById(id));
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'STAFF')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SALES', 'COORDINATOR')")
     public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CustomerCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createCustomer(request));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'STAFF')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SALES', 'COORDINATOR')")
     public ResponseEntity<CustomerResponse> updateCustomer(
             @PathVariable Long id,
             @Valid @RequestBody CustomerUpdateRequest request) {
@@ -49,7 +49,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
