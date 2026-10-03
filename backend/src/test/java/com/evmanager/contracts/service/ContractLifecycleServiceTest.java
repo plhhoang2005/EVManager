@@ -48,7 +48,7 @@ public class ContractLifecycleServiceTest {
     @Test
     void approveContract_success() {
         contract.setStatus(ContractStatus.PENDING_APPROVAL);
-        when(contractRepository.findById(1L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(1L)).thenReturn(Optional.of(contract));
         when(contractRepository.save(any(Contract.class))).thenReturn(contract);
 
         Contract updated = contractLifecycleService.approveContract(1L);
@@ -60,7 +60,7 @@ public class ContractLifecycleServiceTest {
     @Test
     void approveContract_invalidState() {
         contract.setStatus(ContractStatus.DRAFT);
-        when(contractRepository.findById(1L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(1L)).thenReturn(Optional.of(contract));
 
         IllegalStateException ex = assertThrows(IllegalStateException.class, () -> contractLifecycleService.approveContract(1L));
         assertTrue(ex.getMessage().contains("Only contracts in PENDING_APPROVAL can be approved"));
@@ -69,7 +69,7 @@ public class ContractLifecycleServiceTest {
     @Test
     void rejectContract_success() {
         contract.setStatus(ContractStatus.PENDING_APPROVAL);
-        when(contractRepository.findById(1L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(1L)).thenReturn(Optional.of(contract));
         when(contractRepository.save(any(Contract.class))).thenReturn(contract);
 
         Contract updated = contractLifecycleService.rejectContract(1L);
@@ -81,7 +81,7 @@ public class ContractLifecycleServiceTest {
     @Test
     void cancelContract_success() {
         contract.setStatus(ContractStatus.PENDING_DEPOSIT);
-        when(contractRepository.findById(1L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(1L)).thenReturn(Optional.of(contract));
         when(contractRepository.save(any(Contract.class))).thenReturn(contract);
 
         Contract updated = contractLifecycleService.cancelContract(1L);
@@ -95,7 +95,7 @@ public class ContractLifecycleServiceTest {
     @Test
     void cancelContract_invalidState() {
         contract.setStatus(ContractStatus.COMPLETED);
-        when(contractRepository.findById(1L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(1L)).thenReturn(Optional.of(contract));
 
         IllegalStateException ex = assertThrows(IllegalStateException.class, () -> contractLifecycleService.cancelContract(1L));
         assertTrue(ex.getMessage().contains("Cannot cancel an IN_PROGRESS, COMPLETED, or already CANCELLED"));
@@ -104,7 +104,7 @@ public class ContractLifecycleServiceTest {
     @Test
     void startContract_success() {
         contract.setStatus(ContractStatus.CONFIRMED);
-        when(contractRepository.findById(1L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(1L)).thenReturn(Optional.of(contract));
         when(contractRepository.save(any(Contract.class))).thenReturn(contract);
 
         Contract updated = contractLifecycleService.startContract(1L);
@@ -116,7 +116,7 @@ public class ContractLifecycleServiceTest {
     @Test
     void completeContract_success() {
         contract.setStatus(ContractStatus.IN_PROGRESS);
-        when(contractRepository.findById(1L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(1L)).thenReturn(Optional.of(contract));
         when(contractRepository.save(any(Contract.class))).thenReturn(contract);
 
         Contract updated = contractLifecycleService.completeContract(1L);
@@ -128,7 +128,7 @@ public class ContractLifecycleServiceTest {
     @Test
     void transitionToConfirmed_success() {
         contract.setStatus(ContractStatus.PENDING_DEPOSIT);
-        when(contractRepository.findById(1L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(1L)).thenReturn(Optional.of(contract));
         when(contractRepository.save(any(Contract.class))).thenReturn(contract);
 
         Contract updated = contractLifecycleService.transitionToConfirmed(1L);
@@ -140,28 +140,28 @@ public class ContractLifecycleServiceTest {
     @Test
     void rejectContract_invalidState() {
         contract.setStatus(ContractStatus.DRAFT);
-        when(contractRepository.findById(1L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(1L)).thenReturn(Optional.of(contract));
         assertThrows(IllegalStateException.class, () -> contractLifecycleService.rejectContract(1L));
     }
 
     @Test
     void startContract_invalidState() {
         contract.setStatus(ContractStatus.DRAFT);
-        when(contractRepository.findById(1L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(1L)).thenReturn(Optional.of(contract));
         assertThrows(IllegalStateException.class, () -> contractLifecycleService.startContract(1L));
     }
 
     @Test
     void completeContract_invalidState() {
         contract.setStatus(ContractStatus.DRAFT);
-        when(contractRepository.findById(1L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(1L)).thenReturn(Optional.of(contract));
         assertThrows(IllegalStateException.class, () -> contractLifecycleService.completeContract(1L));
     }
 
     @Test
     void transitionToConfirmed_invalidState() {
         contract.setStatus(ContractStatus.DRAFT);
-        when(contractRepository.findById(1L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(1L)).thenReturn(Optional.of(contract));
         assertThrows(IllegalStateException.class, () -> contractLifecycleService.transitionToConfirmed(1L));
     }
 }

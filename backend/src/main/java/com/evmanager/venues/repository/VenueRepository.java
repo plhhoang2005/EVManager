@@ -7,8 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import org.springframework.data.jpa.repository.Lock;
+import jakarta.persistence.LockModeType;
+
 public interface VenueRepository extends JpaRepository<Venue, Long> {
     
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT v FROM Venue v WHERE v.venueId = :venueId")
+    java.util.Optional<Venue> findByIdWithLock(@Param("venueId") Long venueId);
+
     @Query("SELECT v FROM Venue v WHERE v.status != 'INACTIVE' AND " +
            "(:keyword IS NULL OR LOWER(v.venueName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(v.address) LIKE LOWER(CONCAT('%', :keyword, '%')))")
     Page<Venue> findActiveVenues(@Param("keyword") String keyword, Pageable pageable);

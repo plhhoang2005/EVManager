@@ -91,7 +91,7 @@ public class ContractLifecycleService {
     }
 
     private Contract getContract(Long contractId) {
-        return contractRepository.findById(contractId)
+        return contractRepository.findByIdWithLock(contractId)
                 .orElseThrow(() -> new IllegalArgumentException("Contract not found with id: " + contractId));
     }
 }

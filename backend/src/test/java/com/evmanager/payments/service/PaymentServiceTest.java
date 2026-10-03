@@ -73,6 +73,7 @@ public class PaymentServiceTest {
         contract.setTotalAmount(new BigDecimal("1000.00"));
         contract.setStatus(ContractStatus.PENDING_DEPOSIT);
 
+        lenient().when(contractRepository.findByIdWithLock(10L)).thenReturn(Optional.of(contract));
         SecurityContextHolder.setContext(securityContext);
     }
 
@@ -94,7 +95,7 @@ public class PaymentServiceTest {
     @Test
     void testCreateDeposit_Valid() {
         mockSecurityUser("SALES"); // Not customer, ownership check skips
-        when(contractRepository.findById(10L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(10L)).thenReturn(Optional.of(contract));
         when(paymentRepository.sumAmountByContractIdAndStatus(10L, PaymentStatus.SUCCESS))
                 .thenReturn(BigDecimal.ZERO);
 
@@ -119,7 +120,7 @@ public class PaymentServiceTest {
     void testCreateDeposit_InvalidContractState() {
         mockSecurityUser("SALES");
         contract.setStatus(ContractStatus.DRAFT);
-        when(contractRepository.findById(10L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(10L)).thenReturn(Optional.of(contract));
 
         PaymentRequest request = new PaymentRequest(10L, new BigDecimal("300.00"), PaymentType.DEPOSIT, PaymentMethod.BANK_TRANSFER);
         
@@ -131,7 +132,7 @@ public class PaymentServiceTest {
     @Test
     void testCreatePayment_OverpaymentRejected() {
         mockSecurityUser("SALES");
-        when(contractRepository.findById(10L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(10L)).thenReturn(Optional.of(contract));
         when(paymentRepository.sumAmountByContractIdAndStatus(10L, PaymentStatus.SUCCESS))
                 .thenReturn(new BigDecimal("800.00")); // already paid 800 out of 1000
 
@@ -145,7 +146,7 @@ public class PaymentServiceTest {
     @Test
     void testCustomerOwnership_Allowed() {
         mockSecurityUser("CUSTOMER"); // mocked to return customer id 1
-        when(contractRepository.findById(10L)).thenReturn(Optional.of(contract)); // contract has customer id 1
+        when(contractRepository.findByIdWithLock(10L)).thenReturn(Optional.of(contract)); // contract has customer id 1
         when(paymentRepository.sumAmountByContractIdAndStatus(10L, PaymentStatus.SUCCESS)).thenReturn(BigDecimal.ZERO);
         
         Payment payment = Payment.builder().contract(contract).status(PaymentStatus.PENDING).build();
@@ -164,7 +165,7 @@ public class PaymentServiceTest {
         otherCustomer.setCustomerId(99L);
         contract.setCustomer(otherCustomer);
 
-        when(contractRepository.findById(10L)).thenReturn(Optional.of(contract));
+        when(contractRepository.findByIdWithLock(10L)).thenReturn(Optional.of(contract));
         
         PaymentRequest request = new PaymentRequest(10L, new BigDecimal("300.00"), PaymentType.DEPOSIT, PaymentMethod.BANK_TRANSFER);
         

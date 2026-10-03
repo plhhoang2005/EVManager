@@ -43,7 +43,7 @@ public class ContractService {
                 .orElseThrow(() -> new com.evmanager.exception.ResourceNotFoundException("Customer not found with id: " + request.getCustomerId()));
 
         // 2. Validate Venue
-        com.evmanager.venues.model.Venue venue = venueRepository.findById(request.getEvent().getVenueId())
+        com.evmanager.venues.model.Venue venue = venueRepository.findByIdWithLock(request.getEvent().getVenueId())
                 .orElseThrow(() -> new com.evmanager.exception.ResourceNotFoundException("Venue not found with id: " + request.getEvent().getVenueId()));
 
         // 3. Conflict Checker

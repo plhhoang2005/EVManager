@@ -39,7 +39,7 @@ public class PaymentService {
 
     @Transactional
     public PaymentResponse createPayment(PaymentRequest request) {
-        Contract contract = contractRepository.findById(request.getContractId())
+        Contract contract = contractRepository.findByIdWithLock(request.getContractId())
                 .orElseThrow(() -> new ResourceNotFoundException("Contract not found"));
 
         checkCustomerOwnership(contract);
@@ -102,13 +102,20 @@ public class PaymentService {
         if (payment.getStatus() != PaymentStatus.PENDING) {
             throw new IllegalStateException("Only PENDING payments can be confirmed");
         }
+        
+        Contract contract = contractRepository.findByIdWithLock(payment.getContract().getContractId())
+                .orElseThrow(() -> new ResourceNotFoundException("Contract not found"));
+
+        BigDecimal totalSuccessfulPaid = paymentRepository.sumAmountByContractIdAndStatus(contract.getContractId(), PaymentStatus.SUCCESS);
+        if (totalSuccessfulPaid.add(payment.getAmount()).compareTo(contract.getTotalAmount()) > 0) {
+            throw new IllegalStateException("Confirmation failed: Overpayment is not allowed. Total amount: " + contract.getTotalAmount() + ", already paid: " + totalSuccessfulPaid);
+        }
 
         payment.setStatus(PaymentStatus.SUCCESS);
         Payment savedPayment = paymentRepository.save(payment);
 
-        Contract contract = payment.getContract();
         if (payment.getPaymentType() == PaymentType.DEPOSIT) {
-            BigDecimal totalSuccessfulPaid = paymentRepository.sumAmountByContractIdAndStatus(contract.getContractId(), PaymentStatus.SUCCESS);
+            totalSuccessfulPaid = totalSuccessfulPaid.add(payment.getAmount());
             
             // depositAmount is usually 30% of totalAmount
             BigDecimal depositAmount = contract.getTotalAmount().multiply(new BigDecimal("0.30"));
