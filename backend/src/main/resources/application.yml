@@ -23,6 +23,8 @@ spring:
 
   mvc:
     throw-exception-if-no-handler-found: true
+  jackson:
+    time-zone: Asia/Ho_Chi_Minh
   web:
     resources:
       add-mappings: false
