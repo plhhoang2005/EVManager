@@ -77,6 +77,7 @@ async function initCalendar() {
     fullCalendarInstance = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         locale: 'vi',
+        timeZone: 'Asia/Ho_Chi_Minh',
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
