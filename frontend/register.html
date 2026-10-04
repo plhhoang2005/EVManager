@@ -35,6 +35,9 @@
                 <label for="email">Email</label>
                 <input id="email" name="email" type="email" autocomplete="email" placeholder="Nhập email" required>
 
+                <label for="phone">Số điện thoại</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="Nhập số điện thoại (10 số)" pattern="^(0|\+84)[0-9]{9}$" title="Số điện thoại phải bắt đầu bằng 0 hoặc +84 và gồm 10 số" required>
+
                 <label for="fullName">Tên hiển thị (Full Name)</label>
                 <input id="fullName" name="fullName" type="text" autocomplete="name" placeholder="Nhập tên của bạn" required>
 
@@ -64,6 +67,29 @@
             <p>Theo dõi doanh thu, lịch trình và hợp đồng trong một không gian làm việc rõ ràng.</p>
         </aside>
     </main>
+
+    <!-- OTP Verification Modal -->
+    <div id="otpModal" class="admin-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-card" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>Xác thực Email</h3>
+                <button type="button" class="modal-close" aria-label="Đóng" onclick="closeOtpModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 16px; color: #475569; font-size: 0.95rem;">Một mã OTP gồm 6 chữ số đã được gửi đến email của bạn. Vui lòng nhập mã vào bên dưới để kích hoạt tài khoản.</p>
+                <form id="otpForm">
+                    <label for="otpCode">Mã OTP</label>
+                    <input id="otpCode" name="otpCode" type="text" placeholder="Nhập 6 số OTP" pattern="[0-9]{6}" title="Vui lòng nhập đúng 6 chữ số" required style="letter-spacing: 4px; text-align: center; font-size: 1.2rem; font-weight: bold;">
+                    
+                    <p id="otpError" class="login-error" role="alert" hidden></p>
+                    <div class="modal-footer" style="margin-top: 20px; padding: 0; justify-content: flex-end;">
+                        <button type="submit" class="login-button" style="width: auto; padding: 10px 24px; margin-top: 0;">Xác nhận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Script kết nối API và xử lý Đăng ký -->
     <script src="js/api.js"></script>
