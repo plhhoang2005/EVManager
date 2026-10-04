@@ -111,13 +111,28 @@
                                     </label>
                                 </div>
                             </div>
+
+                            <!-- Step 4: Ưu đãi & Khuyến mãi (BUG-03 / BA UC-08) -->
+                            <div class="calc-group">
+                                <label class="calc-label">4. Khuyến mãi & Voucher</label>
+                                <div class="calc-checkboxes">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" id="optDiscountPercent" value="5" checked />
+                                        <span>Chiết khấu ưu đãi đặt sớm (-5% tính trước)</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" id="optVoucher" value="2000000" checked />
+                                        <span>Voucher khuyến mãi tiền mặt (-2.000.000đ trừ sau)</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="calc-result-box">
                             <div class="result-card">
                                 <span class="result-badge">Ước tính ngân sách</span>
-                                <div class="result-amount" id="totalEstimatePrice">67.000.000 VNĐ</div>
-                                <p class="result-note">* Giá chưa bao gồm VAT và địa điểm. Đã bao gồm trọn gói nhân sự kỹ thuật & chi phí vận chuyển trong nội thành.</p>
+                                <div class="result-amount" id="totalEstimatePrice">0 VNĐ</div>
+                                <p class="result-note">* Báo giá chi tiết đã bao gồm Phí phục vụ 5%, Thuế VAT 8% và ước tính tiền cọc đợt 1 (30%) theo chuẩn hợp đồng.</p>
                                 
                                 <hr class="result-divider" />
 
@@ -133,6 +148,26 @@
                                     <div class="bd-row">
                                         <span>Dịch vụ bổ sung:</span>
                                         <strong id="addonPriceLabel">37.000.000đ</strong>
+                                    </div>
+                                    <div class="bd-row" style="color: #087f82;">
+                                        <span>Chiết khấu % (áp dụng trước):</span>
+                                        <strong id="discountPercentLabel">-0đ</strong>
+                                    </div>
+                                    <div class="bd-row" style="color: #087f82;">
+                                        <span>Voucher trực tiếp (trừ sau):</span>
+                                        <strong id="voucherLabel">-0đ</strong>
+                                    </div>
+                                    <div class="bd-row">
+                                        <span>Phí phục vụ (5%):</span>
+                                        <strong id="serviceChargeLabel">0đ</strong>
+                                    </div>
+                                    <div class="bd-row">
+                                        <span>Thuế VAT (8%):</span>
+                                        <strong id="vatLabel">0đ</strong>
+                                    </div>
+                                    <div class="bd-row" style="border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 6px;">
+                                        <span style="font-weight: 700;">Tiền cọc đợt 1 (30%):</span>
+                                        <strong id="depositLabel" style="color: #d9763d; font-size: 1.05rem;">0đ</strong>
                                     </div>
                                 </div>
 
