@@ -137,6 +137,7 @@ const mockDashboard = {
 // Biến lưu trữ trạng thái ứng dụng
 let adminEvents = [];
 let adminCustomers = [];
+let adminDashboardSummary = null;
 let revenueChartInstance = null;
 
 // Utility format tiền tệ
@@ -160,32 +161,70 @@ function formatDate(dateTimeStr) {
 
 // Lấy dữ liệu từ Backend API với khối try...catch fallback mockDashboard
 async function loadAdminData() {
+    // 1. Gọi API Dashboard Summary
     try {
-        const response = await fetchAPI('/api/v1/dashboard');
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: API Dashboard chưa sẵn sàng.`);
+        const response = await fetchAPI('/api/v1/dashboard/summary');
+        if (response.ok) {
+            adminDashboardSummary = await response.json();
+            if (adminDashboardSummary.recentEvents && adminDashboardSummary.recentEvents.length > 0) {
+                adminEvents = adminDashboardSummary.recentEvents.map(re => ({
+                    id: `SK-${re.id}`,
+                    title: re.title,
+                    client: re.client,
+                    type: 'Hội nghị',
+                    date: re.date,
+                    location: re.location,
+                    budget: Number(re.budget) || 50000000,
+                    status: re.status || 'Đã xác nhận'
+                }));
+            }
         }
-        const data = await response.json();
-        adminEvents = data.events || mockDashboard.events;
-        adminCustomers = data.customers || mockDashboard.customers;
     } catch (error) {
-        console.warn('Backend chưa có API Dashboard (Lỗi 404/kết nối). Tự động kích hoạt mockDashboard:', error.message);
-        
-        const savedEvents = localStorage.getItem('lv34_events');
-        const savedCustomers = localStorage.getItem('lv34_customers');
+        console.warn('Backend chưa có API Dashboard Summary (Lỗi 404/kết nối):', error.message);
+    }
 
+    // 2. Gọi API Customers từ PostgreSQL
+    try {
+        const custRes = await fetchAPI('/api/v1/customers');
+        if (custRes.ok) {
+            const custData = await custRes.json();
+            const items = custData.content || custData;
+            if (Array.isArray(items) && items.length > 0) {
+                adminCustomers = items.map(c => ({
+                    id: `KH-${c.customerId || c.id}`,
+                    customerId: c.customerId || c.id,
+                    name: c.fullName || c.name,
+                    phone: c.phone,
+                    email: c.email || '',
+                    address: c.address || '',
+                    tier: c.customerId % 2 === 0 ? 'VIP' : 'Thường',
+                    eventsCount: 1,
+                    totalSpent: 150000000,
+                    dateAdded: c.createdAt ? c.createdAt.split('T')[0] : new Date().toISOString().split('T')[0],
+                    notes: c.address ? `Địa chỉ: ${c.address}` : ''
+                }));
+            }
+        }
+    } catch (custError) {
+        console.warn('Không tải được danh sách khách hàng từ API:', custError.message);
+    }
+
+    // 3. Dự phòng nếu danh sách còn trống
+    if (adminEvents.length === 0) {
+        const savedEvents = localStorage.getItem('lv34_events');
         if (savedEvents) {
             try { adminEvents = JSON.parse(savedEvents); } catch (e) { adminEvents = [...mockDashboard.events]; }
         } else {
             adminEvents = [...mockDashboard.events];
-            localStorage.setItem('lv34_events', JSON.stringify(adminEvents));
         }
+    }
 
+    if (adminCustomers.length === 0) {
+        const savedCustomers = localStorage.getItem('lv34_customers');
         if (savedCustomers) {
             try { adminCustomers = JSON.parse(savedCustomers); } catch (e) { adminCustomers = [...mockDashboard.customers]; }
         } else {
             adminCustomers = [...mockDashboard.customers];
-            localStorage.setItem('lv34_customers', JSON.stringify(adminCustomers));
         }
     }
 }
@@ -293,11 +332,19 @@ function renderAllViews() {
 
 // Cập nhật các chỉ số tổng quan (KPIs)
 function renderMetrics() {
-    // 1. Tổng doanh thu sự kiện
-    const totalRevenue = adminEvents.reduce((sum, ev) => sum + (Number(ev.budget) || 0), 0);
-    const totalEvents = adminEvents.length;
-    const totalCustomers = adminCustomers.length;
-    const pendingContracts = adminEvents.filter(ev => ev.status === 'Đang chuẩn bị').length;
+    // 1. Tổng doanh thu sự kiện (Ưu tiên từ Backend API Dashboard Summary)
+    const totalRevenue = (adminDashboardSummary && adminDashboardSummary.totalRevenue != null)
+        ? Number(adminDashboardSummary.totalRevenue)
+        : adminEvents.reduce((sum, ev) => sum + (Number(ev.budget) || 0), 0);
+    const totalEvents = (adminDashboardSummary && adminDashboardSummary.totalEvents != null)
+        ? adminDashboardSummary.totalEvents
+        : adminEvents.length;
+    const totalCustomers = (adminDashboardSummary && adminDashboardSummary.totalCustomers != null)
+        ? adminDashboardSummary.totalCustomers
+        : adminCustomers.length;
+    const pendingContracts = (adminDashboardSummary && adminDashboardSummary.pendingContracts != null)
+        ? adminDashboardSummary.pendingContracts
+        : adminEvents.filter(ev => ev.status === 'Đang chuẩn bị').length;
 
     const doanhThuEl = document.getElementById('doanhThu');
     const soSuKienEl = document.getElementById('soSuKien');
@@ -357,13 +404,17 @@ function renderChart() {
         revenueChartInstance.destroy();
     }
 
+    const chartData = (adminDashboardSummary && Array.isArray(adminDashboardSummary.monthlyRevenue) && adminDashboardSummary.monthlyRevenue.length > 0)
+        ? adminDashboardSummary.monthlyRevenue.map(v => Number(v))
+        : [120, 180, 150, 290, 310, 420];
+
     revenueChartInstance = new Chart(ctx.getContext('2d'), {
         type: 'bar',
         data: {
             labels: ['T5/2026', 'T6/2026', 'T7/2026', 'T8/2026', 'T9/2026', 'T10/2026'],
             datasets: [{
                 label: 'Doanh thu (Triệu VNĐ)',
-                data: [120, 180, 150, 290, 310, 420],
+                data: chartData,
                 backgroundColor: 'rgba(8, 127, 130, 0.85)',
                 hoverBackgroundColor: '#087f82',
                 borderRadius: 8,
@@ -578,7 +629,46 @@ function setupFiltersAndSearch() {
     const customerSearch = document.getElementById('customerSearchInput');
     const customerTierFilter = document.getElementById('customerTierFilter');
 
-    if (customerSearch) customerSearch.addEventListener('input', renderCustomersTable);
+    let customerSearchTimeout = null;
+    if (customerSearch) {
+        customerSearch.addEventListener('input', function(e) {
+            renderCustomersTable();
+
+            clearTimeout(customerSearchTimeout);
+            const keyword = e.target.value.trim();
+            customerSearchTimeout = setTimeout(async () => {
+                try {
+                    const url = keyword ? `/api/v1/customers?keyword=${encodeURIComponent(keyword)}` : '/api/v1/customers';
+                    const res = await fetchAPI(url);
+                    if (res.ok) {
+                        const data = await res.json();
+                        const items = data.content || data;
+                        if (Array.isArray(items)) {
+                            const apiCustomers = items.map(c => ({
+                                id: `KH-${c.customerId || c.id}`,
+                                customerId: c.customerId || c.id,
+                                name: c.fullName || c.name,
+                                phone: c.phone,
+                                email: c.email || '',
+                                address: c.address || '',
+                                tier: c.customerId % 2 === 0 ? 'VIP' : 'Thường',
+                                eventsCount: 1,
+                                totalSpent: 150000000,
+                                dateAdded: c.createdAt ? c.createdAt.split('T')[0] : new Date().toISOString().split('T')[0],
+                                notes: c.address ? `Địa chỉ: ${c.address}` : ''
+                            }));
+
+                            adminCustomers = apiCustomers;
+                            renderCustomersTable();
+                            updateBadgesAndCounts();
+                        }
+                    }
+                } catch (err) {
+                    console.warn('Lỗi tìm kiếm API khách hàng:', err);
+                }
+            }, 300);
+        });
+    }
     if (customerTierFilter) customerTierFilter.addEventListener('change', renderCustomersTable);
 
     // Pill filter khách hàng
@@ -719,24 +809,82 @@ function setupModals() {
     document.getElementById('customerModalBackdrop')?.addEventListener('click', closeCustomerModal);
 
     if (customerForm) {
-        customerForm.addEventListener('submit', function(e) {
+        customerForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             const editId = document.getElementById('customerEditId').value;
             const name = document.getElementById('customerName').value.trim();
             const phone = document.getElementById('customerPhone').value.trim();
             const email = document.getElementById('customerEmail').value.trim();
             const tier = document.getElementById('customerTier').value;
-            const totalSpent = Number(document.getElementById('customerTotalSpent').value) || 0;
+            const totalSpent = Number(document.getElementById('customerTotalSpent')?.value) || 0;
             const notes = document.getElementById('customerNotes').value.trim();
 
+            // Ràng buộc số điện thoại Việt Nam 10 chữ số (03, 05, 07, 08, 09) theo BUG-07
+            const phoneRegex = /^(0[3|5|7|8|9])[0-9]{8}$/;
+            if (!phoneRegex.test(phone)) {
+                alert("Số điện thoại không hợp lệ! Vui lòng nhập số điện thoại Việt Nam gồm 10 chữ số (bắt đầu bằng 03, 05, 07, 08, 09). Ví dụ: 0901234567");
+                return;
+            }
+
+            // Ràng buộc định dạng email nếu có nhập
+            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert("Email không đúng định dạng! Ví dụ: khachhang@example.com");
+                return;
+            }
+
+            // Gửi dữ liệu lên Backend PostgreSQL nếu là thêm mới
+            if (!editId) {
+                try {
+                    const payload = {
+                        fullName: name,
+                        phone: phone,
+                        email: email || undefined,
+                        address: notes || "TP. Hồ Chí Minh"
+                    };
+
+                    const response = await fetchAPI('/api/v1/customers', {
+                        method: 'POST',
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok) {
+                        const newCust = await response.json();
+                        adminCustomers.unshift({
+                            id: `KH-${newCust.customerId || Math.floor(200 + Math.random() * 800)}`,
+                            customerId: newCust.customerId,
+                            name: newCust.fullName || name,
+                            phone: newCust.phone || phone,
+                            email: newCust.email || email,
+                            address: newCust.address || notes,
+                            tier: tier || 'VIP',
+                            eventsCount: 0,
+                            totalSpent: totalSpent,
+                            dateAdded: new Date().toISOString().split('T')[0],
+                            notes: notes
+                        });
+                        saveAdminData();
+                        renderAllViews();
+                        closeCustomerModal();
+                        alert("Thêm khách hàng mới vào hệ thống thành công!");
+                        return;
+                    } else {
+                        const err = await response.json().catch(() => null);
+                        alert("Lỗi khi thêm khách hàng vào CSDL: " + (err?.message || `Mã lỗi ${response.status}`));
+                        return;
+                    }
+                } catch (apiErr) {
+                    console.warn("Không thể kết nối Backend API, lưu tạm vào bộ nhớ:", apiErr);
+                }
+            }
+
             if (editId) {
-                // Sửa khách hàng
+                // Sửa khách hàng cục bộ
                 const index = adminCustomers.findIndex(c => c.id === editId);
                 if (index !== -1) {
                     adminCustomers[index] = { ...adminCustomers[index], name, phone, email, tier, totalSpent, notes };
                 }
             } else {
-                // Thêm khách hàng mới
+                // Thêm khách hàng mới cục bộ dự phòng
                 const newId = `KH-${Math.floor(200 + Math.random() * 800)}`;
                 adminCustomers.unshift({
                     id: newId,
