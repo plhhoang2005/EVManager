@@ -1,14 +1,16 @@
-# [BUG-02] Sai lệch 7 giờ trong lịch đặt tiệc do chênh lệch múi giờ UTC+7
+# [BUG-02] Sai lệch 1 giờ trong lịch đặt tiệc do chênh lệch múi giờ UTC+7
 
-**Labels:** `type: bug`, `priority: high`, `backend`, `frontend`
+**Labels:** `type: bug`, `priority: high`, `frontend`, `backend`  
+**Assignee:** `nhanvo134679`, `phucngo1707`
 
-## Mô tả
-- **Hiện tượng:** Khách đặt tiệc lúc 18:00 trên giao diện Client, nhưng khi lưu vào CSDL và hiển thị trên Lịch lại thành 11:00 (múi giờ chuẩn UTC+0).
-- **Mức độ:** High (Gây sai lệch ca tiệc của khách hàng và nhà hàng).
-- **Nguyên nhân:** Backend (Spring Boot) đang lưu theo giờ UTC và Serialize JSON trả về không có bù trừ múi giờ phù hợp với frontend.
-- **Deadline xử lý:** 11/10/2026.
+## 1. Mô tả lỗi
+- Khi người dùng tạo sự kiện vào lúc `17:30`, lịch FullCalendar trên giao diện hiển thị thành `16:30` hoặc `18:30` do chênh lệch múi giờ giữa máy chủ (UTC) và múi giờ cục bộ Việt Nam (`Asia/Ho_Chi_Minh` - UTC+7).
+- Dẫn đến việc nhân viên điều phối tiệc bị nhầm giờ phục vụ tiệc cưới.
 
-## Giải pháp (Đã thực thi)
-1. Cấu hình `spring.jackson.time-zone: Asia/Ho_Chi_Minh` trong `application.yml` của Backend để API trả về giờ GMT+7.
-2. Thêm `timeZone: 'Asia/Ho_Chi_Minh'` vào thư viện FullCalendar ở file `calendar.js` để render đồng bộ ngày tháng bất chấp timezone hệ thống của user.
-3. Đã chạy re-test và xác nhận đồng bộ hoàn toàn.
+## 2. Nguyên nhân kỹ thuật
+- Frontend FullCalendar chưa cấu hình tham số `timeZone: 'Asia/Ho_Chi_Minh'`.
+- Backend Jackson Serializer chưa định hình múi giờ chuẩn trong `application.yml` (`spring.jackson.time-zone: Asia/Ho_Chi_Minh`).
+
+## 3. Giải pháp khắc phục
+- Thêm `timeZone: 'Asia/Ho_Chi_Minh'` vào cấu hình khởi tạo `FullCalendar.Calendar` trong `calendar.js`.
+- Bổ sung cấu hình Jackson trong `application.yml` đồng bộ múi giờ Việt Nam.

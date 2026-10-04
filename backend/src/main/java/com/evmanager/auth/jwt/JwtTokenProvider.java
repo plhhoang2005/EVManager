@@ -23,12 +23,19 @@ public class JwtTokenProvider {
 
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
+        
+        // Extract roles from authentication
+        String roles = authentication.getAuthorities().stream()
+                .map(org.springframework.security.core.GrantedAuthority::getAuthority)
+                .findFirst()
+                .orElse("");
 
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
 
         return Jwts.builder()
                 .subject(username)
+                .claim("role", roles)
                 .issuedAt(new Date())
                 .expiration(expireDate)
                 .signWith(key())

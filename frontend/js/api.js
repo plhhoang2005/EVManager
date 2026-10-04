@@ -73,3 +73,52 @@ async function fetchAPI(endpoint, options = {}) {
         throw error;
     }
 }
+
+// =====================================
+// GLOBAL UI NOTIFICATION HELPERS (SweetAlert2)
+// =====================================
+window.showSuccess = function(title) {
+    if (typeof Swal !== 'undefined') {
+        return Swal.fire({
+            icon: 'success',
+            title: title,
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        });
+    } else {
+        alert(title);
+    }
+};
+
+window.showError = function(title, text = '') {
+    if (typeof Swal !== 'undefined') {
+        return Swal.fire({
+            icon: 'error',
+            title: title,
+            text: text,
+            confirmButtonColor: '#087f82'
+        });
+    } else {
+        alert(title + (text ? '\n' + text : ''));
+    }
+};
+
+window.showConfirm = function(title, text) {
+    if (typeof Swal !== 'undefined') {
+        return Swal.fire({
+            title: title,
+            text: text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'Có, đồng ý',
+            cancelButtonText: 'Hủy'
+        }).then(result => result.isConfirmed);
+    } else {
+        return Promise.resolve(confirm(title + (text ? '\n' + text : '')));
+    }
+};
