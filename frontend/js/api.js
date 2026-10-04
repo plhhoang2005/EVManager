@@ -40,11 +40,13 @@ async function fetchAPI(endpoint, options = {}) {
     try {
         const response = await fetch(url, config);
 
-        // Tích hợp logic: nếu API trả về HTTP Status 401 hoặc 403, tự động xóa token và điều hướng về login.html
-        if (response.status === 401 || response.status === 403) {
-            sessionStorage.removeItem('accessToken');
-            sessionStorage.removeItem('currentUser');
-            if (!window.location.pathname.includes('login.html')) {
+        // Chỉ tự động logout khi gặp đúng HTTP 401 Unauthorized tại các trang nội bộ
+        if (response.status === 401) {
+            const isAuthEndpoint = endpoint.includes('/auth/login') || endpoint.includes('/auth/register');
+            if (!isAuthEndpoint && !window.location.pathname.includes('login.html')) {
+                console.warn('Phiên đăng nhập hết hạn (HTTP 401). Điều hướng về trang đăng nhập.');
+                sessionStorage.removeItem('accessToken');
+                sessionStorage.removeItem('currentUser');
                 window.location.href = 'login.html';
             }
         }
