@@ -1,61 +1,10 @@
-/**
+﻿/**
  * Module Bảng quản trị & Quản lý Sự kiện / Khách hàng (dashboard.js)
  * Xử lý tương tác trên trang admin.html: Tab, CRUD Sự kiện, CRUD Khách hàng, Báo cáo & Lịch
  */
 
 // Dữ liệu mockEvents dự phòng cho Sự kiện
-const mockEvents = [
-    {
-        id: "SK-101",
-        title: "Lễ cưới Hoàng Gia - Anh Minh & Chị Mai",
-        client: "Nguyễn Văn Minh",
-        type: "Tiệc cưới",
-        date: "2026-10-15T17:30",
-        location: "GEM Center, Q.1",
-        budget: 150000000,
-        status: "Đã xác nhận"
-    },
-    {
-        id: "SK-102",
-        title: "Hội nghị Tech Summit 2026",
-        client: "Trần Văn Nam (TechCorp)",
-        type: "Hội nghị",
-        date: "2026-10-20T08:00",
-        location: "White Palace, Q. Phú Nhuận",
-        budget: 85000000,
-        status: "Đang chuẩn bị"
-    },
-    {
-        id: "SK-103",
-        title: "Đại nhạc hội EDM Summer Splash",
-        client: "Lê Thị Hồng",
-        type: "Concert",
-        date: "2026-11-05T19:00",
-        location: "Sân vận động QK7",
-        budget: 320000000,
-        status: "Đã xác nhận"
-    },
-    {
-        id: "SK-104",
-        title: "Tiệc sinh nhật 30 tuổi - Doanh nhân Tuấn",
-        client: "Phạm Quốc Tuấn",
-        type: "Sinh nhật",
-        date: "2026-09-28T18:30",
-        location: "Riverside Palace, Q.4",
-        budget: 45000000,
-        status: "Hoàn thành"
-    },
-    {
-        id: "SK-105",
-        title: "Lễ Kỷ Niệm 15 Năm Thành Lập Vinacoffee",
-        client: "Vũ Hoàng Yến",
-        type: "Hội nghị",
-        date: "2026-12-10T14:00",
-        location: "Rex Hotel, Q.1",
-        budget: 110000000,
-        status: "Đang chuẩn bị"
-    }
-];
+const mockEvents = [];
 
 // Dữ liệu mockCustomers dự phòng cho Khách hàng
 const mockCustomers = [
@@ -210,14 +159,7 @@ async function loadAdminData() {
     }
 
     // 3. Dự phòng nếu danh sách còn trống
-    if (adminEvents.length === 0) {
-        const savedEvents = localStorage.getItem('lv34_events');
-        if (savedEvents) {
-            try { adminEvents = JSON.parse(savedEvents); } catch (e) { adminEvents = [...mockDashboard.events]; }
-        } else {
-            adminEvents = [...mockDashboard.events];
-        }
-    }
+    
 
     if (adminCustomers.length === 0) {
         const savedCustomers = localStorage.getItem('lv34_customers');
@@ -236,7 +178,32 @@ function saveAdminData() {
 }
 
 // Khởi tạo Dashboard Admin
+async function fetchRealEvents() {
+    try {
+        const res = await fetchAPI('/api/v1/events?size=100');
+        if (res.ok) {
+            const data = await res.json();
+            return data.content.map(e => ({
+                id: 'EV-' + e.eventId,
+                realId: e.eventId,
+                title: e.eventName,
+                client: 'Khách hàng (Xem HĐ)', 
+                type: 'Sự kiện',
+                date: e.startAt,
+                location: 'Venue ID ' + e.venueId,
+                budget: 0,
+                status: e.status === 'SCHEDULED' ? 'Đã xác nhận' : e.status === 'PREPARING' ? 'Đang chuẩn bị' : e.status === 'COMPLETED' ? 'Hoàn thành' : e.status
+            }));
+        }
+    } catch(err) {
+        console.error(err);
+    }
+    return [];
+}
+
 async function initDashboard() {
+    adminEvents = await fetchRealEvents();
+
     console.log("Đã khởi chạy Module Quản Trị Admin LV34!");
     await loadAdminData();
 
@@ -276,8 +243,15 @@ function switchAdminTab(tabId) {
     const titles = {
         'tab-dashboard': { title: 'Bảng tổng quan', sub: 'Tổng quan doanh thu, sự kiện & hoạt động mới nhất' },
         'tab-events': { title: 'Quản lý sự kiện', sub: 'Danh sách, lọc và điều hành các sự kiện trong hệ thống' },
+        'tab-tasks': { title: 'Quản lý công việc', sub: 'Phân công, theo dõi tiến độ và kiểm soát đầu việc' },
+        'tab-venues': { title: 'Quản lý địa điểm', sub: 'Danh sách các sảnh tiệc, trung tâm và tình trạng trống' },
+        'tab-contracts': { title: 'Quản lý hợp đồng', sub: 'Theo dõi tình trạng phê duyệt và lưu trữ hợp đồng' },
         'tab-customers': { title: 'Quản lý khách hàng', sub: 'Thông tin đối tác, khách hàng VIP và lịch sử hợp tác' },
+        'tab-payments': { title: 'Quản lý thanh toán', sub: 'Theo dõi công nợ, đợt thanh toán và xuất hóa đơn' },
+        'tab-menus': { title: 'Quản lý thực đơn', sub: 'Thiết lập danh sách món ăn và dịch vụ ăn uống F&B' },
+        'tab-services': { title: 'Quản lý dịch vụ', sub: 'Thiết lập các gói dịch vụ tổ chức sự kiện kèm theo' },
         'tab-calendar': { title: 'Lịch trình sự kiện', sub: 'Xem lịch vận hành sự kiện theo tháng/tuần' },
+        'tab-users': { title: 'Quản lý người dùng', sub: 'Tạo tài khoản, phân quyền và quản lý nhân sự hệ thống' },
         'tab-reports': { title: 'Báo cáo doanh thu', sub: 'Thống kê chi tiết tài chính & xu hướng phát triển' },
         'tab-settings': { title: 'Cấu hình hệ thống', sub: 'Quản lý tài khoản và thiết lập vận hành' }
     };
@@ -776,7 +750,7 @@ function setupModals() {
             saveAdminData();
             renderAllViews();
             closeEventModal();
-            alert(editId ? "Cập nhật sự kiện thành công!" : "Thêm sự kiện mới thành công!");
+            showSuccess(editId ? "Cập nhật sự kiện thành công!" : "Thêm sự kiện mới thành công!");
         });
     }
 
@@ -822,13 +796,13 @@ function setupModals() {
             // Ràng buộc số điện thoại Việt Nam 10 chữ số (03, 05, 07, 08, 09) theo BUG-07
             const phoneRegex = /^(0[3|5|7|8|9])[0-9]{8}$/;
             if (!phoneRegex.test(phone)) {
-                alert("Số điện thoại không hợp lệ! Vui lòng nhập số điện thoại Việt Nam gồm 10 chữ số (bắt đầu bằng 03, 05, 07, 08, 09). Ví dụ: 0901234567");
+                showError("Lỗi xác thực", "Số điện thoại không hợp lệ! Vui lòng nhập số điện thoại Việt Nam gồm 10 chữ số (bắt đầu bằng 03, 05, 07, 08, 09). Ví dụ: 0901234567");
                 return;
             }
 
             // Ràng buộc định dạng email nếu có nhập
             if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                alert("Email không đúng định dạng! Ví dụ: khachhang@example.com");
+                showError("Lỗi xác thực", "Email không đúng định dạng! Ví dụ: khachhang@example.com");
                 return;
             }
 
@@ -865,11 +839,11 @@ function setupModals() {
                         saveAdminData();
                         renderAllViews();
                         closeCustomerModal();
-                        alert("Thêm khách hàng mới vào hệ thống thành công!");
+                        showSuccess("Thêm khách hàng mới vào hệ thống thành công!");
                         return;
                     } else {
                         const err = await response.json().catch(() => null);
-                        alert("Lỗi khi thêm khách hàng vào CSDL: " + (err?.message || `Mã lỗi ${response.status}`));
+                        showError("Lỗi máy chủ", "Không thể thêm khách hàng vào CSDL: " + (err?.message || `Mã lỗi ${response.status}`));
                         return;
                     }
                 } catch (apiErr) {
@@ -902,7 +876,7 @@ function setupModals() {
             saveAdminData();
             renderAllViews();
             closeCustomerModal();
-            alert(editId ? "Cập nhật thông tin khách hàng thành công!" : "Thêm khách hàng mới thành công!");
+            showSuccess(editId ? "Cập nhật thông tin khách hàng thành công!" : "Thêm khách hàng mới thành công!");
         });
     }
 }
@@ -927,8 +901,8 @@ window.openEditEventModal = function(id) {
 };
 
 // Xóa sự kiện
-window.deleteEvent = function(id) {
-    if (confirm(`Bạn có chắc chắn muốn xóa sự kiện ${id}?`)) {
+window.deleteEvent = async function(id) {
+    if (await window.showConfirm("Xác nhận xóa", `Bạn có chắc chắn muốn xóa sự kiện ${id}?`)) {
         adminEvents = adminEvents.filter(ev => ev.id !== id);
         saveAdminData();
         renderAllViews();
@@ -954,8 +928,8 @@ window.openEditCustomerModal = function(id) {
 };
 
 // Xóa khách hàng
-window.deleteCustomer = function(id) {
-    if (confirm(`Bạn có chắc chắn muốn xóa khách hàng ${id}?`)) {
+window.deleteCustomer = async function(id) {
+    if (await window.showConfirm("Xác nhận xóa", `Bạn có chắc chắn muốn xóa khách hàng ${id}?`)) {
         adminCustomers = adminCustomers.filter(c => c.id !== id);
         saveAdminData();
         renderAllViews();
