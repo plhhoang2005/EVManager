@@ -1,5 +1,5 @@
-<!-- Bảng quản trị Admin (dashboard.js, calendar.js, app.js)
- * Giao diện Quản trị viên độc lập: Quản lý Sự kiện & Quản lý Khách hàng
+<!-- Bảng quản trềEAdmin (dashboard.js, calendar.js, app.js)
+ * Giao diện Quản trềEviên độc lập: Quản lý Sự kiện & Quản lý Khách hàng
 -->
 
 <!DOCTYPE html>
@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Trị Admin - LV34 Event Operations</title>
+    <title>HềEThống Quản TrềEAdmin - LV34 Event Operations</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,14 +22,21 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Auth Guard -->
+    <script src="js/authGuard.js"></script>
+
+    <!-- Auth Guard -->
+    <script src="js/api.js"></script>
+    <script src="js/authGuard.js"></script>
 </head>
 
 <body class="admin-body">
     <div class="admin-wrapper">
-        <!-- SIDEBAR NAVIGATION (Giao diện Admin chuyên biệt - KHÔNG CÓ TRANG CHỦ) -->
+        <!-- SIDEBAR NAVIGATION (Giao diện Admin chuyên biệt - KHÔNG CÁETRANG CHỦ) -->
         <aside class="admin-sidebar" id="adminSidebar">
             <div class="sidebar-brand">
-                <span class="brand-icon">◒</span>
+                <span class="brand-icon">◁E/span>
                 <div class="brand-info">
                     <span class="brand-title">LV34 <span>EVENTS</span></span>
                     <span class="brand-badge">CUSTOMER PORTAL</span>
@@ -48,7 +55,7 @@
                 </button>
                 <button class="nav-item" data-tab="tab-profile">
                     <span class="nav-icon">👤</span>
-                    <span class="nav-text">Hồ sơ cá nhân</span>
+                    <span class="nav-text">HềEsơ cá nhân</span>
                 </button>
             </nav>
 
@@ -88,7 +95,7 @@
                     <div class="topbar-actions">
                         <div class="status-indicator">
                             <span class="indicator-dot"></span>
-                            <span>Hệ thống online</span>
+                            <span>HềEthống online</span>
                         </div>
                     </div>
                 </div>
@@ -115,7 +122,7 @@
                                 <span class="metric-trend positive" id="trendEventsText">+0 sự kiện</span>
                             </div>
                             <div class="metric-body">
-                                <h2>Số sự kiện</h2>
+                                <h2>SềEsự kiện</h2>
                                 <p id="soSuKien" class="metric-value">0</p>
                                 <p class="metric-note">Sự kiện đang quản lý</p>
                             </div>
@@ -133,13 +140,13 @@
                         </article>
                         <article class="metric-card metric-card--contracts">
                             <div class="metric-header">
-                                <div class="metric-icon">⌛</div>
+                                <div class="metric-icon">⌁E/div>
                                 <span class="metric-trend warning">Cần xử lý</span>
                             </div>
                             <div class="metric-body">
-                                <h2>Hợp đồng chờ</h2>
+                                <h2>Hợp đồng chềE/h2>
                                 <p id="hopDongCho" class="metric-value">0</p>
-                                <p class="metric-note">Đang chờ chuẩn bị</p>
+                                <p class="metric-note">Đang chềEchuẩn bềE/p>
                             </div>
                         </article>
                     </div>
@@ -148,23 +155,23 @@
                         <article class="panel chart-panel">
                             <div class="panel-heading">
                                 <div>
-                                    <p class="panel-kicker">HIỆU SUẤT TÀI CHÍNH</p>
-                                    <h2>Biểu đồ doanh thu 6 tháng gần nhất</h2>
+                                    <p class="panel-kicker">HIềE SUẤT TÀI CHÍNH</p>
+                                    <h2>Biểu đềEdoanh thu 6 tháng gần nhất</h2>
                                 </div>
-                                <span class="panel-period">Đơn vị: Triệu VNĐ</span>
+                                <span class="panel-period">Đơn vềE Triệu VNāE/span>
                             </div>
                             <div class="chart-container">
-                                <canvas id="revenueChart" aria-label="Biểu đồ doanh thu" role="img"></canvas>
+                                <canvas id="revenueChart" aria-label="Biểu đềEdoanh thu" role="img"></canvas>
                             </div>
                         </article>
 
                         <article class="panel quick-events-panel">
                             <div class="panel-heading">
                                 <div>
-                                    <p class="panel-kicker">SỰ KIỆN GẦN ĐÂY</p>
+                                    <p class="panel-kicker">SỰ KIềE GẦN ĐÁE</p>
                                     <h2>Danh sách mới nhất</h2>
                                 </div>
-                                <button class="btn-action" id="btnGoToEvents">Xem tất cả →</button>
+                                <button class="btn-action" id="btnGoToEvents">Xem tất cả ↁE/button>
                             </div>
                             <div class="table-responsive">
                                 <table class="admin-table mini-table">
@@ -184,17 +191,17 @@
                     </div>
                 </section>
 
-                <!-- TAB 2: QUẢN LÝ SỰ KIỆN -->
+                <!-- TAB 2: QUẢN LÁESỰ KIềE -->
                 <section id="tab-events" class="admin-tab-pane">
                     <div class="tab-header-row">
                         <div class="tab-summary-pills">
                             <button class="summary-pill active" data-event-filter="ALL">Tất cả (<span id="countEvAll">0</span>)</button>
                             <button class="summary-pill confirmed" data-event-filter="Đã xác nhận">Đã xác nhận (<span id="countEvConfirmed">0</span>)</button>
-                            <button class="summary-pill pending" data-event-filter="Đang chuẩn bị">Đang chuẩn bị (<span id="countEvPending">0</span>)</button>
+                            <button class="summary-pill pending" data-event-filter="Đang chuẩn bềE>Đang chuẩn bềE(<span id="countEvPending">0</span>)</button>
                             <button class="summary-pill completed" data-event-filter="Hoàn thành">Hoàn thành (<span id="countEvCompleted">0</span>)</button>
                         </div>
                         <button class="btn btn-primary" id="btnOpenAddEventModal">
-                            ➕ Thêm sự kiện mới
+                            ➁EThêm sự kiện mới
                         </button>
                     </div>
 
@@ -208,7 +215,7 @@
                             <select id="eventStatusFilter">
                                 <option value="ALL">Tất cả trạng thái</option>
                                 <option value="Đã xác nhận">Đã xác nhận</option>
-                                <option value="Đang chuẩn bị">Đang chuẩn bị</option>
+                                <option value="Đang chuẩn bềE>Đang chuẩn bềE/option>
                                 <option value="Hoàn thành">Hoàn thành</option>
                                 <option value="Đã hủy">Đã hủy</option>
                             </select>
@@ -218,7 +225,7 @@
                             <select id="eventTypeFilter">
                                 <option value="ALL">Tất cả loại hình</option>
                                 <option value="Tiệc cưới">Tiệc cưới</option>
-                                <option value="Hội nghị">Hội nghị / Gala</option>
+                                <option value="Hội nghềE>Hội nghềE/ Gala</option>
                                 <option value="Concert">Concert / Liveshow</option>
                                 <option value="Sinh nhật">Sinh nhật / Kỷ niệm</option>
                             </select>
@@ -249,7 +256,7 @@
                     </div>
                 </section>
 
-                <!-- TAB 3: QUẢN LÝ KHÁCH HÀNG -->
+                <!-- TAB 3: QUẢN LÁEKHÁCH HÀNG -->
                 <section id="tab-customers" class="admin-tab-pane">
                     <div class="tab-header-row">
                         <div class="tab-summary-pills">
@@ -259,14 +266,14 @@
                             <button class="summary-pill lead" data-cust-filter="Tiềm năng">Tiềm năng (<span id="countCustLead">0</span>)</button>
                         </div>
                         <button class="btn btn-primary" id="btnOpenAddCustomerModal">
-                            ➕ Thêm khách hàng mới
+                            ➁EThêm khách hàng mới
                         </button>
                     </div>
 
                     <div class="table-filter-bar">
                         <div class="filter-group">
                             <span class="filter-icon">🔍</span>
-                            <input type="text" id="customerSearchInput" placeholder="Tìm theo tên khách hàng, số điện thoại, email..." />
+                            <input type="text" id="customerSearchInput" placeholder="Tìm theo tên khách hàng, sềEđiện thoại, email..." />
                         </div>
                         <div class="filter-group select-group">
                             <label for="customerTierFilter">Phân loại khách hàng:</label>
@@ -285,8 +292,8 @@
                                 <thead>
                                     <tr>
                                         <th>Mã KH</th>
-                                        <th>Họ và tên</th>
-                                        <th>Số điện thoại</th>
+                                        <th>HềEvà tên</th>
+                                        <th>SềEđiện thoại</th>
                                         <th>Email</th>
                                         <th>Phân loại</th>
                                         <th>Sự kiện</th>
@@ -303,7 +310,7 @@
                     </div>
                 </section>
 
-                <!-- TAB 4: LỊCH TRÌNH SỰ KIỆN -->
+                <!-- TAB 4: LỊCH TRÌNH SỰ KIềE -->
                 <section id="tab-calendar" class="admin-tab-pane">
                     <div class="panel calendar-panel">
                         <div class="panel-heading">
@@ -326,8 +333,8 @@
                 </section>
                 <section id="tab-settings" class="admin-tab-pane">
                     <div class="panel empty-state-panel">
-                        <div class="empty-icon">⚙️</div>
-                        <h2>Cấu hình Hệ thống</h2>
+                        <div class="empty-icon">⚙︁E/div>
+                        <h2>Cấu hình HềEthống</h2>
                         <p>Quản lý phân quyền tài khoản admin, cấu hình thông báo và kết nối email.</p>
                     </div>
                 </section>
@@ -335,30 +342,30 @@
         </main>
     </div>
 
-    <!-- MODAL: THÊM / SỬA SỰ KIỆN -->
+    <!-- MODAL: THÊM / SỬA SỰ KIềE -->
     <div class="admin-modal" id="eventModal" aria-hidden="true">
         <div class="modal-backdrop" id="eventModalBackdrop"></div>
         <div class="modal-card">
             <div class="modal-header">
                 <h3 id="eventModalTitle">Thêm sự kiện mới</h3>
-                <button class="modal-close" id="btnCloseEventModal" type="button">✕</button>
+                <button class="modal-close" id="btnCloseEventModal" type="button">✁E/button>
             </div>
             <form id="eventForm" class="modal-body">
                 <input type="hidden" id="eventEditId" />
                 <div class="form-group">
                     <label for="eventTitle">Tên sự kiện *</label>
-                    <input type="text" id="eventTitle" placeholder="Ví dụ: Tiệc cưới Anh Nam & Chị Hoa" required />
+                    <input type="text" id="eventTitle" placeholder="Ví dụ: Tiệc cưới Anh Nam & ChềEHoa" required />
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="eventClient">Tên khách hàng / Đơn vị *</label>
-                        <input type="text" id="eventClient" placeholder="Ví dụ: Nguyễn Văn Minh" required />
+                        <label for="eventClient">Tên khách hàng / Đơn vềE*</label>
+                        <input type="text" id="eventClient" placeholder="Ví dụ: NguyềE Văn Minh" required />
                     </div>
                     <div class="form-group">
                         <label for="eventType">Loại hình sự kiện *</label>
                         <select id="eventType" required>
                             <option value="Tiệc cưới">Tiệc cưới</option>
-                            <option value="Hội nghị">Hội nghị / Gala</option>
+                            <option value="Hội nghềE>Hội nghềE/ Gala</option>
                             <option value="Concert">Concert / Liveshow</option>
                             <option value="Sinh nhật">Sinh nhật / Kỷ niệm</option>
                         </select>
@@ -366,29 +373,29 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="eventDate">Ngày & Giờ tổ chức *</label>
+                        <label for="eventDate">Ngày & GiềEtềEchức *</label>
                         <input type="datetime-local" id="eventDate" required />
                     </div>
                     <div class="form-group">
-                        <label for="eventBudget">Dự trù ngân sách (VNĐ) *</label>
+                        <label for="eventBudget">Dự trù ngân sách (VNāE *</label>
                         <input type="number" id="eventBudget" placeholder="150000000" step="1000000" required />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="eventLocation">Địa điểm tổ chức *</label>
-                    <input type="text" id="eventLocation" placeholder="Ví dụ: Trung tâm hội nghị GEM Center, Q.1" required />
+                    <label for="eventLocation">Địa điểm tềEchức *</label>
+                    <input type="text" id="eventLocation" placeholder="Ví dụ: Trung tâm hội nghềEGEM Center, Q.1" required />
                 </div>
                 <div class="form-group">
                     <label for="eventStatus">Trạng thái *</label>
                     <select id="eventStatus" required>
                         <option value="Đã xác nhận">Đã xác nhận</option>
-                        <option value="Đang chuẩn bị">Đang chuẩn bị</option>
+                        <option value="Đang chuẩn bềE>Đang chuẩn bềE/option>
                         <option value="Hoàn thành">Hoàn thành</option>
                         <option value="Đã hủy">Đã hủy</option>
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline" id="btnCancelEventForm">Hủy bỏ</button>
+                    <button type="button" class="btn btn-outline" id="btnCancelEventForm">Hủy bềE/button>
                     <button type="submit" class="btn btn-primary" id="btnSaveEvent">Lưu sự kiện</button>
                 </div>
             </form>
@@ -401,17 +408,17 @@
         <div class="modal-card">
             <div class="modal-header">
                 <h3 id="customerModalTitle">Thêm khách hàng mới</h3>
-                <button class="modal-close" id="btnCloseCustomerModal" type="button">✕</button>
+                <button class="modal-close" id="btnCloseCustomerModal" type="button">✁E/button>
             </div>
             <form id="customerForm" class="modal-body">
                 <input type="hidden" id="customerEditId" />
                 <div class="form-group">
-                    <label for="customerName">Họ và tên khách hàng *</label>
-                    <input type="text" id="customerName" placeholder="Ví dụ: Nguyễn Văn A" required />
+                    <label for="customerName">HềEvà tên khách hàng *</label>
+                    <input type="text" id="customerName" placeholder="Ví dụ: NguyềE Văn A" required />
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="customerPhone">Số điện thoại *</label>
+                        <label for="customerPhone">SềEđiện thoại *</label>
                         <input type="tel" id="customerPhone" placeholder="0901234567" required />
                     </div>
                     <div class="form-group">
@@ -429,16 +436,16 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="customerTotalSpent">Tổng chi tiêu ước tính (VNĐ)</label>
+                        <label for="customerTotalSpent">Tổng chi tiêu ước tính (VNāE</label>
                         <input type="number" id="customerTotalSpent" placeholder="0" step="1000000" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="customerNotes">Ghi chú / Yêu cầu đặc biệt</label>
-                    <textarea id="customerNotes" rows="3" placeholder="Ghi chú về sở thích, ngân sách hay dịch vụ quan tâm..."></textarea>
+                    <textarea id="customerNotes" rows="3" placeholder="Ghi chú vềEsềEthích, ngân sách hay dịch vụ quan tâm..."></textarea>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline" id="btnCancelCustomerForm">Hủy bỏ</button>
+                    <button type="button" class="btn btn-outline" id="btnCancelCustomerForm">Hủy bềE/button>
                     <button type="submit" class="btn btn-primary" id="btnSaveCustomer">Lưu thông tin</button>
                 </div>
             </form>
@@ -446,7 +453,6 @@
     </div>
 
     <!-- Scripts riêng cho Admin -->
-    <script src="js/api.js"></script>
     <script src="js/dashboard.js"></script>
     <script src="js/calendar.js"></script>
     <script src="js/app.js"></script>
