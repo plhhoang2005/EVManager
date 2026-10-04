@@ -21,6 +21,18 @@ spring:
     enabled: true
     baseline-on-migrate: true
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:your-email@gmail.com}
+    password: ${MAIL_PASSWORD:your-app-password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
   mvc:
     throw-exception-if-no-handler-found: true
   jackson:

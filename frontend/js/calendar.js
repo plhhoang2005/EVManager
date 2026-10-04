@@ -87,7 +87,14 @@ async function initCalendar() {
         eventClick: function(info) {
             const loc = info.event.extendedProps.location || 'Chưa cập nhật';
             const status = info.event.extendedProps.status || 'Đã xác nhận';
-            alert(`🎉 ${info.event.title}\n⏰ Thời gian: ${info.event.start ? info.event.start.toLocaleString('vi-VN') : ''}\n📍 Địa điểm: ${loc}\n📌 Trạng thái: ${status}`);
+            Swal.fire({
+                title: '🎉 ' + info.event.title,
+                html: `<b>⏰ Thời gian:</b> ${info.event.start ? info.event.start.toLocaleString('vi-VN') : ''}<br>
+                       <b>📍 Địa điểm:</b> ${loc}<br>
+                       <b>📌 Trạng thái:</b> ${status}`,
+                icon: 'info',
+                confirmButtonColor: '#087f82'
+            });
         }
     });
 

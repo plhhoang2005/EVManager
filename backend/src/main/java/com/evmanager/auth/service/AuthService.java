@@ -19,15 +19,19 @@ public class AuthService {
     private final java.util.concurrent.ConcurrentHashMap<String, Integer> failedAttempts = new java.util.concurrent.ConcurrentHashMap<>();
     private static final int MAX_FAILED_ATTEMPTS = 5;
 
+    private final OtpService otpService;
+
     public AuthService(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
                        com.evmanager.users.repository.UserRepository userRepository,
                        com.evmanager.users.repository.RoleRepository roleRepository,
-                       org.springframework.security.crypto.password.PasswordEncoder passwordEncoder) {
+                       org.springframework.security.crypto.password.PasswordEncoder passwordEncoder,
+                       OtpService otpService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.otpService = otpService;
     }
 
     public String login(LoginRequest loginRequest) {
@@ -76,9 +80,8 @@ public class AuthService {
             throw new com.evmanager.exception.ResourceConflictException("Email already exists");
         }
 
-        com.evmanager.users.model.Role role = roleRepository.findByRoleName("ROLE_CUSTOMER")
-                .orElseGet(() -> roleRepository.findAll().stream().findFirst()
-                .orElseThrow(() -> new IllegalStateException("No roles found in database")));
+        com.evmanager.users.model.Role role = roleRepository.findByRoleName("CUSTOMER")
+                .orElseThrow(() -> new IllegalStateException("Default role 'CUSTOMER' not found in database. Contact system administrator."));
 
         com.evmanager.users.model.User user = new com.evmanager.users.model.User();
         user.setUsername(username);
@@ -89,8 +92,46 @@ public class AuthService {
             user.setPhone(request.getPhone().trim());
         }
         user.setRole(role);
-        user.setStatus("ACTIVE");
+        user.setStatus("INACTIVE"); // Require OTP Verification to become ACTIVE
 
+        userRepository.save(user);
+        
+        // Generate and send Verification OTP
+        otpService.generateAndSendOtp(user, "VERIFY_ACCOUNT");
+    }
+
+    public void forgotPassword(com.evmanager.auth.dto.ForgotPasswordRequest request) {
+        com.evmanager.users.model.User user = userRepository.findByEmailIgnoreCase(request.getEmail().trim())
+            .orElseThrow(() -> new com.evmanager.exception.ResourceNotFoundException("Tài khoản với email này không tồn tại."));
+        
+        otpService.generateAndSendOtp(user, "RESET_PASSWORD");
+    }
+
+    @org.springframework.transaction.annotation.Transactional
+    public void resetPassword(com.evmanager.auth.dto.ResetPasswordRequest request) {
+        com.evmanager.users.model.User user = userRepository.findByEmailIgnoreCase(request.getEmail().trim())
+            .orElseThrow(() -> new com.evmanager.exception.ResourceNotFoundException("Tài khoản với email này không tồn tại."));
+            
+        boolean isValid = otpService.verifyOtp(user, request.getOtpCode(), "RESET_PASSWORD");
+        if (!isValid) {
+            throw new IllegalArgumentException("Mã OTP không chính xác hoặc đã hết hạn.");
+        }
+        
+        user.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+    }
+
+    @org.springframework.transaction.annotation.Transactional
+    public void verifyRegistration(String email, String otpCode) {
+        com.evmanager.users.model.User user = userRepository.findByEmailIgnoreCase(email.trim())
+            .orElseThrow(() -> new com.evmanager.exception.ResourceNotFoundException("Tài khoản với email này không tồn tại."));
+            
+        boolean isValid = otpService.verifyOtp(user, otpCode, "VERIFY_ACCOUNT");
+        if (!isValid) {
+            throw new IllegalArgumentException("Mã OTP không chính xác hoặc đã hết hạn.");
+        }
+        
+        user.setStatus("ACTIVE");
         userRepository.save(user);
     }
 }
