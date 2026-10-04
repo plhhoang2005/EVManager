@@ -27,6 +27,13 @@ public class EventController {
 
     private final EventService eventService;
 
+    @GetMapping
+    public ResponseEntity<List<CalendarEventResponse>> getAllEvents() {
+        OffsetDateTime start = OffsetDateTime.now().minusYears(1);
+        OffsetDateTime end = OffsetDateTime.now().plusYears(1);
+        return ResponseEntity.ok(eventService.getEventsForCalendar(start, end));
+    }
+
     @GetMapping("/calendar")
     public ResponseEntity<List<CalendarEventResponse>> getEventsForCalendar(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime start,
