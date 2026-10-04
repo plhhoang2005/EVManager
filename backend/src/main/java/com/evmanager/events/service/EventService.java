@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 @Service
 @RequiredArgsConstructor
 public class EventService {
@@ -25,6 +28,18 @@ public class EventService {
     private final EventRepository eventRepository;
     private final ConflictCheckerService conflictCheckerService;
     private final VenueRepository venueRepository;
+
+    public Page<EventResponse> getAllEvents(Pageable pageable) {
+        return eventRepository.findAll(pageable).map(event -> EventResponse.builder()
+                .eventId(event.getEventId())
+                .venueId(event.getVenue().getVenueId())
+                .eventName(event.getEventName())
+                .startAt(event.getStartAt())
+                .endAt(event.getEndAt())
+                .guestCount(event.getGuestCount())
+                .status(event.getStatus())
+                .build());
+    }
 
     @Transactional(readOnly = true)
     public List<CalendarEventResponse> getEventsForCalendar(OffsetDateTime start, OffsetDateTime end) {

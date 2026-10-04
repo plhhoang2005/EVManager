@@ -20,6 +20,9 @@ import com.evmanager.events.dto.EventResponse;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 @RestController
 @RequestMapping("/api/v1/events")
 @RequiredArgsConstructor
@@ -28,10 +31,8 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping
-    public ResponseEntity<List<CalendarEventResponse>> getAllEvents() {
-        OffsetDateTime start = OffsetDateTime.now().minusYears(1);
-        OffsetDateTime end = OffsetDateTime.now().plusYears(1);
-        return ResponseEntity.ok(eventService.getEventsForCalendar(start, end));
+    public ResponseEntity<Page<EventResponse>> getAllEvents(Pageable pageable) {
+        return ResponseEntity.ok(eventService.getAllEvents(pageable));
     }
 
     @GetMapping("/calendar")

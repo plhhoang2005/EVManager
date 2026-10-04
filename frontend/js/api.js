@@ -14,6 +14,23 @@ const API_BASE_URL = 'http://localhost:8080';
  * @param {RequestInit} [options={}] - Option cấu hình cho fetch (method, headers, body...)
  * @returns {Promise<Response>} Trả về Response object từ fetch
  */
+function parseJwt(token) {
+    if (!token) return null;
+    try {
+        const base64Url = token.split('.')[1];
+        if (!base64Url) return null;
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return JSON.parse(jsonPayload);
+    } catch (e) {
+        console.error('Error parsing JWT', e);
+        return null;
+    }
+}
+
 async function fetchAPI(endpoint, options = {}) {
     const url = endpoint.startsWith('http://') || endpoint.startsWith('https://')
         ? endpoint

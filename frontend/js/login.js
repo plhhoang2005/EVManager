@@ -49,7 +49,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.ok) {
                     sessionStorage.setItem('accessToken', data.accessToken);
                     sessionStorage.setItem('currentUser', usernameOrEmail);
-                    window.location.href = 'admin.html';
+                    
+                    const decoded = typeof parseJwt === 'function' ? parseJwt(data.accessToken) : null;
+                    let roleStr = '';
+                    if (decoded) {
+                        const roleClaim = decoded.role || decoded.roles || decoded.authorities || '';
+                        roleStr = Array.isArray(roleClaim) ? roleClaim.join(',') : String(roleClaim);
+                    }
+                    roleStr = roleStr.toUpperCase();
+
+                    if (roleStr.includes('ADMIN')) {
+                        window.location.href = 'admin.html';
+                    } else if (roleStr.includes('SALES')) {
+                        window.location.href = 'sales.html';
+                    } else if (roleStr.includes('COORDINATOR')) {
+                        window.location.href = 'coordinator.html';
+                    } else if (roleStr.includes('CUSTOMER')) {
+                        window.location.href = 'customer.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
                 } else {
                     let errorMsg = 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.';
                     if (data) {
@@ -71,17 +90,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             } catch (err) {
-                // Khi máy chủ Backend chưa bật (Lỗi Failed to fetch / Máy chủ offline)
-                if (usernameOrEmail === 'admin' && password === '123') {
-                    console.warn('Backend offline (Failed to fetch). Tự động kích hoạt tài khoản Demo để kiểm thử Frontend.');
-                    sessionStorage.setItem('accessToken', 'mock-demo-token-123456');
-                    sessionStorage.setItem('currentUser', 'admin');
-                    window.location.href = 'admin.html';
-                    return;
-                }
-
                 if (error) {
-                    error.textContent = 'Máy chủ Backend chưa bật (http://localhost:8080). Nhập admin/123 để test thử chế độ Demo.';
+                    error.textContent = 'Lỗi kết nối đến máy chủ. Vui lòng kiểm tra lại mạng hoặc liên hệ quản trị viên.';
                     error.hidden = false;
                 }
             }
