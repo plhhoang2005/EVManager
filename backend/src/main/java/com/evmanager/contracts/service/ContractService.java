@@ -44,7 +44,7 @@ public class ContractService {
     @org.springframework.transaction.annotation.Transactional
     public ContractResponse createContract(ContractRequest request) {
         // Validation: Date logic
-        Event event = eventRepository.findById(request.getEventId())
+        Event event = eventRepository.findByIdWithPessimisticWriteLock(request.getEventId())
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found"));
         
         if (request.getContractDate().isAfter(event.getStartAt().toLocalDate())) {
