@@ -14,8 +14,13 @@ public class ContractRequest {
     @NotNull(message = "Event ID is required")
     private Long eventId;
 
-    private Long menuId;
+    @Min(value = 0, message = "Table count cannot be negative")
+    private Integer tableCount = 0;
 
+    @Min(value = 0, message = "Reserve table count cannot be negative")
+    private Integer reserveTableCount = 0;
+
+    private List<ContractMenuRequest> menus;
     @NotNull(message = "Contract date is required")
     private LocalDate contractDate;
 
