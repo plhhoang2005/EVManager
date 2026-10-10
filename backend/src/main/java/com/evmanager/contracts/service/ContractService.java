@@ -3,9 +3,12 @@ package com.evmanager.contracts.service;
 import com.evmanager.contracts.dto.ContractRequest;
 import com.evmanager.contracts.dto.ContractResponse;
 import com.evmanager.contracts.dto.ContractServiceResponse;
+import com.evmanager.contracts.dto.ContractMenuResponse;
 import com.evmanager.contracts.model.Contract;
 import com.evmanager.contracts.model.ContractServiceEntity;
 import com.evmanager.contracts.model.ContractServiceId;
+import com.evmanager.contracts.model.ContractMenuEntity;
+import com.evmanager.contracts.model.ContractMenuId;
 import com.evmanager.contracts.repository.ContractRepository;
 import com.evmanager.customers.model.Customer;
 import com.evmanager.customers.repository.CustomerRepository;
@@ -41,7 +44,7 @@ public class ContractService {
     @org.springframework.transaction.annotation.Transactional
     public ContractResponse createContract(ContractRequest request) {
         // Validation: Date logic
-        Event event = eventRepository.findById(request.getEventId())
+        Event event = eventRepository.findByIdWithPessimisticWriteLock(request.getEventId())
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found"));
         
         if (request.getContractDate().isAfter(event.getStartAt().toLocalDate())) {
@@ -61,18 +64,44 @@ public class ContractService {
         contract.setEvent(event);
         contract.setContractDate(request.getContractDate());
         
+        if (request.getTableCount() != null) {
+            contract.setTableCount(request.getTableCount());
+        }
+        if (request.getReserveTableCount() != null) {
+            contract.setReserveTableCount(request.getReserveTableCount());
+        }
+        
         // Generate code
         String code = "HD-" + request.getContractDate().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-" + UUID.randomUUID().toString().substring(0, 4).toUpperCase();
         contract.setContractCode(code);
 
         BigDecimal totalAmount = BigDecimal.ZERO;
 
-        if (request.getMenuId() != null) {
-            Menu menu = menuRepository.findById(request.getMenuId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Menu not found"));
-            contract.setMenu(menu);
-            totalAmount = totalAmount.add(menu.getPrice());
+        List<ContractMenuEntity> menuEntities = new ArrayList<>();
+        if (request.getMenus() != null && !request.getMenus().isEmpty()) {
+            for (com.evmanager.contracts.dto.ContractMenuRequest menuReq : request.getMenus()) {
+                Menu menu = menuRepository.findById(menuReq.getMenuId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Menu not found: " + menuReq.getMenuId()));
+                
+                ContractMenuEntity cme = new ContractMenuEntity();
+                ContractMenuId id = new ContractMenuId();
+                id.setMenuId(menu.getMenuId());
+                cme.setId(id);
+                cme.setContract(contract);
+                cme.setMenu(menu);
+                cme.setQuantity(menuReq.getQuantity() != null ? menuReq.getQuantity() : 1);
+                
+                BigDecimal agreedPrice = menuReq.getAgreedPrice() != null ? menuReq.getAgreedPrice() : menu.getPrice();
+                cme.setAgreedPrice(agreedPrice);
+                cme.setNote(menuReq.getNote());
+                
+                menuEntities.add(cme);
+                
+                // Add to total amount: price * quantity
+                totalAmount = totalAmount.add(agreedPrice.multiply(BigDecimal.valueOf(cme.getQuantity())));
+            }
         }
+        contract.setContractMenus(menuEntities);
 
         List<ContractServiceEntity> serviceEntities = new ArrayList<>();
         if (request.getServiceIds() != null && !request.getServiceIds().isEmpty()) {
@@ -119,9 +148,20 @@ public class ContractService {
         res.setEventId(contract.getEvent().getEventId());
         res.setEventName(contract.getEvent().getEventName());
         
-        if (contract.getMenu() != null) {
-            res.setMenuId(contract.getMenu().getMenuId());
-            res.setMenuName(contract.getMenu().getMenuName());
+        res.setTableCount(contract.getTableCount());
+        res.setReserveTableCount(contract.getReserveTableCount());
+        
+        if (contract.getContractMenus() != null) {
+            List<ContractMenuResponse> menus = contract.getContractMenus().stream().map(cme -> {
+                ContractMenuResponse cmr = new ContractMenuResponse();
+                cmr.setMenuId(cme.getMenu().getMenuId());
+                cmr.setMenuName(cme.getMenu().getMenuName());
+                cmr.setQuantity(cme.getQuantity());
+                cmr.setAgreedPrice(cme.getAgreedPrice());
+                cmr.setNote(cme.getNote());
+                return cmr;
+            }).toList();
+            res.setMenus(menus);
         }
         
         res.setContractDate(contract.getContractDate());

@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: "jdbc:h2:mem:evmanagerdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;INIT=CREATE DOMAIN IF NOT EXISTS TIMESTAMPTZ AS TIMESTAMP WITH TIME ZONE\\; CREATE DOMAIN IF NOT EXISTS INET AS VARCHAR(45)\\; CREATE DOMAIN IF NOT EXISTS JSONB AS JSON\\;"
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+app:
+  jwt-secret: 4b29598f828a472c1c1f7b8801d014eb0237e3d1d1f0545f94943fcf11bb9e5f
+  jwt-expiration-milliseconds: 604800000 # 7 days
