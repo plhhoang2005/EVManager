@@ -34,9 +34,11 @@ public class Contract {
     @JoinColumn(name = "event_id", nullable = false, unique = true)
     private Event event;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_id")
-    private Menu menu;
+    @Column(name = "table_count", nullable = false)
+    private Integer tableCount = 0;
+
+    @Column(name = "reserve_table_count", nullable = false)
+    private Integer reserveTableCount = 0;
 
     @Column(name = "contract_code", nullable = false, unique = true, length = 50)
     private String contractCode;
@@ -63,4 +65,7 @@ public class Contract {
 
     @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContractServiceEntity> contractServices = new ArrayList<>();
+
+    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ContractMenuEntity> contractMenus = new ArrayList<>();
 }

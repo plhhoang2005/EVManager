@@ -14,8 +14,9 @@ public class ContractResponse {
     private String customerName;
     private Long eventId;
     private String eventName;
-    private Long menuId;
-    private String menuName;
+    private Integer tableCount;
+    private Integer reserveTableCount;
+    private List<ContractMenuResponse> menus;
     private LocalDate contractDate;
     private BigDecimal totalAmount;
     private BigDecimal depositAmount;

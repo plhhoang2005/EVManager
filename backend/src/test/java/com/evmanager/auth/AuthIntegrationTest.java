@@ -54,6 +54,25 @@ public class AuthIntegrationTest {
     @MockBean
     private com.evmanager.events.repository.EventRepository eventRepository;
 
+    @MockBean
+    private com.evmanager.auth.repository.OtpTokenRepository otpTokenRepository;
+
+    @MockBean
+    private com.evmanager.contracts.repository.ContractRepository contractRepository;
+
+    @MockBean
+    private com.evmanager.services.repository.ServiceRepository serviceRepository;
+
+    @MockBean
+    private com.evmanager.menus.repository.MenuRepository menuRepository;
+
+    @MockBean
+    private com.evmanager.dishes.repository.DishRepository dishRepository;
+
+    @MockBean
+    private com.evmanager.auth.service.EmailService emailService;
+
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -76,7 +95,7 @@ public class AuthIntegrationTest {
         
         when(userRepository.findByUsernameIgnoreCase(request.getUsername())).thenReturn(Optional.empty());
         when(userRepository.findByEmailIgnoreCase(request.getEmail())).thenReturn(Optional.empty());
-        when(roleRepository.findByRoleName("ROLE_CUSTOMER")).thenReturn(Optional.of(role));
+        when(roleRepository.findByRoleName("CUSTOMER")).thenReturn(Optional.of(role));
 
         mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
