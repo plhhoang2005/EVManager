@@ -1,0 +1,3070 @@
+Issue Id,Issue Type,Summary,Description,Status,Assignee,Sprint,Due Date,Labels
+1,Task,[PM] Thiết lập Project Management Framework & Charter,"### Mô tả công việc
+Khởi tạo bộ khung quản lý dự án cho học phần MAN104 (LV34-001 - EVManager):
+- [x] Project Charter (Problem Statement, SMART Goals, Scope, Milestones)
+- [x] SOW (Statement of Work) & Scope Statement
+- [x] Thiết lập cấu trúc thư mục tài liệu `docs/`
+- [x] Cấu hình Git & Quy chuẩn phân chia vai trò nhóm
+
+**Người phụ trách:** Hoàng (PM)",Done,plhhoang2005@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hoang,priority: high"
+2,Task,[PM] Lập RACI Matrix & Bảng phân bổ nhân sự WBS,"### Mô tả công việc
+Lập ma trận phân công trách nhiệm (RACI) cho 5 vai trò trong đồ án:
+- [x] RACI nhóm Quản lý dự án (PM - Hoàng)
+- [x] RACI Phân tích nghiệp vụ (BA - Hiển)
+- [x] RACI UI/UX & Frontend (Nhân)
+- [x] RACI Backend/DevOps (Phúc)
+- [x] RACI Database & QA (Hậu)
+- [x] Phân bổ tải công việc (Resource allocation) theo WBS
+
+**Người phụ trách:** Hoàng (PM)",Done,plhhoang2005@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hoang,priority: high"
+3,Task,"[BA] Xác định Stakeholders, Actors & 3 Quy trình nghiệp vụ lõi","### Mô tả công việc
+Xác định phạm vi người dùng và quy trình nghiệp vụ cho hệ thống EVManager:
+- [x] Liệt kê stakeholders và kỳ vọng của khách hàng
+- [x] Xác định 4 actors chính: Admin, Tư vấn viên, Điều phối viên, Khách hàng
+- [x] Đặc tả 3 quy trình lõi: Tiếp nhận tư vấn, Chốt dịch vụ & hợp đồng, Điều phối sự kiện
+
+**Người phụ trách:** Hiển (BA)",Done,tuminhhien324@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hien,priority: high,status: in-progress"
+4,Task,[UI/UX] Nghiên cứu User Flow & Thiết kế Wireframe màn hình chính,"### Mô tả công việc
+- [x] Xây dựng User Flow cho 3 quy trình lõi
+- [x] Thiết kế wireframe/prototype trên Figma cho các màn hình: Dashboard, Khách hàng, Dịch vụ, Hợp đồng
+- [x] Chuẩn hóa UI Kit & Design System màu sắc/typography
+
+**Người phụ trách:** Nhân (UI/UX)",Done,nhanvo134679@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: design,owner: nhan,priority: high,status: in-progress"
+5,Story,[Backend]Khởi tạo kiến trúc Spring Boot & JPA Backend Skeleton,"# [Backend] Khởi tạo kiến trúc Spring Boot & JPA Backend Skeleton
+
+## Mô tả công việc
+
+Khởi tạo mã nguồn Backend và kiến trúc dịch vụ nền tảng cho hệ thống EVManager theo Tech Stack chính thức của nhóm.
+
+## Tech Stack
+
+- Java 21 LTS
+- Spring Boot
+- Spring Web
+- Spring Data JPA + Hibernate
+- PostgreSQL
+- Flyway
+- Jakarta Bean Validation
+- Spring Security + JWT
+- Springdoc OpenAPI/Swagger
+- Maven
+- JUnit 5 + Mockito + Spring Boot Test
+- SLF4J + Logback
+
+## Checklist
+
+- [x] Khởi tạo project Spring Boot sử dụng Java 21 LTS và Maven.
+- [x] Đặt mã nguồn Backend trong thư mục `backend/`.
+- [x] Cấu hình Spring Web để xây dựng REST API.
+- [x] Cấu hình kết nối PostgreSQL.
+- [x] Cấu hình Spring Data JPA + Hibernate.
+- [x] Cấu hình Flyway để quản lý Database Migration.
+- [x] Cấu hình Jakarta Bean Validation.
+- [x] Cấu hình Spring Security + JWT.
+- [x] Cấu hình Springdoc OpenAPI/Swagger.
+- [x] Thiết lập logging với SLF4J + Logback.
+- [x] Tạo cấu trúc module/package:
+  - `auth`
+  - `users`
+  - `customers`
+  - `events`
+  - `venues`
+  - `contracts`
+  - `dashboard`
+- [x] Tạo API Health Check cơ bản.
+- [x] Tạo README hướng dẫn cài đặt và chạy Backend.
+- [x] Kiểm tra project build thành công bằng Maven.
+- [x] Viết test cơ bản kiểm tra Spring Boot khởi động.
+- [x] Tạo branch `feature/backend-core`.
+- [x] Push code lên GitHub.
+- [x] Mở Pull Request từ `feature/backend-core` vào `develop`.
+
+## Kết quả cần giao
+
+- Source code Backend trong `backend/`
+- Spring Boot project chạy thành công
+- PostgreSQL configuration
+- JPA/Hibernate configuration
+- Flyway configuration
+- Security/JWT skeleton
+- Swagger/OpenAPI
+- Health Check API
+- README
+- Basic tests
+- Branch `feature/backend-core`
+- Pull Request vào `develop`
+
+**Người phụ trách:** Phúc (Backend Dev)
+
+**Quy ước:** Push từ tài khoản GitHub cá nhân của Dev và mở PR để PM review.",Done,phucngo1707@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: feature,owner: phuc,priority: high,status: in-progress"
+6,Task,[DB/QA] Xác định Data Requirements & Danh mục kiểm thử ban đầu,"### Mô tả công việc
+- [x] Xác định 8–10 thực thể dữ liệu (Users, Customers, Services, Events, Contracts, Payments...)
+- [x] Lập kế hoạch kiểm thử (Test Plan) và khung 35 test cases tối thiểu
+- [x] Chuẩn bị kịch bản kiểm tra xung đột trùng lịch sự kiện
+
+**Người phụ trách:** Hậu (DB/QA)",Done,2005buinguyenchihau@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hau,priority: high,status: in-progress"
+7,Task,[PM] PM-01: Soạn thảo Tôn chỉ dự án (Project Charter) & Mục tiêu SMART,"### 🎯 Mục tiêu
+Soạn thảo bản Tôn chỉ dự án (Project Charter) chính thức để định hình mục tiêu SMART, ranh giới phạm vi và cấp quyền cho Ban Quản lý dự án theo chuẩn PMBOK.
+
+### 📋 Checklist công việc
+- [x] Khảo sát bối cảnh bài toán quản lý tiệc cưới và nêu rõ Problem Statement.
+- [x] Thiết lập 6 mục tiêu SMART (Specific, Measurable, Achievable, Relevant, Time-bound).
+- [x] Xác định các bên liên quan (Stakeholders), Nhà tài trợ (Sponsor) và vai trò của PM.
+- [x] Lập bảng tóm tắt ngân sách dự kiến và các cột mốc thời gian chính (Milestones 8 tuần).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/charter/project_charter.md` và file Word `Project_Charter_EVManager.docx`.
+- Gửi tài liệu cho Giảng viên hướng dẫn duyệt phạm vi.
+
+**Deadline:** 13/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hoang,priority: high"
+8,Task,[PM] PM-02: Lập ma trận phân công trách nhiệm RACI chi tiết cho 5 thành viên,"### 🎯 Mục tiêu
+Xây dựng ma trận phân công trách nhiệm RACI (Responsible, Accountable, Consulted, Informed) để làm rõ vai trò, tránh chồng chéo công việc giữa 5 thành viên.
+
+### 📋 Checklist công việc
+- [x] Liệt kê danh sách 5 thành viên: Hoàng (PM), Hiển (BA), Nhân (UI/UX), Phúc (Backend), Hậu (QA).
+- [x] Phân loại trách nhiệm cho từng nhóm công việc: Quản lý dự án, Phân tích nghiệp vụ, Thiết kế giao diện, Lập trình API, Đảm bảo chất lượng.
+- [x] Đảm bảo mỗi công việc chỉ có duy nhất 1 người chịu trách nhiệm chính (A - Accountable).
+- [x] Thống nhất ma trận RACI trong cuộc họp nội bộ nhóm.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tạo tài liệu `docs/planning/raci.md`.
+- Dán bảng RACI vào comment issue này để toàn đội ngũ xác nhận.
+
+**Deadline:** 13/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hoang,priority: high"
+9,Task,[PM] PM-03: Xác lập phạm vi phát biểu (Scope Statement: In-scope & Out-of-scope),"### 🎯 Mục tiêu
+Xác lập Phát biểu phạm vi (Scope Statement) nhằm đóng khung các tính năng bắt buộc làm (In-scope) và loại trừ các tính năng vượt ngoài khả năng trong 8 tuần (Out-of-scope).
+
+### 📋 Checklist công việc
+- [x] Đối chiếu tiêu chí đồ án mức Khá của đề tài LV34-001 (4-5 actors, 10-14 use cases, 3 quy trình lõi).
+- [x] Liệt kê chi tiết danh mục In-scope: Quản lý sảnh, Khách hàng, Thực đơn, Đặt tiệc, Kiểm tra trùng lịch, Hợp đồng, Cọc, Dashboard.
+- [x] Liệt kê danh mục Out-of-scope: Ứng dụng di động (Mobile App), Cổng thanh toán trực tuyến thực tế (chỉ mô phỏng).
+- [x] Xác định rõ các giả định (Assumptions) và ràng buộc kỹ thuật (Constraints).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/charter/scope_statement.md` và file Word `Scope_Statement_EVManager.docx`.
+- PM nghiệm thu và lưu trữ vào hồ sơ quản trị.
+
+**Deadline:** 13/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hoang,priority: high"
+10,Task,"[PM] PM-04: Thiết lập cấu trúc Repository GitHub, bảo vệ nhánh và quy chuẩn Commit","### 🎯 Mục tiêu
+Thiết lập môi trường làm việc chuẩn trên GitHub, phân chia nhánh và cấu hình quy tắc bảo vệ mã nguồn (Branch Protection) cho cả nhóm.
+
+### 📋 Checklist công việc
+- [x] Khởi tạo repository chính thức `plhhoang2005/EVManager` và mời 4 thành viên vào làm Collaborator.
+- [x] Tạo 2 nhánh cố định: `main` (production/release) và `develop` (nhánh tích hợp chung).
+- [x] Cấu hình `develop` làm nhánh mặc định (Default Branch).
+- [x] Soạn thảo tệp quy ước làm việc `AGENTS.md` và tài liệu hướng dẫn branch `docs/planning/github-week1-setup.md`.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Repository GitHub hoạt động với đầy đủ branch, `.gitignore` và `README.md`.
+- PM nghiệm thu cấu hình Git và thông báo cho nhóm.
+
+**Deadline:** 13/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: chore,owner: hoang,priority: high"
+11,Task,[PM] PM-05: Tổ chức họp Kick-off dự án và lập Biên bản họp số 01,"### 🎯 Mục tiêu
+Tổ chức phiên họp khởi động (Kick-off Meeting) để tạo sự đồng thuận về phương pháp phát triển Agile/Scrum kết hợp PMBOK.
+
+### 📋 Checklist công việc
+- [x] Lên chương trình họp: Giới thiệu đề tài, phân chia vai trò, quy định giờ làm việc và kênh liên lạc.
+- [x] Thống nhất sử dụng GitHub Projects & Issues để quản lý toàn bộ task thay cho Jira.
+- [x] Lập Biên bản cuộc họp số 01 ghi nhận đầy đủ chữ ký hoặc xác nhận của 5 thành viên.
+- [x] Thiết lập lịch họp định kỳ hàng tuần (Weekly Scrum) vào tối Chủ Nhật.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Biên bản cuộc họp lưu tại `docs/meetings/meeting-01-kickoff.md`.
+- Đăng biên bản lên nhóm trao đổi chung.
+
+**Deadline:** 13/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hoang,priority: high"
+12,Task,[PM] PM-06: Lập Kế hoạch quản lý truyền thông và phân quyền truy cập tài liệu,"### 🎯 Mục tiêu
+Xây dựng Kế hoạch quản lý truyền thông (Communication Management Plan) nhằm đảm bảo thông tin dự án được truyền đạt chính xác, kịp thời và bảo mật.
+
+### 📋 Checklist công việc
+- [x] Xác định các kênh truyền thông chính thức: GitHub (quản lý mã nguồn/task), Zalo (thông báo khẩn), Google Meet (họp tuần).
+- [x] Lập ma trận phân phối thông tin: Ai nhận báo cáo gì, tần suất và định dạng tài liệu.
+- [x] Quy định quyền truy cập thư mục tài liệu dự án trên máy chủ/GitHub (Read/Write/Admin).
+- [x] Quy định quy trình giải quyết xung đột ý kiến kỹ thuật theo nguyên tắc tập trung dân chủ.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/planning/communication-plan.md`.
+- PM kiểm tra và đưa vào áp dụng ngay từ Tuần 2.
+
+**Deadline:** 13/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hoang,priority: medium"
+13,Task,[PM] PM-07: Xây dựng Cấu trúc phân rã công việc WBS đến cấp 4,"### 🎯 Mục tiêu
+Xây dựng Cấu trúc phân rã công việc (Work Breakdown Structure - WBS) đến cấp 4 để chia nhỏ dự án thành các gói công việc (Work Packages) cụ thể.
+
+### 📋 Checklist công việc
+- [x] Phân rã cấp 1: Dự án EVManager.
+- [x] Phân rã cấp 2 thành 5 giai đoạn: Khởi tạo, Phân tích & Thiết kế, Xây dựng phần mềm, Kiểm thử & Triển khai, Đóng dự án.
+- [x] Phân rã cấp 3 và cấp 4 cho từng phân hệ kỹ thuật (Auth, Venues, Customers, Bookings, Contracts, Payments, Reports).
+- [x] Gán mã số WBS duy nhất (VD: 1.1, 1.2.1, 2.1.1.1) và người phụ trách cho từng gói công việc.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Bảng tính Excel `docs/planning/WBS_EVManager_Detailed.xlsx` và file CSV `WBS_EVManager.csv`.
+- Dán sơ đồ cây WBS vào tài liệu tổng thể của nhóm.
+
+**Deadline:** 20/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hoang,priority: high"
+14,Task,[PM] PM-08: Lập Từ điển công việc (WBS Dictionary) mô tả chi tiết từng gói công việc,"### 🎯 Mục tiêu
+Biên soạn Từ điển phân rã công việc (WBS Dictionary) nhằm định nghĩa rõ ràng nội dung, đầu vào, tiêu chí chấp nhận cho từng gói công việc cấp 4.
+
+### 📋 Checklist công việc
+- [x] Tạo bảng mô tả chi tiết cho từng mã WBS đã phân rã.
+- [x] Xác định kết quả bàn giao cụ thể (Deliverables) cho từng task.
+- [x] Xác định tài nguyên nhân lực và thời gian ước tính (ngày công) cho từng người.
+- [x] Ghi nhận các phụ thuộc tiền đề (Predecessors) của từng công việc.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/planning/wbs-dictionary.md`.
+- Đối chiếu WBS Dictionary với Product Backlog của BA.
+
+**Deadline:** 20/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hoang,priority: high"
+15,Task,[PM] PM-09: Xây dựng sơ đồ mạng công việc (PERT Network Diagram),"### 🎯 Mục tiêu
+Xây dựng Sơ đồ mạng công việc (PERT Network Diagram) để trực quan hóa mối quan hệ phụ thuộc trước sau giữa các nhánh công việc trong dự án.
+
+### 📋 Checklist công việc
+- [x] Liệt kê danh sách các công việc nút mạng và thứ tự thực hiện (A, B, C, D, E, F, G, H, I).
+- [x] Vẽ các nút công việc gồm 6 thông số: Early Start (ES), Duration, Early Finish (EF), Late Start (LS), Float, Late Finish (LF).
+- [x] Xác định các công việc có thể làm song song (VD: Viết test case song song với Phát triển phần mềm).
+- [x] Vẽ sơ đồ mạng bằng Microsoft PowerPoint hoặc Draw.io như bài mẫu Baocao.pdf.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- File ảnh sơ đồ mạng `docs/planning/pert-diagram.png` và slide thuyết trình.
+- Đính kèm hình ảnh PERT vào comment issue này.
+
+**Deadline:** 20/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hoang,priority: high"
+16,Task,[PM] PM-10: Xác định đường găng (Critical Path Method - CPM) và thời gian dự trữ,"### 🎯 Mục tiêu
+Xác định Đường găng (Critical Path Method - CPM) và tối ưu hóa tiến độ để đảm bảo dự án không bị vượt quá giới hạn 8 tuần.
+
+### 📋 Checklist công việc
+- [x] Thực hiện thuật toán Forward Pass tính thời điểm sớm nhất (ES, EF).
+- [x] Thực hiện thuật toán Backward Pass tính thời điểm muộn nhất (LS, LF).
+- [x] Tính thời gian dự trữ tự do (Total Float = LS - ES = 0) để tìm ra các công việc găng.
+- [x] Chỉ ra đường găng dài nhất và đề xuất giải pháp tối ưu rút ngắn đường găng (Crash/Fast-track).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu phân tích đường găng trong `docs/planning/critical-path-analysis.md`.
+- Báo cáo giải trình rút ngắn tiến độ trong cuộc họp tuần 2.
+
+**Deadline:** 20/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hoang,priority: high"
+17,Task,[PM] PM-11: Lập tiến độ tổng thể trên Gantt Chart và chốt đường cơ sở (Baseline),"### 🎯 Mục tiêu
+Lập biểu đồ Gantt tổng thể trên MS Project, phân bổ tài nguyên và chốt Đường cơ sở dự án (Baseline Plan).
+
+### 📋 Checklist công việc
+- [x] Nhập toàn bộ WBS, thời lượng và mối quan hệ Predecessor vào phần mềm Microsoft Project.
+- [x] Gán tài nguyên (Resource Name: Hoàng, Hiển, Nhân, Phúc, Hậu) cho từng công việc.
+- [x] Kiểm tra xung đột phân bổ quá tải (Overallocated resources) và điều chỉnh cân bằng tải.
+- [x] Lưu Baseline (Set Baseline) để làm mốc so sánh tiến độ thực tế sau này.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- File Microsoft Project `docs/planning/EVManager_Gantt_Baseline.mpp`.
+- Xuất ảnh chụp Gantt Chart lưu tại `docs/planning/gantt-baseline.png`.
+
+**Deadline:** 20/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hoang,priority: high"
+18,Task,[PM] PM-12: Ước tính chi phí theo mô hình COCOMO cơ bản,"### 🎯 Mục tiêu
+Ước tính nỗ lực và ngân sách dự án theo mô hình COCOMO cơ bản (Constructive Cost Model) chuẩn PMBOK.
+
+### 📋 Checklist công việc
+- [x] Ước lượng quy mô dòng lệnh cho dự án tiệc cưới: 6.9 KLOC (chế độ Organic: a=2.4, b=1.05, c=2.5, d=0.38).
+- [x] Tính toán tổng nỗ lực: $E = a 	imes (KLOC)^b$ (người-tháng).
+- [x] Tính toán thời gian phát triển dự án: $TDEV = c 	imes E^d$ (tháng).
+- [x] Tính số lượng nhân sự lý thuyết cần thiết: $SS = E / TDEV$ và năng suất lao động.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu tính toán chi phí `docs/planning/cocomo-estimation.md`.
+- Bảng dự toán ngân sách tổng thể đính kèm vào báo cáo giữa kỳ.
+
+**Deadline:** 20/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hoang,priority: high"
+19,Task,[PM] PM-13: Biên bản họp tuần 2: Đánh giá phân rã công việc và chốt WBS,"### 🎯 Mục tiêu
+Tổ chức họp tổng kết Tuần 2: Đánh giá tiến độ phân tích thiết kế và ký duyệt hồ sơ WBS.
+
+### 📋 Checklist công việc
+- [x] Kiểm tra kết quả hoàn thành tài liệu SRS của BA, Prototype của UI/UX và ERD của QA.
+- [x] Đánh giá các task hoàn thành đúng hạn và ghi nhận các task bị trễ hạn cần bù tiến độ.
+- [x] Lập Biên bản cuộc họp số 02 ghi nhận các điều chỉnh về mặt phân công.
+- [x] Lên kế hoạch chạy nước rút cho Tuần 3 (Sprint 2: Xây dựng khung mã nguồn).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Biên bản cuộc họp lưu tại `docs/meetings/meeting-02-week2.md`.
+- Cập nhật trạng thái các issue trên GitHub Project Board.
+
+**Deadline:** 20/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hoang,priority: medium"
+20,Task,[PM] PM-14: Lập Bảng đăng ký rủi ro (Risk Register) với thang điểm P×I,"### 🎯 Mục tiêu
+Lập Bảng đăng ký rủi ro (Risk Register) toàn diện theo mẫu Chương 8 của Baocao.pdf để chủ động phòng ngừa sự cố.
+
+### 📋 Checklist công việc
+- [x] Họp Brainstorming với cả 4 thành viên để nhận diện tối thiểu 10 rủi ro thực tế.
+- [x] Đánh giá Xác suất (P: 10% - 50%) và Mức độ ảnh hưởng (I: Thấp/Trung bình/Cao) cho từng rủi ro.
+- [x] Tính điểm xếp hạng ưu tiên của từng rủi ro và xác định dấu hiệu nhận biết (Early Warning Triggers).
+- [x] Chỉ định cụ thể người chịu trách nhiệm kiểm soát (Risk Owner) cho từng mục.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/planning/risk-register.md` gồm bảng danh mục 10 rủi ro chuẩn PMBOK.
+- Dán bảng tóm tắt rủi ro vào comment issue này.
+
+**Deadline:** 27/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: docs,owner: hoang,priority: high"
+21,Task,"[PM] PM-15: Xây dựng Kế hoạch ứng phó rủi ro theo chiến lược 4T (Tránh, Chuyển, Giảm, Nhận)","### 🎯 Mục tiêu
+Xây dựng Kế hoạch ứng phó rủi ro theo 4 chiến lược kinh điển: Tránh (Avoid), Chuyển giao (Transfer), Giảm nhẹ (Mitigate), Chấp nhận (Accept).
+
+### 📋 Checklist công việc
+- [x] Đề xuất phương án giảm nhẹ (Mitigate) cho rủi ro: Thành viên nghỉ việc hoặc chậm tiến độ.
+- [x] Đề xuất phương án tránh (Avoid) cho rủi ro: Lỗi tính sai chiết khấu hoặc đặt trùng lịch sảnh.
+- [x] Đề xuất phương án chuyển giao (Transfer) cho rủi ro: Sự cố hạ tầng cloud hoặc mạng internet.
+- [x] Xác định ngân sách dự phòng (Contingency Reserve) và kế hoạch dự phòng khẩn cấp.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/planning/risk-response-plan.md`.
+- PM phổ biến các quy tắc ứng phó cho toàn bộ thành viên.
+
+**Deadline:** 27/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: docs,owner: hoang,priority: high"
+22,Task,[PM] PM-16: Đánh giá mức độ lệch tiến độ cuối tuần 2 và lập phương án bù tiến độ (Fast-tracking),"### 🎯 Mục tiêu
+Đánh giá mức độ lệch tiến độ cuối Tuần 2 và áp dụng kỹ thuật Fast-tracking (thực hiện song song) để kéo lại tiến độ dự án.
+
+### 📋 Checklist công việc
+- [x] Rà soát 8 task bị trễ hạn ở Tuần 2 của Backend, Frontend và QA.
+- [x] Điều chuyển nhân lực: Phân công BA (Hiển) hỗ trợ QA chuẩn bị test case và dữ liệu mẫu.
+- [x] Yêu cầu Backend (Phúc) và Frontend (Nhân) thống nhất hợp đồng API DTO để code song song.
+- [x] Cập nhật lại kế hoạch chi tiết hàng ngày của Tuần 3 để đảm bảo kịp mốc Demo giữa kỳ.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu báo cáo khắc phục tiến độ `docs/planning/fast-tracking-plan.md`.
+- Gửi cảnh báo tiến độ cho các thành viên phụ trách task trễ hạn.
+
+**Deadline:** 27/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: docs,owner: hoang,priority: high"
+23,Task,[PM] PM-17: Biên bản họp tuần 3: Rà soát các task trễ hạn và chuẩn bị Demo 50%,"### 🎯 Mục tiêu
+Tổ chức họp kiểm điểm Tuần 3: Rà soát việc khắc phục các task trễ hạn và chuẩn bị Demo 50%.
+
+### 📋 Checklist công việc
+- [x] Kiểm tra việc nộp code Backend của Phúc và giao diện Đăng nhập của Nhân.
+- [x] Xác nhận các task trễ hạn đã được giải quyết hoặc chuyển trạng thái sang In-Progress.
+- [x] Phân công cụ thể kịch bản chạy Demo 50% giữa kỳ cho từng người.
+- [x] Lập Biên bản cuộc họp số 03 ghi nhận cam kết tiến độ của nhóm.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Biên bản cuộc họp lưu tại `docs/meetings/meeting-03-week3.md`.
+- Cập nhật nhãn trạng thái của các issue trên GitHub.
+
+**Deadline:** 27/09/2026
+",Done,plhhoang2005@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: docs,owner: hoang,priority: medium,status: in-progress"
+24,Task,"[PM] PM-18: Tính toán các chỉ số EVM (BCWS, BCWP, ACWP, CV, SV, CPI, SPI) tại ngày 20","### 🎯 Mục tiêu
+Tính toán các chỉ số Quản lý giá trị thu được (EVM: BCWS, BCWP, ACWP, CV, SV, CPI, SPI) tại mốc ngày thứ 20 của dự án.
+
+### 📋 Checklist công việc
+- [x] Thu thập số liệu thực tế tại ngày thứ 20: Tỷ lệ % hoàn thành thực tế và chi phí thực tế đã chi (ACWP).
+- [x] Tính Giá trị theo kế hoạch: $BCWS = Plan Cost \times \% Plan for Now$.
+- [x] Tính Giá trị thu được: $BCWP = Plan Cost \times \% Actual Complete$.
+- [x] Tính Chênh lệch chi phí $CV = BCWP - ACWP$ và Chênh lệch tiến độ $SV = BCWP - BCWS$.
+- [x] Tính Chỉ số hiệu năng chi phí $CPI = BCWP / ACWP$ và tiến độ $SPI = BCWP / BCWS$.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Bảng tính EVM chi tiết trong file Excel `docs/planning/EVM_Analysis_Day20.xlsx`.
+- Bản báo cáo giải trình số liệu EVM kèm kết luận: $SPI < 1$ (dự án trễ) và $CPI < 1$ (chi quá ngân sách).
+
+**Deadline:** 04/10/2026
+",Done,plhhoang2005@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: docs,owner: hoang,priority: high"
+25,Task,[PM] PM-19: Phân tích nguyên nhân chênh lệch chi phí và thời gian dựa trên chỉ số EVM,"### 🎯 Mục tiêu
+Biên soạn bản phân tích nguyên nhân sai lệch EVM và lập kế hoạch điều chỉnh chi phí/tiến độ cho nửa sau dự án.
+
+### 📋 Checklist công việc
+- [x] Phân tích nguyên nhân cụ thể dẫn đến $CV < 0$ (khoản chênh lệch chi phí phát sinh).
+- [x] Phân tích lý do các task Backend và QA làm giảm chỉ số tiến độ $SPI$.
+- [x] Đưa ra giải pháp: Tăng giờ làm việc tập trung, kiểm soát chặt các khoản chi hạ tầng ngoài.
+- [x] Dự báo tổng chi phí khi hoàn thành dự án ($EAC = BAC / CPI$).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Báo cáo giải trình EVM lưu tại `docs/planning/evm-variance-report.md`.
+- Đưa nội dung phân tích vào slide báo cáo giữa kỳ.
+
+**Deadline:** 04/10/2026
+",Done,plhhoang2005@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: docs,owner: hoang,priority: high"
+26,Task,[PM] PM-20: Chuẩn bị Kịch bản và Slide thuyết trình Demo giữa kỳ 50%,"### 🎯 Mục tiêu
+Chuẩn bị kịch bản thuyết trình và slide báo cáo tổng kết giai đoạn 1 (Demo giữa kỳ 50%).
+
+### 📋 Checklist công việc
+- [x] Soạn thảo slide báo cáo: Giới thiệu đề tài, hồ sơ Charter, WBS, sơ đồ PERT, số liệu EVM và demo chạy thử.
+- [x] Lên kịch bản Demo 50% theo luồng nghiệp vụ: Đăng nhập -> Quản lý khách hàng -> Tra cứu sảnh tiệc.
+- [x] Tổ chức tổng duyệt (Rehearsal) trước buổi báo cáo chính thức với Giảng viên.
+- [x] Phân chia người trình bày phần quản lý (PM, BA) và phần kỹ thuật (Dev, QA).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tệp trình chiếu slide `docs/meetings/Midterm_Presentation_EVManager.pptx`.
+- Kịch bản demo chi tiết lưu tại `docs/meetings/midterm-demo-script.md`.
+
+**Deadline:** 04/10/2026
+",Done,plhhoang2005@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: docs,owner: hoang,priority: high"
+27,Task,[PM] PM-21: Tiếp nhận và xử lý Yêu cầu thay đổi CR-01 sau buổi Demo giữa kỳ,"### 🎯 Mục tiêu
+Tiếp nhận phản hồi sau buổi Demo giữa kỳ và thực hiện quy trình Quản lý thay đổi (Change Request CR-01).
+
+### 📋 Checklist công việc
+- [x] Ghi chép toàn bộ nhận xét, góp ý của Thầy cô và Hội đồng đánh giá giữa kỳ.
+- [x] Lập Phiếu yêu cầu thay đổi (CR-01): Mô tả nội dung thay đổi, lý do và phạm vi ảnh hưởng.
+- [x] Đánh giá tác động của CR-01 đến tiến độ đường găng và ngân sách dự án.
+- [x] Cùng cả nhóm ký duyệt chấp thuận thực thi thay đổi và cập nhật vào Product Backlog.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Phiếu yêu cầu thay đổi `docs/planning/change-request-CR01.md`.
+- Cập nhật log thay đổi trong `docs/agentflow/DECISION_LOG.md`.
+
+**Deadline:** 04/10/2026
+",Done,plhhoang2005@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: docs,owner: hoang,priority: medium"
+28,Task,[PM] PM-22: Lập Kế hoạch mua sắm (Procurement Plan: Make-or-Buy analysis cho Cloud/Mail),"### 🎯 Mục tiêu
+Xây dựng Kế hoạch mua sắm dự án (Procurement Management Plan) theo Chương 9 của Baocao.pdf.
+
+### 📋 Checklist công việc
+- [x] Phân tích bài toán Tự làm hay Mua/Thuê ngoài (Make-or-Buy Analysis) cho: Server, Domain, Email API.
+- [x] Lập danh sách các dịch vụ cần thuê: Máy chủ Cloud (Render/AWS), Tên miền, Dịch vụ gửi mail tự động.
+- [x] Khảo sát đơn giá thuê theo tháng và so sánh với phương án tự vận hành máy chủ vật lý.
+- [x] Đưa ra quyết định tối ưu ngân sách cho đề tài môn học.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/planning/procurement-plan.md` gồm bảng so sánh Make-or-Buy.
+- PM phê duyệt ngân sách mua sắm dịch vụ.
+
+**Deadline:** 11/10/2026
+",Done,plhhoang2005@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: docs,owner: hoang,priority: medium"
+29,Task,[PM] PM-23: Đánh giá báo giá và lựa chọn nhà cung cấp dịch vụ hạ tầng Server/Email,"### 🎯 Mục tiêu
+Đánh giá lựa chọn nhà cung cấp dịch vụ hạ tầng và quản lý hợp đồng mua sắm dịch vụ đám mây.
+
+### 📋 Checklist công việc
+- [x] Thiết lập các tiêu chí đánh giá nhà cung cấp: Độ sẵn sàng 99.9%, hỗ trợ PostgreSQL, chi phí sinh viên.
+- [x] Chọn đơn vị cung cấp dịch vụ Database Hosting (Supabase / Neon) và Web Hosting (Vercel).
+- [x] Đăng ký tài khoản và lưu trữ cấu hình bảo mật vào biến môi trường an toàn.
+- [x] Theo dõi hóa đơn chi tiêu thực tế đối chiếu với dự toán ban đầu.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Bảng đánh giá nhà cung cấp `docs/planning/vendor-evaluation.md`.
+- Bàn giao thông số môi trường cho Phúc (DevOps) cấu hình triển khai.
+
+**Deadline:** 11/10/2026
+",Done,plhhoang2005@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: docs,owner: hoang,priority: medium"
+30,Task,[PM] PM-24: Lập Bảng kiểm tra chất lượng (Quality Checklist) theo tiêu chuẩn chấp nhận,"### 🎯 Mục tiêu
+Thiết lập Bảng kiểm tra chất lượng (Quality Checklist) và tiêu chuẩn nghiệm thu từng cột mốc Milestone theo Chương 5 của Baocao.pdf.
+
+### 📋 Checklist công việc
+- [x] Xác định 9 tiêu chuẩn chung: Tốc độ load < 3s, font rõ ràng, không crash, bảo mật RBAC, chạy 24/7.
+- [x] Lập bảng tiêu chuẩn đánh giá mức độ hoàn thành cho 7 cột mốc Milestone của dự án.
+- [x] Quy định quy trình kiểm tra chất lượng trước khi merge code vào nhánh `main`.
+- [x] Phối hợp với QA đối chiếu Definition of Done (DoD) cho 100% chức năng Must-have.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/planning/quality-assurance-plan.md`.
+- Biểu mẫu kiểm tra chất lượng lưu tại `docs/agentflow/REVIEW_CHECKLIST.md`.
+
+**Deadline:** 18/10/2026
+",Done,plhhoang2005@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: docs,owner: hoang,priority: high"
+31,Task,[PM] PM-25: Phân tích lỗi phần mềm bằng biểu đồ Pareto 80/20 và đề xuất biện pháp khắc phục,"### 🎯 Mục tiêu
+Phân tích số liệu lỗi phần mềm bằng Biểu đồ Pareto 80/20 và đề xuất kế hoạch khắc phục chất lượng.
+
+### 📋 Checklist công việc
+- [x] Thu thập dữ liệu lỗi từ Defect Log của QA (các nhóm lỗi: Tính toán sai, Lệch múi giờ, Trùng lịch, Giao diện...).
+- [x] Tính số lần xuất hiện, tỷ lệ % chiếm và tỷ lệ % tích lũy của từng loại lỗi.
+- [x] Vẽ Biểu đồ Pareto cột kết hợp đường tích lũy (Cumulative line 80%).
+- [x] Chỉ ra 20% nhóm lỗi trọng yếu cần tập trung khắc phục ngay lập tức trước khi release.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu phân tích Pareto trong `docs/planning/pareto-quality-analysis.md`.
+- File ảnh biểu đồ Pareto `docs/planning/pareto-chart.png`.
+
+**Deadline:** 18/10/2026
+",Done,plhhoang2005@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: docs,owner: hoang,priority: high"
+32,Task,[PM] PM-26: Xây dựng Kế hoạch chuyển giao và Nghiệm thu người dùng (UAT Plan),"### 🎯 Mục tiêu
+Xây dựng Kế hoạch nghiệm thu người dùng (UAT Plan) và chuẩn bị các thủ tục bàn giao sản phẩm phần mềm.
+
+### 📋 Checklist công việc
+- [x] Xác định phạm vi nghiệm thu UAT: Kiểm tra toàn bộ 14 Use Cases trên môi trường Staging/Cloud.
+- [x] Lên lịch trình chạy thử nghiệm UAT với đại diện khách hàng/người dùng giả định.
+- [x] Chuẩn bị các biên bản nghiệm thu: Biên bản bàn giao kỹ thuật, biên bản đào tạo người dùng.
+- [x] Thành lập ban nghiệm thu gồm: PM, Khách hàng, Trưởng nhóm kỹ thuật và QA.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Kế hoạch nghiệm thu lưu tại `docs/planning/uat-plan.md`.
+- Biểu mẫu biên bản nghiệm thu `docs/planning/acceptance-form-template.md`.
+
+**Deadline:** 25/10/2026
+",Done,plhhoang2005@gmail.com,Tuần 7 — UAT & Deploy,2026-10-25,"type: docs,owner: hoang,priority: high"
+33,Task,[PM] PM-27: Giám sát đợt chạy thử nghiệm UAT và ký biên bản xác nhận lỗi tồn đọng,"### 🎯 Mục tiêu
+Điều phối phiên chạy thử nghiệm UAT thực tế, ghi nhận các phản hồi và ký biên bản xác nhận lỗi tồn đọng.
+
+### 📋 Checklist công việc
+- [x] Chủ trì buổi chạy thử nghiệm UAT theo kịch bản 15 tình huống nghiệp vụ thực tế.
+- [x] Ghi nhận danh sách các lỗi phát sinh ngoài dự kiến và phân loại mức độ nghiêm trọng (Severity 1-4).
+- [x] Yêu cầu đội ngũ kỹ thuật cam kết thời gian sửa dứt điểm các lỗi Critical/High trước ngày 28/10.
+- [x] Lập Biên bản xác nhận kết quả chạy thử nghiệm UAT có đầy đủ chữ ký các bên.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Biên bản UAT chính thức lưu tại `docs/meetings/uat-session-report.md`.
+- Đăng tải biên bản lên hồ sơ nghiệm thu dự án.
+
+**Deadline:** 25/10/2026
+",Done,plhhoang2005@gmail.com,Tuần 7 — UAT & Deploy,2026-10-25,"type: docs,owner: hoang,priority: high"
+34,Task,[PM] PM-28: Lập Báo cáo tổng kết dự án hoàn chỉnh (Final Project Management Report),"### 🎯 Mục tiêu
+Biên soạn Báo cáo tổng kết dự án hoàn chỉnh (Final Project Management Report) gồm đầy đủ 10 chương chuẩn PMBOK.
+
+### 📋 Checklist công việc
+- [x] Tổng hợp 10 chương: Tổng quan, Phạm vi, Thời gian, Chi phí, Chất lượng, Nhân sự, Truyền thông, Rủi ro, Mua sắm, Tích hợp.
+- [x] Rà soát tính nhất quán giữa các bảng biểu, số liệu WBS, sơ đồ PERT, biểu đồ EVM và báo cáo kiểm thử.
+- [x] Định dạng văn bản chuẩn chỉ theo quy định của Khoa CNTT (Font Times New Roman, dãn dòng 1.5, mục lục tự động).
+- [x] Xuất file báo cáo chính thức định dạng PDF và Word.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tập báo cáo hoàn chỉnh `docs/charter/BaoCao_TongKet_DoAn_MAN104_EVManager.pdf`.
+- Nộp bản thảo cho Giảng viên hướng dẫn phản biện.
+
+**Deadline:** 01/11/2026
+",Done,plhhoang2005@gmail.com,Tuần 8 — Bảo vệ & Đóng dự án,2026-11-01,"type: docs,owner: hoang,priority: high"
+35,Task,[PM] PM-29: Họp tổng kết rút kinh nghiệm dự án (Project Post-Mortem & Lessons Learned),"### 🎯 Mục tiêu
+Chủ trì phiên họp tổng kết rút kinh nghiệm dự án (Project Post-Mortem & Lessons Learned) khi kết thúc đồ án.
+
+### 📋 Checklist công việc
+- [x] Đánh giá những điểm làm tốt (Successes): Phối hợp GitFlow chuẩn, giải quyết tốt bài toán trùng lịch sảnh.
+- [x] Phân tích những điểm còn hạn chế (Shortcomings): Ước tính tiến độ ban đầu còn lạc quan dẫn đến task trễ hạn.
+- [x] Đúc kết các bài học kinh nghiệm về quản lý chi phí, kiểm thử tự động và xử lý xung đột nội bộ.
+- [x] Đánh giá chéo mức độ đóng góp cá nhân (Peer Review) của 5 thành viên để nộp Giảng viên chấm điểm.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu bài học kinh nghiệm `docs/planning/lessons-learned.md`.
+- Bảng đánh giá đóng góp cá nhân của 5 sinh viên có chữ ký cam kết.
+
+**Deadline:** 01/11/2026
+",Done,plhhoang2005@gmail.com,Tuần 8 — Bảo vệ & Đóng dự án,2026-11-01,"type: docs,owner: hoang,priority: high"
+36,Task,"[PM] PM-30: Biên bản bàn giao sản phẩm, đóng dự án và lưu trữ hồ sơ","### 🎯 Mục tiêu
+Hoàn tất thủ tục bàn giao mã nguồn, đóng dự án chính thức và chuẩn bị hồ sơ bảo vệ trước Hội đồng chấm đồ án.
+
+### 📋 Checklist công việc
+- [x] Kiểm tra tính toàn vẹn của Repository: Đầy đủ mã nguồn Frontend, Backend, Database migrations và Docs.
+- [x] Đóng toàn bộ các Milestone và Issue còn tồn đọng trên GitHub Project Board.
+- [x] Gắn Tag Release v1.0.0 chính thức trên nhánh `main` của repository.
+- [x] Đóng gói USB/Drive nộp toàn bộ tài liệu, video demo và mã nguồn cho Giảng viên hướng dẫn.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Release v1.0.0 trên GitHub `https://github.com/plhhoang2005/EVManager/releases/tag/v1.0.0`.
+- Biên bản đóng dự án chính thức lưu tại `docs/planning/project-closure-signoff.md`.
+
+**Deadline:** 01/11/2026
+",Done,plhhoang2005@gmail.com,Tuần 8 — Bảo vệ & Đóng dự án,2026-11-01,"type: docs,owner: hoang,priority: high"
+37,Task,[BA] BA-01: Khảo sát yêu cầu nghiệp vụ trung tâm hội nghị tiệc cưới từ khách hàng thực tế,"### 🎯 Mục tiêu
+Khảo sát yêu cầu nghiệp vụ trung tâm hội nghị tiệc cưới thực tế để làm rõ các khó khăn trong quản lý thủ công.
+
+### 📋 Checklist công việc
+- [x] Phỏng vấn đại diện quản lý trung tâm tiệc cưới về quy trình đặt tiệc, báo giá và thanh toán hiện tại.
+- [x] Ghi nhận các sự cố thường gặp: Trùng lịch sảnh tiệc, thất lạc thông tin thực đơn của khách, nhầm lẫn công nợ.
+- [x] Xác định các biểu mẫu giấy tờ đang sử dụng: Phiếu đặt tiệc, Bảng báo giá, Hợp đồng kinh tế, Phiếu thu cọc.
+- [x] Tổng hợp kết quả khảo sát thành tài liệu phân tích hiện trạng bài toán.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu khảo sát hiện trạng `docs/requirements/business-survey-report.md`.
+- Gửi cho PM Hoàng để đối chiếu với phạm vi Project Charter.
+
+**Deadline:** 13/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hien,priority: high"
+38,Task,[BA] BA-02: Lập Sổ đăng ký các bên liên quan (Stakeholder Register) và mức độ ảnh hưởng,"### 🎯 Mục tiêu
+Lập Sổ đăng ký các bên liên quan (Stakeholder Register) và ma trận phân loại kỳ vọng của từng đối tượng.
+
+### 📋 Checklist công việc
+- [ ] Liệt kê danh sách các bên liên quan: Ban Giám đốc trung tâm, Trưởng phòng Kinh doanh, Nhân viên tư vấn, Kế toán, Khách đặt tiệc.
+- [ ] Xác định mối quan tâm chính và kỳ vọng của từng nhóm đối tượng đối với phần mềm mới.
+- [ ] Đánh giá mức độ ảnh hưởng và quyền lực của từng stakeholder trên thang điểm 1-5.
+- [ ] Xác định chiến lược quản lý tương tác (Manage Closely, Keep Satisfied, Keep Informed).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/stakeholder-register.md`.
+- Dán bảng stakeholder vào comment issue này để PM review.
+
+**Deadline:** 13/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hien,priority: high"
+39,Task,[BA] BA-03: Soạn thảo Phát biểu bài toán (Statement of Work - SOW) và điều khoản thanh toán,"### 🎯 Mục tiêu
+Soạn thảo bản Phát biểu bài toán (Statement of Work - SOW) chi tiết làm căn cứ ký kết thỏa thuận dịch vụ phần mềm.
+
+### 📋 Checklist công việc
+- [ ] Mô tả thời gian và vật liệu triển khai (Time and Materials) ước tính 6-8 tuần.
+- [ ] Lập lịch biểu phí nhân lực (BA, IT, Tester, PM, Training) và biểu phí trang thiết bị giả định.
+- [ ] Quy định chính sách thanh toán theo 2 giai đoạn: Tạm ứng 50% khi ký hợp đồng và 50% khi nghiệm thu.
+- [ ] Đặc tả quy trình quản lý thay đổi nghiệp vụ (Change Request Management) theo chuẩn bài mẫu Baocao.pdf.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/statement-of-work.md`.
+- Lưu trữ file Word chính thức trong `docs/charter/`.
+
+**Deadline:** 13/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hien,priority: high"
+40,Task,"[BA] BA-04: Định nghĩa 4 nhóm người dùng chính: Admin, Tư vấn (Sales), Điều phối, Khách hàng","### 🎯 Mục tiêu
+Định nghĩa chi tiết 4 nhóm người dùng chính (Actors) và xây dựng chân dung người dùng (User Personas).
+
+### 📋 Checklist công việc
+- [ ] Actor 1: Quản trị viên (Admin) - Quản lý tài khoản, cấu hình hệ thống, xem toàn bộ báo cáo.
+- [ ] Actor 2: Nhân viên Tư vấn / Sales - Tiếp nhận khách hàng, tra cứu sảnh, lên thực đơn, lập báo giá và hợp đồng.
+- [ ] Actor 3: Nhân viên Điều phối / Vận hành - Quản lý trạng thái sảnh, phân công phục vụ, giám sát tổ chức tiệc.
+- [ ] Actor 4: Khách hàng / Khách đặt tiệc - Tra cứu thông tin hợp đồng, theo dõi tiến độ tiệc và thanh toán cọc.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu đặc tả Actor và User Persona tại `docs/requirements/actors-personas.md`.
+- Bàn giao cho Nhân (UI/UX) để thiết kế User Flow.
+
+**Deadline:** 13/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hien,priority: high"
+41,Task,"[BA] BA-05: Vẽ sơ đồ BPMN Quy trình 1: Tiếp nhận yêu cầu, tư vấn và giữ chỗ sảnh tiệc","### 🎯 Mục tiêu
+Thiết kế sơ đồ quy trình nghiệp vụ BPMN 2.0 cho Quy trình 1: Tiếp nhận yêu cầu, tư vấn và giữ chỗ sảnh tiệc.
+
+### 📋 Checklist công việc
+- [x] Vẽ luồng tương tác giữa 3 Swimlane: Khách hàng, Nhân viên Sales, Hệ thống EVManager.
+- [x] Mô tả các bước: Tiếp nhận cuộc gọi/form -> Nhập số lượng khách -> Tra cứu sảnh trống -> Tạm giữ chỗ (Hold).
+- [x] Mô tả sự kiện thời gian (Timer Event): Tự động giải phóng sảnh nếu quá 48h khách không đặt cọc.
+- [x] Vẽ sơ đồ bằng công cụ Camunda hoặc Draw.io chuẩn ký hiệu BPMN.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- File ảnh sơ đồ `docs/requirements/bpmn-process-1-booking.png`.
+- Mô tả diễn giải quy trình đính kèm trong tài liệu nghiệp vụ.
+
+**Deadline:** 20/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hien,priority: high"
+42,Task,"[BA] BA-06: Vẽ sơ đồ BPMN Quy trình 2: Chọn thực đơn, dịch vụ tiệc, lập báo giá & ký hợp đồng","### 🎯 Mục tiêu
+Thiết kế sơ đồ BPMN cho Quy trình 2: Chọn thực đơn món ăn, gói dịch vụ tiệc cưới, lập báo giá và ký hợp đồng.
+
+### 📋 Checklist công việc
+- [ ] Mô tả các bước: Chọn set menu -> Tùy chỉnh món ăn -> Chọn gói âm thanh ánh sáng, MC -> Tính tổng tiền.
+- [ ] Mô tả bước phê duyệt: Nếu áp dụng chiết khấu > 10% cần có sự phê duyệt của Trưởng phòng/Giám đốc.
+- [ ] Mô tả bước sinh hợp đồng mẫu và xác nhận thông tin thanh toán tiền cọc đợt 1 (30%).
+- [ ] Quy định định dạng hợp đồng và các điều khoản phạt hủy tiệc.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- File ảnh sơ đồ `docs/requirements/bpmn-process-2-contract.png`.
+- Bàn giao cho Phúc (BE) để thiết kế logic State Machine của Contract.
+
+**Deadline:** 20/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hien,priority: high"
+43,Task,"[BA] BA-07: Vẽ sơ đồ BPMN Quy trình 3: Điều phối nhân sự, chuẩn bị tiệc & quyết toán sau sự kiện","### 🎯 Mục tiêu
+Thiết kế sơ đồ BPMN cho Quy trình 3: Điều phối nhân sự, chuẩn bị tiệc cưới và quyết toán sau sự kiện.
+
+### 📋 Checklist công việc
+- [x] Mô tả các bước: Trước tiệc 1 ngày kiểm tra sảnh -> Phân công nhân viên phục vụ, kỹ thuật âm thanh.
+- [x] Mô tả bước trong tiệc: Giám sát phục vụ, ghi nhận các dịch vụ phát sinh (phát sinh bàn tiệc, đồ uống thêm).
+- [x] Mô tả bước sau tiệc: Khách hàng ký biên bản nghiệm thu tiệc -> Kế toán lập bảng quyết toán đợt 2 (70% còn lại).
+- [x] Cập nhật trạng thái hợp đồng sang 'Đã hoàn tất'.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- File ảnh sơ đồ `docs/requirements/bpmn-process-3-coordination.png`.
+- Lưu trữ sơ đồ vào tài liệu yêu cầu tổng thể.
+
+**Deadline:** 20/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hien,priority: high"
+44,Task,[BA] BA-08: Xây dựng Product Backlog sơ bộ và gán độ ưu tiên theo mô hình MoSCoW,"### 🎯 Mục tiêu
+Xây dựng danh mục Product Backlog tổng quát và gán độ ưu tiên theo phương pháp MoSCoW chuẩn Agile.
+
+### 📋 Checklist công việc
+- [x] Liệt kê toàn bộ các User Stories cho 4 phân hệ chính.
+- [x] Phân loại nhóm Must-have (Bắt buộc phải có để đạt MVP): Đăng nhập, Quản lý sảnh, Check trùng lịch, Hợp đồng, Cọc.
+- [x] Phân loại nhóm Should-have: Dashboard báo cáo, Xuất file Excel/PDF, Gửi email thông báo.
+- [x] Phân loại nhóm Could-have: Gợi ý thực đơn thông minh, Dự báo chi phí bằng AI (Bonus).
+- [x] Ước lượng Story Points sơ bộ cho từng User Story.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Bảng tính Product Backlog lưu tại `docs/requirements/product-backlog.xlsx`.
+- Đồng bộ danh mục Backlog lên GitHub Projects.
+
+**Deadline:** 20/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hien,priority: high"
+45,Task,[BA] BA-09: Soạn đặc tả Use Case UC-01: Đăng nhập hệ thống và phân quyền truy cập (RBAC),"### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-01: Đăng nhập hệ thống và phân quyền truy cập (RBAC).
+
+### 📋 Checklist công việc
+- [x] Xác định Actor chính: Mọi người dùng trong hệ thống (Admin, Sales, Coordinator).
+- [x] Mô tả Luồng chính (Basic Flow): Nhập username/mật khẩu -> Hệ thống xác thực -> Điều hướng về Dashboard đúng vai trò.
+- [x] Mô tả Luồng phụ (Alternative Flow): Quên mật khẩu, yêu cầu gửi link reset qua email.
+- [x] Mô tả Luồng ngoại lệ (Exception Flow): Sai mật khẩu quá 5 lần -> Khóa tài khoản tạm thời 15 phút.
+- [x] Xác định Tiêu chí chấp nhận (Acceptance Criteria) theo chuẩn Given - When - Then.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC01-login-rbac.md`.
+- Tag Phúc (BE) và Hậu (QA) để đối chiếu kịch bản xác thực.
+
+**Deadline:** 20/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hien,priority: high"
+46,Task,[BA] BA-10: Soạn đặc tả Use Case UC-02: Quản lý thông tin tài khoản nhân viên,"### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-02: Quản lý danh mục tài khoản người dùng và phân quyền.
+
+### 📋 Checklist công việc
+- [x] Xác định Actor: Quản trị viên (Admin).
+- [x] Mô tả các thao tác: Xem danh sách nhân viên, Thêm mới tài khoản, Phân quyền vai trò (Role), Đổi mật khẩu, Khóa tài khoản.
+- [x] Quy định ràng buộc dữ liệu: Email công ty là duy nhất, mật khẩu tối thiểu 8 ký tự gồm chữ hoa và số.
+- [x] Viết tiêu chí nghiệm thu cho chức năng kích hoạt/hủy kích hoạt nhân sự.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC02-user-management.md`.
+- Bàn giao cho Backend và QA thiết kế API & Test Case.
+
+**Deadline:** 20/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hien,priority: high"
+47,Task,[BA] BA-11: Soạn đặc tả Use Case UC-03: Tiếp nhận và quản lý hồ sơ khách hàng,"### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-03: Tiếp nhận và quản lý thông tin khách hàng tiềm năng.
+
+### 📋 Checklist công việc
+- [x] Xác định Actor: Nhân viên Tư vấn (Sales).
+- [x] Đặc tả luồng nghiệp vụ: Tạo hồ sơ khách hàng mới, tra cứu theo số điện thoại để tránh tạo trùng.
+- [x] Mô tả các trường thông tin: Họ tên cô dâu/chú rể, Số điện thoại, Địa chỉ, Nguồn khách (Facebook, Người quen, Vãng lai).
+- [x] Mô tả luồng xem lịch sử giao dịch và các sự kiện đã tổ chức của khách hàng.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC03-customer-management.md`.
+- Tag Nhân (UI/UX) để lên layout form nhập liệu khách hàng.
+
+**Deadline:** 20/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hien,priority: high"
+48,Task,[BA] BA-12: Soạn đặc tả Use Case UC-04: Tra cứu sảnh tiệc và kiểm tra xung đột trùng lịch,"### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-04: Tra cứu sảnh tiệc và kiểm tra xung đột trùng lịch (Nghiệp vụ cốt lõi).
+
+### 📋 Checklist công việc
+- [x] Mô tả luồng nghiệp vụ: Nhập ngày tổ chức, ca tiệc (Trưa: 10h-14h, Tối: 17h-21h) và số bàn dự kiến.
+- [x] Đặc tả thuật toán nghiệp vụ: Một sảnh chỉ phục vụ tối đa 1 tiệc trong 1 ca, cần thời gian đệm 60 phút dọn sảnh.
+- [x] Mô tả phản hồi của hệ thống khi sảnh bị trùng: Báo đỏ kèm gợi ý các sảnh còn trống có sức chứa tương đương.
+- [x] Xác định thông báo lỗi chi tiết khi người dùng cố tình đặt đè lịch.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC04-venue-conflict-check.md`.
+- Họp trực tiếp với Phúc (BE) để thống nhất giải thuật trước khi code.
+
+**Deadline:** 20/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hien,priority: high,status: delayed"
+49,Task,[BA] BA-13: Soạn đặc tả Use Case UC-05: Đặt giữ chỗ sảnh và thiết lập khung giờ sự kiện,"### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-05: Đặt giữ chỗ sảnh và thiết lập khung giờ sự kiện.
+
+### 📋 Checklist công việc
+- [ ] Xác định Actor: Nhân viên Sales và Khách hàng.
+- [ ] Mô tả luồng tạm giữ sảnh (Hold booking) khi khách chưa quyết định thực đơn.
+- [ ] Quy định thời hạn hiệu lực của việc giữ chỗ (mặc định 48 tiếng).
+- [ ] Đặc tả luồng gửi tin nhắn/email nhắc nhở khách hàng trước khi hệ thống tự động nhả sảnh trống.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC05-booking-hold.md`.
+- Cập nhật vào tài liệu SRS tổng thể.
+
+**Deadline:** 20/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hien,priority: high,status: delayed"
+50,Task,[BA] BA-14: Soạn đặc tả Use Case UC-06: Chọn danh mục món ăn và lập thực đơn tiệc cưới,"### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-06: Chọn danh mục món ăn và lập thực đơn tiệc cưới.
+
+### 📋 Checklist công việc
+- [x] Phân loại nhóm món ăn: Khai vị (2 món), Món chính (3 món), Lẩu/Cơm (1 món), Tráng miệng (1 món).
+- [x] Đặc tả quy tắc đổi món trong set menu mẫu và tự động cộng/trừ chênh lệch đơn giá.
+- [x] Mô tả chức năng ghi chú yêu cầu món ăn đặc biệt (Món chay, Dị ứng thực phẩm).
+- [x] Tính đơn giá trung bình cho mỗi bàn tiệc (VND/bàn).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC06-menu-selection.md`.
+- Bàn giao cho UI/UX thiết kế giao diện Wizard chọn món.
+
+**Deadline:** 27/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: docs,owner: hien,priority: high,status: in-progress"
+51,Task,"[BA] BA-15: Soạn đặc tả Use Case UC-07: Chọn các gói dịch vụ đi kèm (Âm thanh, MC, Trang trí)","### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-07: Chọn các gói dịch vụ bổ sung đi kèm tiệc cưới.
+
+### 📋 Checklist công việc
+- [x] Liệt kê các danh mục gói dịch vụ: Gói trang trí hoa tươi, Gói âm thanh ánh sáng sân khấu, Ban nhạc & MC, Tháp rượu & Bánh cưới.
+- [x] Đặc tả chính sách tặng kèm dịch vụ khi số lượng bàn tiệc đạt mốc (VD: > 25 bàn tặng MC và tháp ly).
+- [x] Quy định đơn giá cho từng dịch vụ phát sinh ngoài gói tiêu chuẩn.
+- [x] Tự động tính tổng tiền dịch vụ cộng thêm vào đơn đặt tiệc.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC07-service-packages.md`.
+- Bàn giao cho Backend để tạo các bảng dữ liệu liên kết dịch vụ.
+
+**Deadline:** 27/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: docs,owner: hien,priority: high,status: in-progress"
+52,Task,[BA] BA-16: Soạn đặc tả Use Case UC-08: Tự động tính toán chi phí và lập bảng báo giá,"### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-08: Tự động tính toán chi phí và lập bảng báo giá tiệc cưới.
+
+### 📋 Checklist công việc
+- [x] Xây dựng công thức tính toán: $Tổng = (Số bàn \times Đơn giá bàn) + Tiền dịch vụ - Chiết khấu + VAT (8\%)$.
+- [x] Đặc tả các mức chiết khấu theo chính sách mùa vụ hoặc khách hàng thân thiết.
+- [x] Mô tả chức năng xuất bảng báo giá dự kiến (Quotation) gửi qua Zalo/Email cho khách xem trước.
+- [x] Xác định thời hạn có giá trị của bảng báo giá (VD: có hiệu lực trong 7 ngày).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC08-quotation-calc.md`.
+- Tag QA Hậu để viết test case kiểm tra độ chính xác của phép tính.
+
+**Deadline:** 27/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: docs,owner: hien,priority: high,status: in-progress"
+53,Task,[BA] BA-17: Hoàn thiện Tài liệu đặc tả yêu cầu phần mềm SRS v1.0,"### 🎯 Mục tiêu
+Hoàn thiện Tài liệu đặc tả yêu cầu phần mềm (Software Requirements Specification - SRS v1.0) theo chuẩn IEEE 830.
+
+### 📋 Checklist công việc
+- [x] Tổng hợp toàn bộ 14 Use Cases chi tiết vào tài liệu SRS duy nhất.
+- [x] Đặc tả các yêu cầu phi chức năng: Hiệu năng (<3s), Bảo mật (JWT, BCrypt), Tính khả dụng 24/7, Giao diện tương thích máy tính bảng.
+- [x] Xây dựng bảng thuật ngữ chuyên ngành (Glossary) cho hệ thống quản lý tiệc cưới.
+- [ ] Tổ chức review nội bộ tài liệu SRS với PM và Dev Lead.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu chính thức `docs/requirements/SRS_EVManager_v1.0.md`.
+- PM nghiệm thu và lưu bản phát hành v1.0.
+
+**Deadline:** 27/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: docs,owner: hien,priority: high,status: in-progress"
+54,Task,[BA] BA-18: Xây dựng Ma trận truy vết yêu cầu (Requirement Traceability Matrix - RTM),"### 🎯 Mục tiêu
+Xây dựng Ma trận truy vết yêu cầu (Requirement Traceability Matrix - RTM) để đảm bảo không bỏ sót bất kỳ yêu cầu nào.
+
+### 📋 Checklist công việc
+- [ ] Tạo bảng ánh xạ: Mã yêu cầu kinh doanh (BR) <-> Mã Use Case (UC) <-> Mã thiết kế UI <-> Mã Module Code <-> Mã Test Case.
+- [ ] Kiểm tra 100% các yêu cầu trong Scope Statement đều được phân rã thành Use Case cụ thể.
+- [ ] Xác định trạng thái triển khai của từng yêu cầu (Chưa làm, Đang làm, Đã kiểm thử).
+- [ ] Định kỳ cập nhật RTM sau mỗi sprint phát triển.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Bảng tính ma trận `docs/requirements/Requirement_Traceability_Matrix.xlsx`.
+- Đính kèm file ma trận vào hồ sơ kiểm thử của QA.
+
+**Deadline:** 27/09/2026
+",Done,tuminhhien324@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: docs,owner: hien,priority: high,status: in-progress"
+55,Task,[BA] BA-19: Soạn đặc tả Use Case UC-09: Lập hợp đồng tiệc cưới và xuất bản thảo,"### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-09: Lập hợp đồng tiệc cưới và quản lý điều khoản pháp lý.
+
+### 📋 Checklist công việc
+- [x] Đặc tả cấu trúc hợp đồng chuẩn: Thông tin trung tâm (Bên A), Thông tin khách hàng (Bên B), Thời gian, Sảnh, Thực đơn, Dịch vụ.
+- [x] Quy định các điều khoản ràng buộc: Trách nhiệm bồi thường khi làm hư hại tài sản sảnh tiệc, điều khoản hoàn hủy cọc.
+- [x] Mô tả luồng ký duyệt hợp đồng điện tử và tạo mã số hợp đồng duy nhất theo format `HD-YYYYMMDD-XXX`.
+- [x] Mô tả chức năng in hợp đồng ra khổ giấy A4 theo đúng chuẩn hành chính.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC09-contract-generation.md`.
+- Mẫu hợp đồng khung bằng văn bản đính kèm.
+
+**Deadline:** 04/10/2026
+",Done,tuminhhien324@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: docs,owner: hien,priority: high"
+56,Task,[BA] BA-20: Soạn đặc tả Use Case UC-10: Quản lý đặt cọc đợt 1 và xuất phiếu thu,"### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-10: Quản lý đặt cọc đợt 1 và xuất phiếu thu tiền.
+
+### 📋 Checklist công việc
+- [x] Quy định mức tiền cọc tối thiểu (30% tổng giá trị hợp đồng tạm tính).
+- [x] Mô tả các hình thức thanh toán: Tiền mặt, Chuyển khoản ngân hàng (QR Code mô phỏng), Thẻ POS.
+- [x] Đặc tả luồng sinh phiếu thu tự động và chuyển trạng thái sảnh từ 'Tạm giữ' sang 'Chính thức khóa sảnh'.
+- [x] Quy định quyền hạn: Chỉ có Nhân viên Kế toán hoặc Thu ngân mới được xác nhận đã nhận tiền cọc.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC10-deposit-payment.md`.
+- Bàn giao cho Backend triển khai logic Transaction thanh toán.
+
+**Deadline:** 04/10/2026
+",Done,tuminhhien324@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: docs,owner: hien,priority: high"
+57,Task,[BA] BA-21: Chuẩn bị bộ dữ liệu mẫu (Mock data) cho 10 tiệc cưới phục vụ Demo giữa kỳ,"### 🎯 Mục tiêu
+Chuẩn bị bộ dữ liệu mẫu (Mock Data) chuẩn nghiệp vụ cho 10 tiệc cưới phục vụ buổi Demo giữa kỳ 50%.
+
+### 📋 Checklist công việc
+- [x] Tạo dữ liệu 5 sảnh tiệc thực tế: Sảnh Kim Cương (500 khách), Sảnh Vàng (300 khách), Sảnh Bạch Kim (400 khách)...
+- [x] Tạo dữ liệu 30 món ăn tiệc cưới đặc sắc kèm đơn giá và hình ảnh minh họa.
+- [x] Tạo dữ liệu 10 khách hàng và 10 hợp đồng đặt tiệc với đầy đủ các trạng thái (Đã cọc, Chờ duyệt, Trùng lịch thử nghiệm).
+- [x] Kiểm tra tính logic của dữ liệu (ngày giờ hợp lý, số điện thoại đúng định dạng).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tệp dữ liệu `docs/requirements/mock-data-demo.json`.
+- Chuyển cho Hậu (QA) để import vào database seed.
+
+**Deadline:** 04/10/2026
+",Done,tuminhhien324@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: docs,owner: hien,priority: medium"
+58,Task,[BA] BA-22: Soạn đặc tả Use Case UC-11: Điều phối nhân sự phục vụ và phân công ca trực,"### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-11: Điều phối nhân sự phục vụ và phân công ca trực sự kiện.
+
+### 📋 Checklist công việc
+- [x] Xác định Actor: Quản lý sảnh (Coordinator).
+- [x] Đặc tả định mức nhân sự: Cứ 2 bàn tiệc cần 1 nhân viên phục vụ, mỗi tiệc cần 1 MC và 2 kỹ thuật viên âm thanh.
+- [x] Mô tả luồng phân công ca trực và gửi thông báo danh sách nhân viên phục vụ trước ngày diễn ra sự kiện.
+- [x] Mô tả chức năng ghi nhận điểm danh nhân sự trong ca làm việc.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC11-event-coordination.md`.
+- Bàn giao cho Frontend thiết kế màn hình phân công điều phối.
+
+**Deadline:** 11/10/2026
+",Done,tuminhhien324@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: docs,owner: hien,priority: high"
+59,Task,[BA] BA-23: Soạn đặc tả Use Case UC-12: Nghiệm thu hoàn tất sự kiện và thanh toán quyết toán,"### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-12: Nghiệm thu hoàn tất sự kiện và thanh toán quyết toán đợt 2.
+
+### 📋 Checklist công việc
+- [x] Đặc tả biên bản kiểm kê sau tiệc: Số bàn thực tế phát sinh, số lượng két bia/nước ngọt tiêu thụ thực tế.
+- [x] Công thức tính tiền quyết toán đợt 2: $Còn lại = Tổng thực tế - Tiền cọc đợt 1 + Chi phí đền bù (nếu có)$.
+- [x] Mô tả luồng xuất hóa đơn thanh lý hợp đồng và in phiếu quyết toán cuối cùng.
+- [x] Cập nhật trạng thái sự kiện sang 'Đã hoàn tất' và giải phóng sảnh cho sự kiện kế tiếp.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC12-final-settlement.md`.
+- Mẫu biên bản thanh lý hợp đồng đính kèm.
+
+**Deadline:** 11/10/2026
+",Done,tuminhhien324@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: docs,owner: hien,priority: high"
+60,Task,[BA] BA-24: Soạn đặc tả Use Case UC-13: Xem Dashboard báo cáo doanh thu và tỷ lệ lấp đầy sảnh,"### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-13: Xem Dashboard báo cáo doanh thu và tỷ lệ lấp đầy sảnh.
+
+### 📋 Checklist công việc
+- [x] Xác định các chỉ số đo lường chính (KPIs): Doanh thu tháng, Số lượng tiệc cưới đã phục vụ, Giá trị trung bình/tiệc.
+- [x] Đặc tả biểu đồ cột hiển thị doanh thu so sánh theo từng tháng trong năm.
+- [x] Đặc tả biểu đồ tròn phân tích tỷ lệ lấp đầy của từng sảnh tiệc để tối ưu hóa công suất khai thác.
+- [x] Quy định quyền truy cập dữ liệu Dashboard dành riêng cho Ban Giám đốc và Kế toán trưởng.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC13-dashboard-analytics.md`.
+- Bàn giao layout hiển thị cho Nhân (Frontend) thiết kế chart.
+
+**Deadline:** 11/10/2026
+",Done,tuminhhien324@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: docs,owner: hien,priority: high"
+61,Task,[BA] BA-25: Soạn đặc tả Use Case UC-14: Xuất báo cáo thống kê định dạng Excel và PDF,"### 🎯 Mục tiêu
+Soạn thảo đặc tả Use Case chi tiết UC-14: Xuất báo cáo thống kê định dạng Excel và PDF.
+
+### 📋 Checklist công việc
+- [x] Đặc tả bố cục mẫu báo cáo doanh thu theo tháng xuất ra định dạng Excel (có công thức hàm SUM, AVERAGE).
+- [x] Đặc tả mẫu báo cáo tổng hợp danh sách sự kiện kèm thông tin khách hàng và tình trạng công nợ.
+- [x] Đặc tả yêu cầu xuất file PDF có logo trung tâm, chữ ký đại diện và đóng dấu pháp lý.
+- [x] Quy định bộ lọc thời gian: Theo tuần, theo tháng, theo quý hoặc khoảng ngày tùy chọn.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/requirements/use-cases/UC14-export-reports.md`.
+- Đính kèm mẫu file Excel mẫu chuẩn vào tài liệu.
+
+**Deadline:** 11/10/2026
+",Done,tuminhhien324@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: docs,owner: hien,priority: medium"
+62,Task,[BA] BA-26: Xây dựng bộ kịch bản kiểm thử chấp nhận người dùng (UAT Test Scenarios),"### 🎯 Mục tiêu
+Xây dựng bộ kịch bản kiểm thử chấp nhận người dùng (User Acceptance Testing - UAT Scenarios).
+
+### 📋 Checklist công việc
+- [x] Thiết kế 15 kịch bản UAT bao quát toàn bộ 3 quy trình kinh doanh lõi của trung tâm.
+- [x] Viết hướng dẫn chi tiết từng bước cho người dùng thử nghiệm: Nhập thông tin gì, bấm nút nào, kết quả hiển thị ra sao.
+- [x] Thiết kế mẫu phiếu ghi nhận kết quả UAT (Đạt / Không đạt / Góp ý cải tiến).
+- [x] Họp thống nhất kịch bản UAT với PM và Trưởng nhóm QA.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu kịch bản UAT `docs/requirements/uat-scenarios-master.md`.
+- Bàn giao cho QA để chuẩn bị môi trường chạy nghiệm thu.
+
+**Deadline:** 18/10/2026
+",Done,tuminhhien324@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: docs,owner: hien,priority: high"
+63,Task,[BA] BA-27: Tiếp nhận và đặc tả yêu cầu thay đổi nghiệp vụ (Change Request CR-02),"### 🎯 Mục tiêu
+Tiếp nhận và đặc tả Phiếu yêu cầu thay đổi nghiệp vụ CR-02 (Chính sách ưu đãi mùa cưới).
+
+### 📋 Checklist công việc
+- [x] Khảo sát yêu cầu bổ sung tính năng nhập mã giảm giá (Voucher Code) vào hóa đơn đặt tiệc.
+- [x] Đặc tả logic kiểm tra mã ưu đãi: Còn hạn sử dụng, số lượng tối đa và mức giảm giá (cố định hoặc %).
+- [x] Đánh giá ảnh hưởng của CR-02 lên CSDL (thêm bảng vouchers) và các màn hình liên quan.
+- [x] Trình PM Hoàng xem xét phê duyệt điều chỉnh phạm vi.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Phiếu yêu cầu thay đổi `docs/requirements/change-request-CR02-vouchers.md`.
+- Cập nhật vào ma trận truy vết yêu cầu RTM.
+
+**Deadline:** 18/10/2026
+",Done,tuminhhien324@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: docs,owner: hien,priority: medium"
+64,Task,[BA] BA-28: Biên soạn Sổ tay hướng dẫn sử dụng phần mềm dành cho người dùng cuối,"### 🎯 Mục tiêu
+Biên soạn Sổ tay hướng dẫn sử dụng phần mềm (User Manual) dành cho nhân viên vận hành trung tâm tiệc cưới.
+
+### 📋 Checklist công việc
+- [ ] Chương 1: Hướng dẫn đăng nhập, đổi mật khẩu và xem thông tin tài khoản.
+- [ ] Chương 2: Hướng dẫn tra cứu sảnh tiệc, kiểm tra lịch trống và tạm giữ chỗ sảnh.
+- [ ] Chương 3: Hướng dẫn chọn thực đơn, gói dịch vụ, lập báo giá và in hợp đồng.
+- [ ] Chương 4: Hướng dẫn ghi nhận tiền cọc và thanh lý quyết toán sau tiệc.
+- [ ] Chèn đầy đủ ảnh chụp màn hình minh họa thực tế cho từng bước thao tác.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu hoàn chỉnh `docs/requirements/EVManager_User_Manual.pdf`.
+- Đăng tải tài liệu lên thư mục chia sẻ cho người dùng cuối.
+
+**Deadline:** 25/10/2026
+",To Do,tuminhhien324@gmail.com,Tuần 7 — UAT & Deploy,2026-10-25,"type: docs,owner: hien,priority: high"
+65,Task,[BA] BA-29: Tổ chức buổi đào tạo người dùng và lập biên bản nghiệm thu nghiệp vụ,"### 🎯 Mục tiêu
+Tổ chức buổi đào tạo hướng dẫn sử dụng phần mềm và ký Biên bản nghiệm thu nghiệp vụ với khách hàng.
+
+### 📋 Checklist công việc
+- [ ] Soạn giáo trình đào tạo ngắn gọn (thời lượng 2 buổi) cho nhân viên Sales và Quản lý sảnh.
+- [ ] Tổ chức buổi thực hành thao tác trực tiếp trên phần mềm với dữ liệu giả lập.
+- [ ] Giải đáp thắc mắc và ghi nhận các đề xuất cải tiến cho phiên bản sau.
+- [ ] Lập Biên bản bàn giao đào tạo và ký nghiệm thu sản phẩm phần mềm về mặt nghiệp vụ.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Biên bản nghiệm thu nghiệp vụ `docs/meetings/business-acceptance-signoff.md`.
+- Bàn giao trọn vẹn phần việc của BA cho PM đóng dự án.
+
+**Deadline:** 01/11/2026
+",To Do,tuminhhien324@gmail.com,Tuần 8 — Bảo vệ & Đóng dự án,2026-11-01,"type: docs,owner: hien,priority: high"
+66,Task,[UI/UX] UI-01: Nghiên cứu User Flow các luồng thao tác chính cho 4 vai trò,"### 🎯 Mục tiêu
+Nghiên cứu hành trình người dùng (User Journey) và xây dựng User Flow trực quan cho 4 vai trò trên hệ thống.
+
+### 📋 Checklist công việc
+- [ ] Vẽ sơ đồ User Flow cho Nhân viên Sales: Đăng nhập -> Tìm khách -> Xem lịch sảnh -> Lên thực đơn -> Báo giá -> Hợp đồng.
+- [ ] Vẽ sơ đồ User Flow cho Quản lý điều phối: Xem danh sách tiệc hôm nay -> Phân công sảnh -> Nghiệm thu sau tiệc.
+- [ ] Vẽ sơ đồ User Flow cho Ban Giám đốc: Đăng nhập -> Xem Dashboard tổng quan -> Xem báo cáo doanh thu.
+- [ ] Vẽ bằng công cụ FigJam hoặc Miro và chốt luồng thao tác với BA.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- File ảnh sơ đồ User Flow `docs/design/user-flow-all-roles.png`.
+- Dán link Figma vào comment issue này để nhóm tham khảo.
+
+**Deadline:** 13/09/2026
+",Done,nhanvo134679@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: design,owner: nhan,priority: high"
+67,Task,"[UI/UX] UI-02: Xây dựng Moodboard, Bảng màu và Typography trên Figma","### 🎯 Mục tiêu
+Xây dựng Hệ thống thiết kế (Design System), Moodboard và quy chuẩn màu sắc/typography cho thương hiệu EVManager trên Figma.
+
+### 📋 Checklist công việc
+- [ ] Xác định bảng màu chủ đạo (Primary Palette): Màu vàng gold (#D4AF37) và xanh navy (#1A2B4C) thể hiện sự sang trọng của tiệc cưới.
+- [ ] Thiết lập thang màu trung tính (Neutrals), màu trạng thái: Xanh lá (Trống/Thành công), Đỏ (Trùng lịch/Hủy), Cam (Chờ cọc).
+- [ ] Quy định kiểu chữ (Typography): Font Inter / Plus Jakarta Sans chuẩn hiển thị sắc nét trên mọi độ phân giải.
+- [ ] Thiết kế bộ icon hệ thống (Lucide Icons) đồng bộ cho menu, nút bấm và trạng thái.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Figma Design System link và file tài liệu quy chuẩn `docs/design/design-system.md`.
+- Xuất bảng màu mẫu đính kèm vào hồ sơ thiết kế.
+
+**Deadline:** 13/09/2026
+",Done,nhanvo134679@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: design,owner: nhan,priority: high"
+68,Task,[UI/UX] UI-03: Thiết kế Wireframe giao diện Đăng nhập và Khôi phục mật khẩu,"### 🎯 Mục tiêu
+Thiết kế Wireframe độ chi tiết thấp (Low-fidelity) cho màn hình Đăng nhập và Quên mật khẩu.
+
+### 📋 Checklist công việc
+- [ ] Bố cục layout chia đôi (Split Screen): Một bên hình ảnh sảnh tiệc sang trọng, một bên form đăng nhập.
+- [ ] Thiết kế các trường nhập liệu: Tên đăng nhập / Email, Mật khẩu có nút ẩn/hiện mắt, Nút bấm Đăng nhập.
+- [ ] Bố cục thông báo lỗi: Sai tài khoản, tài khoản bị khóa, mật khẩu hết hạn.
+- [ ] Thiết kế popup nhập email khôi phục mật khẩu.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Ảnh chụp wireframe lưu tại `docs/design/wireframes/wf-login.png`.
+- Nhận phản hồi từ nhóm để chuyển sang thiết kế High-fidelity.
+
+**Deadline:** 20/09/2026
+",Done,nhanvo134679@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: design,owner: nhan,priority: high"
+69,Task,[UI/UX] UI-04: Thiết kế Prototype Figma: Dashboard tổng quan và thẻ thống kê nhanh,"### 🎯 Mục tiêu
+Thiết kế Prototype Figma độ chi tiết cao (Hi-fi): Màn hình Dashboard điều hành tổng quan.
+
+### 📋 Checklist công việc
+- [ ] Thiết kế 4 thẻ thống kê đầu trang (Metric Cards): Doanh thu tháng, Số tiệc đã đặt, Sảnh đang hoạt động, Khách hàng mới.
+- [ ] Thiết kế biểu đồ cột biểu diễn doanh thu 6 tháng gần nhất.
+- [ ] Thiết kế bảng danh sách nhanh: Các sự kiện tiệc cưới sắp diễn ra trong 7 ngày tới.
+- [ ] Bố cục widget thông báo nhanh các hợp đồng sắp đến hạn thanh toán đợt 2.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Frame Figma Dashboard hoàn chỉnh kèm hiệu ứng tương tác Prototype.
+- Xuất ảnh mẫu `frontend/UI-UX/Dashboard.png`.
+
+**Deadline:** 20/09/2026
+",Done,nhanvo134679@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: design,owner: nhan,priority: high"
+70,Task,[UI/UX] UI-05: Thiết kế Prototype Figma: Danh mục sảnh tiệc và sơ đồ mặt bằng sảnh,"### 🎯 Mục tiêu
+Thiết kế Prototype Figma: Màn hình Danh mục sảnh tiệc và Chi tiết thông số từng sảnh.
+
+### 📋 Checklist công việc
+- [ ] Thiết kế danh sách sảnh dưới dạng thẻ (Card Grid): Ảnh đại diện sảnh, Tên sảnh, Sức chứa tối thiểu - tối đa, Giá thuê.
+- [ ] Thiết kế nhãn trạng thái trực quan: Sảnh Trống (Xanh), Sảnh Đang có tiệc (Đỏ), Sảnh Đang bảo trì (Xám).
+- [ ] Thiết kế Modal xem chi tiết sảnh: Sơ đồ mặt bằng bố trí bàn tiệc, danh sách trang thiết bị âm thanh ánh sáng có sẵn.
+- [ ] Thiết kế nút bấm nhanh 'Đặt sảnh này' để chuyển sang luồng tạo đơn tiệc.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Ảnh thiết kế `frontend/UI-UX/Danh mục sảnh.png`.
+- Dán frame thiết kế vào Figma dự án.
+
+**Deadline:** 20/09/2026
+",Done,nhanvo134679@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: design,owner: nhan,priority: high"
+71,Task,[UI/UX] UI-06: Thiết kế Prototype Figma: Bộ lịch hiển thị lịch đặt tiệc theo tuần/tháng,"### 🎯 Mục tiêu
+Thiết kế Prototype Figma: Giao diện Bộ lịch đặt sảnh trực quan theo dạng Tuần và Tháng (Đang trễ hạn).
+
+### 📋 Checklist công việc
+- [ ] Thiết kế giao diện Calendar với chế độ xem Tháng (Month view) và xem Tuần (Week view).
+- [ ] Mỗi ô ngày hiển thị phân tách 2 buổi: Buổi Trưa và Buổi Tối cho từng sảnh tiệc.
+- [ ] Sử dụng nhãn màu sắc để biểu thị trạng thái: Vàng (Đang giữ chỗ), Xanh dương (Đã ký hợp đồng), Đỏ (Đã cọc).
+- [ ] Thiết kế thanh công cụ lọc: Lọc theo tên sảnh tiệc, lọc theo loại hình sự kiện (Tiệc cưới, Hội nghị, Sinh nhật).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Ảnh Prototype `docs/design/wireframes/calendar-prototype.png`.
+- Gắn nhãn `status: delayed` và nỗ lực hoàn thiện dán vào comment issue.
+
+**Deadline:** 20/09/2026
+",Done,nhanvo134679@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: design,owner: nhan,priority: high,status: delayed"
+72,Task,[UI/UX] UI-07: Thiết kế Prototype Figma: Form quản lý thông tin khách hàng và lịch sử đặt tiệc,"### 🎯 Mục tiêu
+Thiết kế Prototype Figma: Giao diện Quản lý khách hàng và Hồ sơ lịch sử đặt tiệc (Đang trễ hạn).
+
+### 📋 Checklist công việc
+- [ ] Thiết kế bảng dữ liệu (Data Table) danh sách khách hàng: Mã KH, Họ tên, SĐT, Số lần đặt tiệc, Tổng chi tiêu.
+- [ ] Thiết kế thanh tìm kiếm nhanh đa năng (Instant Search) và bộ lọc theo nguồn khách.
+- [ ] Thiết kế Drawer bên phải trượt ra khi click vào một khách hàng: Hiển thị chi tiết thông tin cá nhân và lịch sử hợp đồng.
+- [ ] Thiết kế form tạo mới khách hàng với các trường bắt buộc có dấu sao đỏ.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Ảnh thiết kế `frontend/UI-UX/Quản lý khách hàng.png`.
+- Tag BA Hiển vào review tính đầy đủ của các trường dữ liệu.
+
+**Deadline:** 20/09/2026
+",Done,nhanvo134679@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: design,owner: nhan,priority: high,status: delayed"
+73,Task,[UI/UX] UI-08: Thiết kế Prototype Figma: Màn hình chọn thực đơn món ăn và gói dịch vụ,"### 🎯 Mục tiêu
+Thiết kế Prototype Figma: Màn hình Chọn thực đơn món ăn và Gói dịch vụ tiệc cưới từng bước (Step Wizard).
+
+### 📋 Checklist công việc
+- [ ] Thiết kế thanh tiến trình (Step Progress Bar): 1. Chọn sảnh -> 2. Chọn thực đơn -> 3. Chọn dịch vụ -> 4. Báo giá.
+- [ ] Giao diện chọn món chia theo tab: Món khai vị, Món chính, Món tráng miệng kèm ảnh món ăn bắt mắt.
+- [ ] Bố cục cột bên phải luôn ghim (Sticky Summary): Hiển thị danh sách món đã chọn và tổng tiền tạm tính trên 1 bàn.
+- [ ] Giao diện tích chọn các gói dịch vụ đính kèm: MC, Ban nhạc, Hiệu ứng khói lạnh sân khấu.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Frame Figma Wizard hoàn chỉnh kèm link Prototype tương tác.
+- Xuất ảnh lưu tại `frontend/UI-UX/Quản lý dịch vụ.png`.
+
+**Deadline:** 27/09/2026
+",Done,nhanvo134679@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: design,owner: nhan,priority: high,status: in-progress"
+74,Task,[UI/UX] UI-09: Thiết kế Prototype Figma: Màn hình lập hợp đồng và chi tiết phiếu thu,"### 🎯 Mục tiêu
+Thiết kế Prototype Figma: Màn hình Lập hợp đồng tiệc cưới và Chi tiết phiếu thu tiền đặt cọc.
+
+### 📋 Checklist công việc
+- [x] Thiết kế bố cục bản hợp đồng điện tử chuyên nghiệp: Thông tin 2 bên, bảng kê chi phí sảnh + tiệc + dịch vụ.
+- [x] Thiết kế phần xác nhận điều khoản hợp đồng kèm checkbox cam kết.
+- [x] Thiết kế modal pop-up ghi nhận đặt cọc: Chọn hình thức chuyển khoản / tiền mặt, nhập số tiền, tải ảnh ủy nhiệm chi.
+- [x] Thiết kế mẫu phiếu thu tiền có thể xuất in trực tiếp.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Ảnh thiết kế `frontend/UI-UX/Quản lý hợp đồng.png`.
+- Bàn giao cho BA kiểm tra điều khoản pháp lý.
+
+**Deadline:** 27/09/2026
+",Done,nhanvo134679@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: design,owner: nhan,priority: high,status: in-progress"
+75,Story,"[UI/UX] UI-10: Khởi tạo dự án Next.js/React, TailwindCSS và cài đặt thư viện UI Kit","### 🎯 Mục tiêu
+Khởi tạo dự án Frontend bằng Next.js (App Router), TypeScript, TailwindCSS và cài đặt bộ UI Kit.
+
+### 📋 Checklist công việc
+- [ ] Khởi tạo repository frontend bằng lệnh `npx create-next-app@latest frontend --typescript --tailwind --eslint`.
+- [ ] Cài đặt và cấu hình bộ component chuẩn Shadcn/UI (Button, Input, Dialog, Dropdown, Table, Card).
+- [ ] Cấu hình file `tailwind.config.js` với hệ màu và font chữ theo đúng Design System Figma.
+- [ ] Thiết lập cấu trúc thư mục chuẩn: `src/app`, `src/components`, `src/lib`, `src/services`, `src/types`.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn khung Frontend được commit trên nhánh `feature/frontend-core`.
+- Tạo file `frontend/README.md` hướng dẫn chạy `pnpm install` và `pnpm dev`.
+
+**Deadline:** 27/09/2026
+",Done,nhanvo134679@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: feature,owner: nhan,priority: high,status: in-progress"
+76,Story,"[UI/UX] UI-11: Xây dựng Layout dùng chung: Responsive Sidebar, Header, User Profile Dropdown","### 🎯 Mục tiêu
+Xây dựng Layout dùng chung (Master Layout): Responsive Sidebar, Header, Thanh điều hướng theo quyền.
+
+### 📋 Checklist công việc
+- [x] Xây dựng component Sidebar có khả năng thu gọn (Collapse) và hiển thị menu theo quyền người dùng (RBAC).
+- [x] Xây dựng Header chứa Breadcrumb động, thông báo hệ thống và User Profile Dropdown.
+- [x] Xử lý trạng thái Active link nổi bật theo từng trang đang xem.
+- [x] Tối ưu hóa layout hiển thị co giãn tốt trên mọi màn hình máy tính từ 13 inch đến 27 inch.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Các component: `src/components/layout/Sidebar.tsx`, `Header.tsx`, `DashboardLayout.tsx`.
+- Kiểm tra hiển thị layout trên trình duyệt Chrome và Edge.
+
+**Deadline:** 27/09/2026
+",Done,nhanvo134679@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: feature,owner: nhan,priority: high,status: in-progress"
+77,Story,[UI/UX] UI-12: Phát triển màn hình Đăng nhập (Client Auth) và xử lý lưu trữ JWT Token,"### 🎯 Mục tiêu
+Phát triển giao diện màn hình Đăng nhập (Client Auth) và xử lý lưu trữ JWT Token an toàn.
+
+### 📋 Checklist công việc
+- [x] Dựng giao diện form đăng nhập theo đúng bản thiết kế Figma (Input email, Input password, Checkbox nhớ mật khẩu).
+- [x] Xử lý validate dữ liệu form bằng thư viện React Hook Form và Zod schema.
+- [x] Tích hợp gọi API `/api/auth/login` từ Backend, xử lý hiển thị Toast thông báo khi thành công/thất bại.
+- [x] Lưu JWT Access Token an toàn vào Cookie hoặc LocalStorage và điều hướng người dùng vào trang chủ.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Trang: `src/app/(auth)/login/page.tsx`.
+- Video ngắn hoặc ảnh chụp đăng nhập thành công đính kèm vào comment issue.
+
+**Deadline:** 27/09/2026
+",Done,nhanvo134679@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: feature,owner: nhan,priority: high,status: in-progress"
+78,Story,[UI/UX] UI-13: Xây dựng trang Dashboard tổng quan với các thẻ KPI tĩnh,"### 🎯 Mục tiêu
+Xây dựng trang Dashboard tổng quan phía Client hiển thị các thẻ KPI và widget tĩnh phục vụ kiểm thử bố cục.
+
+### 📋 Checklist công việc
+- [x] Dựng component 4 thẻ thống kê KPI với hiệu ứng hover mượt mà.
+- [x] Dựng khung biểu đồ doanh thu sử dụng thư viện Recharts (dữ liệu mock ban đầu).
+- [x] Dựng bảng danh sách các tiệc cưới sắp diễn ra trong ngày hôm nay.
+- [x] Xây dựng Skeleton Loader hiển thị trạng thái đang tải dữ liệu trước khi API trả về.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Trang: `src/app/(dashboard)/page.tsx` và component `MetricCard.tsx`.
+- Chụp ảnh trang dashboard chạy thực tế trên localhost.
+
+**Deadline:** 27/09/2026
+",Done,nhanvo134679@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: feature,owner: nhan,priority: high,status: in-progress"
+79,Story,"[UI/UX] UI-14: Phát triển giao diện Danh sách khách hàng kèm phân trang, tìm kiếm và bộ lọc","### 🎯 Mục tiêu
+Phát triển giao diện Quản lý danh sách khách hàng kèm chức năng phân trang, tìm kiếm và bộ lọc.
+
+### 📋 Checklist công việc
+- [x] Xây dựng Data Table hiển thị khách hàng: Avatar viết tắt, Họ tên, Số điện thoại, Email, Số tiệc đã đặt.
+- [x] Tích hợp ô tìm kiếm Debounce (tìm kiếm tức thì sau 300ms người dùng dừng gõ phím).
+- [x] Xây dựng phân trang dữ liệu (Pagination controls: Trang trước, Trang sau, Chọn số dòng/trang).
+- [x] Xử lý trạng thái khi danh sách trống (Empty State) với nút bấm 'Thêm khách hàng ngay'.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Trang: `src/app/(dashboard)/customers/page.tsx` và `CustomerTable.tsx`.
+- Kiểm tra chức năng tìm kiếm hoạt động mượt mà.
+
+**Deadline:** 04/10/2026
+",Done,nhanvo134679@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: feature,owner: nhan,priority: high"
+80,Story,[UI/UX] UI-15: Phát triển Drawer/Modal thêm mới và cập nhật thông tin khách hàng,"### 🎯 Mục tiêu
+Phát triển Drawer / Modal thêm mới và cập nhật thông tin hồ sơ khách hàng.
+
+### 📋 Checklist công việc
+- [x] Xây dựng form trượt (Sheet/Drawer) nhập liệu: Họ tên, Số điện thoại, Email, Địa chỉ, Nguồn khách hàng, Ghi chú.
+- [x] Validate số điện thoại Việt Nam bắt đầu bằng 0 và đủ 10 chữ số bằng Zod.
+- [x] Xử lý gọi API POST `/api/customers` và cập nhật tức thì danh sách khách hàng mà không cần load lại trang.
+- [x] Hỗ trợ chế độ chỉnh sửa thông tin (Edit Mode) khi click vào nút sửa của một dòng dữ liệu.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Component: `src/components/customers/CustomerDrawer.tsx`.
+- Mở PR ghép nối với API khách hàng của Phúc.
+
+**Deadline:** 04/10/2026
+",Done,nhanvo134679@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: feature,owner: nhan,priority: high"
+81,Story,[UI/UX] UI-16: Phát triển giao diện Danh mục sảnh tiệc kèm thông số sức chứa và giá thuê,"### 🎯 Mục tiêu
+Phát triển giao diện Danh mục sảnh tiệc hiển thị dạng Card Grid kèm thông số sức chứa và hình ảnh.
+
+### 📋 Checklist công việc
+- [x] Dựng giao diện thẻ sảnh tiệc: Ảnh cover chất lượng cao, Huy hiệu trạng thái sảnh, Sức chứa tối đa (bàn), Giá sàn.
+- [x] Xây dựng bộ lọc nhanh: Lọc sảnh theo sức chứa (< 200 khách, 200-400 khách, > 400 khách).
+- [x] Xây dựng Modal xem chi tiết sảnh tiệc kèm sơ đồ bố trí bàn mẫu.
+- [x] Thêm nút 'Kiểm tra lịch sảnh' liên kết trực tiếp sang trang Lịch sự kiện.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Trang: `src/app/(dashboard)/venues/page.tsx` và `VenueCard.tsx`.
+- Đảm bảo hình ảnh được tối ưu hóa hiển thị bằng Next/Image.
+
+**Deadline:** 04/10/2026
+",Done,nhanvo134679@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: feature,owner: nhan,priority: high"
+82,Story,[UI/UX] UI-17: Tích hợp API Đăng nhập và API Khách hàng phục vụ Demo giữa kỳ 50%,"### 🎯 Mục tiêu
+Tích hợp hoàn chỉnh API Đăng nhập và API Khách hàng từ Backend chuẩn bị cho phiên Demo giữa kỳ 50%.
+
+### 📋 Checklist công việc
+- [x] Cấu hình file `src/lib/api-client.ts` sử dụng Axios hoặc Fetch có gắn kèm JWT Bearer Token trong Header.
+- [x] Xử lý Interceptor tự động điều hướng về trang Login nếu Backend trả về mã lỗi 401 Unauthorized.
+- [x] Kiểm thử luồng dữ liệu thật: Đăng nhập tài khoản Sales -> Xem danh sách khách hàng từ CSDL -> Thêm mới 1 khách hàng.
+- [x] Đóng gói bản demo chạy ổn định trên localhost sẵn sàng trình chiếu.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn tích hợp được merge vào nhánh `develop`.
+- Biên bản tự kiểm tra trước Demo 50% cùng PM và Backend Lead.
+
+**Deadline:** 04/10/2026
+",Done,nhanvo134679@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: feature,owner: nhan,priority: high"
+83,Story,[UI/UX] UI-18: Phát triển giao diện Lịch sự kiện trực quan (Interactive Booking Calendar),"### 🎯 Mục tiêu
+Phát triển giao diện Lịch sự kiện trực quan (Interactive Booking Calendar) phục vụ tra cứu sảnh tiệc.
+
+### 📋 Checklist công việc
+- [x] Cài đặt và tích hợp thư viện lịch FullCalendar / React-Big-Calendar vào dự án Next.js.
+- [x] Xây dựng bộ lọc lịch theo sảnh: Xem lịch riêng của từng sảnh hoặc xem tổng hợp tất cả các sảnh.
+- [x] Hiển thị sự kiện phân biệt rõ ca Trưa và ca Tối với các màu sắc đại diện cho trạng thái hợp đồng.
+- [x] Bắt sự kiện click vào một sự kiện trên lịch để mở popover xem thông tin nhanh: Tên cô dâu chú rể, số bàn, nhân viên phụ trách.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Trang: `src/app/(dashboard)/calendar/page.tsx` và component `EventCalendar.tsx`.
+- Chụp ảnh màn hình lịch hiển thị dữ liệu dán vào comment issue.
+
+**Deadline:** 11/10/2026
+",Done,nhanvo134679@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: feature,owner: nhan,priority: high"
+84,Story,"[UI/UX] UI-19: Xây dựng giao diện Wizard chọn thực đơn tiệc cưới (Khai vị, Món chính, Tráng miệng)","### 🎯 Mục tiêu
+Xây dựng giao diện Wizard chọn thực đơn tiệc cưới từng bước (Khai vị, Món chính, Món tráng miệng).
+
+### 📋 Checklist công việc
+- [ ] Thiết kế giao diện tab chuyển đổi linh hoạt giữa các danh mục món ăn kèm ảnh minh họa và đơn giá.
+- [ ] Cho phép tích chọn món ăn với checkbox tùy chỉnh, hỗ trợ tăng giảm số lượng bàn tiệc.
+- [ ] Cột bên phải hiển thị tổng kết thực đơn đã chọn kèm tổng tiền định mức trên mỗi bàn.
+- [ ] Bắt lỗi kiểm tra: Bắt buộc phải chọn tối thiểu 2 món khai vị, 3 món chính và 1 món tráng miệng trước khi tiếp tục.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Component: `src/components/booking/MenuSelectionWizard.tsx`.
+- Kiểm tra độ mượt mà khi người dùng tương tác chuyển tab và chọn món.
+
+**Deadline:** 11/10/2026
+",To Do,nhanvo134679@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: feature,owner: nhan,priority: high"
+85,Story,"[UI/UX] UI-20: Xây dựng giao diện chọn Gói dịch vụ bổ sung (Âm thanh, ánh sáng, hoa tươi)","### 🎯 Mục tiêu
+Xây dựng giao diện chọn Gói dịch vụ bổ sung tiệc cưới (Âm thanh, Ánh sáng, MC, Hoa tươi).
+
+### 📋 Checklist công việc
+- [x] Thiết kế danh sách gói dịch vụ dưới dạng card có hình ảnh và danh mục các tiện ích đi kèm.
+- [x] Hiển thị đơn giá rõ ràng và hỗ trợ tích chọn nhiều gói dịch vụ cùng lúc.
+- [x] Hỗ trợ nhập ghi chú yêu cầu riêng cho dịch vụ (VD: Bài hát cô dâu yêu thích khi bước vào lễ đường).
+- [x] Tự động cộng dồn chi phí dịch vụ vào bảng tính tổng chi phí đơn tiệc.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Component: `src/components/booking/ServiceSelectionStep.tsx`.
+- Ghép nối component vào luồng tạo đơn đặt tiệc chung.
+
+**Deadline:** 11/10/2026
+",Done,nhanvo134679@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: feature,owner: nhan,priority: high"
+86,Story,[UI/UX] UI-21: Xây dựng màn hình Lập báo giá tiệc cưới và tính toán tổng tiền realtime,"### 🎯 Mục tiêu
+Xây dựng màn hình Lập báo giá tiệc cưới và tính toán tổng chi phí tự động theo thời gian thực.
+
+### 📋 Checklist công việc
+- [x] Hiển thị bảng chiết tính chi tiết: (Tiền sảnh) + (Số bàn x Giá bàn) + (Tổng tiền dịch vụ) - (Chiết khấu) + (Thuế VAT 8%).
+- [x] Hỗ trợ nhập tỷ lệ % giảm giá hoặc số tiền giảm giá trực tiếp (có kiểm tra quyền hạn của nhân viên).
+- [x] Tự động tính số tiền đặt cọc tối thiểu cần thu đợt 1 (30% tổng giá trị).
+- [x] Nút bấm 'Lưu báo giá' và 'Chuyển thành Hợp đồng chính thức'.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Trang: `src/app/(dashboard)/quotations/create/page.tsx` và `QuotationSummary.tsx`.
+- Đối chiếu công thức tính tiền với BA để đảm bảo số liệu chính xác 100%.
+
+**Deadline:** 11/10/2026
+",Done,nhanvo134679@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: feature,owner: nhan,priority: high"
+87,Story,[UI/UX] UI-22: Phát triển màn hình Quản lý danh sách Hợp đồng và chi tiết hợp đồng,"### 🎯 Mục tiêu
+Phát triển màn hình Quản lý danh sách Hợp đồng tiệc cưới và xem chi tiết hợp đồng.
+
+### 📋 Checklist công việc
+- [x] Dựng bảng danh sách hợp đồng kèm bộ lọc trạng thái: Chờ đặt cọc, Đã ký hợp đồng, Đang tổ chức, Đã thanh toán, Đã hủy.
+- [x] Hiển thị mã hợp đồng, tên khách hàng, tên sảnh, ngày tổ chức tiệc và tổng giá trị hợp đồng.
+- [x] Trang chi tiết hợp đồng `/contracts/[id]`: Hiển thị toàn bộ thông tin sảnh, danh sách món ăn, dịch vụ và lịch sử nộp tiền.
+- [x] Cung cấp các nút chức năng: In hợp đồng, Ghi nhận thanh toán, Hủy hợp đồng.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Trang: `src/app/(dashboard)/contracts/page.tsx` và `src/app/(dashboard)/contracts/[id]/page.tsx`.
+- Mở PR để PM review giao diện.
+
+**Deadline:** 11/10/2026
+",Done,nhanvo134679@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: feature,owner: nhan,priority: high"
+88,Story,[UI/UX] UI-23: Xây dựng Modal ghi nhận Đặt cọc và Lịch sử các đợt thanh toán,"### 🎯 Mục tiêu
+Xây dựng Modal ghi nhận Đặt cọc và Quản lý lịch sử các đợt thanh toán của từng tiệc cưới.
+
+### 📋 Checklist công việc
+- [x] Thiết kế Modal xác nhận nộp tiền: Nhập số tiền thu, Chọn đợt thanh toán (Đợt 1: Cọc giữ chỗ, Đợt 2: Quyết toán sau tiệc).
+- [x] Chọn hình thức nộp tiền: Tiền mặt hoặc Chuyển khoản ngân hàng (hiển thị mã QR tài khoản trung tâm).
+- [x] Hiển thị thanh tiến trình thanh toán (Progress Bar: Đã trả 30% / Còn nợ 70%).
+- [x] Nút bấm 'In phiếu thu' ngay sau khi xác nhận thanh toán thành công.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Component: `src/components/contracts/PaymentModal.tsx` và `PaymentHistoryList.tsx`.
+- Kết nối API POST `/api/payments` của Backend.
+
+**Deadline:** 18/10/2026
+",Done,nhanvo134679@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: feature,owner: nhan,priority: high"
+89,Story,[UI/UX] UI-24: Phát triển trang Báo cáo doanh thu với biểu đồ Recharts/Chart.js,"### 🎯 Mục tiêu
+Phát triển trang Báo cáo thống kê doanh thu với các biểu đồ trực quan Recharts.
+
+### 📋 Checklist công việc
+- [ ] Xây dựng biểu đồ cột kép so sánh Doanh thu thực tế vs Mục tiêu kế hoạch qua các tháng trong năm.
+- [ ] Xây dựng biểu đồ tròn phân tích cơ cấu nguồn thu: Tiền bàn tiệc (70%), Tiền thuê sảnh (15%), Tiền dịch vụ phát sinh (15%).
+- [ ] Xây dựng bộ lọc khoảng thời gian: Tháng này, Quý này, Năm nay hoặc Tùy chọn ngày từ... đến...
+- [ ] Thẻ hiển thị các chỉ số tài chính tóm tắt: Tổng doanh thu, Số tiền cọc đang giữ, Công nợ khách hàng chưa thu.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Trang: `src/app/(dashboard)/reports/revenue/page.tsx` và các component Chart.
+- Kiểm tra biểu đồ co giãn mượt mà khi thay đổi kích thước màn hình.
+
+**Deadline:** 18/10/2026
+",To Do,nhanvo134679@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: feature,owner: nhan,priority: high"
+90,Story,[UI/UX] UI-25: Thiết kế bản in Hợp đồng tiệc cưới chuẩn A4 và phiếu thu tiền,"### 🎯 Mục tiêu
+Thiết kế mẫu in Hợp đồng tiệc cưới chuẩn khổ giấy A4 và Phiếu thu tiền có thể in trực tiếp từ trình duyệt.
+
+### 📋 Checklist công việc
+- [ ] Áp dụng quy chuẩn CSS Print (`@media print`) để ẩn toàn bộ Sidebar, Header khi bấm Ctrl+P.
+- [ ] Định dạng trang in chuẩn A4 (Margins 20mm, Font chữ Times New Roman/Arial, ngắt trang hợp lý).
+- [ ] Bố cục đầy đủ Quốc hiệu Tiêu ngữ, Thông tin 2 bên đại diện, Bảng chi tiết thực đơn & dịch vụ, Chữ ký và đóng dấu.
+- [ ] Thiết kế mẫu Phiếu thu tiền khổ A5 nhỏ gọn xuất hóa đơn cho khách.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Component in ấn: `src/components/print/ContractPrintTemplate.tsx` và `ReceiptPrintTemplate.tsx`.
+- Xuất thử file PDF từ trình duyệt và đính kèm vào issue để PM nghiệm thu bản in.
+
+**Deadline:** 18/10/2026
+",To Do,nhanvo134679@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: feature,owner: nhan,priority: high"
+91,Story,[UI/UX] UI-26: Xây dựng trang Báo cáo thống kê và nút xuất dữ liệu Excel/PDF,"### 🎯 Mục tiêu
+Xây dựng chức năng xuất dữ liệu danh sách hợp đồng và báo cáo ra file Excel và PDF.
+
+### 📋 Checklist công việc
+- [ ] Thêm nút bấm 'Xuất Excel' và 'Xuất PDF' trên các trang danh sách Khách hàng, Hợp đồng và Báo cáo.
+- [ ] Xử lý hiển thị hiệu ứng Loading Spinner trong lúc chờ Backend tạo và truyền file về.
+- [ ] Tự động tải file về máy tính người dùng với tên file đặt theo chuẩn: `BaoCao_DoanhThu_EVManager_YYYYMMDD.xlsx`.
+- [ ] Bắt lỗi và hiển thị thông báo thân thiện nếu xảy ra sự cố trong quá trình xuất file.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Hàm xử lý tải file: `src/lib/download-file.ts` tích hợp vào các nút bấm xuất dữ liệu.
+- Kiểm tra tải file thành công trên cả Chrome, Edge và Safari.
+
+**Deadline:** 18/10/2026
+",To Do,nhanvo134679@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: feature,owner: nhan,priority: medium"
+92,Story,[UI/UX] UI-27: Xử lý Form Validation toàn diện bằng Zod & React Hook Form,"### 🎯 Mục tiêu
+Rà soát và hoàn thiện kiểm tra hợp lệ dữ liệu (Form Validation) toàn diện bằng Zod cho toàn bộ các màn hình.
+
+### 📋 Checklist công việc
+- [ ] Kiểm tra bắt buộc điền các trường quan trọng (Họ tên, SĐT, Ngày tiệc, Số bàn).
+- [ ] Chặn nhập số bàn vượt quá sức chứa tối đa của sảnh đã chọn.
+- [ ] Chặn chọn ngày tiệc trong quá khứ.
+- [ ] Hiển thị thông báo lỗi bằng tiếng Việt màu đỏ ngay dưới từng ô nhập liệu bị sai.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Thư mục validation schemas: `src/validations/` hoàn chỉnh cho toàn bộ các form.
+- Mời QA Hậu thực hiện kiểm thử biên dữ liệu.
+
+**Deadline:** 18/10/2026
+",To Do,nhanvo134679@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: feature,owner: nhan,priority: high"
+93,Story,"[UI/UX] UI-28: Xây dựng các trang thông báo lỗi: 403 Forbidden, 404 Not Found, 500 Error","### 🎯 Mục tiêu
+Xây dựng các trang hiển thị mã trạng thái lỗi: 403 Cấm truy cập, 404 Không tìm thấy trang, 500 Lỗi máy chủ.
+
+### 📋 Checklist công việc
+- [ ] Thiết kế trang 403 Forbidden thân thiện: Thông báo người dùng không có quyền truy cập chức năng này kèm nút 'Quay về trang chủ'.
+- [ ] Thiết kế trang 404 Not Found có hình minh họa ngộ nghĩnh và thanh tìm kiếm điều hướng.
+- [ ] Thiết kế trang 500 Server Error kèm nút 'Thử tải lại trang' và thông tin liên hệ hỗ trợ kỹ thuật.
+- [ ] Bọc Error Boundary cho toàn bộ ứng dụng Next.js để ngăn chặn hiện tượng màn hình trắng (White screen of death).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Các trang: `src/app/not-found.tsx`, `src/app/error.tsx`, `src/app/forbidden.tsx`.
+- Chụp ảnh giao diện các trang lỗi dán vào comment issue.
+
+**Deadline:** 25/10/2026
+",To Do,nhanvo134679@gmail.com,Tuần 7 — UAT & Deploy,2026-10-25,"type: feature,owner: nhan,priority: medium"
+94,Task,[UI/UX] UI-29: Tối ưu hóa giao diện Responsive mượt mà trên Desktop và Tablet,"### 🎯 Mục tiêu
+Tối ưu hóa giao diện hiển thị thích ứng (Responsive Design) hoàn hảo trên Máy tính để bàn và Máy tính bảng (Tablet).
+
+### 📋 Checklist công việc
+- [ ] Kiểm tra và tinh chỉnh bố cục trên các độ phân giải: 1920x1080, 1440x900, 1366x768 và 1024x768 (iPad Landscape).
+- [ ] Đảm bảo các bảng dữ liệu có thanh cuộn ngang (Horizontal scroll) khi màn hình hẹp, không bị tràn khung hình.
+- [ ] Kiểm tra tính năng cảm ứng: Kích thước nút bấm và ô chọn lịch đủ lớn để nhân viên thao tác bằng tay trên máy tính bảng.
+- [ ] Đảm bảo tốc độ hiển thị giao diện mượt mà, không bị giật lag.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Bộ CSS responsive hoàn chỉnh trong toàn bộ dự án frontend.
+- Báo cáo kết quả test responsive trên Chrome DevTools.
+
+**Deadline:** 25/10/2026
+",To Do,nhanvo134679@gmail.com,Tuần 7 — UAT & Deploy,2026-10-25,"type: design,owner: nhan,priority: high"
+95,Bug,[UI/UX] UI-30: Sửa các lỗi UI/UX phát sinh từ kết quả kiểm thử của QA,"### 🎯 Mục tiêu
+Sửa các lỗi giao diện và trải nghiệm người dùng do đội ngũ QA ghi nhận trong đợt kiểm thử tích hợp.
+
+### 📋 Checklist công việc
+- [ ] Sửa lỗi canh lề và vỡ khung chữ trên trình duyệt Safari.
+- [ ] Khắc phục lỗi Modal bị ẩn phía sau Sidebar (sửa chỉ số z-index).
+- [ ] Sửa lỗi định dạng số tiền VND: Thêm dấu chấm phân cách hàng nghìn (VD: 15.000.000 đ) trên toàn hệ thống.
+- [ ] Đóng các defect ticket UI được QA phân công trên GitHub.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Các commit sửa lỗi trên nhánh `feature/frontend-core`.
+- Gắn tag QA Hậu vào re-test và xác nhận đóng lỗi.
+
+**Deadline:** 25/10/2026
+",To Do,nhanvo134679@gmail.com,Tuần 7 — UAT & Deploy,2026-10-25,"type: bug,owner: nhan,priority: high"
+96,Task,[UI/UX] UI-31: Đóng gói bản build Production Frontend tối ưu dung lượng,"### 🎯 Mục tiêu
+Đóng gói bản build Production Frontend tối ưu dung lượng và đo kiểm chỉ số hiệu năng Core Web Vitals.
+
+### 📋 Checklist công việc
+- [ ] Chạy lệnh `pnpm build` và đảm bảo 100% các trang được biên dịch thành công không có lỗi TypeScript hay ESLint.
+- [ ] Tối ưu hóa bundle size: Áp dụng kỹ thuật Lazy Loading cho các thư viện nặng (Recharts, FullCalendar).
+- [ ] Kiểm tra điểm hiệu năng bằng Google Lighthouse: Đảm bảo điểm Performance > 85, Accessibility > 90.
+- [ ] Cấu hình biến môi trường kết nối đến Domain API chính thức của Backend.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Bản build production sẵn sàng triển khai trong thư mục `.next`.
+- Ảnh chụp bảng điểm Google Lighthouse đính kèm vào issue.
+
+**Deadline:** 01/11/2026
+",To Do,nhanvo134679@gmail.com,Tuần 8 — Bảo vệ & Đóng dự án,2026-11-01,"type: chore,owner: nhan,priority: high"
+97,Task,[UI/UX] UI-32: Bàn giao mã nguồn Frontend và hoàn thiện tài liệu hướng dẫn giao diện,"### 🎯 Mục tiêu
+Bàn giao toàn bộ mã nguồn Frontend, tài liệu kiến trúc giao diện và hướng dẫn bảo trì cho PM nghiệm thu.
+
+### 📋 Checklist công việc
+- [ ] Viết tài liệu kiến trúc Frontend: Cấu trúc thư mục, danh sách thư viện sử dụng, quy ước viết component.
+- [ ] Dọn dẹp mã nguồn: Xóa toàn bộ các đoạn mã thừa, `console.log` và dữ liệu mock tĩnh.
+- [ ] Tạo Pull Request cuối cùng merge toàn bộ code Frontend từ `feature/frontend-core` vào `develop`.
+- [ ] Hỗ trợ PM đóng gói hồ sơ dự án hoàn chỉnh.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/design/frontend-architecture.md`.
+- PR merge hoàn tất trên GitHub có sự chấp thuận của PM Hoàng.
+
+**Deadline:** 01/11/2026
+",To Do,nhanvo134679@gmail.com,Tuần 8 — Bảo vệ & Đóng dự án,2026-11-01,"type: docs,owner: nhan,priority: high"
+98,Task,"[Backend] BE-01: Khảo sát và lựa chọn công nghệ Backend: NestJS, TypeScript, PostgreSQL","## 🎯 Mục tiêu
+
+Khảo sát, đánh giá và thống nhất Tech Stack chính thức cho hệ thống EVManager, làm cơ sở triển khai Frontend, Backend, Database và DevOps trong các giai đoạn tiếp theo.
+
+Sau khi trao đổi với PM và BA, nhóm thống nhất sử dụng:
+
+### Frontend
+
+- HTML5
+- CSS3
+- JavaScript
+- Bootstrap 5
+- Chart.js
+- FullCalendar
+- JavaScript `fetch()` để gọi REST API
+
+### Backend
+
+- Java 21 LTS
+- Spring Boot
+- Spring Web
+- Spring Data JPA + Hibernate
+- Flyway
+- Jakarta Bean Validation
+- Spring Security + JWT
+- Springdoc OpenAPI/Swagger
+- Maven
+- JUnit 5 + Mockito + Spring Boot Test
+- SLF4J + Logback
+
+### Database & DevOps
+
+- PostgreSQL
+- Docker + Docker Compose
+- GitHub Actions
+- Git + GitHub
+
+---
+
+## 📋 Checklist công việc
+
+### 1. Khảo sát Backend
+
+- [x] Đánh giá kiến trúc Spring Boot và khả năng tổ chức hệ thống theo các module.
+- [x] Đánh giá mô hình Controller → Service → Repository.
+- [x] Đánh giá Spring Data JPA + Hibernate trong việc thao tác với PostgreSQL.
+- [x] Đánh giá Spring Security + JWT cho Authentication/Authorization.
+- [x] Đánh giá Flyway cho Database Migration.
+- [x] Đánh giá Jakarta Bean Validation cho kiểm tra dữ liệu đầu vào.
+- [x] Đánh giá Springdoc OpenAPI/Swagger cho tài liệu REST API.
+
+### 2. Khảo sát Frontend
+
+- [x] Đánh giá HTML5, CSS3 và JavaScript thuần cho giao diện hệ thống.
+- [x] Đánh giá Bootstrap 5 cho giao diện responsive và các component UI.
+- [x] Đánh giá Chart.js cho Dashboard và biểu đồ thống kê.
+- [x] Đánh giá FullCalendar cho quản lý và hiển thị lịch sự kiện.
+- [x] Đánh giá JavaScript `fetch()` cho việc gọi REST API từ Backend.
+
+### 3. Khảo sát Database và DevOps
+
+- [x] Đánh giá PostgreSQL cho dữ liệu quan hệ của hệ thống.
+- [x] Đánh giá khả năng xử lý dữ liệu quan hệ phức tạp và JSON của PostgreSQL.
+- [x] Đánh giá Docker + Docker Compose cho môi trường phát triển.
+- [x] Đánh giá GitHub Actions cho CI/CD.
+- [x] Thống nhất Git + GitHub cho quản lý mã nguồn và Pull Request.
+
+### 4. Thống nhất Tech Stack
+
+- [x] Trao đổi với PM và BA.
+- [x] Xác nhận Tech Stack chính thức.
+- [x] Cập nhật tài liệu kiến trúc kỹ thuật.
+- [x] Đảm bảo các Issue Backend/Frontend tiếp theo sử dụng đúng Tech Stack đã thống nhất.
+
+---
+
+## 📦 Kết quả cần giao nộp (Deliverables)
+
+- [x] Tài liệu `docs/design/tech-stack.md`.
+- [x] Tài liệu mô tả kiến trúc kỹ thuật của hệ thống.
+- [x] Danh sách Tech Stack chính thức.
+- [x] Ghi nhận quyết định công nghệ vào hồ sơ dự án.
+
+---
+
+## 🏗️ Kiến trúc hệ thống
+
+```text
+HTML
+CSS
+JavaScript
+Bootstrap 5
+Chart.js
+FullCalendar
+        │
+        │ fetch()
+        ▼
+Spring Boot REST API
+        │
+        ├── Spring Web
+        ├── Spring Security + JWT
+        ├── Spring Data JPA
+        ├── Hibernate
+        └── Flyway
+        │
+        ▼
+PostgreSQL",Done,phucngo1707@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: chore,owner: phuc,priority: high"
+99,Task,[Backend] BE-02: Thiết kế kiến trúc Modular Backend theo chuẩn Clean Architecture,"# [Backend] BE-02: Thiết kế kiến trúc Modular Backend theo chuẩn Clean Architecture
+
+## 🎯 Mục tiêu
+
+Thiết kế kiến trúc Backend cho EVManager sử dụng **Java 21 + Spring Boot**, theo hướng Modular Architecture và Clean Architecture.
+
+## 📋 Checklist công việc
+
+- [x] Phân chia các module: Auth, Users, Customers, Venues, Events, Contracts, Payments, Reports.
+- [x] Thiết kế kiến trúc Layer: Controller → Service / Use Case → Repository → Spring Data JPA → PostgreSQL.
+- [x] Chuẩn hóa RESTful API với prefix `/api/v1` và endpoint dạng số nhiều.
+- [x] Chuẩn hóa HTTP Status Code: 200, 201, 400, 401, 403, 404, 409, 500.
+- [x] Thiết kế cấu trúc thư mục Backend phù hợp với Spring Boot.
+- [x] Định hướng Validation và Exception Handling.
+- [x] Định hướng Authentication/Authorization bằng Spring Security + JWT.
+
+## 📦 Kết quả cần giao nộp
+
+- [x] Tạo tài liệu `docs/design/backend-architecture.md`.
+- [x] Tạo sơ đồ kiến trúc Backend.
+- [x] Tạo sơ đồ các module để cả nhóm tham khảo.
+
+## 🛠 Tech Stack
+
+- Java 21
+- Spring Boot
+- Spring Web
+- Spring Data JPA + Hibernate
+- PostgreSQL
+- Flyway
+- Spring Security + JWT
+- Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+**Deadline:** 13/09/2026",Done,phucngo1707@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: phuc,priority: high"
+100,Task,[Backend] BE-03: Cấu hình Docker Compose môi trường cơ sở dữ liệu PostgreSQL cục bộ,"# [Backend] BE-03: Cấu hình PostgreSQL Docker Environment
+
+## 🎯 Mục tiêu
+
+Cấu hình môi trường PostgreSQL local bằng Docker Compose phục vụ phát triển Backend.
+
+## 📋 Checklist công việc
+
+* [x] Tạo `backend/docker-compose.yml` với PostgreSQL 16.
+* [x] Cấu hình thông tin kết nối Database qua `.env.example`.
+* [x] Thiết lập Volume để lưu dữ liệu PostgreSQL.
+* [x] Kiểm tra kết nối PostgreSQL từ máy local.
+* [x] Cập nhật hướng dẫn khởi động bằng `docker compose up -d`.
+
+## 📦 Kết quả cần giao nộp
+
+* [x] `backend/docker-compose.yml`
+* [x] `backend/.env.example`
+* [x] PostgreSQL khởi động và kết nối thành công.
+
+## 🛠 Tech Stack
+
+* PostgreSQL 16
+* Docker
+* Docker Compose
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+**Deadline:** 20/09/2026",Done,phucngo1707@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: chore,owner: phuc,priority: high"
+101,Story,[Backend] BE-04: Khởi tạo Spring Boot Backend Skeleton,"# [Backend] BE-04: Khởi tạo Spring Boot Backend Skeleton
+
+## 🎯 Mục tiêu
+
+Khởi tạo Backend Skeleton cho EVManager bằng Java 21 và Spring Boot.
+
+## 📋 Checklist công việc
+
+* [x] Khởi tạo project Spring Boot tại `backend/`
+* [x] Cấu hình Java 21 và Maven
+* [x] Cấu hình Spring Web
+* [x] Cấu hình Spring Data JPA + Hibernate
+* [x] Cấu hình kết nối PostgreSQL
+* [x] Cấu hình biến môi trường cho Database
+* [x] Tạo cấu trúc package Backend cơ bản
+* [x] Tạo API Health Check `GET /api/health`
+* [x] Kiểm tra Backend khởi động thành công
+* [x] Kiểm tra project build thành công
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Mã nguồn Backend tại `backend/`
+* [x] Backend chạy thành công
+* [x] Kết nối PostgreSQL thành công
+* [x] API `GET /api/health` hoạt động
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21 LTS
+* Spring Boot
+* Spring Web
+* Spring Data JPA + Hibernate
+* PostgreSQL
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+20/09/2026",Done,phucngo1707@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: feature,owner: phuc,priority: high,status: delayed"
+102,Story,[Backend] BE-05: Xây dựng Global Exception Handling,"🎯 Mục tiêu
+
+Xây dựng cơ chế xử lý Exception tập trung cho Backend Spring Boot và chuẩn hóa JSON Error Response.
+
+📋 Checklist công việc
+
+Tạo Global Exception Handler bằng @RestControllerAdvice
+
+Xử lý các lỗi HTTP phổ biến
+
+Xử lý lỗi Validation từ @Valid
+
+Xử lý lỗi Resource Not Found
+
+Xử lý lỗi Conflict
+
+Chuẩn hóa cấu trúc JSON Error Response
+
+Ghi log lỗi Server
+
+Kiểm tra các API trả về Error Response đúng format
+
+📦 Kết quả cần giao nộp
+
+Global Exception Handler trong backend/
+
+Error Response DTO/Model
+
+Các lỗi được xử lý tập trung
+
+API trả về JSON Error Response thống nhất
+
+Pull Request vào develop
+
+🛠 Tech Stack
+Java 21 LTS
+Spring Boot
+Spring Web
+Jakarta Bean Validation
+Maven
+👤 Owner
+
+Phúc – Backend/DevOps
+
+📅 Deadline
+
+20/09/2026",Done,phucngo1707@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: feature,owner: phuc,priority: high,status: delayed"
+103,Story,[Backend] BE-06: Cấu hình Validation toàn cục cho DTO,"## 🎯 Mục tiêu
+
+Cấu hình cơ chế Validation toàn cục để kiểm tra dữ liệu đầu vào của DTO trong Backend Spring Boot.
+
+## 📋 Checklist công việc
+
+* [x] Cấu hình Jakarta Bean Validation
+* [x] Sử dụng annotation Validation cho DTO
+* [x] Kích hoạt validation với `@Valid`
+* [x] Kiểm tra dữ liệu đầu vào không hợp lệ
+* [x] Chuẩn hóa thông báo lỗi Validation
+* [x] Tích hợp với Global Exception Handler
+* [x] Kiểm tra Validation trên API mẫu
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Cấu hình Validation trong `backend/`
+* [x] DTO mẫu có Validation
+* [x] Validation hoạt động với API
+* [x] JSON Error Response khi dữ liệu không hợp lệ
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21 LTS
+* Spring Boot
+* Spring Web
+* Jakarta Bean Validation
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+20/09/2026",Done,phucngo1707@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: feature,owner: phuc,priority: high,status: delayed"
+104,Story,# [Backend] BE-07: Phát triển Module Auth: Đăng nhập và JWT,"## 🎯 Mục tiêu
+
+Phát triển Module Auth cho phép đăng nhập, kiểm tra mật khẩu bằng BCrypt và xác thực bằng JWT.
+
+## 📋 Checklist công việc
+
+* [x] Cấu hình Spring Security và JWT
+* [x] Cấu hình BCrypt Password Encoder
+* [x] Tạo Auth Controller và Auth Service
+* [x] Xây dựng API `POST /api/v1/auth/login`
+* [x] Kiểm tra username/email và mật khẩu
+* [x] Sinh JWT Access Token sau khi đăng nhập thành công
+* [x] Xác thực JWT từ Header `Authorization: Bearer <token>`
+* [x] Xử lý đăng nhập sai và token không hợp lệ
+* [x] Kiểm tra API đăng nhập bằng Postman
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Module Auth trong `backend/`
+* [x] API `POST /api/v1/auth/login`
+* [x] BCrypt Password Encoder hoạt động
+* [x] JWT Authentication hoạt động
+* [x] JSON Response đăng nhập và lỗi đúng chuẩn
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21 LTS
+* Spring Boot
+* Spring Security
+* JWT
+* Jakarta Bean Validation
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+27/09/2026",Done,phucngo1707@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: feature,owner: phuc,priority: high,status: in-progress"
+105,Story,[Backend] BE-08: Xây dựng RBAC phân quyền người dùng,"## 🎯 Mục tiêu
+
+Xây dựng cơ chế phân quyền người dùng theo vai trò (Role-Based Access Control - RBAC) bằng Spring Security.
+
+## 📋 Checklist công việc
+
+* [x] Cấu hình Role-based Authorization với Spring Security
+* [x] Định nghĩa các Role của hệ thống
+* [x] Đọc Role từ thông tin người dùng sau khi xác thực JWT
+* [x] Phân quyền truy cập theo Role cho API
+* [x] Trả về HTTP 403 Forbidden khi không đủ quyền
+* [x] Áp dụng phân quyền mẫu cho API quản lý sảnh tiệc
+* [x] Kiểm tra quyền truy cập bằng Postman
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Cấu hình RBAC trong `backend/`
+* [x] Role Authorization hoạt động với JWT
+* [x] API được bảo vệ theo Role
+* [x] Xử lý lỗi 403 đúng chuẩn JSON Response
+* [x] Tài liệu phân quyền cho Frontend và QA
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21 LTS
+* Spring Boot
+* Spring Security
+* JWT
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+27/09/2026",Done,phucngo1707@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: feature,owner: phuc,priority: high,status: in-progress"
+106,Story,[Backend] BE-09: Phát triển Module Users,"## 🎯 Mục tiêu
+
+Phát triển Module Users để quản lý tài khoản nhân viên, đổi mật khẩu và khóa/mở khóa tài khoản.
+
+## 📋 Checklist công việc
+
+* [x] Xây dựng Entity và Repository cho User
+* [x] Xây dựng API lấy danh sách User có phân trang và lọc theo Role
+* [x] Xây dựng API tạo User mới
+* [x] Băm mật khẩu bằng BCrypt khi tạo hoặc cập nhật mật khẩu
+* [x] Xây dựng API khóa/mở khóa tài khoản
+* [x] Xây dựng API đổi mật khẩu cá nhân
+* [x] Kiểm tra quyền truy cập bằng Spring Security
+* [x] Viết unit test cho xử lý mật khẩu và đổi mật khẩu
+* [x] Kiểm tra các API bằng Postman
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Module Users trong `backend/`
+* [x] CRUD User hoạt động
+* [x] Phân trang và lọc theo Role
+* [x] Khóa/mở khóa tài khoản hoạt động
+* [x] Đổi mật khẩu hoạt động
+* [x] Unit test đạt yêu cầu
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21 LTS
+* Spring Boot
+* Spring Web
+* Spring Data JPA + Hibernate
+* Spring Security
+* BCrypt
+* PostgreSQL
+* Maven
+* JUnit 5
+* Mockito
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+27/09/2026",Done,phucngo1707@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: feature,owner: phuc,priority: high,status: in-progress"
+107,Story,[Backend] BE-10: Phát triển Module Customers,"## 🎯 Mục tiêu
+
+Phát triển Module Customers quản lý khách hàng với CRUD, tìm kiếm và phân trang.
+
+## 📋 Checklist công việc
+
+* [x] Tạo Entity, Repository và DTO Customer
+* [x] Thêm Validation email và số điện thoại
+* [x] Xây dựng API CRUD Customer
+* [x] Thêm tìm kiếm theo tên hoặc số điện thoại
+* [x] Thêm phân trang
+* [x] Kiểm tra trùng số điện thoại và trả về `409 Conflict`
+* [x] Kiểm tra API bằng Postman
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Module Customers hoàn chỉnh
+* [x] CRUD, tìm kiếm và phân trang hoạt động
+* [x] Validation và xử lý lỗi hoạt động
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21
+* Spring Boot
+* Spring Data JPA + Hibernate
+* PostgreSQL
+* Jakarta Bean Validation
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+27/09/2026",Done,phucngo1707@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: feature,owner: phuc,priority: high,status: in-progress"
+108,Story,[Backend] BE-11: Xây dựng Audit Log,"## 🎯 Mục tiêu
+
+Xây dựng cơ chế ghi nhật ký thao tác người dùng để lưu vết các thay đổi quan trọng trong hệ thống.
+
+## 📋 Checklist công việc
+
+* [x] Tạo Entity và Repository cho Audit Log
+* [x] Ghi nhận các thao tác POST, PATCH, DELETE
+* [x] Lưu User, Action, Entity, Entity ID và thời gian
+* [x] Lưu IP và User-Agent
+* [x] Lưu thông tin trước và sau khi thay đổi
+* [x] Xây dựng API `GET /api/v1/audit-logs` cho Admin
+* [x] Kiểm tra Audit Log được lưu vào Database
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Module Audit Log trong `backend/`
+* [x] Audit Log tự động ghi nhận thao tác
+* [x] API tra cứu Audit Log hoạt động
+* [x] Phân quyền Admin hoạt động
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21
+* Spring Boot
+* Spring Data JPA + Hibernate
+* Spring Security
+* PostgreSQL
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+27/09/2026",Done,phucngo1707@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: feature,owner: phuc,priority: medium,status: in-progress"
+109,Story,[Backend] BE-12: Phát triển Module Venues,"## 🎯 Mục tiêu
+
+Phát triển Module Venues quản lý sảnh tiệc, sức chứa, đơn giá và trạng thái.
+
+## 📋 Checklist công việc
+
+* [x] Tạo Entity, Repository và DTO Venue
+* [x] Xây dựng API CRUD Venue
+* [x] Quản lý sức chứa và đơn giá sảnh
+* [x] Quản lý trạng thái sảnh, bao gồm trạng thái Bảo trì
+* [x] Phân quyền Admin cho thao tác thêm và xóa
+* [x] Xóa mềm và kiểm tra sảnh đang có hợp đồng
+* [x] Tích hợp Swagger API
+* [x] Kiểm tra API bằng Postman
+
+## 📦 Kết quả cần giao nộp
+
+* [x] Module Venues hoàn chỉnh
+* [x] CRUD và quản lý trạng thái hoạt động
+* [x] Xóa mềm hoạt động đúng
+* [x] Phân quyền Admin hoạt động
+* [x] Swagger API được cập nhật
+* [x] Pull Request vào `develop`
+
+## 🛠 Tech Stack
+
+* Java 21
+* Spring Boot
+* Spring Data JPA + Hibernate
+* Spring Security
+* PostgreSQL
+* Springdoc OpenAPI
+* Maven
+
+## 👤 Owner
+
+Phúc – Backend/DevOps
+
+## 📅 Deadline
+
+04/10/2026",Done,phucngo1707@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: feature,owner: phuc,priority: high"
+110,Story,[Backend] BE-13: Xây dựng Thuật toán kiểm tra xung đột trùng lịch sảnh tiệc (Booking Conflict Checker),"### 🎯 Mục tiêu
+Xây dựng Thuật toán kiểm tra xung đột trùng lịch sảnh tiệc (Booking Conflict Checker Engine) - Nghiệp vụ trọng tâm.
+
+### 📋 Checklist công việc
+- [x] Thiết kế logic kiểm tra giao thoa thời gian: Hai tiệc tại cùng 1 sảnh sẽ xung đột nếu: `(StartA < EndB) AND (EndA > StartB)`.
+- [x] Bổ sung thời gian đệm (Buffer Time 60 phút) giữa 2 ca tiệc để phục vụ dọn dẹp và chuẩn bị sảnh.
+- [x] Xây dựng hàm `checkVenueAvailability(venueId, eventDate, shift, startTime, endTime)` sử dụng Spring Data JPA Query / JPQL tối ưu.
+- [x] Ném ngoại lệ `ConflictException` (HTTP 409) kèm thông tin chi tiết về tiệc đã đặt đè nếu có xung đột.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn: `backend/src/events/services/conflict-checker.service.java`.
+- Bộ Unit Test `conflict-checker.spec.java` kiểm thử đầy đủ các trường hợp biên.
+
+**Deadline:** 04/10/2026",Done,phucngo1707@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: feature,owner: phuc,priority: high"
+111,Story,[Backend] BE-14: Phát triển API Tra cứu tình trạng sảnh trống theo khung ngày và buổi tiệc,"### 🎯 Mục tiêu
+Phát triển API Tra cứu tình trạng sảnh trống theo khung ngày và buổi tiệc phục vụ chức năng Calendar.
+
+### 📋 Checklist công việc
+- [x] Viết API `GET /api/venues/available`: Nhận query params `date` (YYYY-MM-DD) và `shift` (LUNCH/DINNER).
+- [x] Truy vấn danh sách các sảnh tiệc chưa có lịch đặt hợp lệ trong khung thời gian yêu cầu.
+- [x] Viết API `GET /api/events/calendar`: Trả về toàn bộ các sự kiện tiệc cưới trong tháng phục vụ hiển thị lịch FullCalendar.
+- [x] Định dạng dữ liệu trả về chuẩn FullCalendar Event Object: `{ id, title, start, end, backgroundColor, extendedProps }`.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn endpoint trong `VenuesController` và `EventsController`.
+- Bàn giao API cho Nhân tích hợp lên giao diện Calendar.
+
+**Deadline:** 04/10/2026",Done,phucngo1707@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: feature,owner: phuc,priority: high"
+112,Story,[Backend] BE-15: Tích hợp API Đăng nhập và Khách hàng cho bản Demo giữa kỳ 50%,"### 🎯 Mục tiêu
+Tích hợp và kiểm thử API Đăng nhập và Khách hàng cho bản Demo giữa kỳ 50%.
+
+### 📋 Checklist công việc
+- [x] Phối hợp với Frontend Nhân kiểm thử luồng gọi API thực tế qua mạng nội bộ.
+- [x] Cấu hình CORS trong `cấu hình Spring (SecurityConfig / WebMvcConfigurer)` cho phép origin `http://localhost:3000` truy cập API.
+- [x] Nạp 10 khách hàng mẫu và 5 sảnh tiệc vào cơ sở dữ liệu.
+- [x] Chạy thử kịch bản Demo giữa kỳ trơn tru, không phát sinh lỗi 500.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Bản build backend chạy ổn định trên nhánh `develop`.
+- Xác nhận nghiệm thu nội bộ cùng PM Hoàng trước buổi báo cáo.
+
+**Deadline:** 04/10/2026",Done,phucngo1707@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: feature,owner: phuc,priority: high"
+113,Story,[Backend] BE-16: Phát triển Module Dishes & Menu: API Quản lý món ăn và danh mục thực đơn,"### 🎯 Mục tiêu
+
+Phát triển Module Dishes & Menu: API Quản lý danh mục món ăn và bộ thực đơn tiệc cưới.
+
+
+
+### 📋 Checklist công việc
+
+- [x] Tạo bảng `dishes` và bảng trung gian `menu_dishes` trong JPA Entity.
+
+- [x] Viết API `GET /api/dishes`: Lấy danh sách món ăn, hỗ trợ lọc theo thể loại (Khai vị, Món chính, Tráng miệng, Đồ uống).
+
+- [x] Viết API `POST /api/menus`: Tạo set menu mẫu mới kèm danh sách mã món ăn và đơn giá tính trên 1 bàn (Table Price).
+
+- [x] Viết API `GET /api/menus/:id`: Xem chi tiết các món ăn có trong một set menu.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn: `backend/src/dishes/` và `backend/src/menus/`.
+
+- Kiểm tra các endpoint hoạt động chính xác trên Postman.
+
+
+
+**Deadline:** 11/10/2026",Done,phucngo1707@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: feature,owner: phuc,priority: high"
+114,Story,[Backend] BE-17: Phát triển Module Services: API Quản lý danh mục gói dịch vụ tiệc cưới,"### 🎯 Mục tiêu
+Phát triển Module Services: API Quản lý danh mục các gói dịch vụ gia tăng tiệc cưới.
+
+### 📋 Checklist công việc
+- [x] Tạo bảng `services` (MC, Ban nhạc, Hoa tươi, Tháp rượu, Pháo kim tuyến) kèm đơn giá và đơn vị tính.
+- [x] Viết API `GET /api/services`: Lấy danh sách dịch vụ đang hoạt động phục vụ màn hình chọn dịch vụ.
+- [x] Viết API `POST /api/services`: Thêm mới gói dịch vụ tùy chọn.
+- [x] Viết API `PATCH /api/services/:id`: Cập nhật đơn giá hoặc trạng thái tạm ngừng cung cấp dịch vụ.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn: `backend/src/services-catalog/`.
+- Tích hợp API với màn hình chọn dịch vụ của Frontend.
+
+**Deadline:** 11/10/2026",Done,phucngo1707@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: feature,owner: phuc,priority: high"
+115,Story,"[Backend] BE-18: Phát triển Module Contracts: API Tạo đơn đặt tiệc, tính chi phí và chiết khấu","### 🎯 Mục tiêu
+Phát triển Module Contracts: API Tạo đơn đặt tiệc, tính toán tổng chi phí và sinh mã hợp đồng tự động.
+
+### 📋 Checklist công việc
+- [x] Viết DTO `CreateContractDto` nhận: customerId, venueId, eventDate, shift, menus: [{menuId, tableCount}], serviceIds, discountPercent.
+- [x] Tự động tính toán chi phí (dùng BigDecimal): Menu Amount = Σ(Menu Price × Table Count); Service Amount = Σ(Service Price × Qty); SubTotal = Menu Amount + Service Amount; Discount = SubTotal × Discount%; Taxable = SubTotal - Discount; VAT = Taxable × VAT%; Total = Taxable + VAT; Deposit = Total × 30%.
+- [x] Tính toán bàn sơ cua: Bàn sơ cua = FLOOR(Tổng số bàn đặt / 10). Bàn sơ cua tuyệt đối không tính tiền lúc lập báo giá/hợp đồng.
+- [x] Phân luồng phê duyệt: Nếu discountPercent > 10%, trạng thái khởi tạo phải là PENDING_APPROVAL.
+- [x] Tự động sinh mã hợp đồng duy nhất theo quy tắc: `HD-YYYYMMDD-STT` (VD: `HD-20261010-001`).
+- [x] Trước khi tạo hợp đồng, gọi Conflict Checker để khóa giữ sảnh tiệc tức thì.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn: `backend/src/contracts/` controller và service.
+- Kiểm tra tính toán tiền chính xác tuyệt đối không bị lỗi làm tròn số.
+
+**Deadline:** 11/10/2026",Done,phucngo1707@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: feature,owner: phuc,priority: high"
+116,Story,[Backend] BE-19: Xây dựng State Machine quản lý vòng đời hợp đồng (Draft -> Confirmed -> Completed),"### 🎯 Mục tiêu
+
+Xây dựng State Machine quản lý nghiêm ngặt vòng đời của Hợp đồng tiệc cưới (Contract Lifecycle).
+
+
+
+### 📋 Checklist công việc
+
+- [x] Định nghĩa enum ContractStatus: `DRAFT` (Bản thảo) -> `PENDING_APPROVAL` (Chờ duyệt chiết khấu >10%) -> `PENDING_DEPOSIT` (Chờ cọc) -> `CONFIRMED` (Đã cọc) -> `IN_PROGRESS` (Đang tổ chức) -> `COMPLETED` (Đã thanh lý) -> `CANCELLED` (Đã hủy).
+
+- [x] Viết logic kiểm tra điều kiện chuyển trạng thái: Chỉ được chuyển sang `CONFIRMED` khi số tiền cọc (depositAmount) đạt đúng 30% tổng giá trị (Total Amount).
+
+- [x] Chặn cập nhật thực đơn hoặc số bàn đối với hợp đồng đã ở trạng thái `COMPLETED` hoặc `CANCELLED`.
+
+- [x] Tự động giải phóng sảnh tiệc khi hợp đồng bị chuyển sang trạng thái `CANCELLED`.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn: `backend/src/contracts/contract-state-machine.java`.
+
+- Viết unit test kiểm thử các bước chuyển trạng thái hợp lệ và bất hợp lệ.
+
+
+
+**Deadline:** 11/10/2026",Done,phucngo1707@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: feature,owner: phuc,priority: high"
+117,Story,[Backend] BE-20: Phát triển Module Payments: API Ghi nhận tiền đặt cọc đợt 1 và thanh toán đợt 2,"### 🎯 Mục tiêu
+Phát triển Module Payments: API Ghi nhận đặt cọc đợt 1 và quyết toán đợt 2 của hợp đồng.
+
+### 📋 Checklist công việc
+- [x] Tạo bảng `payments`: contractId, amount, paymentDate, paymentMethod (CASH, BANK_TRANSFER, POS), paymentType (DEPOSIT, FINAL), notes.
+- [x] Viết API `POST /api/payments`: Ghi nhận giao dịch nộp tiền, tự động cập nhật số tiền đã trả và công nợ còn lại trong bảng contracts. Lưu ý: Phải phân biệt rõ ràng contract.depositAmount (số tiền cọc cần đóng) với payment records (các giao dịch thực tế).
+- [x] Viết API `GET /api/contracts/:id/payments`: Lấy lịch sử toàn bộ các lần thanh toán của một hợp đồng.
+- [x] Chặn ghi nhận thanh toán vượt quá tổng giá trị hợp đồng cần thu.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn: `backend/src/payments/` controller và service.
+- Kiểm tra đồng bộ số dư công nợ sau mỗi lần nạp tiền.
+
+**Deadline:** 11/10/2026",Done,phucngo1707@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: feature,owner: phuc,priority: high"
+118,Story,[Backend] BE-21: Xây dựng Database Transaction đảm bảo tính nguyên tử khi tạo Hợp đồng & Cọc,"### 🎯 Mục tiêu
+
+Xây dựng Database Transaction đảm bảo tính toàn vẹn (ACID) khi đồng thời tạo Hợp đồng, giữ sảnh và thu cọc.
+
+
+
+### 📋 Checklist công việc
+
+- [x] Sử dụng tính năng `@Transactional (Spring)` để bọc toàn bộ thao tác tạo hợp đồng và cập nhật trạng thái sảnh.
+
+- [x] Áp dụng cơ chế khóa dữ liệu (Pessimistic Lock / Serialized Transaction) để chống tình trạng Race Condition khi 2 tư vấn viên cùng bấm giữ sảnh cùng 1 giây.
+
+- [x] Nếu có bất kỳ bước nào thất bại (VD: lỗi thanh toán), tự động Rollback toàn bộ dữ liệu về trạng thái ban đầu.
+
+- [x] Ghi log chi tiết các trường hợp giao dịch bị Rollback để theo dõi.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn xử lý Transaction trong `ContractsService.createContractWithTransaction()`.
+
+- Viết kịch bản test giả lập 2 request đồng thời để kiểm tra tính toàn vẹn.
+
+
+
+**Deadline:** 11/10/2026",Done,phucngo1707@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: feature,owner: phuc,priority: high"
+119,Story,[Backend] BE-22: Phát triển Module Dashboard: Viết câu lệnh tổng hợp thống kê doanh thu theo tháng,"### 🎯 Mục tiêu
+
+Phát triển Module Dashboard: Viết câu truy vấn tổng hợp thống kê doanh thu và chỉ số vận hành.
+
+
+
+### 📋 Checklist công việc
+
+- [ ] Viết API `GET /api/dashboard/stats`: Thống kê tổng doanh thu tháng hiện tại, tỷ lệ tăng trưởng so với tháng trước.
+
+- [ ] Viết câu lệnh SQL Group By tổng hợp doanh thu theo từng tháng trong năm để phục vụ biểu đồ cột.
+
+- [ ] Thống kê số lượng hợp đồng theo từng trạng thái (Đã cọc, Đang tiệc, Đã thanh lý, Đã hủy).
+
+- [ ] Tối ưu hóa query database sử dụng câu lệnh Raw Query hoặc Spring Data JPA Aggregate để tăng tốc độ phản hồi < 500ms.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn: `backend/src/dashboard/` controller và service.
+
+- Tích hợp API số liệu Dashboard cho Frontend Nhân.
+
+
+
+**Deadline:** 18/10/2026",To Do,phucngo1707@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: feature,owner: phuc,priority: high"
+120,Story,[Backend] BE-23: Phát triển API Báo cáo: Thống kê số lượng tiệc cưới và tỷ lệ lấp đầy sảnh,"### 🎯 Mục tiêu
+Phát triển API Báo cáo: Thống kê tần suất sử dụng và tỷ lệ lấp đầy của từng sảnh tiệc.
+
+### 📋 Checklist công việc
+- [ ] Viết API `GET /api/reports/venue-occupancy`: Nhận khoảng thời gian từ ngày... đến ngày...
+- [ ] Tính tỷ lệ lấp đầy sảnh: $Occupancy = (Số ca tiệc thực tế / Tổng số ca tiệc khả dụng trong tháng) \times 100\%$.
+- [ ] Xếp hạng các sảnh tiệc mang lại doanh thu cao nhất cho trung tâm.
+- [ ] Cung cấp số liệu để Ban Giám đốc đưa ra chính sách điều chỉnh giá thuê sảnh mùa thấp điểm.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Mã nguồn endpoint trong `ReportsController`.
+- Xuất tài liệu mô tả công thức tính toán vào comment issue.
+
+**Deadline:** 18/10/2026",To Do,phucngo1707@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: feature,owner: phuc,priority: high"
+121,Story,[Backend] BE-24: Xây dựng Service xuất báo cáo thống kê danh sách sự kiện ra file Excel (ExcelJS),"### 🎯 Mục tiêu
+
+
+Xây dựng Service xuất báo cáo danh sách tiệc cưới và doanh thu ra file Excel chuẩn định dạng bằng Apache POI.
+
+
+
+
+
+### 📋 Checklist công việc
+
+
+- [ ] Cài đặt thư viện `Apache POI` trong dự án Spring Boot.
+
+
+- [ ] Tạo Service định dạng file Excel chuyên nghiệp: Thêm tiêu đề công ty, định dạng màu sắc header, kẻ khung viền (Borders).
+
+
+- [ ] Thêm cột công thức tính tổng tiền tự động trong Excel: `=SUM(G5:G20)`.
+
+
+- [ ] Trả về file dưới dạng Stream kèm Header HTTP: `Content-Disposition: attachment; filename=BaoCao_DoanhThu.xlsx`.
+
+
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+
+- Mã nguồn: `backend/src/reports/excel-export.service.java`.
+
+
+- Tải thử nghiệm file Excel và mở kiểm tra trên Microsoft Excel.
+
+
+
+
+
+**Deadline:** 18/10/2026",To Do,phucngo1707@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: feature,owner: phuc,priority: medium"
+122,Story,[Backend] BE-25: Xây dựng Service xuất dữ liệu hợp đồng tiệc cưới ra định dạng PDF,"### 🎯 Mục tiêu
+
+Xây dựng Service xuất dữ liệu hợp đồng tiệc cưới và phiếu thu ra file PDF bằng PDFKit / Puppeteer.
+
+
+
+### 📋 Checklist công việc
+
+- [ ] Cài đặt thư viện `pdfmake` hoặc `puppeteer` để chuyển đổi HTML template thành file PDF.
+
+- [ ] Thiết kế mẫu PDF chuẩn văn bản pháp lý: Logo trung tâm, hoa văn trang trí, bảng kê chi phí, điều khoản hợp đồng.
+
+- [ ] Hỗ trợ gõ tiếng Việt có dấu hoàn hảo không bị lỗi font chữ (sử dụng font Roboto / Times New Roman nhúng base64).
+
+- [ ] Viết API `GET /api/contracts/:id/pdf`: Tải file hợp đồng PDF về máy.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn: `backend/src/reports/pdf-export.service.java`.
+
+- File mẫu PDF xuất ra lưu tại `docs/design/sample-contract.pdf`.
+
+
+
+**Deadline:** 18/10/2026",To Do,phucngo1707@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: feature,owner: phuc,priority: medium"
+123,Story,[Backend] BE-26: Tích hợp dịch vụ gửi Email thông báo tự động khi khách ký hợp đồng/đặt cọc,"### 🎯 Mục tiêu
+
+Tích hợp dịch vụ gửi Email thông báo tự động (Notification Service) khi khách ký hợp đồng hoặc nộp cọc.
+
+
+
+### 📋 Checklist công việc
+
+- [ ] Cài đặt thư viện `@Spring Boot-modules/mailer` và `nodemailer`.
+
+- [ ] Cấu hình SMTP Gmail hoặc SendGrid trong file `.env`.
+
+- [ ] Thiết kế template email HTML đẹp mắt: Thư cảm ơn khách hàng, thông tin ngày giờ tiệc cưới và mã hợp đồng.
+
+- [ ] Tự động đính kèm file hợp đồng PDF vào email khi nhân viên bấm 'Gửi hợp đồng cho khách'.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn: `backend/src/mail/` controller, service và template HTML.
+
+- Chụp ảnh hộp thư email nhận được thư xác nhận thực tế dán vào issue.
+
+
+
+**Deadline:** 18/10/2026",To Do,phucngo1707@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: feature,owner: phuc,priority: high"
+124,Task,"[Backend] BE-27: Thiết lập GitHub Actions Workflow: Tự động chạy Lint, Build và Unit Test (CI)","### 🎯 Mục tiêu
+
+
+Thiết lập GitHub Actions CI Pipeline tự động chạy Lint, Build và Unit Test mỗi khi có Pull Request.
+
+
+
+
+
+### 📋 Checklist công việc
+
+
+- [ ] Tạo file workflow `.github/workflows/backend-ci.yml` kích hoạt khi có Push hoặc PR vào nhánh `develop`.
+
+
+- [ ] Thiết lập môi trường Ubuntu, cài đặt Java 20, cache dependencies để tăng tốc độ chạy.
+
+
+- [ ] Chạy các bước kiểm tra tự động: `Maven run lint` -> `mvn clean install` -> `Maven run test` -> `Maven run build`.
+
+
+- [ ] Chặn việc merge Pull Request nếu Pipeline CI bị báo đỏ (Fail).
+
+
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+
+- File cấu hình `.github/workflows/backend-ci.yml`.
+
+
+- Badge trạng thái CI xanh mướt hiển thị trên file `README.md` của repo.
+
+
+
+
+
+**Deadline:** 18/10/2026",To Do,phucngo1707@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: chore,owner: phuc,priority: high"
+125,Story,[Backend] BE-28: Tối ưu hóa hiệu năng cơ sở dữ liệu: Đánh chỉ mục Index cho các trường tra cứu,"### 🎯 Mục tiêu
+
+
+Tối ưu hóa hiệu năng cơ sở dữ liệu: Đánh chỉ mục Index cho các trường tra cứu thường xuyên.
+
+
+
+
+
+### 📋 Checklist công việc
+
+
+- [ ] Phân tích các câu truy vấn chậm (Slow Queries) bằng lệnh `EXPLAIN ANALYZE` trong PostgreSQL.
+
+
+- [ ] Thêm Index trong `Flyway migration scripts` cho các cột: `customer_phone`, `event_date`, `contract_status`, `venue_id`.
+
+
+- [ ] Thêm Composite Index `[venueId, eventDate]` để tối ưu hóa tốc độ của hàm Conflict Checker.
+
+
+- [ ] Chạy migration bổ sung index và đo lường thời gian truy vấn giảm từ >200ms xuống <30ms.
+
+
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+
+- File migration Spring Data JPA bổ sung Index và file `Flyway migration scripts` cập nhật.
+
+
+- Báo cáo kết quả đo thời gian phản hồi trước và sau khi đánh index.
+
+
+
+
+
+**Deadline:** 25/10/2026",To Do,phucngo1707@gmail.com,Tuần 7 — UAT & Deploy,2026-10-25,"type: feature,owner: phuc,priority: medium"
+126,Task,"[Backend] BE-29: Cấu hình CORS, Rate Limiting và bảo mật Header với Helmet","### 🎯 Mục tiêu
+
+
+Cấu hình Bảo mật Backend: Chống tấn công Brute-force với Rate Limiting và bảo vệ HTTP Header bằng Spring Security Headers.
+
+
+
+
+
+### 📋 Checklist công việc
+
+
+- [ ] Cài đặt thư viện `@Spring Boot/throttler` cấu hình giới hạn số lượng request (VD: Tối đa 100 req/phút, riêng route Login tối đa 5 req/phút).
+
+
+- [ ] Cài đặt thư viện `Spring Security Headers` để che giấu thông tin công nghệ (ẩn header X-Powered-By) và chống tấn công XSS, Clickjacking.
+
+
+- [ ] Cấu hình CORS nghiêm ngặt: Chỉ chấp nhận request từ domain chính thức của Frontend.
+
+
+- [ ] Chặn các chuỗi ký tự tấn công SQL Injection thông qua việc sử dụng tham số hóa của Spring Data Spring Data JPA.
+
+
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+
+- Mã nguồn cấu hình bảo mật trong `backend/src/app.module.java` và `cấu hình Spring (SecurityConfig / WebMvcConfigurer)`.
+
+
+- Kiểm tra thử nghiệm gửi request dồn dập và nhận mã lỗi HTTP 429 Too Many Requests.
+
+
+
+
+
+**Deadline:** 25/10/2026",To Do,phucngo1707@gmail.com,Tuần 7 — UAT & Deploy,2026-10-25,"type: chore,owner: phuc,priority: high"
+127,Task,[Backend] BE-30: Triển khai Backend API lên môi trường Staging/Cloud phục vụ kiểm thử UAT,"### 🎯 Mục tiêu
+
+
+Triển khai Backend API và Database PostgreSQL lên hạ tầng Cloud (Render / Railway / VPS) phục vụ kiểm thử UAT.
+
+
+
+
+
+### 📋 Checklist công việc
+
+
+- [ ] Tạo cơ sở dữ liệu PostgreSQL Managed Database trên Cloud (Supabase hoặc Neon).
+
+
+- [ ] Chạy lệnh `mvn flyway:migrate` để đồng bộ toàn bộ cấu trúc bảng lên database cloud.
+
+
+- [ ] Nạp dữ liệu mẫu (Seed Data) lên môi trường cloud bằng lệnh `Java/Spring Data seeding (hoặc Flyway callbacks)`.
+
+
+- [ ] Deploy ứng dụng Spring Boot lên Render/Railway, cấu hình đầy đủ các biến môi trường Production.
+
+
+- [ ] Kiểm tra endpoint Health Check `GET /api/health` trả về `{ status: 'ok' }` với tên miền HTTPS công khai.
+
+
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+
+- Đường link API Staging công khai (VD: `https://evmanager-api.onrender.com/api`).
+
+
+- Bàn giao link API cho Frontend và QA kiểm thử UAT.
+
+
+
+
+
+**Deadline:** 25/10/2026",To Do,phucngo1707@gmail.com,Tuần 7 — UAT & Deploy,2026-10-25,"type: chore,owner: phuc,priority: high"
+128,Bug,[Backend] BE-31: Sửa các lỗi backend do QA ghi nhận trong Defect Log,"### 🎯 Mục tiêu
+Sửa các lỗi logic Backend do đội ngũ QA ghi nhận trong Defect Log trong đợt kiểm thử tích hợp.
+
+### 📋 Checklist công việc
+- [ ] Sửa lỗi BUG-01: Chuẩn hóa username/email về chữ thường (lowercase) trước khi đối chiếu đăng nhập.
+- [ ] Sửa lỗi BUG-02: Đồng bộ múi giờ UTC+7 cho các trường DateTime để tránh lệch ngày đặt tiệc.
+- [ ] Sửa lỗi BUG-03: Sửa lại công thức tính chiết khấu kép trong Service tính tiền hợp đồng.
+- [ ] Sửa lỗi BUG-04: Bổ sung Transaction lock ngăn chặn đặt trùng sảnh khi có 2 request đồng thời.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Các commit sửa bug trên nhánh `feature/backend-core`.
+- Gửi tag QA Hậu vào re-test và đóng các ticket bug tương ứng.
+
+**Deadline:** 25/10/2026",To Do,phucngo1707@gmail.com,Tuần 7 — UAT & Deploy,2026-10-25,"type: bug,owner: phuc,priority: high"
+129,Task,[Backend] BE-32: Tích hợp Swagger / OpenAPI Spec tự động sinh tài liệu API đầy đủ,"### 🎯 Mục tiêu
+
+Tích hợp tài liệu Swagger / OpenAPI Spec tự động và tương tác trực tiếp trên trình duyệt.
+
+
+
+### 📋 Checklist công việc
+
+- [ ] Cài đặt thư viện `@Spring Boot/swagger` và `swagger-ui-Spring Web`.
+
+- [ ] Gắn các decorator `@ApiTags()`, `@ApiOperation()`, `@ApiResponse()`, `@ApiBearerAuth()` cho toàn bộ controllers.
+
+- [ ] Gắn `@ApiProperty()` mô tả kiểu dữ liệu, ví dụ mẫu và tính bắt buộc cho toàn bộ DTOs.
+
+- [ ] Xuất bản tài liệu tương tác tại đường dẫn `/api/docs` cho phép gửi request test trực tiếp trên web.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Giao diện Swagger UI hoạt động hoàn hảo tại `/api/docs`.
+
+- Xuất file `swagger-spec.json` lưu tại `docs/design/openapi-spec.json`.
+
+
+
+**Deadline:** 01/11/2026",To Do,phucngo1707@gmail.com,Tuần 8 — Bảo vệ & Đóng dự án,2026-11-01,"type: docs,owner: phuc,priority: high"
+130,Task,[Backend] BE-33: Thiết lập kịch bản sao lưu và phục hồi dữ liệu tự động (Backup & Restore),"### 🎯 Mục tiêu
+Thiết lập kịch bản sao lưu và phục hồi dữ liệu tự động (Database Backup & Restore Script) phòng ngừa rủi ro.
+
+### 📋 Checklist công việc
+- [ ] Viết script bash `backup.sh` sử dụng tiện ích `pg_dump` để xuất dữ liệu ra file `.sql.gz` có gắn timestamp.
+- [ ] Viết script phục hồi `restore.sh` cho phép khôi phục lại dữ liệu nguyên vẹn khi xảy ra sự cố hỏng hóc CSDL.
+- [ ] Kiểm tra thực tế: Tạo dữ liệu rác -> Chạy lệnh restore -> Xác nhận dữ liệu phục hồi chính xác 100%.
+- [ ] Soạn thảo quy trình sao lưu định kỳ lưu trữ vào hồ sơ vận hành dự án.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Bộ script: `backend/scripts/backup.sh` và `restore.sh`.
+- Tài liệu hướng dẫn khôi phục dữ liệu `docs/planning/backup-restore-guide.md`.
+
+**Deadline:** 01/11/2026",To Do,phucngo1707@gmail.com,Tuần 8 — Bảo vệ & Đóng dự án,2026-11-01,"type: chore,owner: phuc,priority: medium"
+131,Task,"[Backend] BE-34: Bàn giao toàn bộ mã nguồn Backend, cấu hình môi trường và tài liệu API","### 🎯 Mục tiêu
+
+Hoàn thiện tài liệu bàn giao kỹ thuật Backend, đóng gói mã nguồn và bàn giao trọn vẹn cho PM nghiệm thu.
+
+
+
+### 📋 Checklist công việc
+
+- [ ] Viết tài liệu `backend/README.md` chi tiết: Yêu cầu môi trường (Java 20+, Docker), các bước cài đặt và chạy migrate.
+
+- [ ] Dọn dẹp mã nguồn: Xóa các route thử nghiệm, xóa file log rác và tối ưu hóa file `pom.xml`.
+
+- [ ] Tạo Pull Request cuối cùng merge toàn bộ code Backend vào nhánh `develop`.
+
+- [ ] Bàn giao thông tin tài khoản Cloud và cơ sở dữ liệu cho PM Hoàng đóng dự án.
+
+
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+
+- Mã nguồn Backend hoàn chỉnh trên nhánh `develop`.
+
+- Tài liệu bàn giao kỹ thuật `docs/design/backend-handover.md`.
+
+
+
+**Deadline:** 01/11/2026",To Do,phucngo1707@gmail.com,Tuần 8 — Bảo vệ & Đóng dự án,2026-11-01,"type: docs,owner: phuc,priority: high"
+132,Task,[DB/QA] QA-01: Khảo sát danh mục các thực thể dữ liệu cần quản lý trong hệ thống tiệc cưới,"### 🎯 Mục tiêu
+Khảo sát danh mục các thực thể dữ liệu cần quản lý trong hệ thống tiệc cưới EVManager theo chuẩn đồ án mức Khá.
+
+### 📋 Checklist công việc
+- [x] Nghiên cứu yêu cầu nghiệp vụ của BA và đối chiếu tiêu chuẩn đồ án mức Khá (cần có từ 8 - 12 bảng).
+- [x] Liệt kê danh sách 10 thực thể cốt lõi: Users, Roles, Customers, Venues, Dishes, Menus, Services, Events, Contracts, Payments, AuditLogs.
+- [x] Xác định các thuộc tính đặc trưng của từng thực thể (VD: Venues có sức chứa tối thiểu, tối đa, giá thuê).
+- [x] Tổng hợp danh mục thực thể vào tài liệu phân tích dữ liệu ban đầu.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu danh mục thực thể `docs/design/database-entities-survey.md`.
+- Dán danh sách 10 bảng vào comment issue để Phúc (BE) review.
+
+**Deadline:** 13/09/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hau,priority: high"
+133,Task,[DB/QA] QA-02: Thiết kế sơ đồ thực thể mối quan hệ mức ý niệm (Conceptual ERD),"### 🎯 Mục tiêu
+Thiết kế Sơ đồ thực thể mối quan hệ mức ý niệm (Conceptual ERD) mô tả tổng quan liên kết giữa các thực thể.
+
+### 📋 Checklist công việc
+- [x] Xác định các mối quan hệ: Một Khách hàng có Nhiều Hợp đồng (1-N), Một Sảnh tiệc có Nhiều Sự kiện (1-N).
+- [x] Xác định quan hệ Nhiều-Nhiều (N-N): Một Thực đơn có Nhiều Món ăn và Một Món ăn thuộc Nhiều Thực đơn.
+- [x] Xác định thực thể yếu và bảng liên kết trung gian (ContractServices, MenuDishes).
+- [x] Vẽ sơ đồ ý niệm bằng công cụ Draw.io hoặc dbdiagram.io.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Ảnh chụp sơ đồ Conceptual ERD `docs/design/erd-conceptual.png`.
+- Dán sơ đồ vào tài liệu thiết kế CSDL của nhóm.
+
+**Deadline:** 13/09/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 1 — Khởi động & Scope,2026-09-13,"type: docs,owner: hau,priority: high"
+134,Task,[DB/QA] QA-03: Thiết kế sơ đồ ERD mức logic gồm 10 bảng dữ liệu chuẩn hóa 3NF,"### 🎯 Mục tiêu
+Thiết kế Sơ đồ quan hệ thực thể mức logic (Logical ERD) gồm 10 bảng dữ liệu đạt chuẩn hóa 3NF.
+
+### 📋 Checklist công việc
+- [x] Chuẩn hóa dữ liệu đạt dạng chuẩn 1NF: Loại bỏ các nhóm lặp thuộc tính.
+- [x] Chuẩn hóa đạt dạng chuẩn 2NF: Loại bỏ các phụ thuộc hàm một phần vào khóa chính.
+- [x] Chuẩn hóa đạt dạng chuẩn 3NF: Loại bỏ các phụ thuộc hàm bắc cầu để tránh dư thừa dữ liệu.
+- [x] Xác định rõ ràng Khóa chính (PK), Khóa ngoại (FK) và quy tắc toàn vẹn tham chiếu (CASCADE / RESTRICT).
+- [x] Vẽ sơ đồ hoàn chỉnh bằng công cụ dbdiagram.io.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Ảnh sơ đồ chi tiết `docs/design/erd-logical-3nf.png` và mã nguồn DBML.
+- Dán ảnh ERD vào comment issue này để Phúc (BE) review trước khi viết code schema.
+
+**Deadline:** 20/09/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hau,priority: high"
+135,Task,"[DB/QA] QA-04: Soạn thảo Từ điển dữ liệu (Data Dictionary): Định nghĩa khóa chính, khóa ngoại, kiểu dữ liệu","### 🎯 Mục tiêu
+Soạn thảo Từ điển dữ liệu (Data Dictionary) chi tiết mô tả định dạng từng trường trong 10 bảng cơ sở dữ liệu.
+
+### 📋 Checklist công việc
+- [x] Lập bảng mô tả chi tiết cho từng bảng: Tên cột (Column Name), Kiểu dữ liệu (Data Type: UUID, VARCHAR, INT, DECIMAL, TIMESTAMP).
+- [x] Quy định ràng buộc (Constraints): NOT NULL, UNIQUE, DEFAULT, CHECK constraint.
+- [x] Qhi chú giải thích ý nghĩa nghiệp vụ của từng trường (VD: `deposit_amount`: Số tiền đặt cọc tối thiểu 30%).
+- [x] Quy định chuẩn đặt tên cột theo quy tắc `snake_case` đồng bộ.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu `docs/design/data-dictionary.md` đầy đủ 10 bảng biểu.
+- Bàn giao cho Backend để tạo file `schema.prisma`.
+
+**Deadline:** 20/09/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hau,priority: high"
+136,Task,[DB/QA] QA-05: Lập Kế hoạch kiểm thử tổng thể (Master Test Plan) và ma trận bao phủ kiểm thử,"### 🎯 Mục tiêu
+Lập Kế hoạch kiểm thử tổng thể (Master Test Plan) và xây dựng ma trận bao phủ kiểm thử theo chuẩn PMBOK.
+
+### 📋 Checklist công việc
+- [x] Xác định mục tiêu chất lượng: 100% chức năng Must-have pass, tỷ lệ pass tổng thể $\ge 90\%$, không còn lỗi nghiêm trọng.
+- [x] Xác định phạm vi kiểm thử: Kiểm thử đơn vị (Unit Test), Kiểm thử chức năng (Functional), Kiểm thử tích hợp (Integration), Kiểm thử giao diện (UI).
+- [x] Quy định môi trường kiểm thử (Test Environment), dữ liệu test và công cụ quản lý lỗi (GitHub Issues).
+- [x] Lập lịch trình kiểm thử qua 3 đợt tương ứng với các cột mốc dự án.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu kế hoạch kiểm thử `docs/testing/master-test-plan.md`.
+- PM Hoàng nghiệm thu và phê duyệt kế hoạch test.
+
+**Deadline:** 20/09/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hau,priority: high"
+137,Task,[DB/QA] QA-06: Soạn thảo danh mục 35+ Test Cases chi tiết kiểm thử chức năng lõi,"### 🎯 Mục tiêu
+Soạn thảo danh mục 35+ Test Cases chi tiết kiểm thử các chức năng lõi của hệ thống (Đang trễ hạn).
+
+### 📋 Checklist công việc
+- [x] Soạn 6 Test Cases cho phân hệ Xác thực (Đăng nhập, Quên mật khẩu, RBAC).
+- [x] Soạn 6 Test Cases cho phân hệ Quản lý khách hàng (Thêm, Sửa, Tìm kiếm, Validate SĐT).
+- [x] Soạn 8 Test Cases cho Thuật toán kiểm tra trùng lịch sảnh tiệc (Kiểm tra các trường hợp giao thoa giờ).
+- [x] Soạn 8 Test Cases cho phân hệ Hợp đồng & Tính tiền (Đơn giá, Chiết khấu, VAT, Tiền cọc).
+- [x] Soạn 7 Test Cases cho phân hệ Thanh toán và Báo cáo doanh thu.
+- [x] Mỗi test case phải có đầy đủ: Test Case ID, Description, Pre-condition, Test Steps, Test Data, Expected Result.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Bảng tính Excel `docs/testing/EVManager_Test_Cases_v1.0.xlsx` gồm đầy đủ 35 test cases.
+- Gắn nhãn `status: delayed` và nỗ lực hoàn thiện nộp trong Tuần 3.
+
+**Deadline:** 20/09/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: docs,owner: hau,priority: high,status: delayed"
+138,Task,[DB/QA] QA-07: Viết Script Prisma Migration khởi tạo cấu trúc các bảng trên PostgreSQL,"### 🎯 Mục tiêu
+Viết Script Prisma Migration khởi tạo cấu trúc 10 bảng cơ sở dữ liệu trên PostgreSQL (Đang trễ hạn).
+
+### 📋 Checklist công việc
+- [x] Chuyển đổi sơ đồ ERD thành các model chuẩn trong tệp `backend/prisma/schema.prisma`.
+- [x] Cấu hình các mối quan hệ quan hệ `@relation`, chỉ số `@index` và giá trị mặc định `@default()`.
+- [x] Chạy lệnh `npx prisma migrate dev --name init_db` để sinh mã SQL migration đầu tiên.
+- [x] Kiểm tra cấu trúc bảng thực tế trên CSDL PostgreSQL bằng Adminer đảm bảo không có lỗi khóa ngoại.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Thư mục migration `backend/prisma/migrations/` và file `schema.prisma`.
+- Bàn giao database đã migrate cho Backend bắt đầu viết API.
+
+**Deadline:** 20/09/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 2 — Phân tích & Thiết kế,2026-09-20,"type: chore,owner: hau,priority: high,status: delayed"
+139,Task,"[DB/QA] QA-08: Xây dựng bộ dữ liệu mẫu (Seed Data) cho 5 sảnh tiệc, 30 món ăn, 5 khách hàng mẫu","### 🎯 Mục tiêu
+Xây dựng kịch bản nạp dữ liệu mẫu tự động (Seed Data Script) cho tiệc cưới và sự kiện.
+
+### 📋 Checklist công việc
+- [x] Viết tệp `backend/prisma/seed.ts` sử dụng Prisma Client để tự động chèn dữ liệu mẫu khi chạy `npx prisma db seed`.
+- [x] Nạp 4 tài khoản người dùng mẫu tương ứng 4 vai trò (admin, sales, coordinator, customer) có mật khẩu mã hóa.
+- [x] Nạp dữ liệu thực tế cho 5 sảnh tiệc, 30 món ăn đặc sản tiệc cưới, 4 gói dịch vụ âm thanh ánh sáng.
+- [x] Nạp 5 hợp đồng tiệc cưới mẫu với các trạng thái khác nhau để phục vụ phát triển giao diện.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tệp script `backend/prisma/seed.ts` chạy mượt mà không lỗi trùng khóa.
+- Chụp ảnh màn hình terminal chạy seed thành công dán vào issue.
+
+**Deadline:** 27/09/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: chore,owner: hau,priority: high,status: in-progress"
+140,Task,[DB/QA] QA-09: Thiết kế Test Cases kiểm thử phân hệ Xác thực và Phân quyền (RBAC Test Suite),"### 🎯 Mục tiêu
+Thiết kế và thực hiện Bộ Test Cases kiểm thử phân hệ Xác thực và Phân quyền người dùng (RBAC Test Suite).
+
+### 📋 Checklist công việc
+- [x] Thực hiện TC-AUTH-01: Đăng nhập thành công với tài khoản hợp lệ -> Nhận mã 200 và JWT Token.
+- [x] Thực hiện TC-AUTH-02: Đăng nhập thất bại khi sai mật khẩu -> Nhận mã lỗi 401 Unauthorized.
+- [x] Thực hiện TC-AUTH-03: Đăng nhập bằng tài khoản bị khóa -> Nhận mã lỗi 403 Forbidden.
+- [x] Thực hiện TC-RBAC-01: Tài khoản Sales cố tình gọi API xóa sảnh tiệc (Admin only) -> Bị chặn mã 403.
+- [x] Ghi nhận kết quả thực thi (Pass/Fail) vào bảng quản lý test.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Báo cáo kết quả test phân hệ Auth lưu tại `docs/testing/test-run-auth.md`.
+- Ghi nhận lỗi nếu phát hiện tài khoản truy cập trái quyền hạn.
+
+**Deadline:** 27/09/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: test,owner: hau,priority: high,status: in-progress"
+141,Task,[DB/QA] QA-10: Thiết kế Test Cases kiểm thử phân hệ Quản lý khách hàng và ràng buộc dữ liệu,"### 🎯 Mục tiêu
+Thiết kế và thực hiện Bộ Test Cases kiểm thử phân hệ Quản lý khách hàng và ràng buộc dữ liệu đầu vào.
+
+### 📋 Checklist công việc
+- [x] Thực hiện TC-CUST-01: Thêm khách hàng mới với đầy đủ thông tin hợp lệ -> Tạo thành công mã 201.
+- [x] Thực hiện TC-CUST-02: Thêm khách hàng với số điện thoại đã tồn tại -> Chặn tạo và báo lỗi 409 Conflict.
+- [x] Thực hiện TC-CUST-03: Nhập số điện thoại sai định dạng (chữ cái, ít hơn 10 số) -> Chặn lỗi 400 Bad Request.
+- [x] Thực hiện TC-CUST-04: Tìm kiếm khách hàng theo chuỗi số điện thoại 4 số cuối -> Trả về đúng bản ghi.
+- [x] Đánh giá tính tiện dụng của giao diện form khách hàng.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Báo cáo kiểm thử khách hàng lưu tại `docs/testing/test-run-customers.md`.
+- Bàn giao các góp ý cải tiến form cho Frontend Nhân.
+
+**Deadline:** 27/09/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 3 — Xây dựng lõi,2026-09-27,"type: test,owner: hau,priority: high,status: in-progress"
+142,Task,[DB/QA] QA-11: Thực hiện kiểm thử chức năng đợt 1 chuẩn bị cho buổi Demo giữa kỳ 50%,"### 🎯 Mục tiêu
+Thực hiện đợt kiểm thử chức năng đợt 1 (Functional Testing - Sprint 1) chuẩn bị cho buổi Demo giữa kỳ 50%.
+
+### 📋 Checklist công việc
+- [x] Chạy toàn bộ 15 test cases của phân hệ Auth, Khách hàng và Danh mục sảnh tiệc trên môi trường tích hợp.
+- [x] Kiểm tra khả năng hiển thị đồng bộ giữa Frontend Next.js và Backend NestJS.
+- [x] Kiểm tra tính năng đăng nhập trên nhiều trình duyệt khác nhau (Chrome, Firefox, Safari).
+- [x] Tổng hợp danh sách các lỗi phát sinh cần Dev khắc phục khẩn cấp trước ngày demo.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Báo cáo kiểm thử đợt 1 lưu tại `docs/testing/test-report-midterm.md`.
+- Xác nhận hệ thống đạt tiêu chuẩn sẵn sàng chạy Demo giữa kỳ.
+
+**Deadline:** 04/10/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: test,owner: hau,priority: high"
+143,Bug,[DB/QA] QA-12: [BUG-01] Khởi tạo Defect: Lỗi không thể đăng nhập khi tài khoản có ký tự in hoa,"### 🎯 Mục tiêu
+Khởi tạo Defect Ticket BUG-01: Lỗi không thể đăng nhập khi tài khoản nhập ký tự in hoa.
+
+### 📋 Checklist công việc
+- [x] Mô tả các bước tái hiện lỗi: Nhập email `Admin@gmail.com` thay vì `admin@gmail.com` -> Hệ thống báo sai tài khoản.
+- [x] Xác định nguyên nhân: Backend đối chiếu chuỗi string nhạy cảm với chữ hoa thường (Case-sensitive).
+- [x] Mức độ nghiêm trọng: Medium (Gây bất tiện lớn cho người dùng di động khi bàn phím tự viết hoa chữ cái đầu).
+- [x] Gán ticket cho Phúc (Backend) xử lý bằng cách chuẩn hóa `.toLowerCase()` trước khi truy vấn.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Issue lỗi chi tiết mang nhãn `type: bug` trên GitHub.
+- Sau khi Phúc fix, Hậu tiến hành re-test và đóng issue.
+
+**Deadline:** 04/10/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: bug,owner: hau,priority: high"
+144,Task,[DB/QA] QA-13: Lập Báo cáo kết quả kiểm thử sơ kết đợt 1 (Test Summary Report - Midterm),"### 🎯 Mục tiêu
+Biên soạn Báo cáo kết quả kiểm thử sơ kết giữa kỳ (Test Summary Report - Midterm).
+
+### 📋 Checklist công việc
+- [x] Thống kê số lượng Test Cases đã chạy: 15/15 test cases hoàn thành đợt 1.
+- [x] Tỷ lệ đạt (Pass Rate): Đạt 13/15 (86.7%), 2 test cases fail đã được log bug.
+- [x] Đánh giá độ ổn định của hệ thống phục vụ demo: Đạt yêu cầu không crash, không sập server.
+- [x] Trình nộp báo cáo cho PM Hoàng để đưa số liệu vào slide thuyết trình giữa kỳ.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu báo cáo `docs/testing/test-summary-midterm.pdf`.
+- Đính kèm tóm tắt kết quả vào comment issue này.
+
+**Deadline:** 04/10/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 4 — Demo giữa kỳ 50%,2026-10-04,"type: docs,owner: hau,priority: high"
+145,Task,[DB/QA] QA-14: Thiết kế Bộ Test Cases kiểm tra thuật toán chống trùng lịch sảnh (Boundary & Edge Cases),"### 🎯 Mục tiêu
+Thiết kế Bộ Test Cases kiểm tra thuật toán chống trùng lịch sảnh tiệc (Boundary & Edge Cases chuyên sâu).
+
+### 📋 Checklist công việc
+- [x] TC-CONF-01: Đặt 2 tiệc cùng sảnh, cùng ngày, cùng ca Tối -> Bắt buộc phải chặn tiệc thứ 2 và báo lỗi 409.
+- [x] TC-CONF-02: Đặt 2 tiệc cùng ngày nhưng khác sảnh (Sảnh Vàng và Sảnh Bạc) -> Cho phép tạo bình thường.
+- [x] TC-CONF-03: Đặt 2 tiệc cùng sảnh nhưng khác ca (Ca Trưa 11h-13h và Ca Tối 18h-20h) -> Cho phép vì có 5 tiếng đệm.
+- [x] TC-CONF-04: Đặt tiệc lệch giờ chỉ cách nhau 30 phút (< 60 phút dọn sảnh) -> Hệ thống phải chặn vì vi phạm thời gian đệm.
+- [x] TC-CONF-05: Tiệc đã bị hủy (CANCELLED) -> Cho phép khách hàng khác đặt lại sảnh đó vào cùng khung giờ.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Bảng kịch bản test trùng lịch chi tiết `docs/testing/test-suite-conflict-checker.md`.
+- Chạy thử nghiệm trên Postman và ghi nhận kết quả.
+
+**Deadline:** 11/10/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: test,owner: hau,priority: high"
+146,Bug,[DB/QA] QA-15: [BUG-02] Khởi tạo Defect: Sai lệch 1 giờ trong lịch đặt tiệc do chênh lệch múi giờ UTC+7,"### 🎯 Mục tiêu
+Khởi tạo Defect Ticket BUG-02: Sai lệch 1 giờ trong lịch đặt tiệc do chênh lệch múi giờ UTC+7.
+
+### 📋 Checklist công việc
+- [x] Mô tả lỗi: Khách đặt tiệc lúc 18:00 trên giao diện Client, nhưng khi lưu vào CSDL và xem lại trên Lịch hiển thị 11:00 (múi giờ UTC+0).
+- [x] Mức độ nghiêm trọng: High (Dẫn đến hiểu nhầm giờ giấc tổ chức tiệc và sai lệch ca tiệc).
+- [x] Đề xuất giải pháp: Cấu hình múi giờ `timezone: 'Asia/Ho_Chi_Minh'` trên Prisma và thư viện date-fns.
+- [x] Gán ticket cho Backend và Frontend cùng phối hợp xử lý chuỗi ISO-8601.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Ticket lỗi mang nhãn `type: bug`, `priority: high` trên GitHub.
+- Re-test xác nhận giờ hiển thị trên Calendar và Database hoàn toàn đồng bộ.
+
+**Deadline:** 11/10/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: bug,owner: hau,priority: high"
+147,Task,[DB/QA] QA-16: Thiết kế Test Cases kiểm thử tính chính xác phép tính tổng tiền hợp đồng và chiết khấu,"### 🎯 Mục tiêu
+Thiết kế Bộ Test Cases kiểm thử tính chính xác phép tính tổng tiền hợp đồng, chiết khấu và tiền cọc.
+
+### 📋 Checklist công việc
+- [x] TC-CALC-01: Tiệc 20 bàn x 4.500.000 đ = 90.000.000 đ. Dịch vụ 10.000.000 đ. VAT 8% = 8.000.000 đ -> Tổng = 108.000.000 đ.
+- [x] TC-CALC-02: Áp dụng chiết khấu 10% trên tiền bàn -> Kiểm tra hệ thống chỉ giảm trên tiền bàn chứ không giảm trên thuế VAT.
+- [x] TC-CALC-03: Kiểm tra số tiền đặt cọc tối thiểu đợt 1 phải đúng bằng $Tổng \times 30\%$.
+- [x] TC-CALC-04: Kiểm tra không bao giờ xảy ra lỗi sai số thập phân (Rounding error floating point).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu test case tính tiền `docs/testing/test-suite-pricing-calc.md`.
+- Bảng đối chiếu số liệu tính tay vs số liệu hệ thống tự sinh.
+
+**Deadline:** 11/10/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: test,owner: hau,priority: high"
+148,Bug,[DB/QA] QA-17: [BUG-03] Khởi tạo Defect: Tính sai tổng tiền khi áp dụng đồng thời chiết khấu % và giảm giá trực tiếp,"### 🎯 Mục tiêu
+Khởi tạo Defect Ticket BUG-03: Tính sai tổng tiền khi áp dụng đồng thời chiết khấu % và voucher giảm giá trực tiếp.
+
+### 📋 Checklist công việc
+- [x] Mô tả lỗi: Khi áp dụng chiết khấu 5% kèm voucher giảm 2.000.000 đ, hệ thống áp dụng voucher trước rồi mới trừ %, gây thất thoát doanh thu.
+- [x] Quy tắc nghiệp vụ đúng theo thỏa thuận BA: Phải trừ chiết khấu % trước, sau đó mới trừ tiền voucher khuyến mãi.
+- [x] Mức độ nghiêm trọng: High (Ảnh hưởng trực tiếp đến doanh thu tài chính của trung tâm).
+- [x] Gán ticket cho Backend sửa lại công thức trong `ContractsService`.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Ticket lỗi `type: bug` trên GitHub kèm công thức tính toán mẫu.
+- Kiểm tra lại sau khi sửa đảm bảo số tiền khớp 100%.
+
+**Deadline:** 11/10/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 5 — Dashboard & Report,2026-10-11,"type: bug,owner: hau,priority: high"
+149,Task,[DB/QA] QA-18: Thực hiện kiểm thử tích hợp toàn diện (Integration Testing) trên môi trường Staging,"### 🎯 Mục tiêu
+Thực hiện kiểm thử tích hợp toàn diện (End-to-End Integration Testing) trên môi trường Staging.
+
+### 📋 Checklist công việc
+- [x] Chạy luồng xuyên suốt E2E: Tạo khách hàng -> Tìm sảnh trống -> Lên thực đơn -> Báo giá -> Tạo hợp đồng -> Nộp tiền cọc -> Xem Dashboard.
+- [x] Kiểm tra tính nhất quán dữ liệu: Sau khi nộp cọc, số tiền hiển thị trên Dashboard phải tăng ngay lập tức.
+- [x] Kiểm tra trên 2 tài khoản đăng nhập đồng thời: Một Sales tạo hợp đồng, một Thu ngân vào xác nhận tiền cọc.
+- [x] Đo lường thời gian hoàn thành trọn vẹn 1 chu trình nghiệp vụ (< 5 phút).
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Báo cáo kiểm thử tích hợp E2E `docs/testing/integration-test-report.md`.
+- Ghi nhận video quay lại toàn bộ quá trình test E2E làm minh chứng đồ án.
+
+**Deadline:** 18/10/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: test,owner: hau,priority: high"
+150,Bug,[DB/QA] QA-19: [BUG-04] Khởi tạo Defect: Lỗi xung đột dữ liệu khi hai tư vấn viên cùng bấm giữ sảnh cùng giây,"### 🎯 Mục tiêu
+Khởi tạo Defect Ticket BUG-04: Lỗi xung đột dữ liệu (Race Condition) khi 2 tư vấn viên cùng bấm giữ sảnh cùng 1 giây.
+
+### 📋 Checklist công việc
+- [x] Mô tả lỗi: Hai nhân viên Sales mở cùng 1 sảnh trống trên 2 máy tính khác nhau và cùng bấm nút 'Xác nhận giữ sảnh' đồng thời.
+- [x] Hệ quả: Cả 2 hợp đồng đều được tạo thành công cho cùng 1 sảnh trong cùng ngày (Trùng lịch nghiêm trọng).
+- [x] Mức độ nghiêm trọng: Critical (Lỗi cấp độ cao nhất đe dọa sự thành bại của dự án).
+- [x] Đề xuất giải pháp: Backend bắt buộc phải sử dụng Prisma `$transaction` với mức cô lập Serializable hoặc khóa bi quan.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Ticket lỗi `type: bug`, `priority: high` trên GitHub.
+- Phối hợp với Phúc (BE) chạy test giả lập đa luồng để xác nhận lỗi đã được khắc phục hoàn toàn.
+
+**Deadline:** 18/10/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: bug,owner: hau,priority: high"
+151,Task,[DB/QA] QA-20: Thực hiện kiểm thử hồi quy (Regression Testing) sau khi Backend & Frontend fix lỗi,"### 🎯 Mục tiêu
+Thực hiện kiểm thử hồi quy (Regression Testing) sau khi toàn bộ các lỗi BUG-01, 02, 03, 04 đã được khắc phục.
+
+### 📋 Checklist công việc
+- [x] Chạy lại toàn bộ bộ 35 Test Cases từ đầu đến cuối.
+- [x] Đảm bảo việc sửa lỗi Race Condition và múi giờ không làm phát sinh lỗi mới ở các phân hệ cũ.
+- [x] Đo lường tỷ lệ Test Pass sau khi fix lỗi: Đạt 100% (35/35 test cases đạt yêu cầu).
+- [x] Xác nhận chất lượng bản build đạt trạng thái Feature Complete cho Tuần 6.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Báo cáo kiểm thử hồi quy `docs/testing/regression-test-report.md`.
+- PM và QA Lead ký xác nhận kết quả kiểm thử đạt chuẩn.
+
+**Deadline:** 18/10/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: test,owner: hau,priority: high"
+152,Task,[DB/QA] QA-21: Tổng hợp số liệu lỗi phần mềm và vẽ Biểu đồ Pareto 80/20 phân loại khuyết tật,"### 🎯 Mục tiêu
+Tổng hợp toàn bộ số liệu lỗi phát sinh trong dự án và vẽ Biểu đồ Pareto 80/20 phân loại khuyết tật theo Chương 5.3 của Baocao.pdf.
+
+### 📋 Checklist công việc
+- [x] Thống kê tổng số lỗi phát sinh trong các đợt test: Lỗi tính toán sai, In ấn thiếu, Lệch ngày giờ, Lỗi giao diện, Lỗi mất kết nối.
+- [x] Lập bảng tần số xuất hiện lỗi, tỷ lệ % chiếm và tỷ lệ % tích lũy.
+- [x] Vẽ Biểu đồ Pareto kết hợp: Cột biểu diễn số lượng lỗi, đường cong biểu diễn % tích lũy đạt mốc 80%.
+- [x] Đưa ra nhận xét kết luận: 80% lỗi bắt nguồn từ việc xử lý ngày giờ và công thức tính chiết khấu.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tài liệu phân tích lỗi `docs/testing/pareto-defects-analysis.md`.
+- File ảnh biểu đồ Pareto `docs/testing/pareto-defects-chart.png` để chèn vào báo cáo chính thức.
+
+**Deadline:** 18/10/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 6 — Feature Complete,2026-10-18,"type: docs,owner: hau,priority: high"
+153,Task,[DB/QA] QA-22: Kiểm thử hiệu năng hệ thống: Đo thời gian tải trang (<3s) và khả năng chịu tải cơ bản,"### 🎯 Mục tiêu
+Kiểm thử hiệu năng hệ thống: Đo thời gian tải trang (< 3 giây) và khả năng phản hồi của API theo tiêu chuẩn chấp nhận.
+
+### 📋 Checklist công việc
+- [x] Sử dụng công cụ Apache JMeter hoặc k6 để giả lập 50 người dùng gửi request đồng thời vào hệ thống.
+- [x] Đo thời gian phản hồi của API tra cứu sảnh: Thời gian phản hồi trung bình phải < 500ms.
+- [x] Đo thời gian tải trang Dashboard và trang Lịch sự kiện trên trình duyệt: Thời gian tải hoàn tất < 3 giây.
+- [x] Kiểm tra ứng dụng không bị rò rỉ bộ nhớ (Memory Leak) khi chạy liên tục 24 giờ.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Báo cáo kiểm thử hiệu năng `docs/testing/performance-test-report.md`.
+- Xác nhận hệ thống đáp ứng đầy đủ tiêu chí phi chức năng của đồ án.
+
+**Deadline:** 25/10/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 7 — UAT & Deploy,2026-10-25,"type: test,owner: hau,priority: high"
+154,Task,[DB/QA] QA-23: Phối hợp với BA tổ chức phiên kiểm thử chấp nhận người dùng (UAT Execution),"### 🎯 Mục tiêu
+Phối hợp với BA tổ chức phiên kiểm thử chấp nhận người dùng (UAT Execution) và ghi nhận phản hồi thực tế.
+
+### 📋 Checklist công việc
+- [x] Chuẩn bị tài khoản và môi trường UAT riêng biệt không làm ảnh hưởng dữ liệu thật.
+- [x] Hướng dẫn khách hàng/người dùng thử nghiệm thực hiện tuần tự 15 kịch bản UAT.
+- [x] Hỗ trợ người dùng khi gặp khó khăn và ghi nhận toàn bộ các ý kiến đóng góp về giao diện.
+- [x] Tổng hợp bảng kết quả đánh giá UAT: 15/15 kịch bản được khách hàng chấp thuận.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Biên bản ghi nhận kết quả UAT lưu tại `docs/testing/uat-execution-results.md`.
+- Bàn giao hồ sơ UAT cho PM làm thủ tục nghiệm thu.
+
+**Deadline:** 25/10/2026
+",Done,2005buinguyenchihau@gmail.com,Tuần 7 — UAT & Deploy,2026-10-25,"type: test,owner: hau,priority: high"
+155,Task,[DB/QA] QA-24: Quản lý và đóng các Defect trong Defect Log sau khi kiểm tra đạt yêu cầu,"### 🎯 Mục tiêu
+Quản lý và thực hiện đóng toàn bộ các Defect trong Defect Log sau khi kiểm tra đạt yêu cầu.
+
+### 📋 Checklist công việc
+- [ ] Kiểm tra lại từng ticket lỗi trên GitHub Issues: Xác nhận code đã sửa, đã test pass trên môi trường Staging.
+- [ ] Viết comment tổng kết trên từng issue lỗi ghi rõ: 'Đã re-test thành công, lỗi không còn tái hiện'.
+- [ ] Đổi nhãn từ `type: bug` sang trạng thái đóng (Closed).
+- [ ] Đảm bảo trong Defect Log không còn bất kỳ lỗi nào ở mức Critical hoặc High chưa giải quyết.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- 100% ticket lỗi trên GitHub được đóng với đầy đủ bằng chứng re-test.
+- Bảng tổng kết Defect Log hoàn chỉnh `docs/testing/defect-log-final.md`.
+
+**Deadline:** 25/10/2026
+",To Do,2005buinguyenchihau@gmail.com,Tuần 7 — UAT & Deploy,2026-10-25,"type: test,owner: hau,priority: high"
+156,Task,[DB/QA] QA-25: Biên soạn Báo cáo kiểm thử tổng kết cuối kỳ (Final Test Report) và Biên bản nghiệm thu chất lượng,"### 🎯 Mục tiêu
+Biên soạn Báo cáo kiểm thử tổng kết cuối kỳ (Final Test Summary Report) và Chứng chỉ đảm bảo chất lượng phần mềm.
+
+### 📋 Checklist công việc
+- [ ] Tổng hợp toàn bộ kết quả kiểm thử từ Tuần 1 đến Tuần 8: Số test cases thiết kế, số lượt test run, số bug đã fix.
+- [ ] Báo cáo ma trận bao phủ kiểm thử: 100% các Use Case đều có ít nhất 2 test cases kiểm chứng.
+- [ ] Đánh giá mức độ sẵn sàng triển khai thực tế (Production Readiness) của hệ thống EVManager.
+- [ ] Ký biên bản nghiệm thu chất lượng phần mềm cùng PM Hoàng để nộp Hội đồng chấm đồ án.
+
+### 📦 Kết quả cần giao nộp (Deliverables)
+- Tập Báo cáo kiểm thử hoàn chỉnh `docs/testing/Final_Test_Report_EVManager.pdf`.
+- Bàn giao toàn bộ tài liệu kiểm thử cho PM đóng dự án.
+
+**Deadline:** 01/11/2026
+",To Do,2005buinguyenchihau@gmail.com,Tuần 8 — Bảo vệ & Đóng dự án,2026-11-01,"type: docs,owner: hau,priority: high"
+205,Bug,[Frontend/Backend] BUG-05: Ô tìm kiếm khách hàng và sự kiện không hiển thị dữ liệu trên giao diện,"# [BUG-05] Ô tìm kiếm khách hàng và sự kiện không hiển thị dữ liệu trên giao diện
+
+**Labels:** `type: bug`, `priority: high`, `frontend`, `backend`  
+**Assignee:** `nhanvo134679`, `phucngo1707`  
+**Jira Key:** `EV-157`
+
+## 1. Mô tả lỗi
+- Tại màn hình Quản lý khách hàng (`admin.html#tab-customers`), khi người dùng nhập từ khóa tìm kiếm (ví dụ: *""Nguyễn Văn An""* hoặc số điện thoại *""0901234567""*), bảng khách hàng hiển thị rỗng: *""Không tìm thấy khách hàng nào phù hợp""*.
+- Màn hình Quản lý sự kiện (`admin.html#tab-events`) cũng gặp hiện tượng tương tự khi gõ tìm kiếm.
+
+## 2. Nguyên nhân kỹ thuật
+- **Frontend (`dashboard.js`):** Hàm `setupFiltersAndSearch()` chỉ gắn sự kiện lọc mảng tĩnh JavaScript `adminCustomers.filter(...)`. Do hàm tải dữ liệu ban đầu bị lỗi (gọi `/api/v1/dashboard` bị 404), mảng `adminCustomers` bị rỗng.
+- **Lệch pha API:** Frontend không hề gửi request tìm kiếm `GET /api/v1/customers?keyword=...` xuống Backend, trong khi `CustomerController.java` đã có sẵn tham số `@RequestParam(required = false) String keyword`.
+- Không có cơ chế Debounce khiến giao diện bị giật lag khi gõ nhanh.
+
+## 3. Giải pháp khắc phục
+1. Bổ sung cơ chế Debounce 300ms cho input tìm kiếm `customerSearchInput`.
+2. Khi người dùng nhập từ khóa, Frontend gửi HTTP request: `GET /api/v1/customers?keyword=<từ_khóa>`.
+3. Bóc tách trường `content` từ Spring Data `Page<CustomerResponse>` và render danh sách khách hàng từ CSDL PostgreSQL.
+",Done,nhanvo134679@gmail.com,,,"type: bug,owner: nhan,priority: high"
+206,Bug,[Backend] BUG-06: Thiếu API Dashboard tổng hợp khiến Frontend bị lỗi 404 và văng phiên đăng nhập,"# [BUG-06] Thiếu API Dashboard tổng hợp khiến Frontend bị lỗi 404 và văng phiên đăng nhập
+
+**Labels:** `type: bug`, `priority: high`, `backend`, `frontend`  
+**Assignee:** `phucngo1707`, `nhanvo134679`  
+**Jira Key:** `EV-158`
+
+## 1. Mô tả lỗi
+- Sau khi đăng nhập thành công bằng tài khoản Admin (`admin@evmanager.vn`), hệ thống điều hướng vào `admin.html`. Ngay lập tức người dùng bị đá văng trở lại màn hình `login.html`, hoặc màn hình hiển thị toàn bộ chỉ số KPI là 0đ / 0 sự kiện.
+
+## 2. Nguyên nhân kỹ thuật
+- **Backend:** Không có controller hoặc endpoint nào cho `/api/v1/dashboard` hay `/api/v1/dashboard/summary`.
+- **Frontend (`api.js` dòng 44-50):** 
+  ```javascript
+  if (response.status === 401 || response.status === 403) {
+      sessionStorage.removeItem('accessToken');
+      window.location.href = 'login.html';
+  }
+  ```
+  Khi gọi `/api/v1/dashboard` bị Spring Security trả về 403/404, `api.js` tự động xóa token và điều hướng về trang đăng nhập.
+
+## 3. Giải pháp khắc phục
+1. **Backend:** Tạo mới `DashboardController.java` với endpoint `GET /api/v1/dashboard/summary` trả về:
+   - 4 chỉ số KPI: `totalRevenue`, `totalEvents`, `totalCustomers`, `pendingContracts`.
+   - Dữ liệu biểu đồ doanh thu 6 tháng gần nhất (`monthlyRevenue`).
+   - Danh sách sự kiện gần nhất (`recentEvents`).
+2. **Security:** Cấu hình `SecurityConfig.java` cho phép người dùng có quyền `ADMIN`, `SALES`, `COORDINATOR`, `MANAGER`, `STAFF` truy cập endpoint này.
+3. **Frontend (`api.js`):** Sửa lại logic điều hướng; chỉ logout khi gặp `401 Unauthorized` ở những endpoint bắt buộc, không xóa token khi gặp lỗi 404 của endpoint phụ.
+",Done,phucngo1707@gmail.com,,,"type: bug,owner: phuc,priority: high"
+207,Bug,[Frontend] BUG-07: Thiếu ràng buộc Validate dữ liệu đầu vào khi thêm mới khách hàng và đặt sảnh,"# [BUG-07] Thiếu ràng buộc Validate dữ liệu đầu vào (SĐT, Email, Sức chứa) khi thêm mới khách hàng và đặt sảnh
+
+**Labels:** `type: bug`, `priority: medium`, `frontend`  
+**Assignee:** `nhanvo134679`  
+**Jira Key:** `EV-159`
+
+## 1. Mô tả lỗi
+- Tại modal ""Thêm khách hàng mới"" (`#customerModal`), người dùng có thể nhập số điện thoại sai định dạng (ví dụ: chữ cái, hoặc chỉ có 3 chữ số) hoặc email sai cú pháp nhưng form vẫn cho phép submit.
+- Tại modal ""Thêm sự kiện mới"" (`#eventModal`), người dùng có thể nhập số khách/số bàn vượt quá sức chứa tối đa của sảnh (ví dụ: Sảnh Ngọc Bích tối đa 150 khách nhưng nhập 500 khách) mà hệ thống không cảnh báo hay ngăn chặn.
+
+## 2. Quy tắc nghiệp vụ (BA Requirements)
+- **Use Case UC-03:** Số điện thoại khách hàng phải là số điện thoại hợp lệ tại Việt Nam (10 chữ số, bắt đầu bằng `03, 05, 07, 08, 09`).
+- **Use Case UC-04:** Số lượng khách/bàn không được vượt quá `max_capacity` của sảnh được chọn.
+
+## 3. Giải pháp khắc phục
+1. Thêm biểu thức chính quy (Regex) kiểm tra số điện thoại: `^(0[3|5|7|8|9])[0-9]{8}$`.
+2. Kiểm tra định dạng Email hợp lệ RFC.
+3. Khi chọn Sảnh trong dropdown, hiển thị sức chứa tối đa và tự động giới hạn `input max` của trường số bàn / số khách.
+4. Hiển thị thông báo lỗi tiếng Việt màu đỏ thân thiện ngay dưới trường nhập liệu bị sai.
+",Done,nhanvo134679@gmail.com,,,"type: bug,owner: nhan,priority: medium"
+208,Bug,[Backend/DB] BUG-08: Phân quyền RBAC trên develop chưa nhận đủ 4 role chuẩn theo BA UC-01,"# [BUG-08] Phân quyền RBAC trên develop chưa hỗ trợ 4 vai trò chuẩn theo đặc tả BA UC-01
+
+**Labels:** `type: bug`, `priority: high`, `backend`, `database`  
+**Assignee:** `phucngo1707`, `2005buinguyenchihau-alt`  
+**Jira Key:** `EV-160`
+
+## 1. Mô tả lỗi
+- Theo đặc tả BA trong `actors-personas.md` và `UC01-login-rbac.md`, hệ thống có 4 vai trò chuẩn: `ADMIN`, `SALES`, `COORDINATOR`, `CUSTOMER`.
+- Tuy nhiên trên nhánh `develop`, bảng `roles` chỉ khởi tạo `ADMIN`, `USER` (migration `V2`), rồi thêm `MANAGER`, `STAFF` (migration `V8`).
+- Các Controller (`CustomerController`, `VenueController`) gắn annotation `@PreAuthorize(""hasAnyRole('ADMIN', 'MANAGER', 'STAFF')"")`. Khi đăng nhập bằng tài khoản Sales hoặc Coordinator, người dùng bị chặn bằng lỗi `HTTP 403 Forbidden`.
+
+## 2. Nguyên nhân kỹ thuật
+- Backend Dev dùng từ khóa tự đặt (`STAFF`, `MANAGER`) thay vì bám theo SRS v1.0 của BA.
+- Mặc dù Backend đã viết migration `V11__add_system_roles.sql` và sửa `@PreAuthorize` trong PR 194, nhưng PR này chưa được merge vào `develop`.
+
+## 3. Giải pháp khắc phục
+1. **Database:** Nạp migration Flyway bổ sung đủ 4 Role: `ADMIN`, `SALES`, `COORDINATOR`, `CUSTOMER`.
+2. **Backend:** Cập nhật `@PreAuthorize` trên các Controller chấp nhận cả `ADMIN`, `SALES`, `COORDINATOR` và `CUSTOMER` (với các API xem sảnh).
+",Done,phucngo1707@gmail.com,,,"type: bug,owner: phuc,priority: high"
+215,Task,Hoàn thiện & Tích hợp các chức năng cốt lõi trước thềm Demo,"# [FEATURE] Hoàn thiện & Tích hợp các chức năng cốt lõi trước thềm Demo
+
+## 📝 Mô tả (Description)
+Nhằm chuẩn bị cho buổi Demo sắp tới, chúng ta cần hoàn thiện, tích hợp và làm sạch (refactor) các chức năng đã phát triển trong phiên làm việc hôm nay. Trọng tâm là luồng Quản lý Hợp đồng, khắc phục các lỗi API hiển thị danh sách Sự kiện, và cải thiện trải nghiệm người dùng (UX) trên Customer Portal.
+
+Tất cả các thay đổi phải được tách nhánh rõ ràng và gán đúng cho các vai trò (Frontend, Backend, Database).
+
+---
+
+## 🎯 Mục tiêu (Acceptance Criteria)
+
+### 🗄 1. Database (Giao cho DBA / Backend)
+- [x] Tích hợp migration `V13__add_deposit_amount_to_contracts.sql`: Thêm cột `deposit_amount` vào bảng `contracts` và ràng buộc `CHECK (deposit_amount >= 0)`.
+- [x] Tích hợp migration `V14__seed_demo_events.sql`: Chèn 5 sự kiện dữ liệu mẫu với các trạng thái hợp lệ (`SCHEDULED`, `PREPARING`, `COMPLETED`) để phục vụ kiểm thử.
+
+### ⚙️ 2. Backend (Giao cho Backend Developer)
+- [x] **Contract API:** Hoàn thiện luồng tạo Hợp đồng (`POST /api/v1/contracts`). Ràng buộc logic kiểm tra trạng thái sự kiện, số tiền cọc (tối thiểu 30%) và snapshot giá dịch vụ/thực đơn tại thời điểm ký kết.
+- [x] **Event API Refactor:** Cải tiến endpoint `GET /api/v1/events` để trả về chuẩn phân trang `Page<EventResponse>` thay vì dùng chung DTO của Lịch.
+- [x] **Code Quality:** Đảm bảo tất cả code Java biên dịch thành công (Build Success) và không vi phạm Check constraints khi Spring Boot khởi động cùng Flyway.
+
+### 🎨 3. Frontend (Giao cho Frontend Developer)
+- [x] **Contract Wizard UI:** Hoàn thiện form tạo Hợp đồng 3 bước (Wizard) tại màn hình Quản trị. Xóa bỏ các lệnh gọi `api.get` ảo và thay bằng `fetchAPI` chuẩn của dự án.
+- [x] **Events Dashboard:** Cập nhật `dashboard.js` để kết nối dữ liệu Sự kiện thật từ API thay vì dùng dữ liệu Mock (Hardcode). Ánh xạ đúng các nhãn trạng thái (ví dụ: `SCHEDULED` -> `Đã xác nhận`).
+- [x] **Customer Portal UX:** Tái cấu trúc `customer.html` từ giao diện Sidebar (giống Admin) sang giao diện Top-Navbar (giống trang chủ `index.html`) để tăng tính thân thiện và đồng bộ thương hiệu.
+
+---
+
+## 📋 Hướng dẫn Triển khai (Implementation Notes)
+- **Branching Strategy:**
+  - DB & Backend: Tạo nhánh `feature/pre-demo-backend-db`
+  - Frontend: Tạo nhánh `feature/pre-demo-frontend`
+- **Review:** Yêu cầu cross-review giữa BE và FE sau khi hoàn tất để đảm bảo tích hợp API thành công mà không bị lỗi CORS hoặc sai định dạng JSON.
+
+## 🏷 Labels & Metadata
+- **Loại Issue:** `Feature`, `Enhancement`, `Bugfix`
+- **Độ ưu tiên:** `High / Blocker` (Bắt buộc hoàn thành trước Demo)
+- **Người được giao (Assignees):** `@plhhoang2005` (Lead)
+",Done,plhhoang2005@gmail.com,,,enhancement
