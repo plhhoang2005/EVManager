@@ -20,6 +20,7 @@ public class ContractRequest {
     @Min(value = 0, message = "Reserve table count cannot be negative")
     private Integer reserveTableCount = 0;
 
+    private Long menuId;
     private List<ContractMenuRequest> menus;
     @NotNull(message = "Contract date is required")
     private LocalDate contractDate;

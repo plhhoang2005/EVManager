@@ -64,10 +64,10 @@ public class EventService {
 
     @Transactional
     public EventResponse createEvent(EventRequest request) {
-        conflictCheckerService.checkVenueAvailability(request.getVenueId(), request.getStartAt(), request.getEndAt());
-
-        Venue venue = venueRepository.findById(request.getVenueId())
+        Venue venue = venueRepository.findByIdWithPessimisticWriteLock(request.getVenueId())
                 .orElseThrow(() -> new ResourceNotFoundException("Venue not found: " + request.getVenueId()));
+
+        conflictCheckerService.checkVenueAvailability(request.getVenueId(), request.getStartAt(), request.getEndAt());
 
         Event event = new Event();
         event.setVenue(venue);
