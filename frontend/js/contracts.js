@@ -167,6 +167,11 @@ document.addEventListener('DOMContentLoaded', () => {
             eventId: parseInt(eventId),
             contractDate: contractDate,
             menuId: menuId ? parseInt(menuId) : null,
+            menus: menuId ? [{
+                menuId: parseInt(menuId),
+                quantity: 1,
+                agreedPrice: selectedMenuPrice
+            }] : [],
             serviceIds: serviceIds.map(id => parseInt(id))
         };
 
@@ -208,11 +213,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (c.status === 'CANCELLED') statusBadge = 'inactive';
                 if (c.status === 'DRAFT') statusBadge = 'warning';
 
+                const menuDisplayName = c.menuName || (c.menus && c.menus.length > 0 ? c.menus[0].menuName : '');
+
                 return `
                     <tr>
                         <td><strong>${c.contractCode}</strong></td>
                         <td>${c.customerName}</td>
-                        <td>${c.eventName}</td>
+                        <td>
+                            <div>${c.eventName}</div>
+                            ${menuDisplayName ? `<small style="color:#64748b;">🍽️ ${menuDisplayName}</small>` : ''}
+                        </td>
                         <td style="color:#d9534f; font-weight:bold;">${new Intl.NumberFormat('vi-VN').format(c.totalAmount)}đ</td>
                         <td><span class="summary-pill ${statusBadge}">${c.status}</span></td>
                         <td class="text-right">

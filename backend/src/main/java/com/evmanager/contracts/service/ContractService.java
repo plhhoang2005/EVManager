@@ -78,8 +78,16 @@ public class ContractService {
         BigDecimal totalAmount = BigDecimal.ZERO;
 
         List<ContractMenuEntity> menuEntities = new ArrayList<>();
-        if (request.getMenus() != null && !request.getMenus().isEmpty()) {
-            for (com.evmanager.contracts.dto.ContractMenuRequest menuReq : request.getMenus()) {
+        List<com.evmanager.contracts.dto.ContractMenuRequest> menuRequests = request.getMenus();
+        if ((menuRequests == null || menuRequests.isEmpty()) && request.getMenuId() != null) {
+            com.evmanager.contracts.dto.ContractMenuRequest singleMenu = new com.evmanager.contracts.dto.ContractMenuRequest();
+            singleMenu.setMenuId(request.getMenuId());
+            singleMenu.setQuantity(request.getTableCount() != null && request.getTableCount() > 0 ? request.getTableCount() : 1);
+            menuRequests = List.of(singleMenu);
+        }
+
+        if (menuRequests != null && !menuRequests.isEmpty()) {
+            for (com.evmanager.contracts.dto.ContractMenuRequest menuReq : menuRequests) {
                 Menu menu = menuRepository.findById(menuReq.getMenuId())
                         .orElseThrow(() -> new ResourceNotFoundException("Menu not found: " + menuReq.getMenuId()));
                 
@@ -151,7 +159,7 @@ public class ContractService {
         res.setTableCount(contract.getTableCount());
         res.setReserveTableCount(contract.getReserveTableCount());
         
-        if (contract.getContractMenus() != null) {
+        if (contract.getContractMenus() != null && !contract.getContractMenus().isEmpty()) {
             List<ContractMenuResponse> menus = contract.getContractMenus().stream().map(cme -> {
                 ContractMenuResponse cmr = new ContractMenuResponse();
                 cmr.setMenuId(cme.getMenu().getMenuId());
@@ -162,6 +170,11 @@ public class ContractService {
                 return cmr;
             }).toList();
             res.setMenus(menus);
+
+            // Backward compatibility for single menu consumers
+            ContractMenuEntity firstMenu = contract.getContractMenus().get(0);
+            res.setMenuId(firstMenu.getMenu().getMenuId());
+            res.setMenuName(firstMenu.getMenu().getMenuName());
         }
         
         res.setContractDate(contract.getContractDate());
