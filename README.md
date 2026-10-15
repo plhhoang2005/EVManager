@@ -1,5 +1,7 @@
 # EVManager
 
+[![Backend CI](https://github.com/plhhoang2005/EVManager/actions/workflows/backend-ci.yml/badge.svg?branch=develop)](https://github.com/plhhoang2005/EVManager/actions/workflows/backend-ci.yml)
+
 > LV34-001 — Hệ thống quản lý tổng thể cho dịch vụ sự kiện (Web + Desktop)
 
 Đồ án học phần **MAN104 — Quản lý Dự án CNTT**, thực hiện trong 8 tuần: **07/09/2026 – 01/11/2026**.
