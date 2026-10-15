@@ -100,6 +100,13 @@
             <version>2.6.0</version>
         </dependency>
 
+        <!-- OpenPDF for PDF Contract Export (BE-25) -->
+        <dependency>
+            <groupId>com.github.librepdf</groupId>
+            <artifactId>openpdf</artifactId>
+            <version>2.0.3</version>
+        </dependency>
+
         <!-- Lombok (optional but good for boilerplate) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
