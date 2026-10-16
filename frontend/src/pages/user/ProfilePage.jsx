@@ -193,8 +193,8 @@ export const ProfilePage = () => {
               toastMessage.type === 'success'
                 ? '#087f82'
                 : toastMessage.type === 'info'
-                  ? '#0284c7'
-                  : '#e11d48',
+                ? '#0284c7'
+                : '#e11d48',
             color: '#ffffff',
             padding: '12px 24px',
             borderRadius: '10px',
@@ -1233,7 +1233,7 @@ export const ProfilePage = () => {
             <div>
               <div style={{ borderBottom: '1px solid #f1f5f9', paddingBottom: '16px', marginBottom: '24px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                  <span style={{ fontSize: '1.4rem' }}></span>
+                  <span style={{ fontSize: '1.4rem' }}>🍽️</span>
                   <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>
                     Lập Thực Đơn Tiệc Cưới Của Bạn
                   </h2>
