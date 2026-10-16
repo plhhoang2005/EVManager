@@ -140,4 +140,28 @@ public class ConflictCheckerEdgeCasesTest {
                 eq(end.plusMinutes(60))
         );
     }
+
+    @Test
+    @DisplayName("R07-R09: Enclosed event (A inside B) is accurately caught by query range")
+    void testCheckVenueAvailability_EnclosedEventConflict() {
+        OffsetDateTime eventBStart = OffsetDateTime.of(2026, 11, 20, 16, 0, 0, 0, vnOffset);
+        OffsetDateTime eventBEnd = OffsetDateTime.of(2026, 11, 20, 23, 0, 0, 0, vnOffset);
+
+        // Requested event A is inside B: 18:00 to 20:00
+        OffsetDateTime eventAStart = OffsetDateTime.of(2026, 11, 20, 18, 0, 0, 0, vnOffset);
+        OffsetDateTime eventAEnd = OffsetDateTime.of(2026, 11, 20, 20, 0, 0, 0, vnOffset);
+
+        Event existingB = new Event();
+        existingB.setEventName("Sự Kiện Bao Trùm");
+        existingB.setStartAt(eventBStart);
+        existingB.setEndAt(eventBEnd);
+
+        when(eventRepository.findConflictingEvents(eq(1L), any(), any()))
+                .thenReturn(List.of(existingB));
+
+        ResourceConflictException ex = assertThrows(ResourceConflictException.class, () ->
+            conflictCheckerService.checkVenueAvailability(1L, eventAStart, eventAEnd)
+        );
+        assertTrue(ex.getMessage().contains("Sự Kiện Bao Trùm"));
+    }
 }

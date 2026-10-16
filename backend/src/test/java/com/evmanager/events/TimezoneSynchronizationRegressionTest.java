@@ -223,4 +223,31 @@ public class TimezoneSynchronizationRegressionTest {
         assertEquals(end, calEvent.getEnd());
         assertEquals(18, calEvent.getStart().getHour());
     }
+
+    @Test
+    @DisplayName("T14-T16: Foreign timezone offsets (+09:00, -05:00) retain identical absolute instant without double +7h shift")
+    void testForeignOffsets_PreservesAbsoluteInstant() {
+        // 20:00 Tokyo (+09:00) is 18:00 Hanoi (+07:00)
+        OffsetDateTime tokyoTime = OffsetDateTime.of(2026, 10, 25, 20, 0, 0, 0, ZoneOffset.ofHours(9));
+        OffsetDateTime hanoiEquivalent = tokyoTime.atZoneSameInstant(vnZone).toOffsetDateTime();
+
+        assertEquals(18, hanoiEquivalent.getHour(), "20:00 Tokyo must equal 18:00 Hanoi");
+        assertEquals(tokyoTime.toInstant(), hanoiEquivalent.toInstant());
+
+        // 06:00 New York (-05:00) is 18:00 Hanoi (+07:00)
+        OffsetDateTime nyTime = OffsetDateTime.of(2026, 10, 25, 6, 0, 0, 0, ZoneOffset.ofHours(-5));
+        OffsetDateTime hanoiFromNy = nyTime.atZoneSameInstant(vnZone).toOffsetDateTime();
+        assertEquals(18, hanoiFromNy.getHour());
+        assertEquals(nyTime.toInstant(), hanoiFromNy.toInstant());
+    }
+
+    @Test
+    @DisplayName("T26: Microseconds precision in ISO-8601 string is preserved")
+    void testMicrosecondsPrecision() {
+        OffsetDateTime nanoTime = OffsetDateTime.parse("2026-10-25T17:30:00.123456+07:00");
+        assertEquals(123456000, nanoTime.getNano());
+        assertEquals(17, nanoTime.getHour());
+        assertEquals(30, nanoTime.getMinute());
+        assertEquals(vnOffset, nanoTime.getOffset());
+    }
 }

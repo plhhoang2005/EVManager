@@ -296,4 +296,58 @@ public class ContractPricingExhaustiveRegressionTest {
         // Min deposit 30% of 100.440.000 = 30.132.000
         assertEquals(new BigDecimal("30132000.00"), resp.getDepositAmount());
     }
+
+    @Test
+    @DisplayName("P14: Fractional percentage discount (e.g. 2.5% on 100.000.000 = 2.500.000)")
+    void testPricing_P14_FractionalDiscount() {
+        mockBaseEntities();
+
+        ContractRequest req = new ContractRequest();
+        req.setCustomerId(1L);
+        req.setEventId(20L);
+        req.setContractDate(LocalDate.of(2026, 12, 10));
+        req.setTableCount(20);
+
+        ContractMenuRequest menuReq = new ContractMenuRequest();
+        menuReq.setMenuId(10L);
+        menuReq.setQuantity(20);
+        menuReq.setAgreedPrice(new BigDecimal("5000000"));
+        req.setMenus(List.of(menuReq));
+
+        req.setDiscountPercent(new BigDecimal("2.5")); // 2.5% of 100M = 2.5M
+        req.setVoucherAmount(BigDecimal.ZERO);
+        req.setVatPercent(BigDecimal.ZERO);
+
+        ContractResponse resp = contractService.createContract(req);
+        assertEquals(new BigDecimal("97500000"), resp.getTotalAmount());
+    }
+
+    @Test
+    @DisplayName("P25: Contract with 0 tables (only services) with discount applied to subtotal")
+    void testPricing_P25_ServicesOnlyWithDiscount() {
+        when(eventRepository.findByIdWithPessimisticWriteLock(20L)).thenReturn(Optional.of(testEvent));
+        when(contractRepository.existsByEvent_EventId(20L)).thenReturn(false);
+        when(customerRepository.findById(1L)).thenReturn(Optional.of(testCustomer));
+
+        Service soundService = new Service();
+        soundService.setServiceId(99L);
+        soundService.setServiceName("Âm thanh ánh sáng");
+        soundService.setUnitPrice(new BigDecimal("20000000")); // 20M
+
+        when(serviceRepository.findById(99L)).thenReturn(Optional.of(soundService));
+        when(contractRepository.save(any(Contract.class))).thenAnswer(i -> i.getArgument(0));
+
+        ContractRequest req = new ContractRequest();
+        req.setCustomerId(1L);
+        req.setEventId(20L);
+        req.setContractDate(LocalDate.of(2026, 12, 10));
+        req.setServiceIds(List.of(99L)); // 20M service
+        req.setDiscountPercent(new BigDecimal("10")); // 10% on 20M = 2M -> 18M
+        req.setVoucherAmount(new BigDecimal("3000000")); // 3M voucher -> 15M
+        req.setVatPercent(BigDecimal.ZERO);
+
+        ContractResponse resp = contractService.createContract(req);
+        assertEquals(new BigDecimal("20000000"), resp.getSubTotal());
+        assertEquals(new BigDecimal("15000000"), resp.getTotalAmount());
+    }
 }

@@ -269,4 +269,77 @@ public class LoginNormalizationRegressionTest {
         UserDetails inactiveDetails = customUserDetailsService.loadUserByUsername("inactive_user");
         assertFalse(inactiveDetails.isEnabled(), "Inactive user must have enabled = false");
     }
+
+    @Test
+    @DisplayName("U18: Identifier with tab and newline characters is cleanly trimmed and lowercased")
+    void testLogin_IdentifierWithTabsAndNewlines() {
+        LoginRequest req = new LoginRequest();
+        req.setUsernameOrEmail("\t\n  SALES_CONSULTANT  \r\n");
+        req.setPassword("Password123!");
+
+        Authentication auth = mock(Authentication.class);
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(auth);
+        when(jwtTokenProvider.generateToken(auth)).thenReturn("mock.jwt.token");
+
+        authService.login(req);
+
+        verify(authenticationManager).authenticate(argThat(tokenAuth ->
+            tokenAuth.getPrincipal().equals("sales_consultant")
+        ));
+    }
+
+    @Test
+    @DisplayName("U19: Locale.ROOT ensures uppercase ASCII 'I' converts to standard lowercase 'i'")
+    void testLogin_LocaleRootSafety() {
+        LoginRequest req = new LoginRequest();
+        req.setUsernameOrEmail("ADMIN_VIP");
+        req.setPassword("Password123!");
+
+        Authentication auth = mock(Authentication.class);
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(auth);
+        when(jwtTokenProvider.generateToken(auth)).thenReturn("mock.jwt.token");
+
+        authService.login(req);
+
+        verify(authenticationManager).authenticate(argThat(tokenAuth ->
+            tokenAuth.getPrincipal().equals("admin_vip")
+        ));
+    }
+
+    @Test
+    @DisplayName("U20: Username with dots, hyphens, and underscores is safely lowercased")
+    void testLogin_UsernameWithSpecialCharacters() {
+        LoginRequest req = new LoginRequest();
+        req.setUsernameOrEmail("Sales.Rep_01-HN");
+        req.setPassword("Password123!");
+
+        Authentication auth = mock(Authentication.class);
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(auth);
+        when(jwtTokenProvider.generateToken(auth)).thenReturn("mock.jwt.token");
+
+        authService.login(req);
+
+        verify(authenticationManager).authenticate(argThat(tokenAuth ->
+            tokenAuth.getPrincipal().equals("sales.rep_01-hn")
+        ));
+    }
+
+    @Test
+    @DisplayName("U23: Complex unicode password with emojis and spaces is passed without alteration")
+    void testLogin_PasswordWithUnicodeAndEmojis_Preserved() {
+        String complexPass = " 🔑P@ssw0rd! 2026 👰🤵 ";
+        LoginRequest req = new LoginRequest();
+        req.setUsernameOrEmail("sales_consultant");
+        req.setPassword(complexPass);
+
+        Authentication auth = mock(Authentication.class);
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(auth);
+        when(jwtTokenProvider.generateToken(auth)).thenReturn("mock.jwt.token");
+
+        authService.login(req);
+
+        verify(authenticationManager).authenticate(argThat(tokenAuth ->
+            tokenAuth.getCredentials().equals(complexPass)
+        ));
+    }
 }
