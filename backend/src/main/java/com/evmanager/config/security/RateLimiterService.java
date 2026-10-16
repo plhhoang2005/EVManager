@@ -108,8 +108,19 @@ public class RateLimiterService {
         if (path == null) {
             return false;
         }
-        String normalized = path.endsWith("/") && path.length() > 1 ? path.substring(0, path.length() - 1) : path;
-        return "/api/v1/auth/login".equals(normalized) || "/api/auth/login".equals(normalized);
+        String cleanPath = path;
+        int queryIdx = cleanPath.indexOf('?');
+        if (queryIdx >= 0) {
+            cleanPath = cleanPath.substring(0, queryIdx);
+        }
+        int semiIdx = cleanPath.indexOf(';');
+        if (semiIdx >= 0) {
+            cleanPath = cleanPath.substring(0, semiIdx);
+        }
+        String normalized = cleanPath.endsWith("/") && cleanPath.length() > 1
+                ? cleanPath.substring(0, cleanPath.length() - 1)
+                : cleanPath;
+        return "/api/v1/auth/login".equalsIgnoreCase(normalized) || "/api/auth/login".equalsIgnoreCase(normalized);
     }
 
     public String normalizeClientIp(String ip) {
@@ -117,6 +128,9 @@ public class RateLimiterService {
             return "unknown";
         }
         String trimmed = ip.trim();
+        if (trimmed.contains(",")) {
+            trimmed = trimmed.split(",")[0].trim();
+        }
         if ("0:0:0:0:0:0:0:1".equals(trimmed) || "::1".equals(trimmed)) {
             return "127.0.0.1";
         }

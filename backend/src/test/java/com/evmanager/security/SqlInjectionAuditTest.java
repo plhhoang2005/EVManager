@@ -135,4 +135,60 @@ public class SqlInjectionAuditTest {
         assertNotNull(result);
         verify(customerRepository).searchCustomers(eq(payload), any(Pageable.class));
     }
+
+    @Test
+    @DisplayName("I06: URL-encoded SQL payload (%27%20OR%201%3D1) is treated strictly as literal data")
+    void testSearch_UrlEncodedPayload_BoundSafely() {
+        String payload = "%27%20OR%201%3D1";
+        Page<Customer> emptyPage = new PageImpl<>(List.of());
+        when(customerRepository.searchCustomers(eq(payload), any(Pageable.class)))
+                .thenReturn(emptyPage);
+
+        Page<CustomerResponse> result = customerService.getCustomers(payload, PageRequest.of(0, 10));
+
+        assertNotNull(result);
+        verify(customerRepository).searchCustomers(eq(payload), any(Pageable.class));
+    }
+
+    @Test
+    @DisplayName("I15: Inline SQL comment obfuscation ('/**/OR/**/'1'='1) is bound as literal parameter")
+    void testSearch_SqlCommentObfuscation_BoundSafely() {
+        String payload = "'/**/OR/**/'1'='1";
+        Page<Customer> emptyPage = new PageImpl<>(List.of());
+        when(customerRepository.searchCustomers(eq(payload), any(Pageable.class)))
+                .thenReturn(emptyPage);
+
+        Page<CustomerResponse> result = customerService.getCustomers(payload, PageRequest.of(0, 10));
+
+        assertNotNull(result);
+        verify(customerRepository).searchCustomers(eq(payload), any(Pageable.class));
+    }
+
+    @Test
+    @DisplayName("I10: Extremely long string payload (5,000 chars) is bound safely without query corruption")
+    void testSearch_ExtremelyLongPayload_BoundSafely() {
+        String payload = "A".repeat(5000);
+        Page<Customer> emptyPage = new PageImpl<>(List.of());
+        when(customerRepository.searchCustomers(eq(payload), any(Pageable.class)))
+                .thenReturn(emptyPage);
+
+        Page<CustomerResponse> result = customerService.getCustomers(payload, PageRequest.of(0, 10));
+
+        assertNotNull(result);
+        verify(customerRepository).searchCustomers(eq(payload), any(Pageable.class));
+    }
+
+    @Test
+    @DisplayName("I16: Stacked queries payload (1; EXEC xp_cmdshell('whoami');--) is bound as harmless parameter")
+    void testSearch_StackedQueriesPayload_BoundSafely() {
+        String payload = "1; EXEC xp_cmdshell('whoami');--";
+        Page<Customer> emptyPage = new PageImpl<>(List.of());
+        when(customerRepository.searchCustomers(eq(payload), any(Pageable.class)))
+                .thenReturn(emptyPage);
+
+        Page<CustomerResponse> result = customerService.getCustomers(payload, PageRequest.of(0, 10));
+
+        assertNotNull(result);
+        verify(customerRepository).searchCustomers(eq(payload), any(Pageable.class));
+    }
 }

@@ -141,12 +141,40 @@ public class RateLimiterServiceTest {
     }
 
     @Test
-    @DisplayName("E12 & E13: IP Normalization handles IPv6 localhost and whitespace")
+    @DisplayName("E12 & E13: IP Normalization handles IPv6 localhost, whitespace, and comma-separated IPs")
     void testIpNormalization() {
         assertEquals("127.0.0.1", rateLimiterService.normalizeClientIp("0:0:0:0:0:0:0:1"));
         assertEquals("127.0.0.1", rateLimiterService.normalizeClientIp("::1"));
         assertEquals("192.168.1.1", rateLimiterService.normalizeClientIp("  192.168.1.1  "));
+        assertEquals("198.51.100.1", rateLimiterService.normalizeClientIp("198.51.100.1, 10.0.0.1, 172.16.0.1"));
         assertEquals("unknown", rateLimiterService.normalizeClientIp(null));
         assertEquals("unknown", rateLimiterService.normalizeClientIp("   "));
+    }
+
+    @Test
+    @DisplayName("J04 & J06: Exotic login path variations (trailing slash, query params, matrix params, casing) are correctly identified")
+    void testExoticLoginRouteVariations() {
+        assertTrue(rateLimiterService.isLoginRoute("/api/v1/auth/login", "POST"));
+        assertTrue(rateLimiterService.isLoginRoute("/api/v1/auth/login/", "POST"));
+        assertTrue(rateLimiterService.isLoginRoute("/api/v1/auth/login?param=evil&redirect=/home", "POST"));
+        assertTrue(rateLimiterService.isLoginRoute("/api/v1/auth/login;jsessionid=123456", "POST"));
+        assertTrue(rateLimiterService.isLoginRoute("/API/V1/AUTH/LOGIN", "POST"));
+        assertTrue(rateLimiterService.isLoginRoute("/api/v1/auth/login", "post")); // lowercase method
+
+        // Negative cases
+        assertFalse(rateLimiterService.isLoginRoute("/api/v1/auth/login", "GET"));
+        assertFalse(rateLimiterService.isLoginRoute("/api/v1/auth/register", "POST"));
+        assertFalse(rateLimiterService.isLoginRoute("/api/v1/auth/login/extra", "POST"));
+        assertFalse(rateLimiterService.isLoginRoute(null, "POST"));
+    }
+
+    @Test
+    @DisplayName("D11: Disabled rate limiter bypasses counting and allows all requests")
+    void testRateLimiterDisabled() {
+        properties.setEnabled(false);
+        RateLimiterService.RateLimitResult res = rateLimiterService.checkRateLimit("1.2.3.4", "/api/v1/auth/login", "POST");
+        assertTrue(res.isAllowed());
+        assertEquals(Integer.MAX_VALUE, res.getRemaining());
+        assertEquals(0, res.getRetryAfterSeconds());
     }
 }

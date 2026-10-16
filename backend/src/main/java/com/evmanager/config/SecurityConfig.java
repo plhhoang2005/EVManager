@@ -105,7 +105,15 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
+        CorsConfiguration configuration = new CorsConfiguration() {
+            @Override
+            public String checkOrigin(String requestOrigin) {
+                if (requestOrigin != null && requestOrigin.endsWith("/")) {
+                    return null;
+                }
+                return super.checkOrigin(requestOrigin);
+            }
+        };
         configuration.setAllowedOrigins(corsProperties.getAllowedOrigins());
         configuration.setAllowedMethods(corsProperties.getAllowedMethods());
         configuration.setAllowedHeaders(corsProperties.getAllowedHeaders());
