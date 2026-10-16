@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface ContractRepository extends JpaRepository<Contract, Long> {
     Optional<Contract> findByEvent_EventId(Long eventId);
     boolean existsByEvent_EventId(Long eventId);
+    boolean existsByContractCode(String contractCode);
+    long countByContractDate(java.time.LocalDate contractDate);
 }

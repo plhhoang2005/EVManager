@@ -25,6 +25,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,11 +73,16 @@ public class ContractService {
             contract.setReserveTableCount(request.getReserveTableCount());
         }
         
-        // Generate code
-        String code = "HD-" + request.getContractDate().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-" + UUID.randomUUID().toString().substring(0, 4).toUpperCase();
+        // Generate contract code strictly conforming to UC-09: HD-YYYYMMDD-XXX
+        long seq = contractRepository.countByContractDate(request.getContractDate()) + 1;
+        String dateStr = request.getContractDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String code = String.format("HD-%s-%03d", dateStr, seq);
+        if (contractRepository.existsByContractCode(code)) {
+            code = "HD-" + dateStr + "-" + UUID.randomUUID().toString().substring(0, 4).toUpperCase();
+        }
         contract.setContractCode(code);
 
-        BigDecimal totalAmount = BigDecimal.ZERO;
+        BigDecimal menuTotal = BigDecimal.ZERO;
 
         List<ContractMenuEntity> menuEntities = new ArrayList<>();
         List<com.evmanager.contracts.dto.ContractMenuRequest> menuRequests = request.getMenus();
@@ -105,12 +112,13 @@ public class ContractService {
                 
                 menuEntities.add(cme);
                 
-                // Add to total amount: price * quantity
-                totalAmount = totalAmount.add(agreedPrice.multiply(BigDecimal.valueOf(cme.getQuantity())));
+                // Add to menu total: price * quantity
+                menuTotal = menuTotal.add(agreedPrice.multiply(BigDecimal.valueOf(cme.getQuantity())));
             }
         }
         contract.setContractMenus(menuEntities);
 
+        BigDecimal serviceTotal = BigDecimal.ZERO;
         List<ContractServiceEntity> serviceEntities = new ArrayList<>();
         if (request.getServiceIds() != null && !request.getServiceIds().isEmpty()) {
             for (Long serviceId : request.getServiceIds()) {
@@ -120,7 +128,6 @@ public class ContractService {
                 ContractServiceEntity cse = new ContractServiceEntity();
                 ContractServiceId id = new ContractServiceId();
                 id.setServiceId(serviceId);
-                // contractId will be set after saving or mapped by Hibernate
                 cse.setId(id);
                 cse.setContract(contract);
                 cse.setService(service);
@@ -128,13 +135,64 @@ public class ContractService {
                 cse.setAgreedUnitPrice(service.getUnitPrice()); // Snapshot!
                 serviceEntities.add(cse);
                 
-                totalAmount = totalAmount.add(service.getUnitPrice());
+                serviceTotal = serviceTotal.add(service.getUnitPrice());
             }
         }
-        
         contract.setContractServices(serviceEntities);
+
+        // SubTotal before discounts
+        BigDecimal subTotal = menuTotal.add(serviceTotal);
+
+        // 1. Áp dụng Chiết khấu % TRƯỚC (trên tiền thực đơn bàn nếu có, hoặc subTotal)
+        BigDecimal discountPercent = request.getDiscountPercent() != null ? request.getDiscountPercent() : BigDecimal.ZERO;
+        if (discountPercent.compareTo(BigDecimal.ZERO) < 0 || discountPercent.compareTo(new BigDecimal("100")) > 0) {
+            throw new IllegalArgumentException("Discount percentage must be between 0 and 100");
+        }
+        BigDecimal discountTarget = menuTotal.compareTo(BigDecimal.ZERO) > 0 ? menuTotal : subTotal;
+        BigDecimal discountAmount = discountTarget.multiply(discountPercent)
+                .divide(BigDecimal.valueOf(100), 0, RoundingMode.HALF_UP);
+        BigDecimal afterDiscount = subTotal.subtract(discountAmount);
+        if (afterDiscount.compareTo(BigDecimal.ZERO) < 0) {
+            afterDiscount = BigDecimal.ZERO;
+        }
+
+        // 2. Tiếp tục trừ Voucher khuyến mãi tiền mặt TRỰC TIẾP SAU chiết khấu theo BUG-03
+        BigDecimal voucherAmount = request.getVoucherAmount() != null ? request.getVoucherAmount() : BigDecimal.ZERO;
+        if (voucherAmount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Voucher amount cannot be negative");
+        }
+        BigDecimal netSubTotal = afterDiscount.subtract(voucherAmount);
+        if (netSubTotal.compareTo(BigDecimal.ZERO) < 0) {
+            netSubTotal = BigDecimal.ZERO;
+        }
+
+        // 3. Thuế GTGT VAT (mặc định 0% nếu không chỉ định; nếu chỉ định e.g. 8% thì tính trên netSubTotal)
+        BigDecimal vatPercent = request.getVatPercent() != null ? request.getVatPercent() : BigDecimal.ZERO;
+        if (vatPercent.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("VAT percentage cannot be negative");
+        }
+        BigDecimal vatAmount = netSubTotal.multiply(vatPercent)
+                .divide(BigDecimal.valueOf(100), 0, RoundingMode.HALF_UP);
+
+        // 4. Tổng giá trị hợp đồng
+        BigDecimal totalAmount = netSubTotal.add(vatAmount);
+
+        // 5. Tiền đặt cọc tối thiểu đợt 1 (30% tổng giá trị hợp đồng)
+        BigDecimal minDeposit = totalAmount.multiply(new BigDecimal("0.30")).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal depositAmount = minDeposit;
+        if (request.getDepositAmount() != null) {
+            if (request.getDepositAmount().compareTo(minDeposit.setScale(0, RoundingMode.DOWN)) < 0) {
+                throw new IllegalArgumentException("Deposit amount must be at least 30% of total contract amount (" + minDeposit.setScale(0, RoundingMode.HALF_UP) + ")");
+            }
+            depositAmount = request.getDepositAmount();
+        }
+
+        contract.setSubTotal(subTotal);
+        contract.setDiscountPercent(discountPercent);
+        contract.setVoucherAmount(voucherAmount);
+        contract.setVatPercent(vatPercent);
         contract.setTotalAmount(totalAmount);
-        contract.setDepositAmount(totalAmount.multiply(new BigDecimal("0.30")));
+        contract.setDepositAmount(depositAmount);
         contract.setStatus("DRAFT");
 
         Contract savedContract = contractRepository.save(contract);
@@ -178,6 +236,10 @@ public class ContractService {
         }
         
         res.setContractDate(contract.getContractDate());
+        res.setSubTotal(contract.getSubTotal());
+        res.setDiscountPercent(contract.getDiscountPercent());
+        res.setVoucherAmount(contract.getVoucherAmount());
+        res.setVatPercent(contract.getVatPercent());
         res.setTotalAmount(contract.getTotalAmount());
         res.setDepositAmount(contract.getDepositAmount());
         res.setStatus(contract.getStatus());
