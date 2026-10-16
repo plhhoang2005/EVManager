@@ -17,7 +17,7 @@ public interface VenueRepository extends JpaRepository<Venue, Long> {
     Optional<Venue> findByIdWithPessimisticWriteLock(@Param("venueId") Long venueId);
     
     @Query("SELECT v FROM Venue v WHERE v.status != 'INACTIVE' AND " +
-           "(:keyword IS NULL OR LOWER(v.venueName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(v.address) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+           "(cast(:keyword as string) IS NULL OR LOWER(v.venueName) LIKE LOWER(CONCAT('%', cast(:keyword as string), '%')) OR LOWER(v.address) LIKE LOWER(CONCAT('%', cast(:keyword as string), '%')))")
     Page<Venue> findActiveVenues(@Param("keyword") String keyword, Pageable pageable);
 
     @Query(value = "SELECT COUNT(*) FROM events WHERE venue_id = :venueId AND status IN ('SCHEDULED', 'PREPARING', 'IN_PROGRESS')", nativeQuery = true)
