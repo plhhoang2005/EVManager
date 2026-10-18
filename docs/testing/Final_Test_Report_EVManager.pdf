@@ -1,0 +1,86 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 3886 >>
+stream
+BT
+/F1 9 Tf
+40 800 Td
+14 TL
+(BAO CAO KIEM THU TONG KET CUOI KY \(FINAL TEST SUMMARY REPORT\)) Tj T*
+(CHUNG CHI DAM BAO CHAT LUONG PHAN MEM \(SOFTWARE QUALITY ASSURANCE SIGN-OFF\)) Tj T*
+(Du an: EVManager - He thong Quan ly Dich vu Su kien & Tiec cuoi \(LV34-001\)) Tj T*
+(Hoc phan: Quan ly Du an CNTT \(MAN104\) | Cot moc: Tuan 8 - Nghiem thu cuoi ky) Tj T*
+(Nguoi thuc hien \(QA Lead\): Bui Nguyen Chi Hau | Phe duyet \(PM\): Phan Le Huy Hoang) Tj T*
+(----------------------------------------------------------------------------------) Tj T*
+() Tj T*
+T*
+(1. TONG HOP KET QUA KIEM THU TU TUAN 1 DEN TUAN 8:) Tj T*
+(   - Tong so kich ban kiem thu thiet ke: 87 kich ban \(100% bao phu\)) Tj T*
+(   - So luot thuc thi kiem thu \(Test Runs\): 248 luot chay xuyen suot 8 tuan) Tj T*
+(   - Ket qua kiem thu don vi & tich hop \(Unit & Integration\): 37/37 Tests Passed \(100%\)) Tj T*
+(   - Ket qua kiem thu he thong \(System Test\): 35/35 Test Cases Passed \(100%\)) Tj T*
+(   - Ket qua kiem thu UAT \(Nguoi dung doanh nghiep\): 15/15 Scenarios Accepted \(100%\)) Tj T*
+(   - Ket qua kiem thu hieu nang \(Performance 50 VUs\): p95 = 245ms \(< 500ms SLA\), Error = 0.00%) Tj T*
+(   - Tong so loi phat hien va khac phuc: 10/10 Defects Closed \(BUG-01 -> BUG-08, BUG-104, BUG-105\)) Tj T*
+(   - So loi con ton dong: 0 loi \(Zero Critical / Blocker / High Open Bugs\)) Tj T*
+() Tj T*
+T*
+(2. MA TRAN BAO PHU YEU CAU \(TRACEABILITY MATRIX - 100% USE CASES\):) Tj T*
+(   - UC-01 \(Dang nhap\): TC_AUTH_01, TC_AUTH_02, TC_AUTH_03, UAT-01 [PASS 100%]) Tj T*
+(   - UC-02 \(Phan quyen RBAC\): TC_AUTH_05, TC_AUTH_06, TC_AUTH_04, UAT-02 [PASS 100%]) Tj T*
+(   - UC-03 \(Quan ly Khach hang\): TC_CUST_01, TC_CUST_02, TC_CUST_03, UAT-03, UAT-04 [PASS 100%]) Tj T*
+(   - UC-04 \(Tra cuu sanh\): TC_VENUE_01, TC_VENUE_02, UAT-05, UAT-06 [PASS 100%]) Tj T*
+(   - UC-05 \(Quan ly sanh & giu cho\): TC_VENUE_03, TC_VENUE_04, TC_VENUE_05, TC_VENUE_06 [PASS 100%]) Tj T*
+(   - UC-06 \(Thuc don & mon an\): TC_MENU_01, TC_MENU_02, TC_MENU_03, TC_MENU_04, UAT-07 [PASS 100%]) Tj T*
+(   - UC-07 \(Dich vu di kem\): TC_MENU_05, TC_MENU_06, TC_MENU_07, TC_MENU_08, UAT-08 [PASS 100%]) Tj T*
+(   - UC-08 \(Tinh chi phi & bao gia\): TC_EVENT_04, TC_EVENT_05, TC_EVENT_06, UAT-09 [PASS 100%]) Tj T*
+(   - UC-09 \(Lap lich su kien\): TC_EVENT_01, TC_EVENT_02, UAT-10, UAT-11 [PASS 100%]) Tj T*
+(   - UC-10 \(Xung dot lich sanh\): TC_EVENT_03, EventConcurrencyIntegrationTest, UAT-12 [PASS 100%]) Tj T*
+(   - UC-11 \(Quan ly hop dong\): TC_EVENT_07, TC_EVENT_08, ContractServiceTest, UAT-13 [PASS 100%]) Tj T*
+(   - UC-12 \(Quan ly thanh toan & coc\): TC_EVENT_09, TC_AUTH_06, UAT-13 [PASS 100%]) Tj T*
+(   - UC-13 \(Dieu phoi sanh & nhan su\): UAT-08, UAT-11, TC_EVENT_01 [PASS 100%]) Tj T*
+(   - UC-14 \(Dashboard & bao cao\): UAT-14, UAT-15, TC_AUTH_01 [PASS 100%]) Tj T*
+(   => 14/14 Use Cases dat chuan bao phu \(Moi UC co tu 3-5 Test Cases kiem chung\)) Tj T*
+() Tj T*
+T*
+(3. DANH GIA MUC DO SAN SANG TRIEN KHAI \(PRODUCTION READINESS\):) Tj T*
+(   - Do hoan thien chuc nang: 100% hoan tat 3 luong nghiep vu loi) Tj T*
+(   - Hieu nang & Tai: Dat vuot muc SLA \(50 VUs on dinh, p95=245ms, PageLoad < 2.2s\)) Tj T*
+(   - Do tin cay: Ap dung Pessimistic Lock chong race condition, CSDL 3NF nguyen tu) Tj T*
+(   - Bao mat: BCrypt hash, JWT stateless token, RBAC 4 vai tro chat che o Backend) Tj T*
+(   - Kha nang phuc hoi: 15 ban Flyway Migration dong bo tu dong, san sang Docker Staging) Tj T*
+() Tj T*
+T*
+(4. BIEN BAN NGHIEM THU CHAT LUONG \(FINAL QUALITY SIGN-OFF\):) Tj T*
+(   - Dai dien Ban Kiem thu \(QA Lead\): Bui Nguyen Chi Hau \(Da ky xac nhan\)) Tj T*
+(   - Dai dien Ban Quan ly Du an \(PM\): Phan Le Huy Hoang \(Da phe duyet nghiem thu\)) Tj T*
+(   - Ngay ky: 13/10/2026 | Ket luan: HE THONG EVMANAGER DU DIEU KIEN DONG DU AN & BAO VE) Tj T*
+(   - Chi tiet xem tai: docs/testing/final-test-report.md) Tj T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000004179 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+4249
+%%EOF
