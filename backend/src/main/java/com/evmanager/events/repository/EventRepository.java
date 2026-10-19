@@ -12,6 +12,8 @@ import org.springframework.data.jpa.repository.Lock;
 import jakarta.persistence.LockModeType;
 import java.util.Optional;
 
+import com.evmanager.reports.dto.EventExportDto;
+
 public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
@@ -29,4 +31,25 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query("SELECT e FROM Event e JOIN FETCH e.venue WHERE e.startAt < :end AND e.endAt > :start")
     List<Event> findEventsInRange(@Param("start") OffsetDateTime start, @Param("end") OffsetDateTime end);
+
+    @Query("SELECT new com.evmanager.reports.dto.EventExportDto(" +
+           "e.eventId, " +
+           "c.contractCode, " +
+           "e.eventName, " +
+           "cust.fullName, " +
+           "v.venueName, " +
+           "e.startAt, " +
+           "c.totalAmount, " +
+           "e.status) " +
+           "FROM Event e " +
+           "JOIN e.venue v " +
+           "LEFT JOIN Contract c ON c.event = e " +
+           "LEFT JOIN c.customer cust " +
+           "WHERE e.status != 'CANCELLED' " +
+           "AND (:startDateTime IS NULL OR e.startAt >= :startDateTime) " +
+           "AND (:endDateTime IS NULL OR e.startAt <= :endDateTime) " +
+           "ORDER BY e.startAt ASC")
+    List<EventExportDto> findEventsForExport(
+            @Param("startDateTime") OffsetDateTime startDateTime,
+            @Param("endDateTime") OffsetDateTime endDateTime);
 }
