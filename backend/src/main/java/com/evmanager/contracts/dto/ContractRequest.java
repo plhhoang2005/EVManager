@@ -26,4 +26,16 @@ public class ContractRequest {
     private LocalDate contractDate;
 
     private List<Long> serviceIds;
+
+    @Min(value = 0, message = "Discount percent cannot be negative")
+    private java.math.BigDecimal discountPercent;
+
+    @Min(value = 0, message = "Voucher amount cannot be negative")
+    private java.math.BigDecimal voucherAmount;
+
+    @Min(value = 0, message = "VAT percent cannot be negative")
+    private java.math.BigDecimal vatPercent;
+
+    @Min(value = 0, message = "Deposit amount cannot be negative")
+    private java.math.BigDecimal depositAmount;
 }

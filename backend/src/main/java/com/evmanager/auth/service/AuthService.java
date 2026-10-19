@@ -35,7 +35,14 @@ public class AuthService {
     }
 
     public String login(LoginRequest loginRequest) {
-        String identifier = loginRequest.getUsernameOrEmail().trim().toLowerCase();
+        if (loginRequest == null || loginRequest.getUsernameOrEmail() == null) {
+            throw new org.springframework.security.authentication.BadCredentialsException("Invalid username or password");
+        }
+        String rawIdentifier = loginRequest.getUsernameOrEmail().trim();
+        if (rawIdentifier.isEmpty()) {
+            throw new org.springframework.security.authentication.BadCredentialsException("Invalid username or password");
+        }
+        String identifier = rawIdentifier.toLowerCase(java.util.Locale.ROOT);
         
         try {
             Authentication authentication = authenticationManager.authenticate(

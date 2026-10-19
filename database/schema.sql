@@ -1,6 +1,6 @@
 -- =============================================================================
 -- EVManager Database Schema (PostgreSQL 16)
--- Normalized to 3rd Normal Form (3NF) - 13 Tables
+-- Normalized to 3rd Normal Form (3NF) - 15 Tables
 -- Document reference: docs/design/erd-logical.dbml & docs/design/data-dictionary.md
 -- =============================================================================
 
@@ -35,7 +35,21 @@ CREATE TABLE IF NOT EXISTS users (
 );
 CREATE INDEX IF NOT EXISTS idx_users_role_id ON users(role_id);
 
--- 3. CUSTOMERS
+-- 3. OTP_TOKENS
+CREATE TABLE IF NOT EXISTS otp_tokens (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    otp_code VARCHAR(6) NOT NULL,
+    purpose VARCHAR(30) NOT NULL,
+    expiry_date TIMESTAMPTZ NOT NULL,
+    is_used BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_otp_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_otp_code ON otp_tokens(otp_code);
+CREATE INDEX IF NOT EXISTS idx_otp_user ON otp_tokens(user_id);
+
+-- 4. CUSTOMERS
 CREATE TABLE IF NOT EXISTS customers (
     customer_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
@@ -48,7 +62,7 @@ CREATE TABLE IF NOT EXISTS customers (
     CONSTRAINT chk_customers_contact CHECK (phone IS NOT NULL OR email IS NOT NULL)
 );
 
--- 4. VENUES
+-- 5. VENUES
 CREATE TABLE IF NOT EXISTS venues (
     venue_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     venue_name VARCHAR(100) NOT NULL,
@@ -66,7 +80,7 @@ CREATE TABLE IF NOT EXISTS venues (
     CONSTRAINT chk_venues_status CHECK (status IN ('AVAILABLE', 'MAINTENANCE', 'INACTIVE'))
 );
 
--- 5. DISHES
+-- 6. DISHES
 CREATE TABLE IF NOT EXISTS dishes (
     dish_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     dish_name VARCHAR(100) NOT NULL,
@@ -81,7 +95,7 @@ CREATE TABLE IF NOT EXISTS dishes (
     CONSTRAINT chk_dishes_status CHECK (status IN ('ACTIVE', 'INACTIVE'))
 );
 
--- 6. MENUS
+-- 7. MENUS
 CREATE TABLE IF NOT EXISTS menus (
     menu_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     menu_name VARCHAR(100) NOT NULL UNIQUE,
@@ -94,7 +108,7 @@ CREATE TABLE IF NOT EXISTS menus (
     CONSTRAINT chk_menus_status CHECK (status IN ('ACTIVE', 'INACTIVE'))
 );
 
--- 7. MENU_DISHES (Associative Table N-N)
+-- 8. MENU_DISHES (Associative Table N-N)
 CREATE TABLE IF NOT EXISTS menu_dishes (
     menu_id BIGINT NOT NULL,
     dish_id BIGINT NOT NULL,
@@ -107,7 +121,7 @@ CREATE TABLE IF NOT EXISTS menu_dishes (
 );
 CREATE INDEX IF NOT EXISTS idx_menu_dishes_dish_id ON menu_dishes(dish_id);
 
--- 8. SERVICES
+-- 9. SERVICES
 CREATE TABLE IF NOT EXISTS services (
     service_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     service_name VARCHAR(100) NOT NULL UNIQUE,
@@ -120,7 +134,7 @@ CREATE TABLE IF NOT EXISTS services (
     CONSTRAINT chk_services_status CHECK (status IN ('ACTIVE', 'INACTIVE'))
 );
 
--- 9. EVENTS
+-- 10. EVENTS
 CREATE TABLE IF NOT EXISTS events (
     event_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     venue_id BIGINT NOT NULL,
@@ -138,28 +152,54 @@ CREATE TABLE IF NOT EXISTS events (
 );
 CREATE INDEX IF NOT EXISTS idx_events_venue_time ON events(venue_id, start_at, end_at);
 
--- 10. CONTRACTS
+-- 11. CONTRACTS
 CREATE TABLE IF NOT EXISTS contracts (
     contract_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     customer_id BIGINT NOT NULL,
     event_id BIGINT UNIQUE,
-    menu_id BIGINT,
     contract_code VARCHAR(50) NOT NULL UNIQUE,
     contract_date DATE NOT NULL,
-    total_amount NUMERIC(18,2) NOT NULL,
+    table_count INT NOT NULL DEFAULT 0,
+    reserve_table_count INT NOT NULL DEFAULT 0,
+    sub_total NUMERIC(18,2) NOT NULL DEFAULT 0,
+    discount_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+    voucher_amount NUMERIC(18,2) NOT NULL DEFAULT 0,
+    vat_percent NUMERIC(5,2) NOT NULL DEFAULT 0,
+    total_amount NUMERIC(18,2) NOT NULL DEFAULT 0,
+    deposit_amount NUMERIC(18,2) NOT NULL DEFAULT 0,
     status VARCHAR(30) NOT NULL DEFAULT 'DRAFT',
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_contracts_customers FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CONSTRAINT fk_contracts_events FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT fk_contracts_menus FOREIGN KEY (menu_id) REFERENCES menus(menu_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT chk_contracts_table_count CHECK (table_count >= 0),
+    CONSTRAINT chk_contracts_reserve_table_count CHECK (reserve_table_count >= 0),
+    CONSTRAINT chk_contracts_sub_total CHECK (sub_total >= 0),
+    CONSTRAINT chk_contracts_discount_percent CHECK (discount_percent >= 0 AND discount_percent <= 100),
+    CONSTRAINT chk_contracts_voucher_amount CHECK (voucher_amount >= 0),
+    CONSTRAINT chk_contracts_vat_percent CHECK (vat_percent >= 0),
     CONSTRAINT chk_contracts_total_amount CHECK (total_amount >= 0),
+    CONSTRAINT chk_contracts_deposit_amount CHECK (deposit_amount >= 0),
     CONSTRAINT chk_contracts_status CHECK (status IN ('DRAFT', 'PENDING_CONFIRMATION', 'CONFIRMED', 'COMPLETED', 'CANCELLED'))
 );
 CREATE INDEX IF NOT EXISTS idx_contracts_customer_id ON contracts(customer_id);
-CREATE INDEX IF NOT EXISTS idx_contracts_menu_id ON contracts(menu_id);
 
--- 11. CONTRACT_SERVICES (Associative Table N-N)
+-- 12. CONTRACT_MENUS (Associative Table N-N)
+CREATE TABLE IF NOT EXISTS contract_menus (
+    contract_id BIGINT NOT NULL,
+    menu_id BIGINT NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
+    agreed_price NUMERIC(18,2) NOT NULL,
+    note VARCHAR(255),
+    CONSTRAINT pk_contract_menus PRIMARY KEY (contract_id, menu_id),
+    CONSTRAINT fk_contract_menus_contracts FOREIGN KEY (contract_id) REFERENCES contracts(contract_id) ON DELETE CASCADE ON UPDATE RESTRICT,
+    CONSTRAINT fk_contract_menus_menus FOREIGN KEY (menu_id) REFERENCES menus(menu_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT chk_contract_menus_quantity CHECK (quantity > 0),
+    CONSTRAINT chk_contract_menus_price CHECK (agreed_price >= 0)
+);
+CREATE INDEX IF NOT EXISTS idx_contract_menus_menu_id ON contract_menus(menu_id);
+
+-- 13. CONTRACT_SERVICES (Associative Table N-N)
 CREATE TABLE IF NOT EXISTS contract_services (
     contract_id BIGINT NOT NULL,
     service_id BIGINT NOT NULL,
@@ -174,7 +214,7 @@ CREATE TABLE IF NOT EXISTS contract_services (
 );
 CREATE INDEX IF NOT EXISTS idx_contract_services_service_id ON contract_services(service_id);
 
--- 12. PAYMENTS
+-- 14. PAYMENTS
 CREATE TABLE IF NOT EXISTS payments (
     payment_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     contract_id BIGINT NOT NULL,
@@ -192,7 +232,7 @@ CREATE TABLE IF NOT EXISTS payments (
 );
 CREATE INDEX IF NOT EXISTS idx_payments_contract_id ON payments(contract_id);
 
--- 13. AUDIT_LOGS
+-- 15. AUDIT_LOGS
 CREATE TABLE IF NOT EXISTS audit_logs (
     audit_log_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     user_id BIGINT,
