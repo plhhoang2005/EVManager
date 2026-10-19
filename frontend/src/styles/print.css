@@ -1,0 +1,85 @@
+/* CSS Chuyên dụng cho in ấn Hợp đồng và Phiếu thu chuẩn khổ giấy A4 (UI-25) */
+
+@page {
+  size: A4 portrait;
+  margin: 15mm 15mm 15mm 15mm;
+}
+
+@media print {
+  /* Ẩn toàn bộ giao diện quản trị website */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Chỉ hiển thị khu vực được chỉ định in */
+  .printable-document,
+  .printable-document * {
+    visibility: visible;
+  }
+
+  .printable-document {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  /* Ẩn các nút thao tác, modal backdrop, scrollbar */
+  .no-print,
+  .modal-backdrop,
+  .modal-header,
+  .modal-footer,
+  .admin-sidebar,
+  .admin-topbar,
+  .navbar,
+  .footer {
+    display: none !important;
+  }
+
+  /* Tránh ngắt trang giữa các bảng hoặc mục chữ ký */
+  .print-avoid-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Bắt buộc ngắt trang nếu cần */
+  .print-page-break {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  /* Tối ưu typography cho máy in văn phòng */
+  body {
+    background: #ffffff !important;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  table.print-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+  }
+
+  table.print-table th,
+  table.print-table td {
+    border: 1px solid #333333 !important;
+    padding: 6px 10px;
+    font-size: 10.5pt;
+  }
+
+  table.print-table th {
+    background-color: #f1f5f9 !important;
+    font-weight: bold;
+    text-align: center;
+  }
+}
