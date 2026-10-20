@@ -36,3 +36,7 @@ build/
 .env
 .env.*
 *.log
+logs/
+backups/
+*.sql.gz
+*.sql
