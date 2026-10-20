@@ -21,7 +21,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        User user = userRepository.findByUsernameIgnoreCaseOrEmailIgnoreCase(usernameOrEmail, usernameOrEmail)
+        if (usernameOrEmail == null || usernameOrEmail.trim().isEmpty()) {
+            throw new UsernameNotFoundException("Username or email cannot be empty");
+        }
+        String normalized = usernameOrEmail.trim().toLowerCase(java.util.Locale.ROOT);
+        User user = userRepository.findByUsernameIgnoreCaseOrEmailIgnoreCase(normalized, normalized)
                 .orElseThrow(() -> 
                         new UsernameNotFoundException("User not found with username or email: " + usernameOrEmail)
         );

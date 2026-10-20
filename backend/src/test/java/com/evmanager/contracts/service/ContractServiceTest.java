@@ -229,4 +229,185 @@ class ContractServiceTest {
         assertTrue(ex.getMessage().contains("Event already has a contract"));
         verify(contractRepository, never()).save(any());
     }
+
+    @Test
+    void createContract_TC_CALC_01_BasicWithVat_Success() {
+        // TC-CALC-01: 20 bàn * 4.500.000 + 10.000.000 dịch vụ = 100.000.000
+        // Thuế VAT 8% = 8.000.000 -> Tổng = 108.000.000 -> Cọc 30% = 32.400.000
+        ContractRequest request = new ContractRequest();
+        request.setCustomerId(1L);
+        request.setEventId(10L);
+        request.setContractDate(LocalDate.of(2026, 10, 20));
+        request.setTableCount(20);
+        request.setReserveTableCount(2);
+
+        ContractMenuRequest menuReq = new ContractMenuRequest();
+        menuReq.setMenuId(5L);
+        menuReq.setQuantity(20);
+        menuReq.setAgreedPrice(new BigDecimal("4500000"));
+        request.setMenus(List.of(menuReq));
+        request.setServiceIds(List.of(8L));
+        request.setVatPercent(new BigDecimal("8"));
+
+        when(eventRepository.findByIdWithPessimisticWriteLock(10L)).thenReturn(Optional.of(testEvent));
+        when(contractRepository.existsByEvent_EventId(10L)).thenReturn(false);
+        when(customerRepository.findById(1L)).thenReturn(Optional.of(testCustomer));
+        when(menuRepository.findById(5L)).thenReturn(Optional.of(testMenu));
+        when(serviceRepository.findById(8L)).thenReturn(Optional.of(testService));
+        when(contractRepository.save(any(Contract.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        ContractResponse response = contractService.createContract(request);
+
+        assertNotNull(response);
+        assertEquals(new BigDecimal("100000000"), response.getSubTotal());
+        assertEquals(new BigDecimal("108000000"), response.getTotalAmount());
+        assertEquals(new BigDecimal("32400000.00"), response.getDepositAmount());
+    }
+
+    @Test
+    void createContract_TC_CALC_02_DiscountPercentOnTable_Success() {
+        // TC-CALC-02: Tiền bàn 90.000.000, chiết khấu 10% bàn = 9.000.000 -> Bàn còn 81.000.000
+        // Dịch vụ 10.000.000 -> Trước thuế = 91.000.000
+        // VAT 8% = 7.280.000 -> Tổng = 98.280.000 -> Cọc 30% = 29.484.000
+        ContractRequest request = new ContractRequest();
+        request.setCustomerId(1L);
+        request.setEventId(10L);
+        request.setContractDate(LocalDate.of(2026, 10, 20));
+        request.setTableCount(20);
+        request.setReserveTableCount(2);
+
+        ContractMenuRequest menuReq = new ContractMenuRequest();
+        menuReq.setMenuId(5L);
+        menuReq.setQuantity(20);
+        menuReq.setAgreedPrice(new BigDecimal("4500000"));
+        request.setMenus(List.of(menuReq));
+        request.setServiceIds(List.of(8L));
+        request.setDiscountPercent(new BigDecimal("10"));
+        request.setVatPercent(new BigDecimal("8"));
+
+        when(eventRepository.findByIdWithPessimisticWriteLock(10L)).thenReturn(Optional.of(testEvent));
+        when(contractRepository.existsByEvent_EventId(10L)).thenReturn(false);
+        when(customerRepository.findById(1L)).thenReturn(Optional.of(testCustomer));
+        when(menuRepository.findById(5L)).thenReturn(Optional.of(testMenu));
+        when(serviceRepository.findById(8L)).thenReturn(Optional.of(testService));
+        when(contractRepository.save(any(Contract.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        ContractResponse response = contractService.createContract(request);
+
+        assertNotNull(response);
+        assertEquals(new BigDecimal("100000000"), response.getSubTotal());
+        assertEquals(new BigDecimal("10"), response.getDiscountPercent());
+        assertEquals(new BigDecimal("98280000"), response.getTotalAmount());
+        assertEquals(new BigDecimal("29484000.00"), response.getDepositAmount());
+    }
+
+    @Test
+    void createContract_TC_CALC_03_DepositValidation_FailsWhenUnder30Percent() {
+        // TC-CALC-03: Dựa trên TC-CALC-02 (Tổng = 98.280.000, Cọc tối thiểu = 29.484.000)
+        // Nhập tiền cọc 20.000.000 (< 29.484.000) -> Phải báo lỗi
+        ContractRequest request = new ContractRequest();
+        request.setCustomerId(1L);
+        request.setEventId(10L);
+        request.setContractDate(LocalDate.of(2026, 10, 20));
+        request.setTableCount(20);
+
+        ContractMenuRequest menuReq = new ContractMenuRequest();
+        menuReq.setMenuId(5L);
+        menuReq.setQuantity(20);
+        menuReq.setAgreedPrice(new BigDecimal("4500000"));
+        request.setMenus(List.of(menuReq));
+        request.setServiceIds(List.of(8L));
+        request.setDiscountPercent(new BigDecimal("10"));
+        request.setVatPercent(new BigDecimal("8"));
+        request.setDepositAmount(new BigDecimal("20000000")); // Quá thấp
+
+        when(eventRepository.findByIdWithPessimisticWriteLock(10L)).thenReturn(Optional.of(testEvent));
+        when(contractRepository.existsByEvent_EventId(10L)).thenReturn(false);
+        when(customerRepository.findById(1L)).thenReturn(Optional.of(testCustomer));
+        when(menuRepository.findById(5L)).thenReturn(Optional.of(testMenu));
+        when(serviceRepository.findById(8L)).thenReturn(Optional.of(testService));
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+            contractService.createContract(request);
+        });
+
+        assertTrue(ex.getMessage().contains("Deposit amount must be at least 30% of total contract amount"));
+        verify(contractRepository, never()).save(any());
+    }
+
+    @Test
+    void createContract_TC_CALC_04_BigDecimalRoundingPrecision_Success() {
+        // TC-CALC-04: Dịch vụ 10.000.001 đ, VAT 8% -> Thuế = 800.000,08 -> Làm tròn HALF_UP = 800.000
+        // Tổng = 10.800.001 đ
+        Service oddService = new Service();
+        oddService.setServiceId(99L);
+        oddService.setServiceName("Dịch vụ lẻ giá");
+        oddService.setUnitPrice(new BigDecimal("10000001"));
+
+        ContractRequest request = new ContractRequest();
+        request.setCustomerId(1L);
+        request.setEventId(10L);
+        request.setContractDate(LocalDate.of(2026, 10, 20));
+        request.setServiceIds(List.of(99L));
+        request.setVatPercent(new BigDecimal("8"));
+
+        when(eventRepository.findByIdWithPessimisticWriteLock(10L)).thenReturn(Optional.of(testEvent));
+        when(contractRepository.existsByEvent_EventId(10L)).thenReturn(false);
+        when(customerRepository.findById(1L)).thenReturn(Optional.of(testCustomer));
+        when(serviceRepository.findById(99L)).thenReturn(Optional.of(oddService));
+        when(contractRepository.save(any(Contract.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        ContractResponse response = contractService.createContract(request);
+
+        assertNotNull(response);
+        assertEquals(new BigDecimal("10000001"), response.getSubTotal());
+        assertEquals(new BigDecimal("10800001"), response.getTotalAmount());
+    }
+
+    @Test
+    void createContract_BUG_03_SimultaneousDiscountPercentAndVoucher_Success() {
+        // BUG-03 Regression Test:
+        // Tiền bàn: 100.000.000 đ
+        // Chiết khấu: 5%
+        // Voucher giảm giá trực tiếp: 2.000.000 đ
+        // QUY TẮC ĐÚNG:
+        // 1. Tiền sau chiết khấu 5% = 100.000.000 - 5.000.000 = 95.000.000 đ
+        // 2. Tiền sau voucher = 95.000.000 - 2.000.000 = 93.000.000 đ (KHÔNG PHẢI 93.100.000 đ!)
+        Menu bigMenu = new Menu();
+        bigMenu.setMenuId(50L);
+        bigMenu.setMenuName("Set Menu Hoàng Gia");
+        bigMenu.setPrice(new BigDecimal("5000000")); // 20 bàn * 5M = 100M
+
+        ContractRequest request = new ContractRequest();
+        request.setCustomerId(1L);
+        request.setEventId(10L);
+        request.setContractDate(LocalDate.of(2026, 10, 20));
+        request.setTableCount(20);
+
+        ContractMenuRequest menuReq = new ContractMenuRequest();
+        menuReq.setMenuId(50L);
+        menuReq.setQuantity(20);
+        menuReq.setAgreedPrice(new BigDecimal("5000000"));
+        request.setMenus(List.of(menuReq));
+        request.setDiscountPercent(new BigDecimal("5"));
+        request.setVoucherAmount(new BigDecimal("2000000"));
+        request.setVatPercent(BigDecimal.ZERO); // Theo ví dụ trong BUG-03 trước VAT
+
+        when(eventRepository.findByIdWithPessimisticWriteLock(10L)).thenReturn(Optional.of(testEvent));
+        when(contractRepository.existsByEvent_EventId(10L)).thenReturn(false);
+        when(customerRepository.findById(1L)).thenReturn(Optional.of(testCustomer));
+        when(menuRepository.findById(50L)).thenReturn(Optional.of(bigMenu));
+        when(contractRepository.save(any(Contract.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        ContractResponse response = contractService.createContract(request);
+
+        assertNotNull(response);
+        assertEquals(new BigDecimal("100000000"), response.getSubTotal());
+        assertEquals(new BigDecimal("5"), response.getDiscountPercent());
+        assertEquals(new BigDecimal("2000000"), response.getVoucherAmount());
+        // Khẳng định giá trị chính xác tuyệt đối là 93.000.000 đ
+        assertEquals(new BigDecimal("93000000"), response.getTotalAmount());
+        assertNotEquals(new BigDecimal("93100000"), response.getTotalAmount(), 
+                "BUG-03 Regression Failure: Formula must NOT calculate voucher before discount!");
+    }
 }

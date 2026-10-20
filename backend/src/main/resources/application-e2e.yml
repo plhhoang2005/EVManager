@@ -15,6 +15,8 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+  jackson:
+    time-zone: Asia/Ho_Chi_Minh
 
 app:
   jwt-secret: 4b29598f828a472c1c1f7b8801d014eb0237e3d1d1f0545f94943fcf11bb9e5f
