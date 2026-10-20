@@ -1,0 +1,459 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "EVManager Backend API",
+    "description": "Hệ thống Quản lý Dịch vụ Sự kiện (EVManager) - REST API Documentation",
+    "version": "v1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Môi trường Local Development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "Các API xác thực, đăng ký, đăng nhập và khôi phục mật khẩu"
+    },
+    {
+      "name": "Customer Management",
+      "description": "Quản lý danh sách khách hàng và thông tin liên hệ"
+    },
+    {
+      "name": "Venue Management",
+      "description": "Quản lý địa điểm tổ chức, phòng tiệc và trạng thái khả dụng"
+    },
+    {
+      "name": "Dish Management",
+      "description": "Quản lý danh mục món ăn, nguyên liệu và giá món"
+    },
+    {
+      "name": "Menu Management",
+      "description": "Quản lý thực đơn và các set menu sự kiện"
+    },
+    {
+      "name": "Service Management",
+      "description": "Quản lý các dịch vụ đi kèm sự kiện (âm thanh, ánh sáng, MC, trang trí)"
+    },
+    {
+      "name": "Event Management",
+      "description": "Quản lý sự kiện và lịch tổ chức sự kiện"
+    },
+    {
+      "name": "Contract & Payment",
+      "description": "Quản lý hợp đồng dịch vụ, thanh toán và vòng đời hợp đồng"
+    },
+    {
+      "name": "User Management",
+      "description": "Quản lý người dùng nội bộ, phân quyền và trạng thái tài khoản"
+    },
+    {
+      "name": "Audit Logs",
+      "description": "Truy vết và kiểm toán hoạt động người dùng trong hệ thống"
+    },
+    {
+      "name": "Health Check",
+      "description": "Endpoint kiểm tra trạng thái hoạt động của hệ thống"
+    }
+  ],
+  "paths": {
+    "/api/health": {
+      "get": {
+        "tags": ["Health Check"],
+        "summary": "Kiểm tra sức khỏe hệ thống Backend",
+        "description": "Trả về trạng thái hoạt động của dịch vụ",
+        "operationId": "healthCheck",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Hệ thống hoạt động bình thường",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "ok" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Đăng nhập hệ thống",
+        "description": "Xác thực tài khoản và trả về JWT Bearer token",
+        "operationId": "login",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["usernameOrEmail", "password"],
+                "properties": {
+                  "usernameOrEmail": { "type": "string", "example": "admin" },
+                  "password": { "type": "string", "example": "Admin@123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Đăng nhập thành công, trả về token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": { "type": "string" },
+                    "tokenType": { "type": "string", "example": "Bearer" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Tên đăng nhập hoặc mật khẩu không chính xác" }
+        }
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Đăng ký tài khoản mới",
+        "description": "Tạo tài khoản và gửi mã OTP xác nhận về email",
+        "operationId": "register",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "email", "password", "fullName"],
+                "properties": {
+                  "username": { "type": "string", "example": "sales01" },
+                  "email": { "type": "string", "example": "sales01@evmanager.com" },
+                  "password": { "type": "string", "example": "Password@123" },
+                  "fullName": { "type": "string", "example": "Nguyen Van A" },
+                  "phoneNumber": { "type": "string", "example": "0901234567" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Tạo tài khoản thành công, chờ xác thực OTP" },
+          "400": { "description": "Dữ liệu đăng ký không hợp lệ hoặc email đã tồn tại" }
+        }
+      }
+    },
+    "/api/v1/auth/verify-registration": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Xác thực OTP đăng ký",
+        "description": "Kích hoạt tài khoản bằng mã OTP gửi qua email",
+        "operationId": "verifyRegistration",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "otpCode"],
+                "properties": {
+                  "email": { "type": "string", "example": "user@example.com" },
+                  "otpCode": { "type": "string", "example": "123456" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Tài khoản đã được xác thực thành công" },
+          "400": { "description": "Mã OTP không hợp lệ hoặc đã hết hạn" }
+        }
+      }
+    },
+    "/api/v1/auth/forgot-password": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Quên mật khẩu",
+        "description": "Yêu cầu cấp lại mật khẩu và gửi OTP về email",
+        "operationId": "forgotPassword",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": {
+                  "email": { "type": "string", "example": "user@example.com" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Mã OTP đã được gửi đến email" }
+        }
+      }
+    },
+    "/api/v1/auth/reset-password": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Đặt lại mật khẩu",
+        "description": "Cập nhật mật khẩu mới thông qua OTP",
+        "operationId": "resetPassword",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "otpCode", "newPassword"],
+                "properties": {
+                  "email": { "type": "string", "example": "user@example.com" },
+                  "otpCode": { "type": "string", "example": "123456" },
+                  "newPassword": { "type": "string", "example": "NewPass@123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Đổi mật khẩu thành công" }
+        }
+      }
+    },
+    "/api/v1/customers": {
+      "get": {
+        "tags": ["Customer Management"],
+        "summary": "Lấy danh sách khách hàng",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "keyword", "in": "query", "schema": { "type": "string" }, "description": "Từ khóa tìm kiếm (tên, số điện thoại, email)" },
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 0 } },
+          { "name": "size", "in": "query", "schema": { "type": "integer", "default": 10 } }
+        ],
+        "responses": {
+          "200": { "description": "Danh sách khách hàng phân trang" },
+          "401": { "description": "Chưa xác thực" }
+        }
+      },
+      "post": {
+        "tags": ["Customer Management"],
+        "summary": "Tạo khách hàng mới",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["fullName", "phoneNumber"],
+                "properties": {
+                  "fullName": { "type": "string", "example": "Công ty TNHH Sự Kiện Việt" },
+                  "phoneNumber": { "type": "string", "example": "0987654321" },
+                  "email": { "type": "string", "example": "contact@sukienviet.vn" },
+                  "address": { "type": "string", "example": "123 Nguyen Hue, Quan 1, TP.HCM" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Tạo khách hàng thành công" }
+        }
+      }
+    },
+    "/api/v1/customers/{id}": {
+      "get": {
+        "tags": ["Customer Management"],
+        "summary": "Xem chi tiết khách hàng",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Thông tin chi tiết khách hàng" },
+          "404": { "description": "Không tìm thấy khách hàng" }
+        }
+      },
+      "put": {
+        "tags": ["Customer Management"],
+        "summary": "Cập nhật thông tin khách hàng",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Cập nhật thành công" }
+        }
+      },
+      "delete": {
+        "tags": ["Customer Management"],
+        "summary": "Xóa khách hàng",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "Xóa thành công" }
+        }
+      }
+    },
+    "/api/v1/venues": {
+      "get": {
+        "tags": ["Venue Management"],
+        "summary": "Danh sách sảnh tiệc / địa điểm",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Danh sách địa điểm" }
+        }
+      },
+      "post": {
+        "tags": ["Venue Management"],
+        "summary": "Thêm địa điểm / sảnh mới",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "201": { "description": "Tạo địa điểm thành công" }
+        }
+      }
+    },
+    "/api/v1/venues/available": {
+      "get": {
+        "tags": ["Venue Management"],
+        "summary": "Kiểm tra danh sách sảnh tiệc trống",
+        "description": "Tìm kiếm sảnh tiệc còn trống theo ngày và ca tổ chức",
+        "parameters": [
+          { "name": "date", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "timeSlot", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Danh sách các sảnh trống" }
+        }
+      }
+    },
+    "/api/v1/events": {
+      "get": {
+        "tags": ["Event Management"],
+        "summary": "Danh sách sự kiện",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Danh sách sự kiện" }
+        }
+      },
+      "post": {
+        "tags": ["Event Management"],
+        "summary": "Tạo sự kiện mới",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "201": { "description": "Tạo sự kiện thành công" }
+        }
+      }
+    },
+    "/api/v1/events/calendar": {
+      "get": {
+        "tags": ["Event Management"],
+        "summary": "Lịch sự kiện",
+        "description": "Lấy danh sách sự kiện theo khoảng thời gian để hiển thị trên Calendar",
+        "parameters": [
+          { "name": "startDate", "in": "query", "schema": { "type": "string", "format": "date-time" } },
+          { "name": "endDate", "in": "query", "schema": { "type": "string", "format": "date-time" } }
+        ],
+        "responses": {
+          "200": { "description": "Danh sách lịch sự kiện" }
+        }
+      }
+    },
+    "/api/v1/contracts": {
+      "get": {
+        "tags": ["Contract & Payment"],
+        "summary": "Danh sách hợp đồng",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Danh sách hợp đồng" }
+        }
+      },
+      "post": {
+        "tags": ["Contract & Payment"],
+        "summary": "Tạo mới hợp đồng dịch vụ",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "201": { "description": "Tạo hợp đồng thành công" }
+        }
+      }
+    },
+    "/api/v1/dishes": {
+      "get": {
+        "tags": ["Dish Management"],
+        "summary": "Danh sách món ăn",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Danh sách món ăn" }
+        }
+      }
+    },
+    "/api/v1/menus": {
+      "get": {
+        "tags": ["Menu Management"],
+        "summary": "Danh sách thực đơn",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Danh sách thực đơn" }
+        }
+      }
+    },
+    "/api/v1/services": {
+      "get": {
+        "tags": ["Service Management"],
+        "summary": "Danh sách dịch vụ bổ trợ",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Danh sách dịch vụ" }
+        }
+      }
+    },
+    "/api/v1/users": {
+      "get": {
+        "tags": ["User Management"],
+        "summary": "Danh sách tài khoản nội bộ",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Danh sách người dùng" }
+        }
+      }
+    },
+    "/api/v1/audit-logs": {
+      "get": {
+        "tags": ["Audit Logs"],
+        "summary": "Xem lịch sử kiểm toán hệ thống",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Danh sách audit log" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Nhập JWT Token (không cần gõ tiền tố 'Bearer ')"
+      }
+    }
+  }
+}

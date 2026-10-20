@@ -46,8 +46,20 @@ public class Contract {
     @Column(name = "contract_date", nullable = false)
     private LocalDate contractDate;
 
+    @Column(name = "sub_total", nullable = false)
+    private BigDecimal subTotal = BigDecimal.ZERO;
+
+    @Column(name = "discount_percent", nullable = false)
+    private BigDecimal discountPercent = BigDecimal.ZERO;
+
+    @Column(name = "voucher_amount", nullable = false)
+    private BigDecimal voucherAmount = BigDecimal.ZERO;
+
+    @Column(name = "vat_percent", nullable = false)
+    private BigDecimal vatPercent = BigDecimal.ZERO;
+
     @Column(name = "total_amount", nullable = false)
-    private BigDecimal totalAmount;
+    private BigDecimal totalAmount = BigDecimal.ZERO;
 
     @Column(name = "deposit_amount", nullable = false)
     private BigDecimal depositAmount = BigDecimal.ZERO;

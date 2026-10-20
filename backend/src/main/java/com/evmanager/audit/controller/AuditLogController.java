@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.OffsetDateTime;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/audit-logs")
 @RequiredArgsConstructor
+@Tag(name = "Audit Logs", description = "Truy vết và kiểm toán hoạt động người dùng trong hệ thống")
 public class AuditLogController {
 
     private final AuditLogService auditLogService;

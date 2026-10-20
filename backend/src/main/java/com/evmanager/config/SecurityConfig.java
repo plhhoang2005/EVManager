@@ -55,11 +55,10 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/health").permitAll()
-                .requestMatchers("/api/test-exception/**").permitAll()
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/api/v1/venues/available").permitAll()
                 .requestMatchers("/api/v1/events/calendar").permitAll()
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/api/docs/**", "/api/docs", "/api/swagger-ui/**").permitAll()
                 .anyRequest().authenticated()
             );
             

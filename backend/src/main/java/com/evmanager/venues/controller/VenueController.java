@@ -13,9 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/venues")
 @RequiredArgsConstructor
+@Tag(name = "Venue Management", description = "Quản lý địa điểm tổ chức, phòng tiệc và trạng thái khả dụng")
 public class VenueController {
 
     private final VenueService venueService;

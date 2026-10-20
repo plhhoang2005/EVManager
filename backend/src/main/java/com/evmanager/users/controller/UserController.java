@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
+@Tag(name = "User Management", description = "Quản lý người dùng nội bộ, phân quyền và trạng thái tài khoản")
 public class UserController {
 
     private final UserService userService;

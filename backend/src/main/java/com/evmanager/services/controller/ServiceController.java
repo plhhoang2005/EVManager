@@ -13,8 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/services")
+@Tag(name = "Service Management", description = "Quản lý các dịch vụ đi kèm sự kiện (âm thanh, ánh sáng, MC, trang trí)")
 public class ServiceController {
 
     private final ServiceService serviceService;
