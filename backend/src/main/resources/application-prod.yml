@@ -1,0 +1,14 @@
+# ==============================================================================
+# EVManager - Production Environment Configuration
+# Deliverable for Issue BE-34 (#131) - Security Hardening
+# ==============================================================================
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+app:
+  # BẮT BUỘC cung cấp JWT_SECRET qua biến môi trường trong production.
+  # Tuyệt đối không fallback về secret mặc định của môi trường local dev.
+  jwt-secret: ${JWT_SECRET}

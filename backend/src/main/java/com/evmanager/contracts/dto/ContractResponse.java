@@ -20,6 +20,10 @@ public class ContractResponse {
     private String menuName;
     private List<ContractMenuResponse> menus;
     private LocalDate contractDate;
+    private BigDecimal subTotal;
+    private BigDecimal discountPercent;
+    private BigDecimal voucherAmount;
+    private BigDecimal vatPercent;
     private BigDecimal totalAmount;
     private BigDecimal depositAmount;
     private String status;

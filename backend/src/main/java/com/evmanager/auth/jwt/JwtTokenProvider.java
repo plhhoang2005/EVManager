@@ -21,6 +21,20 @@ public class JwtTokenProvider {
     @Value("${app.jwt-expiration-milliseconds}")
     private long jwtExpirationDate;
 
+    @jakarta.annotation.PostConstruct
+    public void validateSecretKey() {
+        try {
+            byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
+            if (keyBytes.length * 8 < 256) {
+                throw new IllegalArgumentException("JWT Secret key must be at least 256 bits (32 bytes). Current size: " + (keyBytes.length * 8) + " bits.");
+            }
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new IllegalArgumentException("JWT Secret is not a valid Base64 string: " + e.getMessage(), e);
+        }
+    }
+
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
         
