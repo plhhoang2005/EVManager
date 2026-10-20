@@ -12,9 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/contracts")
 @RequiredArgsConstructor
+@Tag(name = "Contract & Payment", description = "Quản lý hợp đồng dịch vụ, thanh toán và vòng đời hợp đồng")
 public class ContractController {
 
     private final ContractService contractService;

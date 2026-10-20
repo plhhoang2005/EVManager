@@ -23,9 +23,12 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/events")
 @RequiredArgsConstructor
+@Tag(name = "Event Management", description = "Quản lý sự kiện và lịch tổ chức sự kiện")
 public class EventController {
 
     private final EventService eventService;

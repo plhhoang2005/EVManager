@@ -9,8 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/menus")
+@Tag(name = "Menu Management", description = "Quản lý thực đơn và các set menu sự kiện")
 public class MenuController {
 
     private final MenuService menuService;
