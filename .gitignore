@@ -42,3 +42,4 @@ venv/
 
 # Ignore local AGY config files (secrets)
 .agents/mcp_config.json
+scratch/

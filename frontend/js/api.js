@@ -3,7 +3,7 @@
  * Cung cấp hàm fetchAPI dùng chung cho toàn bộ ứng dụng Frontend EVManager
  */
 
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = window.API_BASE_URL || localStorage.getItem('API_BASE_URL') || 'http://localhost:8081';
 
 /**
  * Hàm fetchAPI dùng chung gửi request tới Backend

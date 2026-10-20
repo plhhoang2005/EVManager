@@ -5,8 +5,8 @@
 
 let fullCalendarInstance = null;
 
-// Biến mockEvents dự phòng khi Backend chưa có API Events (404)
-const mockEvents = [
+// Biến calendarMockEvents dự phòng khi Backend chưa có API Events (404)
+const calendarMockEvents = [
     { title: 'Lễ cưới Hoàng Gia - Anh Minh', start: '2026-10-15T17:30:00', backgroundColor: '#087f82', borderColor: '#087f82', extendedProps: { location: 'GEM Center, Q.1', status: 'Đã xác nhận' } },
     { title: 'Hội nghị Tech Summit 2026', start: '2026-10-20T08:00:00', backgroundColor: '#d9763d', borderColor: '#d9763d', extendedProps: { location: 'White Palace, Q. Phú Nhuận', status: 'Đang chuẩn bị' } },
     { title: 'Đại nhạc hội EDM Summer Splash', start: '2026-11-05T19:00:00', backgroundColor: '#7865a7', borderColor: '#7865a7', extendedProps: { location: 'Sân vận động QK7', status: 'Đã xác nhận' } }
@@ -36,14 +36,14 @@ function formatCalendarEvents(eventsList) {
 function getCalendarEventsFromStorage() {
     const savedEvents = localStorage.getItem('lv34_events');
     if (!savedEvents) {
-        return mockEvents;
+        return calendarMockEvents;
     }
 
     try {
         const eventsList = JSON.parse(savedEvents);
         return formatCalendarEvents(eventsList);
     } catch (e) {
-        return mockEvents;
+        return calendarMockEvents;
     }
 }
 
