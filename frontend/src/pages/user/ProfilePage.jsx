@@ -131,8 +131,9 @@ export const ProfilePage = () => {
         });
       }
       showToast('Lưu thông tin cá nhân thành công!', 'success');
-    } catch {
-      showToast('Không thể cập nhật thông tin lúc này. Vui lòng thử lại!', 'error');
+    } catch (err) {
+      const msg = err.response?.data?.message || 'Không thể cập nhật thông tin lúc này. Vui lòng thử lại!';
+      showToast(msg, 'error');
     } finally {
       setIsUpdatingProfile(false);
     }
@@ -154,8 +155,12 @@ export const ProfilePage = () => {
       setPasswordError('Vui lòng nhập mật khẩu hiện tại đang sử dụng!');
       return;
     }
-    if (passwordForm.newPassword.length < 6) {
-      setPasswordError('Mật khẩu mới phải có độ dài tối thiểu từ 6 ký tự!');
+    if (passwordForm.newPassword.length < 8) {
+      setPasswordError('Mật khẩu mới phải có độ dài tối thiểu từ 8 ký tự!');
+      return;
+    }
+    if (!/^(?=.*[A-Za-z])(?=.*\d)/.test(passwordForm.newPassword)) {
+      setPasswordError('Mật khẩu mới phải chứa ít nhất một chữ cái và một số!');
       return;
     }
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
@@ -172,8 +177,9 @@ export const ProfilePage = () => {
         newPassword: '',
         confirmPassword: '',
       });
-    } catch {
-      setPasswordError('Đổi mật khẩu thất bại. Vui lòng kiểm tra lại mật khẩu cũ!');
+    } catch (err) {
+      const msg = err.response?.data?.message || 'Đổi mật khẩu thất bại. Vui lòng kiểm tra lại mật khẩu cũ!';
+      setPasswordError(msg);
     } finally {
       setIsUpdatingPassword(false);
     }

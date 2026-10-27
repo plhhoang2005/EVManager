@@ -21,8 +21,8 @@ export const LoginPage = () => {
   } = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: 'admin_demo@evmanager.vn',
-      password: 'admin123',
+      username: '',
+      password: '',
     },
   });
 
@@ -33,46 +33,69 @@ export const LoginPage = () => {
     const { username, password } = data;
 
     try {
-      // Cho phép cả username chuẩn từ login.html lẫn demo ngắn
-      let res;
-      try {
-        res = await authService.login(username, password);
-      } catch (err) {
-        if (username.includes('admin') && (password === 'admin123' || password === '123')) {
-          res = {
-            token: 'demo-jwt-admin-token',
-            user: { id: 1, username: 'admin', fullName: 'Quản trị viên Hệ Thống', role: 'ROLE_ADMIN' },
+      // 1. Gửi LoginRequest { usernameOrEmail, password } tới Backend
+      const res = await authService.login(username, password);
+      const accessToken = res?.accessToken || res?.token;
+
+      if (!accessToken) {
+        throw new Error('Máy chủ không trả về token xác thực hợp lệ.');
+      }
+
+      // 2. Lấy thông tin user và role từ nguồn được backend xác thực (GET /api/v1/users/me)
+      let user = res?.user;
+      if (!user) {
+        // Lưu tạm token để axios interceptor đính kèm Authorization header
+        sessionStorage.setItem('accessToken', accessToken);
+        try {
+          const profile = await authService.getProfile();
+          const rawRole = profile?.roleName || profile?.role || 'USER';
+          const normalizedRole = rawRole.startsWith('ROLE_') ? rawRole : `ROLE_${rawRole}`;
+
+          user = {
+            id: profile?.userId || profile?.id,
+            userId: profile?.userId || profile?.id,
+            username: profile?.username || username,
+            fullName: profile?.fullName || profile?.username || 'Người dùng',
+            email: profile?.email || '',
+            phone: profile?.phone || '',
+            role: normalizedRole,
+            roleName: rawRole,
+            status: profile?.status || 'ACTIVE',
           };
-        } else if (username.includes('sales') && (password === 'sales123' || password === '123')) {
-          res = {
-            token: 'demo-jwt-sales-token',
-            user: { id: 2, username: 'sales01', fullName: 'Nhân viên Tư Vấn Sales', role: 'ROLE_SALES' },
-          };
-        } else if (username.includes('coordinator') && (password === 'coordinator123' || password === '123')) {
-          res = {
-            token: 'demo-jwt-coord-token',
-            user: { id: 3, username: 'coord01', fullName: 'Điều phối viên Sự Kiện', role: 'ROLE_COORDINATOR' },
-          };
-        } else if (username.includes('khachhang') || username === 'user') {
-          res = {
-            token: 'demo-jwt-user-token',
-            user: { id: 4, username: 'user', fullName: 'Khách hàng', role: 'ROLE_USER' },
-          };
-        } else {
-          throw err;
+        } catch (profileErr) {
+          sessionStorage.removeItem('accessToken');
+          throw profileErr;
         }
       }
 
-      if (res && res.token) {
-        login(res.user, res.token);
-        if (['ROLE_ADMIN', 'ROLE_SALES', 'ROLE_COORDINATOR'].includes(res.user.role)) {
-          navigate('/admin');
-        } else {
-          navigate('/user');
-        }
+      // 3. Đăng nhập vào context & điều hướng theo role xác thực
+      login(user, accessToken);
+
+      const staffRoles = ['ROLE_ADMIN', 'ROLE_SALES', 'ROLE_COORDINATOR', 'ROLE_MANAGER'];
+      if (staffRoles.includes(user.role)) {
+        navigate('/admin');
+      } else {
+        navigate('/user');
       }
     } catch (err) {
-      setServerError(err.response?.data?.message || 'Tên đăng nhập hoặc mật khẩu không chính xác!');
+      const status = err.response?.status;
+      let errorMsg = 'Tên đăng nhập hoặc mật khẩu không chính xác!';
+
+      if (status === 400 || status === 401) {
+        errorMsg = err.response?.data?.message || 'Tên đăng nhập hoặc mật khẩu không chính xác!';
+      } else if (status === 403) {
+        errorMsg = err.response?.data?.message || 'Tài khoản của bạn đã bị khóa hoặc không có quyền truy cập!';
+      } else if (status === 429) {
+        errorMsg = 'Quá nhiều yêu cầu đăng nhập. Vui lòng chờ giây lát rồi thử lại.';
+      } else if (status >= 500) {
+        errorMsg = err.response?.data?.message || 'Máy chủ đang gặp sự cố. Vui lòng thử lại sau.';
+      } else if (!err.response && err.message) {
+        errorMsg = err.message.includes('Network')
+          ? 'Không thể kết nối đến máy chủ backend. Vui lòng kiểm tra kết nối mạng.'
+          : err.message;
+      }
+
+      setServerError(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -88,12 +111,12 @@ export const LoginPage = () => {
         <h1 id="login-title">Đăng nhập</h1>
 
         <form id="loginForm" className="login-form" onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="username">Tên đăng nhập/Email</label>
+          <label htmlFor="username">Tên đăng nhập / Email</label>
           <input
             id="username"
             type="text"
             autoComplete="username"
-            placeholder="Nhập tên đăng nhập hoặc email"
+            placeholder="Nhập username hoặc email (VD: admin hoặc user)"
             {...register('username')}
             style={errors.username ? { borderColor: '#dc2626' } : {}}
           />
@@ -140,7 +163,7 @@ export const LoginPage = () => {
         </form>
 
         <p className="login-hint">
-          Tài khoản demo: <strong>admin_demo@evmanager.vn</strong> / <strong>admin123</strong> (Sales: <strong>sales@evmanager.vn</strong> / <strong>sales123</strong> | Điều phối: <strong>coordinator@evmanager.vn</strong> / <strong>coordinator123</strong> | Khách: <strong>khachhang1@gmail.com</strong> / <strong>123456</strong>)
+          Tài khoản hệ thống: <strong>admin</strong> / <strong>Password1!</strong> (Quản trị viên) | <strong>user</strong> / <strong>Password1!</strong> (Khách hàng)
         </p>
       </section>
 
