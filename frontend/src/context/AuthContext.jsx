@@ -12,14 +12,45 @@ export const AuthProvider = ({ children }) => {
       const storedToken = sessionStorage.getItem('accessToken');
       const storedUser = sessionStorage.getItem('userInfo');
 
-      if (storedToken && storedUser) {
+      if (storedToken) {
         setToken(storedToken);
-        const parsed = JSON.parse(storedUser);
-        if (parsed?.fullName === 'Khách hàng Thành viên') {
-          parsed.fullName = 'Khách hàng';
-          sessionStorage.setItem('userInfo', JSON.stringify(parsed));
+        let parsed = null;
+        if (storedUser) {
+          try {
+            parsed = JSON.parse(storedUser);
+          } catch (e) {
+            console.error('Lỗi phân tích userInfo:', e);
+          }
         }
-        setCurrentUser(parsed);
+        if (!parsed) {
+          // Khôi phục user từ token claims
+          try {
+            const parts = storedToken.split('.');
+            if (parts.length >= 2) {
+              const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+              const jsonPayload = decodeURIComponent(
+                atob(base64)
+                  .split('')
+                  .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                  .join('')
+              );
+              const claims = JSON.parse(jsonPayload);
+              parsed = {
+                username: claims?.sub || '',
+                role: claims?.role || 'ROLE_USER',
+                fullName: claims?.sub || 'Người dùng',
+              };
+            }
+          } catch (e) {
+            console.error('Không thể trích xuất user từ token:', e);
+          }
+        }
+        if (parsed) {
+          if (parsed?.fullName === 'Khách hàng Thành viên') {
+            parsed.fullName = 'Khách hàng';
+          }
+          setCurrentUser(parsed);
+        }
       }
     } catch (err) {
       console.error('Lỗi khi đọc token từ sessionStorage:', err);
@@ -53,8 +84,8 @@ export const AuthProvider = ({ children }) => {
     token,
     isAuthenticated: !!token,
     role: currentUser?.role || null,
-    isAdmin: currentUser?.role === 'ROLE_ADMIN',
-    isStaff: ['ROLE_ADMIN', 'ROLE_SALES', 'ROLE_COORDINATOR'].includes(currentUser?.role),
+    isAdmin: currentUser?.role === 'ROLE_ADMIN' || currentUser?.role === 'ADMIN',
+    isStaff: ['ROLE_ADMIN', 'ROLE_SALES', 'ROLE_COORDINATOR', 'ADMIN', 'SALES', 'COORDINATOR'].includes(currentUser?.role),
     loading,
     login,
     logout,

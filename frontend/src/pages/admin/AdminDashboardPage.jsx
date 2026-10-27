@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import RevenueCharts from '../../components/features/reports/RevenueCharts';
 import ExportReportButtons from '../../components/features/reports/ExportReportButtons';
+import { isDemoMode } from '../../utils/constants';
 
 export const AdminDashboardPage = () => {
   const { currentUser, logout } = useAuth();
@@ -1211,7 +1212,7 @@ export const AdminDashboardPage = () => {
           <span className="brand-icon">◒</span>
           <div className="brand-info">
             <span className="brand-title">LV34 <span>EVENTS</span></span>
-            <span className="brand-badge">ADMIN PORTAL</span>
+            <span className="brand-badge">{isDemoMode() ? 'DEMO MODE' : 'ADMIN PORTAL'}</span>
           </div>
         </div>
 

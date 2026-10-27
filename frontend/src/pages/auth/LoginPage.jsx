@@ -21,8 +21,8 @@ export const LoginPage = () => {
   } = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: 'admin_demo@evmanager.vn',
-      password: 'admin123',
+      username: '',
+      password: '',
     },
   });
 
@@ -33,46 +33,38 @@ export const LoginPage = () => {
     const { username, password } = data;
 
     try {
-      // Cho phép cả username chuẩn từ login.html lẫn demo ngắn
-      let res;
-      try {
-        res = await authService.login(username, password);
-      } catch (err) {
-        if (username.includes('admin') && (password === 'admin123' || password === '123')) {
-          res = {
-            token: 'demo-jwt-admin-token',
-            user: { id: 1, username: 'admin', fullName: 'Quản trị viên Hệ Thống', role: 'ROLE_ADMIN' },
-          };
-        } else if (username.includes('sales') && (password === 'sales123' || password === '123')) {
-          res = {
-            token: 'demo-jwt-sales-token',
-            user: { id: 2, username: 'sales01', fullName: 'Nhân viên Tư Vấn Sales', role: 'ROLE_SALES' },
-          };
-        } else if (username.includes('coordinator') && (password === 'coordinator123' || password === '123')) {
-          res = {
-            token: 'demo-jwt-coord-token',
-            user: { id: 3, username: 'coord01', fullName: 'Điều phối viên Sự Kiện', role: 'ROLE_COORDINATOR' },
-          };
-        } else if (username.includes('khachhang') || username === 'user') {
-          res = {
-            token: 'demo-jwt-user-token',
-            user: { id: 4, username: 'user', fullName: 'Khách hàng', role: 'ROLE_USER' },
-          };
-        } else {
-          throw err;
-        }
-      }
+      const res = await authService.login(username, password);
+      const token = res.accessToken || res.token;
+      const user = res.user;
 
-      if (res && res.token) {
-        login(res.user, res.token);
-        if (['ROLE_ADMIN', 'ROLE_SALES', 'ROLE_COORDINATOR'].includes(res.user.role)) {
+      if (token && user) {
+        login(user, token);
+        const role = user.role || '';
+        if (['ROLE_ADMIN', 'ROLE_SALES', 'ROLE_COORDINATOR', 'ADMIN', 'SALES', 'COORDINATOR'].includes(role)) {
           navigate('/admin');
         } else {
           navigate('/user');
         }
+      } else {
+        throw new Error('Dữ liệu xác thực trả về không hợp lệ.');
       }
     } catch (err) {
-      setServerError(err.response?.data?.message || 'Tên đăng nhập hoặc mật khẩu không chính xác!');
+      const status = err.response?.status;
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        (status === 401
+          ? 'Tên đăng nhập hoặc mật khẩu không chính xác!'
+          : status === 400
+          ? 'Thông tin đăng nhập không hợp lệ.'
+          : status === 403
+          ? 'Tài khoản của bạn không có quyền truy cập.'
+          : status === 429
+          ? 'Quá nhiều yêu cầu đăng nhập. Vui lòng thử lại sau!'
+          : status >= 500
+          ? 'Hệ thống máy chủ đang gặp sự cố. Vui lòng thử lại sau!'
+          : err.message || 'Không thể kết nối tới máy chủ. Vui lòng kiểm tra lại đường truyền!');
+      setServerError(message);
     } finally {
       setLoading(false);
     }

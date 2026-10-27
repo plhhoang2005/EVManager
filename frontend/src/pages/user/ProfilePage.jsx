@@ -172,8 +172,8 @@ export const ProfilePage = () => {
         newPassword: '',
         confirmPassword: '',
       });
-    } catch {
-      setPasswordError('Đổi mật khẩu thất bại. Vui lòng kiểm tra lại mật khẩu cũ!');
+    } catch (err) {
+      setPasswordError(err.response?.data?.message || 'Đổi mật khẩu thất bại. Vui lòng kiểm tra lại mật khẩu cũ!');
     } finally {
       setIsUpdatingPassword(false);
     }

@@ -244,3 +244,9 @@ export const getStatusBadgeClass = (status) => {
   }
 };
 
+/**
+ * Cấu hình chế độ dữ liệu Demo/Mock.
+ * Mặc định tắt (false). Chỉ bật khi biến môi trường VITE_USE_MOCK === 'true'.
+ */
+export const isDemoMode = () => import.meta.env.VITE_USE_MOCK === 'true';
+

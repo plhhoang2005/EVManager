@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import eventService from '../../services/eventService';
 
-export const ConflictCheckerModal = ({ show, onHide }) => {
+export const ConflictCheckerModal = ({ show, onHide, onConfirm }) => {
   const [venueId, setVenueId] = useState('1');
   const [eventDate, setEventDate] = useState('');
   const [timeSlot, setTimeSlot] = useState('EVENING');
   const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   if (!show) return null;
@@ -15,16 +16,36 @@ export const ConflictCheckerModal = ({ show, onHide }) => {
     if (!eventDate) return;
     setLoading(true);
     setResult(null);
+    setError(null);
 
     try {
       const res = await eventService.checkConflict(venueId, eventDate, timeSlot);
       setResult(res);
-    } catch {
-      setResult({ hasConflict: false, message: 'Khung giờ và sảnh tiệc còn trống, sẵn sàng đặt lịch!' });
+    } catch (err) {
+      console.error('Lỗi khi kiểm tra xung đột lịch:', err);
+      // Khi API lỗi hoặc endpoint chưa có trên backend, báo lỗi rõ ràng và CHẶN xác nhận sảnh trống
+      const msg =
+        err.response?.data?.message ||
+        (err.response?.status === 404
+          ? 'Hệ thống chưa triển khai endpoint kiểm tra xung đột (/api/v1/events/check-conflict).'
+          : err.response?.status >= 500
+          ? 'Máy chủ gặp sự cố khi kiểm tra lịch sảnh.'
+          : 'Không thể kết nối máy chủ để kiểm tra xung đột lịch.');
+      setError(msg);
     } finally {
       setLoading(false);
     }
   };
+
+  const venueNames = {
+    '1': 'Sảnh Kim Cương (Grand Diamond)',
+    '2': 'Sảnh Sapphire',
+    '3': 'Sảnh Ruby',
+    '4': 'Sảnh Emerald',
+    '5': 'Sảnh Crystal Rooftop',
+  };
+
+  const canConfirm = Boolean(result && !result.hasConflict && !error);
 
   return (
     <div className="admin-modal" style={{ display: 'flex', position: 'fixed', inset: 0, zIndex: 9999, alignItems: 'center', justifyContent: 'center' }}>
@@ -50,7 +71,11 @@ export const ConflictCheckerModal = ({ show, onHide }) => {
               <label style={{ display: 'block', fontWeight: 600, fontSize: '0.85rem', marginBottom: '6px' }}>Chọn sảnh tiệc</label>
               <select
                 value={venueId}
-                onChange={(e) => setVenueId(e.target.value)}
+                onChange={(e) => {
+                  setVenueId(e.target.value);
+                  setResult(null);
+                  setError(null);
+                }}
                 style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
               >
                 <option value="1">Sảnh Kim Cương (Grand Diamond)</option>
@@ -67,7 +92,11 @@ export const ConflictCheckerModal = ({ show, onHide }) => {
                 type="date"
                 required
                 value={eventDate}
-                onChange={(e) => setEventDate(e.target.value)}
+                onChange={(e) => {
+                  setEventDate(e.target.value);
+                  setResult(null);
+                  setError(null);
+                }}
                 style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
               />
             </div>
@@ -76,7 +105,11 @@ export const ConflictCheckerModal = ({ show, onHide }) => {
               <label style={{ display: 'block', fontWeight: 600, fontSize: '0.85rem', marginBottom: '6px' }}>Khung giờ tiệc</label>
               <select
                 value={timeSlot}
-                onChange={(e) => setTimeSlot(e.target.value)}
+                onChange={(e) => {
+                  setTimeSlot(e.target.value);
+                  setResult(null);
+                  setError(null);
+                }}
                 style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
               >
                 <option value="MORNING">Ca Sáng (08:00 - 12:00)</option>
@@ -85,8 +118,33 @@ export const ConflictCheckerModal = ({ show, onHide }) => {
               </select>
             </div>
 
-            {result && (
+            {/* Cảnh báo khi API gặp lỗi: Báo chưa kiểm tra được và CHẶN xác nhận sảnh trống */}
+            {error && (
               <div
+                role="alert"
+                style={{
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  marginBottom: '16px',
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
+                  backgroundColor: '#fef2f2',
+                  color: '#dc2626',
+                  border: '1px solid #fecaca',
+                }}
+              >
+                <div>⚠️ <strong>Chưa kiểm tra được tình trạng sảnh!</strong></div>
+                <div style={{ fontSize: '0.82rem', marginTop: '4px' }}>{error}</div>
+                <div style={{ fontSize: '0.8rem', marginTop: '6px', color: '#991b1b', fontStyle: 'italic' }}>
+                  Hệ thống không thể kết luận sảnh còn trống. Chức năng xác nhận đặt sảnh đã bị khóa để tránh trùng lịch!
+                </div>
+              </div>
+            )}
+
+            {/* Kết quả kiểm tra thành công từ API hoặc chế độ demo */}
+            {result && !error && (
+              <div
+                role="status"
                 style={{
                   padding: '12px 16px',
                   borderRadius: '8px',
@@ -98,7 +156,9 @@ export const ConflictCheckerModal = ({ show, onHide }) => {
                   border: `1px solid ${result.hasConflict ? '#fecaca' : '#a7f3d0'}`,
                 }}
               >
-                {result.hasConflict ? '⚠️ Đã có sự kiện trùng ca tại sảnh này!' : '✅ ' + result.message}
+                {result.hasConflict
+                  ? '⚠️ Đã có sự kiện trùng ca tại sảnh này!'
+                  : '✅ ' + (result.message || 'Khung giờ và sảnh tiệc còn trống, sẵn sàng đặt lịch!')}
               </div>
             )}
           </div>
@@ -110,6 +170,24 @@ export const ConflictCheckerModal = ({ show, onHide }) => {
             <button type="submit" className="btn btn-primary btn-sm" disabled={loading}>
               {loading ? 'Đang kiểm tra...' : 'Kiểm tra ngay'}
             </button>
+            {onConfirm && (
+              <button
+                type="button"
+                className="btn btn-success btn-sm"
+                disabled={!canConfirm || loading}
+                title={!canConfirm ? 'Chỉ có thể xác nhận khi đã kiểm tra thành công và sảnh không bị trùng!' : 'Xác nhận đặt sảnh'}
+                onClick={() =>
+                  onConfirm({
+                    venueId,
+                    venueName: venueNames[venueId] || `Sảnh ${venueId}`,
+                    eventDate,
+                    timeSlot,
+                  })
+                }
+              >
+                Xác nhận đặt sảnh
+              </button>
+            )}
           </div>
         </form>
       </div>
