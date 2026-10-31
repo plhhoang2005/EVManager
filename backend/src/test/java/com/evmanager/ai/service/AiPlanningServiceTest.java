@@ -70,4 +70,47 @@ public class AiPlanningServiceTest {
         assertFalse(response.getReply().isBlank());
         assertFalse(response.getQuickSuggestions().isEmpty());
     }
+
+    @Test
+    void testBuildDatabaseContextWithVenuesAndServices() {
+        com.evmanager.venues.repository.VenueRepository mockVenueRepo = Mockito.mock(com.evmanager.venues.repository.VenueRepository.class);
+        com.evmanager.services.repository.ServiceRepository mockServiceRepo = Mockito.mock(com.evmanager.services.repository.ServiceRepository.class);
+        com.evmanager.customers.repository.CustomerRepository mockCustomerRepo = Mockito.mock(com.evmanager.customers.repository.CustomerRepository.class);
+
+        com.evmanager.venues.model.Venue v = new com.evmanager.venues.model.Venue();
+        v.setVenueName("Sảnh Kim Cương");
+        v.setMinCapacity(200);
+        v.setMaxCapacity(500);
+        v.setRentalPrice(java.math.BigDecimal.valueOf(15000000));
+        v.setStatus("AVAILABLE");
+
+        when(mockVenueRepo.findAll()).thenReturn(List.of(v));
+
+        AiPlanningService service = new AiPlanningService(geminiConfig, objectMapper, mockVenueRepo, mockServiceRepo, mockCustomerRepo);
+        String context = service.buildDatabaseContext();
+
+        assertNotNull(context);
+        assertTrue(context.contains("Sảnh Kim Cương"));
+        assertTrue(context.contains("15,000,000"));
+    }
+
+    @Test
+    void testSubmitInquirySavesCustomerAndReturnsCode() {
+        com.evmanager.customers.repository.CustomerRepository mockCustomerRepo = Mockito.mock(com.evmanager.customers.repository.CustomerRepository.class);
+        when(mockCustomerRepo.findByPhone("0912345678")).thenReturn(java.util.Optional.empty());
+        when(mockCustomerRepo.save(Mockito.any(com.evmanager.customers.model.Customer.class))).thenAnswer(i -> i.getArgument(0));
+
+        AiPlanningService service = new AiPlanningService(geminiConfig, objectMapper, null, null, mockCustomerRepo);
+
+        com.evmanager.ai.dto.AiInquiryRequest req = new com.evmanager.ai.dto.AiInquiryRequest(
+                "Trần Thị Hoa", "0912345678", "hoa@example.com", "wedding", 150, 80000000.0, "Ghi chú", "Tóm tắt"
+        );
+
+        com.evmanager.ai.dto.AiInquiryResponse res = service.submitInquiry(req);
+        assertNotNull(res);
+        assertNotNull(res.getInquiryCode());
+        assertTrue(res.getInquiryCode().startsWith("INQ-"));
+        assertEquals("Trần Thị Hoa", res.getCustomerName());
+        assertEquals("RECEIVED", res.getStatus());
+    }
 }

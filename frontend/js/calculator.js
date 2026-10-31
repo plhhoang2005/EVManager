@@ -302,14 +302,118 @@ function initAiPlannerLogic() {
         aiResultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // 4. Lưu kế hoạch & Chuyển hướng tư vấn
-    if (aiSaveProposalBtn) {
-        aiSaveProposalBtn.addEventListener('click', function() {
-            if (currentAiPlan) {
-                sessionStorage.setItem('currentAiEventPlan', JSON.stringify(currentAiPlan));
+    // 4. In / Xuất Kế Hoạch PDF
+    const aiPrintPlanBtn = document.getElementById('aiPrintPlanBtn');
+    if (aiPrintPlanBtn) {
+        aiPrintPlanBtn.addEventListener('click', function() {
+            const timestampElem = document.getElementById('printTimestamp');
+            if (timestampElem) {
+                const now = new Date();
+                timestampElem.textContent = 'Ngày xuất: ' + now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'});
             }
-            const budgetVal = aiTotalBudget ? aiTotalBudget.value : '';
-            window.location.href = `contact.html?fromAi=true&budget=${encodeURIComponent(budgetVal)}`;
+            window.print();
+        });
+    }
+
+    // 5. Đăng ký tư vấn theo kế hoạch AI (Modal & API)
+    const aiInquiryModal = document.getElementById('aiInquiryModal');
+    const closeInquiryModalBtn = document.getElementById('closeInquiryModalBtn');
+    const cancelInquiryBtn = document.getElementById('cancelInquiryBtn');
+    const aiInquiryForm = document.getElementById('aiInquiryForm');
+    const inquiryStatusMessage = document.getElementById('inquiryStatusMessage');
+
+    if (aiSaveProposalBtn && aiInquiryModal) {
+        aiSaveProposalBtn.addEventListener('click', function() {
+            aiInquiryModal.style.display = 'flex';
+            if (inquiryStatusMessage) inquiryStatusMessage.style.display = 'none';
+        });
+    }
+
+    function closeInquiryModal() {
+        if (aiInquiryModal) aiInquiryModal.style.display = 'none';
+    }
+
+    if (closeInquiryModalBtn) closeInquiryModalBtn.addEventListener('click', closeInquiryModal);
+    if (cancelInquiryBtn) cancelInquiryBtn.addEventListener('click', closeInquiryModal);
+
+    if (aiInquiryModal) {
+        aiInquiryModal.addEventListener('click', function(e) {
+            if (e.target === aiInquiryModal) closeInquiryModal();
+        });
+    }
+
+    if (aiInquiryForm) {
+        aiInquiryForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitInquiryBtn');
+            if (submitBtn) submitBtn.disabled = true;
+
+            const fullName = document.getElementById('inquiryFullName').value.trim();
+            const phone = document.getElementById('inquiryPhone').value.trim();
+            const email = document.getElementById('inquiryEmail').value.trim();
+            const notes = document.getElementById('inquiryNotes').value.trim();
+
+            const eventType = aiEventType ? aiEventType.value : 'wedding';
+            const totalBudget = aiTotalBudget ? parseFloat(aiTotalBudget.value) : 0;
+            const guestCount = aiGuestCount ? parseInt(aiGuestCount.value) : 100;
+            const planSummary = currentAiPlan && currentAiPlan.summary ? currentAiPlan.summary : '';
+
+            const payload = {
+                fullName: fullName,
+                phone: phone,
+                email: email,
+                eventType: eventType,
+                budget: totalBudget,
+                guestCount: guestCount,
+                specialNotes: notes,
+                planSummary: planSummary
+            };
+
+            try {
+                const apiBase = window.location.port === '8080' ? '' : 'http://localhost:8080';
+                const res = await fetch(`${apiBase}/api/v1/ai/inquiry`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.message || `Lỗi máy chủ (${res.status})`);
+                }
+
+                const result = await res.json();
+                if (inquiryStatusMessage) {
+                    inquiryStatusMessage.style.display = 'block';
+                    inquiryStatusMessage.style.background = '#ecfdf5';
+                    inquiryStatusMessage.style.color = '#065f46';
+                    inquiryStatusMessage.style.border = '1px solid #a7f3d0';
+                    inquiryStatusMessage.innerHTML = `
+                        <strong>🎉 Tiếp nhận thành công!</strong><br>
+                        Mã hồ sơ: <strong>${result.inquiryCode}</strong><br>
+                        ${result.message || 'Chuyên viên Sales của EVManager sẽ liên hệ sớm!'}
+                    `;
+                }
+
+                setTimeout(() => {
+                    closeInquiryModal();
+                    aiInquiryForm.reset();
+                    if (submitBtn) submitBtn.disabled = false;
+                }, 3000);
+
+            } catch (err) {
+                if (inquiryStatusMessage) {
+                    inquiryStatusMessage.style.display = 'block';
+                    inquiryStatusMessage.style.background = '#fef2f2';
+                    inquiryStatusMessage.style.color = '#991b1b';
+                    inquiryStatusMessage.style.border = '1px solid #fecaca';
+                    inquiryStatusMessage.innerHTML = `<strong>Lỗi:</strong> ${err.message}`;
+                }
+                if (submitBtn) submitBtn.disabled = false;
+            }
         });
     }
 

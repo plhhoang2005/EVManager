@@ -1,18 +1,22 @@
 package com.evmanager.ai.service;
 
 import com.evmanager.ai.config.GeminiConfig;
-import com.evmanager.ai.dto.AiChatRequest;
-import com.evmanager.ai.dto.AiChatResponse;
-import com.evmanager.ai.dto.AiPlanningRequest;
-import com.evmanager.ai.dto.AiPlanningResponse;
-import com.evmanager.ai.dto.ChatMessageDto;
+import com.evmanager.ai.dto.*;
+import com.evmanager.customers.model.Customer;
+import com.evmanager.customers.repository.CustomerRepository;
+import com.evmanager.venues.model.Venue;
+import com.evmanager.venues.repository.VenueRepository;
+import com.evmanager.services.repository.ServiceRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.OffsetDateTime;
 import java.util.*;
 
 @Service
@@ -22,10 +26,25 @@ public class AiPlanningService {
 
     private final GeminiConfig geminiConfig;
     private final ObjectMapper objectMapper;
+    private final VenueRepository venueRepository;
+    private final ServiceRepository serviceRepository;
+    private final CustomerRepository customerRepository;
 
-    public AiPlanningService(GeminiConfig geminiConfig, ObjectMapper objectMapper) {
+    @Autowired
+    public AiPlanningService(GeminiConfig geminiConfig,
+                             ObjectMapper objectMapper,
+                             VenueRepository venueRepository,
+                             ServiceRepository serviceRepository,
+                             CustomerRepository customerRepository) {
         this.geminiConfig = geminiConfig;
         this.objectMapper = objectMapper;
+        this.venueRepository = venueRepository;
+        this.serviceRepository = serviceRepository;
+        this.customerRepository = customerRepository;
+    }
+
+    public AiPlanningService(GeminiConfig geminiConfig, ObjectMapper objectMapper) {
+        this(geminiConfig, objectMapper, null, null, null);
     }
 
     public AiPlanningResponse generatePlan(AiPlanningRequest request) {
@@ -81,7 +100,7 @@ public class AiPlanningService {
             default -> request.getEventType();
         };
 
-        return String.format("""
+        String basePrompt = String.format("""
                 Bạn là Giám đốc tư vấn và Lập kế hoạch sự kiện chuyên nghiệp của hệ thống EVManager.
                 Hãy tạo kế hoạch phân bổ ngân sách chi tiết, gợi ý các gói dịch vụ, mốc thời gian chuẩn bị và kịch bản timeline cho sự kiện sau:
                 
@@ -130,6 +149,12 @@ public class AiPlanningService {
                 request.getSpecialNotes() != null && !request.getSpecialNotes().isBlank() ? request.getSpecialNotes() : "Tiêu chuẩn",
                 request.getTotalBudget()
         );
+
+        String dbContext = buildDatabaseContext();
+        if (!dbContext.isBlank()) {
+            return basePrompt + "\nTHÔNG TIN ĐỊA ĐIỂM & DỊCH VỤ THỰC TẾ ĐỂ THAM KHẢO VÀ GỢI Ý:\n" + dbContext;
+        }
+        return basePrompt;
     }
 
     private AiPlanningResponse parseGeminiResponse(String responseJson, AiPlanningRequest request) {
@@ -238,6 +263,12 @@ public class AiPlanningService {
                       ]
                     }
                     """;
+
+            String dbContext = buildDatabaseContext();
+            if (!dbContext.isBlank()) {
+                systemPrompt += "\n\nDỮ LIỆU ĐỊA ĐIỂM & DỊCH VỤ THỰC TẾ TRONG HỆ THỐNG EVMANAGER:\n" +
+                        "(Hãy sử dụng dữ liệu này để báo giá và tư vấn chính xác khi khách hỏi về sảnh tiệc, sức chứa, giá cả):\n" + dbContext;
+            }
 
             List<Map<String, Object>> contents = new ArrayList<>();
 
@@ -385,5 +416,81 @@ public class AiPlanningService {
         }
 
         return new AiChatResponse(reply, suggestions);
+    }
+
+    public String buildDatabaseContext() {
+        StringBuilder sb = new StringBuilder();
+        try {
+            if (venueRepository != null) {
+                List<Venue> venues = venueRepository.findAll();
+                if (!venues.isEmpty()) {
+                    sb.append("\n[DỮ LIỆU SẢNH TIỆC THỰC TẾ CỦA EVMANAGER]:\n");
+                    for (Venue v : venues) {
+                        sb.append(String.format("- %s (Sức chứa: %d-%d khách, Giá thuê niêm yết: %,.0f VNĐ, Vị trí: %s, Trạng thái: %s)\n",
+                                v.getVenueName(),
+                                v.getMinCapacity() != null ? v.getMinCapacity() : 0,
+                                v.getMaxCapacity() != null ? v.getMaxCapacity() : 0,
+                                v.getRentalPrice() != null ? v.getRentalPrice().doubleValue() : 0,
+                                v.getAddress() != null ? v.getAddress() : "Khuôn viên trung tâm",
+                                v.getStatus()));
+                    }
+                }
+            }
+            if (serviceRepository != null) {
+                List<com.evmanager.services.model.Service> services = serviceRepository.findAll();
+                if (!services.isEmpty()) {
+                    sb.append("\n[DỮ LIỆU DỊCH VỤ SỰ KIỆN THỰC TẾ]:\n");
+                    for (var s : services) {
+                        sb.append(String.format("- %s (Đơn giá: %,.0f VNĐ, Mô tả: %s)\n",
+                                s.getServiceName(),
+                                s.getUnitPrice() != null ? s.getUnitPrice().doubleValue() : 0,
+                                s.getDescription() != null ? s.getDescription() : ""));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.warn("Could not load database context: {}", e.getMessage());
+        }
+        return sb.toString();
+    }
+
+    @Transactional
+    public AiInquiryResponse submitInquiry(AiInquiryRequest request) {
+        if (customerRepository == null) {
+            throw new IllegalStateException("CustomerRepository is not configured");
+        }
+
+        Customer customer = null;
+        if (request.getPhone() != null && !request.getPhone().trim().isEmpty()) {
+            customer = customerRepository.findByPhone(request.getPhone().trim()).orElse(null);
+        }
+        if (customer == null && request.getEmail() != null && !request.getEmail().trim().isEmpty()) {
+            customer = customerRepository.findByEmailIgnoreCase(request.getEmail().trim()).orElse(null);
+        }
+        if (customer == null) {
+            customer = new Customer();
+            customer.setPhone(request.getPhone().trim());
+        }
+
+        customer.setFullName(request.getFullName().trim());
+        if (request.getEmail() != null && !request.getEmail().trim().isEmpty()) {
+            customer.setEmail(request.getEmail().trim());
+        }
+        if (customer.getAddress() == null || customer.getAddress().isBlank()) {
+            customer.setAddress("Khách hàng gửi yêu cầu tư vấn qua AI Calculator");
+        }
+        customer = customerRepository.save(customer);
+
+        String inquiryCode = "INQ-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        log.info("Saved inquiry {} for customer '{}' ({}) for event '{}'",
+                inquiryCode, customer.getFullName(), customer.getPhone(), request.getEventType());
+
+        return new AiInquiryResponse(
+                inquiryCode,
+                customer.getFullName(),
+                "RECEIVED",
+                "Yêu cầu tư vấn của quý khách đã được tiếp nhận thành công. Chuyên viên sự kiện sẽ liên hệ tư vấn trong thời gian sớm nhất!",
+                OffsetDateTime.now().toString()
+        );
     }
 }

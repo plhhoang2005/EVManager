@@ -38,4 +38,12 @@ public class AiPlanningController {
         AiChatResponse response = aiPlanningService.chatWithConcierge(request);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/inquiry")
+    @Operation(summary = "Tiếp nhận yêu cầu tư vấn / Đặt tiệc từ Kế hoạch AI",
+               description = "Nhận thông tin khách hàng và kế hoạch sự kiện để chuyển đến đội ngũ Sales xử lý")
+    public ResponseEntity<com.evmanager.ai.dto.AiInquiryResponse> submitInquiry(@Valid @RequestBody com.evmanager.ai.dto.AiInquiryRequest request) {
+        com.evmanager.ai.dto.AiInquiryResponse response = aiPlanningService.submitInquiry(request);
+        return ResponseEntity.status(org.springframework.http.HttpStatus.CREATED).body(response);
+    }
 }

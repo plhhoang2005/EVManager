@@ -97,4 +97,42 @@ public class AiPlanningControllerTest {
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void testSubmitInquiryEndpointReturnsCreated() throws Exception {
+        com.evmanager.ai.dto.AiInquiryResponse mockResponse = new com.evmanager.ai.dto.AiInquiryResponse(
+                "INQ-123456",
+                "Nguyễn Văn An",
+                "RECEIVED",
+                "Tiếp nhận thành công",
+                "2026-10-31T14:00:00Z"
+        );
+
+        Mockito.when(aiPlanningService.submitInquiry(any(com.evmanager.ai.dto.AiInquiryRequest.class)))
+                .thenReturn(mockResponse);
+
+        com.evmanager.ai.dto.AiInquiryRequest req = new com.evmanager.ai.dto.AiInquiryRequest(
+                "Nguyễn Văn An", "0901234567", "an@example.com", "wedding", 200, 100000000.0, "Ghi chú", "Tóm tắt"
+        );
+
+        mockMvc.perform(post("/api/v1/ai/inquiry")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.inquiryCode").value("INQ-123456"))
+                .andExpect(jsonPath("$.customerName").value("Nguyễn Văn An"))
+                .andExpect(jsonPath("$.status").value("RECEIVED"));
+    }
+
+    @Test
+    void testSubmitInquiryValidationFailsOnBlankPhone() throws Exception {
+        com.evmanager.ai.dto.AiInquiryRequest req = new com.evmanager.ai.dto.AiInquiryRequest(
+                "Nguyễn Văn An", "", "an@example.com", "wedding", 200, 100000000.0, "Ghi chú", "Tóm tắt"
+        );
+
+        mockMvc.perform(post("/api/v1/ai/inquiry")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isBadRequest());
+    }
 }
