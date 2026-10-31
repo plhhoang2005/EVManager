@@ -17,6 +17,42 @@
     
     <!-- Stylesheet -->
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/ai-chat.css">
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .ai-milestone-item {
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            border-left: 3px solid #6366f1;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #334155;
+        }
+        .ai-timeline-item {
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            background: #fdf4ff;
+            border-left: 3px solid #a855f7;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+        .ai-budget-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e2e8f0;
+            font-size: 0.9rem;
+        }
+        .ai-budget-row:last-child {
+            border-bottom: none;
+        }
+    </style>
 </head>
 <body>
     <div class="home-wrapper">
@@ -64,7 +100,7 @@
         </section>
 
         <!-- INTERACTIVE COST CALCULATOR SECTION -->
-        <section class="calculator-section" style="padding: 40px 0 80px;">
+        <section class="calculator-section" style="padding: 40px 0 50px;">
             <div class="section-container">
                 <div class="calc-card">
                     <div class="calc-grid">
@@ -181,6 +217,112 @@
             </div>
         </section>
 
+        <!-- AI SMART EVENT PLANNER SECTION -->
+        <section class="ai-planner-section" style="padding: 0 0 80px;">
+            <div class="section-container">
+                <div class="calc-card" style="border: 2px solid #6366f1; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <span class="hero-badge" style="background: rgba(99, 102, 241, 0.1); color: #4f46e5; border-color: rgba(99, 102, 241, 0.2);">
+                                ✦ GEMINI AI POWERED
+                            </span>
+                            <h2 style="font-size: 1.8rem; margin: 8px 0 4px; color: #1e293b;">Trợ Lý AI Lập Kế Hoạch & Phân Bổ Ngân Sách</h2>
+                            <p style="color: #64748b; margin: 0; font-size: 0.95rem;">Nhập ngân sách và yêu cầu của bạn, AI sẽ tự động phân bổ chi phí tối ưu, gợi ý gói dịch vụ và tạo kịch bản timeline sự kiện.</p>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                        <div>
+                            <label style="font-weight: 600; display: block; margin-bottom: 6px; font-size: 0.9rem;">Loại hình sự kiện</label>
+                            <select id="aiEventType" class="form-control" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1;">
+                                <option value="wedding">💒 Tiệc cưới sang trọng</option>
+                                <option value="corporate">👔 Hội nghị / Gala Doanh nghiệp</option>
+                                <option value="birthday">🎂 Tiệc sinh nhật / Kỷ niệm</option>
+                                <option value="concert">🎵 Concert / Lễ hội âm nhạc</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-weight: 600; display: block; margin-bottom: 6px; font-size: 0.9rem;">Tổng ngân sách dự kiến (VNĐ)</label>
+                            <input type="number" id="aiTotalBudget" value="80000000" min="5000000" step="5000000" class="form-control" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1;" />
+                        </div>
+                        <div>
+                            <label style="font-weight: 600; display: block; margin-bottom: 6px; font-size: 0.9rem;">Quy mô khách mời</label>
+                            <input type="number" id="aiGuestCount" value="150" min="10" max="2000" step="10" class="form-control" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1;" />
+                        </div>
+                        <div>
+                            <label style="font-weight: 600; display: block; margin-bottom: 6px; font-size: 0.9rem;">Ghi chú / Phong cách mong muốn</label>
+                            <input type="text" id="aiSpecialNotes" placeholder="VD: Tone pastel, hoa tươi..." class="form-control" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1;" />
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button id="aiPlanBtn" class="btn btn-primary" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); border: none; padding: 12px 24px; font-weight: 700; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                            <span>✨ AI Lập Kế Hoạch & Phân Bổ Ngân Sách</span>
+                        </button>
+                        
+                        <button id="aiSyncWithCalcBtn" class="btn btn-outline" style="padding: 12px 18px; border-radius: 8px;">
+                            Lấy ngân sách từ bảng tính trên
+                        </button>
+                    </div>
+
+                    <!-- Loading Spinner Container -->
+                    <div id="aiLoadingSpinner" style="display: none; padding: 35px 0; text-align: center;">
+                        <div style="display: inline-block; width: 36px; height: 36px; border: 4px solid #e2e8f0; border-top-color: #6366f1; border-radius: 50%; animation: spin 0.9s linear infinite;"></div>
+                        <p style="margin-top: 10px; color: #6366f1; font-weight: 600;">Gemini AI đang phân tích và tối ưu hóa kế hoạch sự kiện...</p>
+                    </div>
+
+                    <!-- AI Results Box -->
+                    <div id="aiResultBox" style="display: none; margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 24px;">
+                        <div style="background: #eef2ff; border-left: 4px solid #6366f1; padding: 16px; border-radius: 6px; margin-bottom: 24px;">
+                            <h4 style="margin: 0 0 6px; color: #3730a3; font-size: 1.1rem;">Định hướng sự kiện từ AI</h4>
+                            <p id="aiSummaryText" style="margin: 0; color: #4338ca; font-size: 0.95rem; line-height: 1.5;"></p>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+                            <!-- Phân bổ ngân sách -->
+                            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px;">
+                                <h4 style="margin: 0 0 14px; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                                    <span>💰</span> Phân Bổ Ngân Sách Chi Tiết
+                                </h4>
+                                <div id="aiBudgetBreakdownContainer"></div>
+                            </div>
+
+                            <!-- Gói dịch vụ gợi ý -->
+                            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px;">
+                                <h4 style="margin: 0 0 14px; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                                    <span>🎁</span> Gói Dịch Vụ Đề Xuất
+                                </h4>
+                                <ul id="aiServicesContainer" style="margin: 0; padding-left: 20px; color: #334155; line-height: 1.8;"></ul>
+                            </div>
+                        </div>
+
+                        <!-- Kế hoạch & Timeline -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
+                            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px;">
+                                <h4 style="margin: 0 0 14px; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                                    <span>📅</span> Mốc Thời Gian Chuẩn Bị (Milestones)
+                                </h4>
+                                <div id="aiMilestonesContainer"></div>
+                            </div>
+
+                            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px;">
+                                <h4 style="margin: 0 0 14px; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                                    <span>⏰</span> Kịch Bản Giờ G (Run-through Timeline)
+                                </h4>
+                                <div id="aiTimelineContainer"></div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 24px; text-align: center;">
+                            <button id="aiSaveProposalBtn" class="btn btn-primary" style="background: #087f82; border: none; padding: 12px 28px; font-weight: 700; border-radius: 8px; cursor: pointer;">
+                                📋 Lưu Kế Hoạch Này & Yêu Cầu Tư Vấn Ngay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- FOOTER -->
         <footer class="home-footer">
             <div class="section-container footer-content">
@@ -217,5 +359,6 @@
 
     <!-- Script riêng cho trang Tính chi phí -->
     <script src="js/calculator.js"></script>
+    <script src="js/ai-chat.js"></script>
 </body>
 </html>

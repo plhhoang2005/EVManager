@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:evmanager}?timezone=UTC
     username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:postgres}
+    password: ${DB_PASSWORD:kaioshen123}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -51,6 +51,12 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     operationsSorter: method
+
+
+gemini:
+  api-key: ${GEMINI_API_KEY:}
+  model: ${GEMINI_MODEL:gemini-2.5-flash}
+  api-url: ${GEMINI_API_URL:https://generativelanguage.googleapis.com/v1beta}
 
 logging:
   file:
