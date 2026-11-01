@@ -28,7 +28,7 @@ public class ContractController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'SALES', 'COORDINATOR')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SALES', 'COORDINATOR', 'CUSTOMER')")
     public ResponseEntity<Page<ContractResponse>> getAllContracts(Pageable pageable) {
         return ResponseEntity.ok(contractService.getAllContracts(pageable));
     }

@@ -199,8 +199,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!tbody) return;
 
         try {
-            const res = await fetchAPI('/api/v1/contracts?size=100').then(r => r.json());
-            currentContracts = res.content || [];
+            const response = await fetchAPI('/api/v1/contracts?page=0&size=100');
+            if (!response.ok) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger">Không thể tải danh sách hợp đồng.</td></tr>';
+                return;
+            }
+            const res = await response.json();
+            currentContracts = Array.isArray(res) ? res : (res && res.content ? res.content : []);
             
             if (currentContracts.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding: 20px;">Chưa có hợp đồng nào.</td></tr>';
@@ -213,18 +218,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (c.status === 'CANCELLED') statusBadge = 'inactive';
                 if (c.status === 'DRAFT') statusBadge = 'warning';
 
+                const custName = c.customerName || 'Khách hàng VIP';
+                const evName = c.eventName || 'Đặt tiệc & Hội nghị LV34';
+                const totalFormatted = c.totalAmount ? new Intl.NumberFormat('vi-VN').format(c.totalAmount) + ' đ' : '0 đ';
                 const menuDisplayName = c.menuName || (c.menus && c.menus.length > 0 ? c.menus[0].menuName : '');
 
                 return `
                     <tr>
-                        <td><strong>${c.contractCode}</strong></td>
-                        <td>${c.customerName}</td>
+                        <td><strong>${c.contractCode || ('#HD-' + c.contractId)}</strong></td>
+                        <td>${custName}</td>
                         <td>
-                            <div>${c.eventName}</div>
+                            <div>${evName}</div>
                             ${menuDisplayName ? `<small style="color:#64748b;">🍽️ ${menuDisplayName}</small>` : ''}
                         </td>
-                        <td style="color:#d9534f; font-weight:bold;">${new Intl.NumberFormat('vi-VN').format(c.totalAmount)}đ</td>
-                        <td><span class="summary-pill ${statusBadge}">${c.status}</span></td>
+                        <td style="color:#087f82; font-weight:bold;">${totalFormatted}</td>
+                        <td><span class="summary-pill ${statusBadge}">${c.status || 'DRAFT'}</span></td>
                         <td class="text-right">
                             <div class="btn-action-group">
                                 ${c.status === 'DRAFT' ? `<button class="btn-action" onclick="window.approveContract(${c.contractId})" title="Duyệt">✅ Duyệt</button>` : ''}

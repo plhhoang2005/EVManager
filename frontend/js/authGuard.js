@@ -14,6 +14,11 @@
         const decoded = parseJwt(token);
         const roleStr = String(decoded.role || decoded.roles || decoded.authorities || '').toUpperCase();
         
+        // ADMIN có toàn quyền xem các trang portal để kiểm tra và vận hành
+        if (roleStr.includes('ADMIN')) {
+            return;
+        }
+
         const path = window.location.pathname.toLowerCase();
 
         if (path.includes('admin.html') && !roleStr.includes('ADMIN')) {

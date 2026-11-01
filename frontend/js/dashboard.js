@@ -117,12 +117,12 @@ async function loadAdminData() {
             adminDashboardSummary = await response.json();
             if (adminDashboardSummary.recentEvents && adminDashboardSummary.recentEvents.length > 0) {
                 adminEvents = adminDashboardSummary.recentEvents.map(re => ({
-                    id: `SK-${re.id}`,
-                    title: re.title,
-                    client: re.client,
+                    id: `SK-${re.eventId || re.id}`,
+                    title: re.eventName || re.title,
+                    client: re.client || (re.guestCount ? `${re.guestCount} khách` : 'Khách đoàn'),
                     type: 'Hội nghị',
-                    date: re.date,
-                    location: re.location,
+                    date: re.startAt ? formatDate(re.startAt) : (re.date || ''),
+                    location: re.venueName || re.location || 'Địa điểm chính',
                     budget: Number(re.budget) || 50000000,
                     status: re.status || 'Đã xác nhận'
                 }));
@@ -202,15 +202,15 @@ async function fetchRealEvents() {
 }
 
 async function initDashboard() {
-    adminEvents = await fetchRealEvents();
-
-    console.log("Đã khởi chạy Module Quản Trị Admin LV34!");
-    await loadAdminData();
-
     setupTabNavigation();
     setupFiltersAndSearch();
     setupModals();
     setupSidebarToggle();
+
+    adminEvents = await fetchRealEvents();
+
+    console.log("Đã khởi chạy Module Quản Trị Admin LV34!");
+    await loadAdminData();
 
     renderAllViews();
 }
@@ -243,7 +243,6 @@ function switchAdminTab(tabId) {
     const titles = {
         'tab-dashboard': { title: 'Bảng tổng quan', sub: 'Tổng quan doanh thu, sự kiện & hoạt động mới nhất' },
         'tab-events': { title: 'Quản lý sự kiện', sub: 'Danh sách, lọc và điều hành các sự kiện trong hệ thống' },
-        'tab-tasks': { title: 'Quản lý công việc', sub: 'Phân công, theo dõi tiến độ và kiểm soát đầu việc' },
         'tab-venues': { title: 'Quản lý địa điểm', sub: 'Danh sách các sảnh tiệc, trung tâm và tình trạng trống' },
         'tab-contracts': { title: 'Quản lý hợp đồng', sub: 'Theo dõi tình trạng phê duyệt và lưu trữ hợp đồng' },
         'tab-customers': { title: 'Quản lý khách hàng', sub: 'Thông tin đối tác, khách hàng VIP và lịch sử hợp tác' },

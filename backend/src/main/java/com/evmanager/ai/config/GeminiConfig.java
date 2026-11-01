@@ -29,6 +29,8 @@ public class GeminiConfig {
     @Value("${gemini.api-url:https://generativelanguage.googleapis.com/v1beta}")
     private String apiUrl;
 
+    private volatile boolean enabled = true;
+
     @PostConstruct
     public void init() {
         if (apiKey == null || apiKey.trim().isEmpty()) {
@@ -98,5 +100,40 @@ public class GeminiConfig {
 
     public RestClient getRestClient() {
         return geminiRestClient();
+    }
+
+    public synchronized void updateConfig(String newApiKey, String newModel, Boolean newEnabled) {
+        if (newApiKey != null) {
+            this.apiKey = newApiKey.trim();
+        }
+        if (newModel != null && !newModel.trim().isEmpty()) {
+            this.model = newModel.trim();
+        }
+        if (newEnabled != null) {
+            this.enabled = newEnabled;
+        }
+        log.info("GeminiConfig updated at runtime: model='{}', hasKey={}, enabled={}", this.model, (this.apiKey != null && !this.apiKey.isEmpty()), this.enabled);
+    }
+
+    public synchronized void updateConfig(String newApiKey, String newModel) {
+        updateConfig(newApiKey, newModel, null);
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getMaskedApiKey() {
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            return "Chưa cấu hình (Đang chạy thuật toán Fallback)";
+        }
+        if (apiKey.length() <= 8) {
+            return "********";
+        }
+        return apiKey.substring(0, 4) + "..." + apiKey.substring(apiKey.length() - 4);
     }
 }

@@ -1,6 +1,7 @@
 package com.evmanager.events.repository;
 
 import com.evmanager.events.model.Event;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,4 +30,9 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query("SELECT e FROM Event e JOIN FETCH e.venue WHERE e.startAt < :end AND e.endAt > :start")
     List<Event> findEventsInRange(@Param("start") OffsetDateTime start, @Param("end") OffsetDateTime end);
+
+    long countByStatus(String status);
+
+    @Query("SELECT e FROM Event e JOIN FETCH e.venue ORDER BY e.startAt DESC")
+    List<Event> findTopRecentEvents(Pageable pageable);
 }

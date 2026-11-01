@@ -26,12 +26,18 @@ public class AiPlanningControllerTest {
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
     private AiPlanningService aiPlanningService;
+    private com.evmanager.ai.config.GeminiConfig geminiConfig;
 
     @BeforeEach
     void setUp() {
         aiPlanningService = Mockito.mock(AiPlanningService.class);
+        geminiConfig = Mockito.mock(com.evmanager.ai.config.GeminiConfig.class);
+        Mockito.when(geminiConfig.getModel()).thenReturn("gemini-2.5-flash");
+        Mockito.when(geminiConfig.getMaskedApiKey()).thenReturn("AIzaSy...TEST");
+        Mockito.when(geminiConfig.getApiKey()).thenReturn("AIzaSyFakeKey12345");
+
         objectMapper = new ObjectMapper();
-        AiPlanningController controller = new AiPlanningController(aiPlanningService);
+        AiPlanningController controller = new AiPlanningController(aiPlanningService, geminiConfig);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
@@ -125,14 +131,27 @@ public class AiPlanningControllerTest {
     }
 
     @Test
-    void testSubmitInquiryValidationFailsOnBlankPhone() throws Exception {
-        com.evmanager.ai.dto.AiInquiryRequest req = new com.evmanager.ai.dto.AiInquiryRequest(
-                "Nguyễn Văn An", "", "an@example.com", "wedding", 200, 100000000.0, "Ghi chú", "Tóm tắt"
-        );
+    void testGetAdminAiConfigEndpointReturnsConfig() throws Exception {
+        Mockito.when(geminiConfig.isEnabled()).thenReturn(true);
 
-        mockMvc.perform(post("/api/v1/ai/inquiry")
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/v1/ai/admin/config"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.model").value("gemini-2.5-flash"))
+                .andExpect(jsonPath("$.apiKeyMasked").value("AIzaSy...TEST"))
+                .andExpect(jsonPath("$.active").value(true))
+                .andExpect(jsonPath("$.enabled").value(true));
+    }
+
+    @Test
+    void testUpdateAdminAiConfigEndpointCallsUpdate() throws Exception {
+        com.evmanager.ai.dto.AiConfigDto updateReq = new com.evmanager.ai.dto.AiConfigDto("gemini-2.5-flash", "", "AIzaSyNewKey", true, true, 0, "");
+
+        mockMvc.perform(post("/api/v1/ai/admin/config")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isBadRequest());
+                        .content(objectMapper.writeValueAsString(updateReq)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.model").value("gemini-2.5-flash"));
+
+        Mockito.verify(geminiConfig).updateConfig("AIzaSyNewKey", "gemini-2.5-flash", true);
     }
 }

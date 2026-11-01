@@ -202,8 +202,7 @@ function initAiPlannerLogic() {
             };
 
             try {
-                // Xác định API baseUrl: localhost:8080 nếu chạy local hoặc relative path
-                const apiBase = window.location.port === '8080' ? '' : 'http://localhost:8080';
+                const apiBase = (typeof API_BASE_URL !== 'undefined') ? API_BASE_URL : (window.location.port === '8080' ? '' : ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8080' : window.location.origin));
                 const response = await fetch(`${apiBase}/api/v1/ai/plan-event`, {
                     method: 'POST',
                     headers: {
@@ -370,7 +369,7 @@ function initAiPlannerLogic() {
             };
 
             try {
-                const apiBase = window.location.port === '8080' ? '' : 'http://localhost:8080';
+                const apiBase = (typeof API_BASE_URL !== 'undefined') ? API_BASE_URL : (window.location.port === '8080' ? '' : ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8080' : window.location.origin));
                 const res = await fetch(`${apiBase}/api/v1/ai/inquiry`, {
                     method: 'POST',
                     headers: {

@@ -37,7 +37,11 @@ public class VenueService {
 
     @Transactional(readOnly = true)
     public Page<VenueResponse> getVenues(String keyword, Pageable pageable) {
-        return venueRepository.findActiveVenues(keyword, pageable)
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            return venueRepository.findActiveVenues(keyword.trim().toLowerCase(), pageable)
+                    .map(this::mapToResponse);
+        }
+        return venueRepository.findAllActive(pageable)
                 .map(this::mapToResponse);
     }
 

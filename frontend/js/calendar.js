@@ -1,36 +1,50 @@
 /**
  * Module Lịch sự kiện (calendar.js)
- * Tích hợp FullCalendar hiển thị lịch trình sự kiện từ dữ liệu Quản trị
+ * Tích hợp FullCalendar hiển thị lịch trình sự kiện từ dữ liệu Quản trị & Backend
  */
 
 let fullCalendarInstance = null;
 
-// Biến mockEvents dự phòng khi Backend chưa có API Events (404)
+// Biến mockEvents dự phòng khi Backend chưa có dữ liệu hoặc offline
 const mockEvents = [
-    { title: 'Lễ cưới Hoàng Gia - Anh Minh', start: '2026-10-15T17:30:00', backgroundColor: '#087f82', borderColor: '#087f82', extendedProps: { location: 'GEM Center, Q.1', status: 'Đã xác nhận' } },
-    { title: 'Hội nghị Tech Summit 2026', start: '2026-10-20T08:00:00', backgroundColor: '#d9763d', borderColor: '#d9763d', extendedProps: { location: 'White Palace, Q. Phú Nhuận', status: 'Đang chuẩn bị' } },
-    { title: 'Đại nhạc hội EDM Summer Splash', start: '2026-11-05T19:00:00', backgroundColor: '#7865a7', borderColor: '#7865a7', extendedProps: { location: 'Sân vận động QK7', status: 'Đã xác nhận' } }
+    { title: 'Lễ cưới Hoàng Gia - Tuấn Kiệt & Mai Phương', start: '2026-11-02T17:30:00', backgroundColor: '#e11d48', borderColor: '#e11d48', extendedProps: { location: 'Sảnh Kim Cương', status: 'PREPARING' } },
+    { title: 'Hội nghị Thường Niên Doanh Nhân Trẻ TP.HCM', start: '2026-11-01T08:00:00', backgroundColor: '#0284c7', borderColor: '#0284c7', extendedProps: { location: 'Sảnh Sapphire', status: 'IN_PROGRESS' } },
+    { title: 'Lễ Kỷ Niệm 10 Năm Tập Đoàn GreenTech', start: '2026-10-31T18:00:00', backgroundColor: '#7c3aed', borderColor: '#7c3aed', extendedProps: { location: 'Sảnh Ruby', status: 'COMPLETED' } }
 ];
 
-function formatCalendarEvents(eventsList) {
-    const colors = {
-        'Tiệc cưới': '#087f82',
-        'Hội nghị': '#d9763d',
-        'Concert': '#7865a7',
-        'Sinh nhật': '#2563eb'
-    };
+function formatCalendarEvents(rawInput) {
+    const list = Array.isArray(rawInput) ? rawInput : (rawInput && rawInput.content ? rawInput.content : []);
+    
+    return list.map(ev => {
+        let title = ev.eventName || ev.title || 'Sự kiện';
+        if (ev.client) title += ` (${ev.client})`;
+        
+        const start = ev.startAt || ev.start || ev.date;
+        const end = ev.endAt || ev.end;
+        const location = ev.venueName || ev.location || 'LV34 Convention Center';
+        const status = ev.status || 'SCHEDULED';
+        
+        let bgColor = '#087f82';
+        const tLower = title.toLowerCase();
+        if (tLower.includes('cưới') || tLower.includes('hôn')) bgColor = '#e11d48';
+        else if (tLower.includes('hội nghị') || tLower.includes('summit')) bgColor = '#0284c7';
+        else if (tLower.includes('kỷ niệm') || tLower.includes('gala') || tLower.includes('party')) bgColor = '#7c3aed';
+        else if (status === 'IN_PROGRESS') bgColor = '#059669';
 
-    return eventsList.map(ev => ({
-        title: ev.client ? `${ev.title} (${ev.client})` : ev.title,
-        start: ev.date || ev.start,
-        backgroundColor: colors[ev.type] || '#087f82',
-        borderColor: colors[ev.type] || '#087f82',
-        extendedProps: {
-            location: ev.location || 'Chưa cập nhật',
-            status: ev.status || 'Đã xác nhận',
-            budget: ev.budget || 0
-        }
-    }));
+        return {
+            id: ev.eventId || ev.id,
+            title: title,
+            start: start,
+            end: end,
+            backgroundColor: bgColor,
+            borderColor: bgColor,
+            extendedProps: {
+                location: location,
+                status: status,
+                guestCount: ev.guestCount || 0
+            }
+        };
+    });
 }
 
 function getCalendarEventsFromStorage() {
@@ -41,30 +55,33 @@ function getCalendarEventsFromStorage() {
 
     try {
         const eventsList = JSON.parse(savedEvents);
-        return formatCalendarEvents(eventsList);
+        const formatted = formatCalendarEvents(eventsList);
+        return formatted.length > 0 ? formatted : mockEvents;
     } catch (e) {
         return mockEvents;
     }
 }
 
-// Gọi API lấy sự kiện với try...catch tự động kích hoạt mockEvents nếu API bị lỗi (404)
+// Gọi API lấy sự kiện với hỗ trợ cả dạng mảng và Spring Data Page
 async function getCalendarEvents() {
     try {
-        const response = await fetchAPI('/api/v1/events');
+        const response = await fetchAPI('/api/v1/events?page=0&size=100');
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: API Events chưa sẵn sàng.`);
         }
         const data = await response.json();
-        return formatCalendarEvents(data);
+        const formatted = formatCalendarEvents(data);
+        if (formatted.length > 0) {
+            return formatted;
+        }
+        return getCalendarEventsFromStorage();
     } catch (error) {
-        console.warn('Backend chưa có API Events (Lỗi 404/kết nối). Tự động kích hoạt mockEvents:', error.message);
+        console.warn('Sử dụng dữ liệu sự kiện dự phòng cho Calendar:', error.message);
         return getCalendarEventsFromStorage();
     }
 }
 
 async function initCalendar() {
-    console.log("Đã tải module Lịch sự kiện!");
-
     const calendarEl = document.getElementById('calendar');
     if (!calendarEl) return;
 
@@ -87,13 +104,21 @@ async function initCalendar() {
         eventClick: function(info) {
             const loc = info.event.extendedProps.location || 'Chưa cập nhật';
             const status = info.event.extendedProps.status || 'Đã xác nhận';
+            const guests = info.event.extendedProps.guestCount ? `${info.event.extendedProps.guestCount} khách` : 'Chưa định';
+            
             Swal.fire({
                 title: '🎉 ' + info.event.title,
-                html: `<b>⏰ Thời gian:</b> ${info.event.start ? info.event.start.toLocaleString('vi-VN') : ''}<br>
-                       <b>📍 Địa điểm:</b> ${loc}<br>
-                       <b>📌 Trạng thái:</b> ${status}`,
+                html: `
+                    <div style="text-align:left;line-height:1.8;padding:8px 0;font-size:0.95rem;">
+                        <div><b>⏰ Bắt đầu:</b> ${info.event.start ? info.event.start.toLocaleString('vi-VN') : ''}</div>
+                        <div><b>🏛️ Địa điểm:</b> ${loc}</div>
+                        <div><b>👥 Quy mô:</b> ${guests}</div>
+                        <div><b>📌 Trạng thái:</b> <span style="background:#e0f2fe;color:#0369a1;padding:2px 8px;border-radius:9999px;font-weight:700;font-size:0.8rem;">${status}</span></div>
+                    </div>
+                `,
                 icon: 'info',
-                confirmButtonColor: '#087f82'
+                confirmButtonColor: '#087f82',
+                confirmButtonText: 'Đóng'
             });
         }
     });

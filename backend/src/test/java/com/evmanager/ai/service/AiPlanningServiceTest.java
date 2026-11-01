@@ -112,5 +112,12 @@ public class AiPlanningServiceTest {
         assertTrue(res.getInquiryCode().startsWith("INQ-"));
         assertEquals("Trần Thị Hoa", res.getCustomerName());
         assertEquals("RECEIVED", res.getStatus());
+
+        com.evmanager.customers.model.Customer savedCustomer = (com.evmanager.customers.model.Customer) (Mockito.mockingDetails(mockCustomerRepo).getInvocations()
+                .stream().filter(inv -> inv.getMethod().getName().equals("save")).findFirst().get().getArgument(0));
+        assertNotNull(savedCustomer);
+        assertTrue(savedCustomer.getAddress().contains("[AI_LEAD]"));
+        assertTrue(savedCustomer.getAddress().contains("wedding"));
+        assertTrue(savedCustomer.getAddress().contains("150 khách"));
     }
 }

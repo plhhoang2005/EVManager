@@ -1,24 +1,31 @@
 /**
- * EVManager - AI Chat Concierge Floating Widget
- * Integrates with POST /api/v1/ai/chat (Google Gemini 1.5 Flash backend)
+ * EVManager - AI Chat Concierge Floating Widget (v2.0)
+ * Hỗ trợ: Quản lý đa phiên chat, Lưu lịch sử (localStorage), Tạo chat mới, và Gợi ý động theo ngữ cảnh
  */
 (function() {
     'use strict';
 
-    // Avoid duplicate initialization
     if (window.EVManagerAiChatInitialized) return;
     window.EVManagerAiChatInitialized = true;
 
-    const API_BASE = (window.location.protocol.startsWith('http') && window.location.port === '8080')
-        ? ''
-        : 'http://localhost:8080';
+    const API_BASE = (typeof API_BASE_URL !== 'undefined')
+        ? API_BASE_URL
+        : ((window.location.protocol.startsWith('http') && window.location.port === '8080')
+            ? ''
+            : ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+                ? 'http://localhost:8080'
+                : window.location.origin));
     const CHAT_ENDPOINT = `${API_BASE}/api/v1/ai/chat`;
+    const STORAGE_KEY = 'evmanager_ai_chat_sessions_v1';
 
-    let chatHistory = [];
+    let sessions = [];
+    let currentSessionId = null;
     let isWaitingResponse = false;
 
-    // Build and inject HTML structure
+    // Khởi tạo Widget
     function initWidget() {
+        loadSessionsFromStorage();
+
         const widgetContainer = document.createElement('div');
         widgetContainer.id = 'evmanager-ai-chat-root';
         widgetContainer.innerHTML = `
@@ -48,9 +55,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ai-chat-header-actions">
-                        <button id="aiChatCloseBtn" title="Đóng chat">✕</button>
+                    <div class="ai-chat-header-actions" style="display: flex; align-items: center; gap: 6px;">
+                        <button id="aiNewChatBtn" class="ai-header-btn" title="Đoạn chat mới">➕</button>
+                        <button id="aiHistoryBtn" class="ai-header-btn" title="Lịch sử đoạn chat">🕒</button>
+                        <button id="aiChatCloseBtn" class="ai-header-btn" title="Đóng chat">✕</button>
                     </div>
+                </div>
+
+                <!-- History Drawer -->
+                <div class="ai-chat-history-drawer" id="aiHistoryDrawer">
+                    <div class="ai-history-header">
+                        <strong style="color: #0f172a; font-size: 14px;">Cuộc trò chuyện đã lưu</strong>
+                        <button id="aiCloseHistoryBtn" style="background: none; border: none; font-size: 14px; cursor: pointer; color: #64748b;">✕</button>
+                    </div>
+                    <div class="ai-history-list" id="aiHistoryList"></div>
                 </div>
 
                 <!-- Chat Body -->
@@ -81,25 +99,47 @@
         document.body.appendChild(widgetContainer);
 
         // Bind events
-        const launcher = document.getElementById('aiChatLauncher');
-        const chatWindow = document.getElementById('aiChatWindow');
-        const closeBtn = document.getElementById('aiChatCloseBtn');
-        const form = document.getElementById('aiChatForm');
-        const input = document.getElementById('aiChatInput');
+        document.getElementById('aiChatLauncher').addEventListener('click', () => toggleChat(true));
+        document.getElementById('aiChatCloseBtn').addEventListener('click', () => toggleChat(false));
+        document.getElementById('aiNewChatBtn').addEventListener('click', () => createNewChatSession());
+        document.getElementById('aiHistoryBtn').addEventListener('click', toggleHistoryDrawer);
+        document.getElementById('aiCloseHistoryBtn').addEventListener('click', toggleHistoryDrawer);
 
-        launcher.addEventListener('click', () => toggleChat(true));
-        closeBtn.addEventListener('click', () => toggleChat(false));
-
-        form.addEventListener('submit', (e) => {
+        document.getElementById('aiChatForm').addEventListener('submit', (e) => {
             e.preventDefault();
+            const input = document.getElementById('aiChatInput');
             const text = input.value.trim();
             if (!text || isWaitingResponse) return;
             input.value = '';
             sendMessage(text);
         });
 
-        // Seed welcome greeting
-        appendBotGreeting();
+        // Nạp phiên chat gần nhất hoặc tạo mới
+        if (sessions.length > 0) {
+            loadSession(sessions[0].id);
+        } else {
+            createNewChatSession();
+        }
+
+        // Kiểm tra xem Admin có đang Bật tính năng AI hay không (Kill-switch)
+        checkAiStatus();
+    }
+
+    async function checkAiStatus() {
+        try {
+            const res = await fetch(`${API_BASE}/api/v1/ai/status`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data.enabled === false) {
+                    const launcher = document.getElementById('aiChatLauncher');
+                    const chatWin = document.getElementById('aiChatWindow');
+                    if (launcher) launcher.style.display = 'none';
+                    if (chatWin) chatWin.classList.remove('active');
+                }
+            }
+        } catch (e) {
+            // Nếu lỗi mạng, vẫn giữ fallback
+        }
     }
 
     function toggleChat(show) {
@@ -119,6 +159,128 @@
         }
     }
 
+    function toggleHistoryDrawer() {
+        const drawer = document.getElementById('aiHistoryDrawer');
+        if (drawer) {
+            drawer.classList.toggle('active');
+            if (drawer.classList.contains('active')) {
+                renderHistoryList();
+            }
+        }
+    }
+
+    // --- SESSION STORAGE MANAGEMENT ---
+
+    function loadSessionsFromStorage() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            sessions = raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            console.warn('[Genie AI] Error reading localStorage', e);
+            sessions = [];
+        }
+    }
+
+    function saveSessionsToStorage() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+        } catch (e) {
+            console.warn('[Genie AI] Error saving localStorage', e);
+        }
+    }
+
+    function createNewChatSession() {
+        const drawer = document.getElementById('aiHistoryDrawer');
+        if (drawer) drawer.classList.remove('active');
+
+        const newId = 'session_' + Date.now();
+        const newSession = {
+            id: newId,
+            title: 'Cuộc trò chuyện mới',
+            updatedAt: new Date().toISOString(),
+            messages: []
+        };
+
+        sessions.unshift(newSession);
+        if (sessions.length > 15) sessions.pop(); // Giới hạn 15 phiên gần nhất
+        currentSessionId = newId;
+        saveSessionsToStorage();
+
+        renderChatBodyFromCurrentSession();
+        appendBotGreeting();
+    }
+
+    function loadSession(sessionId) {
+        const found = sessions.find(s => s.id === sessionId);
+        if (!found) return;
+
+        currentSessionId = sessionId;
+        const drawer = document.getElementById('aiHistoryDrawer');
+        if (drawer) drawer.classList.remove('active');
+
+        renderChatBodyFromCurrentSession();
+    }
+
+    function deleteSession(sessionId, e) {
+        if (e) e.stopPropagation();
+        sessions = sessions.filter(s => s.id !== sessionId);
+        saveSessionsToStorage();
+
+        if (currentSessionId === sessionId) {
+            if (sessions.length > 0) {
+                loadSession(sessions[0].id);
+            } else {
+                createNewChatSession();
+            }
+        } else {
+            renderHistoryList();
+        }
+    }
+
+    function renderHistoryList() {
+        const listEl = document.getElementById('aiHistoryList');
+        if (!listEl) return;
+
+        if (sessions.length === 0) {
+            listEl.innerHTML = `<div style="text-align: center; color: #94a3b8; padding: 2rem;">Chưa có cuộc trò chuyện nào</div>`;
+            return;
+        }
+
+        listEl.innerHTML = sessions.map(s => {
+            const isActive = s.id === currentSessionId ? 'active' : '';
+            return `
+                <div class="ai-history-item ${isActive}" onclick="window.EVManagerAiLoadSession('${s.id}')">
+                    <div class="ai-history-item-title">${escapeHtml(s.title || 'Đoạn chat')}</div>
+                    <button class="ai-history-item-del" title="Xóa đoạn chat này" onclick="window.EVManagerAiDeleteSession('${s.id}', event)">🗑️</button>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Expose helpers cho inline HTML onclick
+    window.EVManagerAiLoadSession = loadSession;
+    window.EVManagerAiDeleteSession = deleteSession;
+
+    function renderChatBodyFromCurrentSession() {
+        const chatBody = document.getElementById('aiChatBody');
+        chatBody.innerHTML = '';
+
+        const currentSession = sessions.find(s => s.id === currentSessionId);
+        if (!currentSession || currentSession.messages.length === 0) {
+            return;
+        }
+
+        currentSession.messages.forEach(m => {
+            appendMessage(m.role, m.content, false);
+        });
+
+        // Set lại gợi ý sau câu cuối cùng
+        const lastMsg = currentSession.messages[currentSession.messages.length - 1];
+        if (lastMsg && lastMsg.role === 'bot') {
+            generateContextualSuggestions(lastMsg.content);
+        }
+    }
+
     function appendBotGreeting() {
         const welcomeText = "Dạ chào Quý khách! Em là Genie - Trợ lý AI tư vấn sự kiện của EVManager.\n\n" +
             "Em có thể hỗ trợ Quý khách giải đáp mọi thông tin về:\n" +
@@ -127,7 +289,7 @@
             "• Phân bổ ngân sách & chọn thực đơn ẩm thực\n\n" +
             "Quý khách đang chuẩn bị sự kiện gì ạ?";
 
-        appendMessage('bot', welcomeText);
+        appendMessage('bot', welcomeText, true);
         setSuggestions([
             "Tư vấn gói tiệc cưới trọn gói",
             "Báo giá hội nghị doanh nghiệp",
@@ -136,7 +298,7 @@
         ]);
     }
 
-    function appendMessage(role, text) {
+    function appendMessage(role, text, save = true) {
         const chatBody = document.getElementById('aiChatBody');
         const msgEl = document.createElement('div');
         msgEl.className = `ai-msg ${role}`;
@@ -153,8 +315,21 @@
         msgEl.appendChild(bubbleEl);
         msgEl.appendChild(timeEl);
         chatBody.appendChild(msgEl);
-
         chatBody.scrollTop = chatBody.scrollHeight;
+
+        if (save) {
+            const currentSession = sessions.find(s => s.id === currentSessionId);
+            if (currentSession) {
+                currentSession.messages.push({ role, content: text });
+                currentSession.updatedAt = new Date().toISOString();
+
+                // Cập nhật title session theo câu hỏi đầu tiên của user
+                if (role === 'user' && currentSession.title === 'Cuộc trò chuyện mới') {
+                    currentSession.title = text.length > 32 ? text.substring(0, 30) + '...' : text;
+                }
+                saveSessionsToStorage();
+            }
+        }
     }
 
     function showTypingIndicator() {
@@ -198,6 +373,38 @@
         });
     }
 
+    // Tự động sinh gợi ý động dựa theo nội dung
+    function generateContextualSuggestions(contextText) {
+        const t = (contextText || '').toLowerCase();
+        if (t.includes('cưới') || t.includes('wedding')) {
+            setSuggestions([
+                "Xem thực đơn 6 món tiệc cưới",
+                "Sảnh Kim Cương có còn trống?",
+                "Ước tính chi phí 150 khách",
+                "Chính sách ưu đãi mùa cưới"
+            ]);
+        } else if (t.includes('hội nghị') || t.includes('gala') || t.includes('doanh nghiệp')) {
+            setSuggestions([
+                "Báo giá Teabreak hội thảo",
+                "Gói màn hình LED & Âm thanh",
+                "Kịch bản Gala Year End Party",
+                "Xuất hóa đơn VAT doanh nghiệp"
+            ]);
+        } else if (t.includes('ngân sách') || t.includes('giá') || t.includes('triệu')) {
+            setSuggestions([
+                "Mở máy tính dự toán ngân sách",
+                "Cách tiết kiệm 15% chi phí",
+                "Gặp tư vấn viên chốt sảnh"
+            ]);
+        } else {
+            setSuggestions([
+                "Tư vấn gói tiệc cưới trọn gói",
+                "Dự toán chi phí sự kiện",
+                "Xem danh sách sảnh tiệc"
+            ]);
+        }
+    }
+
     async function sendMessage(userText) {
         isWaitingResponse = true;
         const sendBtn = document.getElementById('aiChatSendBtn');
@@ -205,13 +412,13 @@
         sendBtn.disabled = true;
         input.disabled = true;
 
-        // Display user message
-        appendMessage('user', userText);
-        setSuggestions([]); // hide while waiting
+        // Hiển thị tin nhắn user
+        appendMessage('user', userText, true);
+        setSuggestions([]);
         showTypingIndicator();
 
-        // Update history memory
-        chatHistory.push({ role: 'user', content: userText });
+        const currentSession = sessions.find(s => s.id === currentSessionId);
+        const historyPayload = currentSession ? currentSession.messages.slice(-8) : [];
 
         try {
             const response = await fetch(CHAT_ENDPOINT, {
@@ -222,39 +429,33 @@
                 },
                 body: JSON.stringify({
                     message: userText,
-                    history: chatHistory.slice(-8) // send recent turns
+                    history: historyPayload
                 })
             });
 
             removeTypingIndicator();
 
             if (!response.ok) {
-                throw new Error(`Server returned status ${response.status}`);
+                throw new Error(`Server status ${response.status}`);
             }
 
             const data = await response.json();
-            const reply = data.reply || "Xin lỗi Quý khách, em chưa nghe rõ. Quý khách vui lòng thử lại nhé ạ!";
+            const reply = data.reply || "Dạ Quý khách cần em tư vấn thêm chi tiết gì không ạ?";
             
-            appendMessage('bot', reply);
-            chatHistory.push({ role: 'model', content: reply });
+            appendMessage('bot', reply, true);
 
             if (data.quickSuggestions && data.quickSuggestions.length > 0) {
                 setSuggestions(data.quickSuggestions);
             } else {
-                setSuggestions([
-                    "Xem thêm dịch vụ",
-                    "Dự toán chi phí AI",
-                    "Liên hệ tư vấn viên"
-                ]);
+                generateContextualSuggestions(reply);
             }
 
         } catch (error) {
-            console.warn('[Genie AI] Fetch error, using client fallback:', error);
+            console.warn('[Genie AI] Fetch failed, fallback active:', error);
             removeTypingIndicator();
 
             const fallback = getClientFallbackReply(userText);
-            appendMessage('bot', fallback.reply);
-            chatHistory.push({ role: 'model', content: fallback.reply });
+            appendMessage('bot', fallback.reply, true);
             setSuggestions(fallback.suggestions);
         } finally {
             isWaitingResponse = false;
@@ -276,20 +477,19 @@
                 reply: "Chào Quý khách! EVManager chuyên tổ chức hội nghị và sự kiện doanh nghiệp chuẩn quốc tế:\n\n• Hội nghị khách hàng & Hội thảo: Âm thanh micro chuyên dụng, màn hình LED, cabin dịch thuật.\n• Tiệc Year-End Party & Gala: Kịch bản sân khấu sôi động, teambuilding, minigame công nghệ.\n• Lễ ra mắt sản phẩm: Backdrop 3D, hiệu ứng ánh sáng laser hiện đại.\n\nQuý công ty có thể cho chúng tôi biết quy mô dự kiến không ạ?",
                 suggestions: ["Báo giá teabreak hội nghị", "Thuê màn hình LED & Âm thanh", "Kế hoạch tổ chức Gala"]
             };
-        } else if (text.includes('sinh nhật') || text.includes('thôi nôi')) {
-            return {
-                reply: "Chào bạn! EVManager có các gói tiệc sinh nhật & thôi nôi ấm cúng, lung linh:\n\n• Backdrop bong bóng nghệ thuật theo chủ đề riêng.\n• Chú hề tạo hình bong bóng, MC hoạt náo và biểu diễn ảo thuật.\n• Thực đơn tiệc phong phú cho cả người lớn và trẻ nhỏ.\n\nBạn muốn tổ chức sinh nhật cho bé hay người lớn ạ?",
-                suggestions: ["Gói trang trí thôi nôi cho bé", "Thực đơn tiệc sinh nhật", "Đặt chỗ cuối tuần"]
-            };
         } else {
             return {
-                reply: "Dạ chào Quý khách! Em là Genie - Trợ lý AI tư vấn sự kiện của EVManager.\n\nEm có thể hỗ trợ Quý khách:\n1. Dự toán chi phí & phân bổ ngân sách sự kiện.\n2. Tư vấn sảnh tiệc, thực đơn ẩm thực và phong cách trang trí.\n3. Lập checklist chuẩn bị và kịch bản timeline sự kiện.\n\nQuý khách đang quan tâm đến loại hình sự kiện nào (tiệc cưới, hội nghị, sinh nhật)?",
-                suggestions: ["Tư vấn gói tiệc cưới trọn gói", "Báo giá hội nghị doanh nghiệp", "Dự toán ngân sách tự động", "Hotline: 1900-8888"]
+                reply: "Dạ chào Quý khách! Em là Genie - Trợ lý AI tư vấn sự kiện của EVManager.\n\nEm có thể hỗ trợ Quý khách:\n1. Dự toán chi phí & phân bổ ngân sách sự kiện.\n2. Tư vấn sảnh tiệc, thực đơn ẩm thực và phong cách trang trí.\n3. Lập checklist chuẩn bị và kịch bản timeline sự kiện.\n\nQuý khách đang quan tâm đến loại hình sự kiện nào?",
+                suggestions: ["Tư vấn gói tiệc cưới trọn gói", "Báo giá hội nghị doanh nghiệp", "Dự toán ngân sách tự động"]
             };
         }
     }
 
-    // Auto mount when DOM is ready
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initWidget);
     } else {

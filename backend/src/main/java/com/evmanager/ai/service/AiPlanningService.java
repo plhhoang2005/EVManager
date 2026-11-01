@@ -476,9 +476,17 @@ public class AiPlanningService {
         if (request.getEmail() != null && !request.getEmail().trim().isEmpty()) {
             customer.setEmail(request.getEmail().trim());
         }
-        if (customer.getAddress() == null || customer.getAddress().isBlank()) {
-            customer.setAddress("Khách hàng gửi yêu cầu tư vấn qua AI Calculator");
+        String eventDesc = request.getEventType() != null ? request.getEventType() : "Sự kiện";
+        String guestDesc = request.getGuestCount() != null ? (request.getGuestCount() + " khách") : "";
+        String budgetDesc = request.getBudget() != null ? String.format("Ngân sách: %,.0f đ", request.getBudget()) : "";
+        String noteDesc = request.getSpecialNotes() != null && !request.getSpecialNotes().isBlank() 
+                ? (" | Ghi chú: " + request.getSpecialNotes().trim()) : "";
+
+        String fullLeadNote = String.format("[AI_LEAD] %s, %s, %s%s", eventDesc, guestDesc, budgetDesc, noteDesc);
+        if (fullLeadNote.length() > 250) {
+            fullLeadNote = fullLeadNote.substring(0, 247) + "...";
         }
+        customer.setAddress(fullLeadNote);
         customer = customerRepository.save(customer);
 
         String inquiryCode = "INQ-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
