@@ -1,0 +1,22 @@
+{
+  "name": "evmanager-e2e-tests",
+  "version": "1.0.0",
+  "description": "Playwright E2E UI/UX Testing for EVManager Multi-Role System",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report"
+  },
+  "keywords": [
+    "playwright",
+    "e2e",
+    "testing",
+    "evmanager"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

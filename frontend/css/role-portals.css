@@ -1,0 +1,479 @@
+/* ==========================================================================
+   ROLE PORTALS & DEMO SWITCHER - LV34 EVENTS
+   Tối ưu hóa UI/UX cho 4 vai trò: Admin, Sales, Coordinator, Customer
+   ========================================================================== */
+
+/* 1. TOP ROLE SWITCHER BAR (Thanh chuyển đổi vai trò Demo) */
+.role-switcher-bar {
+    position: relative;
+    z-index: 950;
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    color: #f8fafc;
+}
+
+.role-switcher-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.role-switcher-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #087f82, #055f61);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    box-shadow: 0 2px 8px rgba(8, 127, 130, 0.3);
+}
+
+.role-switcher-title {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #94a3b8;
+}
+
+.role-switcher-title strong {
+    color: #f1f5f9;
+}
+
+.role-switcher-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 2px;
+}
+
+.role-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+}
+
+.role-pill-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.role-pill-btn.active {
+    background: #087f82;
+    color: #ffffff;
+    border-color: #0d9488;
+    box-shadow: 0 0 14px rgba(13, 148, 136, 0.4);
+}
+
+.role-pill-home {
+    background: transparent;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    color: #94a3b8;
+}
+
+.role-pill-home:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f8fafc;
+}
+
+/* 2. SALES PORTAL UI/UX ENHANCEMENTS */
+.lead-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.lead-badge-hot {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    box-shadow: 0 2px 6px rgba(220, 38, 38, 0.15);
+}
+
+.lead-badge-warm {
+    background: #fffbeb;
+    color: #d97706;
+    border: 1px solid #fde68a;
+}
+
+.lead-badge-cool {
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+
+.sales-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.18s ease;
+    text-decoration: none;
+}
+
+.btn-sales-call {
+    background: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+}
+.btn-sales-call:hover {
+    background: #059669;
+    color: #ffffff;
+}
+
+.btn-sales-convert {
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+}
+.btn-sales-convert:hover {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.sales-filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.sales-search-box {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 6px 14px;
+    gap: 8px;
+    flex: 1;
+    min-width: 260px;
+    max-width: 420px;
+}
+
+.sales-search-box input {
+    border: none;
+    outline: none;
+    font-size: 0.88rem;
+    width: 100%;
+    color: #1e293b;
+}
+
+/* 3. COORDINATOR PORTAL UI/UX ENHANCEMENTS */
+.countdown-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+}
+
+.countdown-live {
+    background: #fef2f2;
+    color: #e11d48;
+    border-color: #fecdd3;
+    animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.75; }
+}
+
+.stage-checklist {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
+}
+
+.stage-checklist-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.checklist-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: #475569;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checklist-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #087f82;
+    cursor: pointer;
+}
+
+.checklist-item.done span {
+    text-decoration: line-through;
+    color: #94a3b8;
+}
+
+/* 4. CUSTOMER PORTAL STEPPER & 1-CLICK COPY VIETQR */
+.event-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2rem 0;
+    position: relative;
+    padding: 0 10px;
+}
+
+.event-stepper::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    left: 40px;
+    right: 40px;
+    height: 3px;
+    background: #e2e8f0;
+    z-index: 1;
+}
+
+.stepper-progress-fill {
+    position: absolute;
+    top: 24px;
+    left: 40px;
+    height: 3px;
+    background: #087f82;
+    z-index: 2;
+    transition: width 0.4s ease;
+}
+
+.stepper-step {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    width: 120px;
+}
+
+.stepper-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 3px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #94a3b8;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+
+.stepper-step.completed .stepper-circle {
+    background: #087f82;
+    border-color: #087f82;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(8, 127, 130, 0.3);
+}
+
+.stepper-step.active .stepper-circle {
+    background: #ffffff;
+    border-color: #087f82;
+    color: #087f82;
+    box-shadow: 0 0 0 4px rgba(8, 127, 130, 0.15);
+}
+
+.stepper-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    line-height: 1.3;
+}
+
+.stepper-step.active .stepper-label {
+    color: #087f82;
+    font-weight: 700;
+}
+
+.stepper-step.completed .stepper-label {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* 1-Click Copy Buttons */
+.btn-copy-quick {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    cursor: pointer;
+    margin-left: 8px;
+    transition: all 0.15s ease;
+}
+
+.btn-copy-quick:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.btn-copy-quick:active {
+    transform: scale(0.95);
+}
+
+/* Toast Copy Notification */
+.toast-notification {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #1e293b;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.toast-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Floating AI Trigger for Customer */
+.customer-ai-fab {
+    position: fixed;
+    bottom: 28px;
+    left: 28px;
+    background: linear-gradient(135deg, #087f82, #055f61);
+    color: #ffffff;
+    border-radius: 9999px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 8px 24px rgba(8, 127, 130, 0.35);
+    cursor: pointer;
+    text-decoration: none;
+    z-index: 999;
+    transition: all 0.25s ease;
+}
+
+.customer-ai-fab:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 28px rgba(8, 127, 130, 0.45);
+    color: #ffffff;
+}
+
+
+/* ==========================================================================
+   LAYOUT FIXES: Prevent sidebar overlap and text collision
+   ========================================================================== */
+.home-body .home-navbar {
+    position: sticky;
+    top: 0 !important;
+}
+
+/* Responsive adjustment for switcher bar */
+@media (max-width: 768px) {
+    .role-switcher-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 8px 12px;
+    }
+    .role-switcher-nav {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+}
+
+/* Ensure admin-main takes full space properly */
+.admin-main {
+    margin-left: 270px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: 0; /* Prevents flex children from overflowing */
+}
+
+@media (max-width: 1024px) {
+    .admin-main {
+        margin-left: 0;
+    }
+}

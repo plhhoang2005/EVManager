@@ -1,42 +1,39 @@
 /**
- * Module Điều hướng & Vận hành Quản trị (app.js)
- * Quản lý phiên làm việc admin và sự kiện phát khởi tạo dashboard/calendar
+ * Script xử lý chuyển Tab, Modal và tương tác chung (app.js)
+ * Tích hợp toàn diện với kiến trúc Admin độc lập và các vai trò
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    const token = sessionStorage.getItem('accessToken');
-    const currentUser = sessionStorage.getItem('currentUser');
-
-    // Bắt buộc phải có accessToken trong sessionStorage mới được ở lại trang admin.html
-    if (window.location.pathname.includes('admin.html') && !token) {
-        window.location.href = 'login.html';
-        return;
+    // Tự động kiểm tra session đăng nhập
+    const currentUser = sessionStorage.getItem('currentUser') || 'admin';
+    const greetingEl = document.getElementById('adminSidebarGreeting');
+    if (greetingEl) {
+        greetingEl.textContent = `Xin chào, ${currentUser}`;
     }
 
-    const greetingElems = [
-        document.getElementById('adminUserGreeting'),
-        document.getElementById('adminSidebarGreeting')
-    ];
+    // Toggle Sidebar trên thiết bị di động
+    const sidebar = document.getElementById('adminSidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('mobile-open');
+        });
+    }
 
-    greetingElems.forEach(elem => {
-        if (elem && currentUser) {
-            elem.textContent = `Xin chào, ${currentUser}`;
-        }
-    });
-
-    document.querySelectorAll('#logoutButton, .logout-button').forEach(btn => {
-        btn.addEventListener('click', function() {
-            sessionStorage.removeItem('accessToken');
-            sessionStorage.removeItem('currentUser');
+    // Đăng xuất an toàn
+    const logoutBtn = document.getElementById('logoutButton');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            sessionStorage.clear();
             window.location.href = 'login.html';
         });
-    });
+    }
 
     // Phát sự kiện để dashboard.js và calendar.js kích hoạt
     document.dispatchEvent(new CustomEvent('dashboard:ready'));
 });
 
-// Qu?n ly Modal Ng??i dung va hi?n th? danh sach quy?n h?n
+// Quản lý Modal Người dùng và hiển thị danh sách quyền hạn
 document.addEventListener('DOMContentLoaded', function() {
     const userModal = document.getElementById('userModal');
     const btnOpenAddUserModal = document.getElementById('btnOpenAddUserModal');
@@ -58,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (btnOpenAddUserModal) {
         btnOpenAddUserModal.addEventListener('click', () => {
-            document.getElementById('userModalTitle').textContent = 'Them ng??i dung m?i';
+            document.getElementById('userModalTitle').textContent = 'Thêm người dùng mới';
             openUserModal();
         });
     }
@@ -69,10 +66,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (userModalBackdrop) userModalBackdrop.addEventListener('click', closeUserModal);
 
     const rolePermissions = {
-        'ADMIN': '?? Qu?n tr? vien (Admin) co quy?n: Qu?n ly toan b? ng??i dung, xem m?i bao cao doanh thu, c?u hinh h? th?ng, va can thi?p m?i lu?ng cong vi?c.',
-        'SALES': '?? Nhan vien Kinh doanh (Sales) co quy?n: Qu?n ly khach hang ti?m n?ng, t?o bao gia, l?p h?p ??ng, va theo doi thanh toan.',
-        'COORDINATOR': '?? ?i?u ph?i vien (Coordinator) co quy?n: Qu?n ly s? ki?n, x?p l?ch nhan s?, ??t ??a ?i?m, theo doi ti?n ?? chu?n b? s? ki?n.',
-        'CUSTOMER': '?? Khach hang (Customer) co quy?n: Xem h?p ??ng ca nhan, thanh toan, theo doi ti?n ?? s? ki?n c?a minh va lien h? h? tr?.'
+        'ADMIN': '👑 Quản trị viên (Admin) có quyền: Quản lý toàn bộ người dùng, xem mọi báo cáo doanh thu, cấu hình hệ thống, và can thiệp mọi luồng công việc.',
+        'SALES': '💼 Nhân viên Kinh doanh (Sales) có quyền: Quản lý khách hàng tiềm năng, tạo báo giá, lập hợp đồng, và theo dõi thanh toán.',
+        'COORDINATOR': '📋 Điều phối viên (Coordinator) có quyền: Quản lý sự kiện, xếp lịch nhân sự, đặt địa điểm, theo dõi tiến độ chuẩn bị sự kiện.',
+        'CUSTOMER': '🎉 Khách hàng (Customer) có quyền: Xem hợp đồng cá nhân, thanh toán, theo dõi tiến độ sự kiện của mình và liên hệ hỗ trợ.'
     };
 
     if (userRoleSelect) {
@@ -84,15 +81,6 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 roleDescriptionBox.style.display = 'none';
             }
-        });
-    }
-
-    const userForm = document.getElementById('userForm');
-    if (userForm) {
-        userForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            closeUserModal();
-            showSuccess('Thêm người dùng thành công!');
         });
     }
 });

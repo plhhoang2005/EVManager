@@ -72,6 +72,9 @@ public class AuthIntegrationTest {
     @MockBean
     private com.evmanager.auth.service.EmailService emailService;
 
+    @MockBean
+    private com.evmanager.payments.repository.PaymentRepository paymentRepository;
+
 
     @Autowired
     private PasswordEncoder passwordEncoder;

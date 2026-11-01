@@ -3,7 +3,15 @@
  * Cung cấp hàm fetchAPI dùng chung cho toàn bộ ứng dụng Frontend EVManager
  */
 
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = (() => {
+    if (typeof window !== 'undefined' && window.APP_CONFIG && window.APP_CONFIG.API_URL) {
+        return window.APP_CONFIG.API_URL;
+    }
+    if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+        return window.location.port === '8080' ? '' : 'http://localhost:8080';
+    }
+    return typeof window !== 'undefined' ? window.location.origin : 'http://localhost:8080';
+})();
 
 /**
  * Hàm fetchAPI dùng chung gửi request tới Backend

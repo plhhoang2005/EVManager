@@ -26,6 +26,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/role-portals.css">
 </head>
 
 <body class="admin-body">
@@ -50,10 +51,6 @@
                     <span class="nav-icon">🎉</span>
                     <span class="nav-text">Quản lý sự kiện</span>
                     <span class="nav-pill" id="badgeEventsCount">0</span>
-                </button>
-                <button class="nav-item" data-tab="tab-tasks">
-                    <span class="nav-icon">📋</span>
-                    <span class="nav-text">Quản lý công việc</span>
                 </button>
                 <button class="nav-item" data-tab="tab-venues">
                     <span class="nav-icon">🏛️</span>
@@ -516,19 +513,258 @@
                     </div>
                 </section>
 
-                <!-- TAB 7 PLACEHOLDERS -->
-                <section id="tab-reports" class="admin-tab-pane">
-                    <div class="panel empty-state-panel">
-                        <div class="empty-icon">📊</div>
-                        <h2>Báo cáo Doanh thu & Chi phí</h2>
-                        <p>Tính năng báo cáo chuyên sâu đang được tổng hợp dữ liệu thời gian thực.</p>
+                
+                <!-- TAB ĐỊA ĐIỂM / SẢNH TIỆC -->
+                <section id="tab-venues" class="admin-tab-pane">
+                    <div class="tab-header-row">
+                        <div>
+                            <h2>Danh sách Địa điểm & Sảnh Tiệc (Venues)</h2>
+                            <p class="tab-subtitle" style="color:#64748b;margin:4px 0 0 0;">Quản lý sức chứa, đơn giá thuê sảnh và trạng thái sẵn sàng đón khách.</p>
+                        </div>
+                        <button class="btn btn-primary" id="btnOpenAddVenueModal">
+                            + Thêm sảnh tiệc mới
+                        </button>
+                    </div>
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="admin-table mini-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã Sảnh</th>
+                                        <th>Tên Sảnh Tiệc</th>
+                                        <th>Sức Chứa</th>
+                                        <th>Đơn Giá Thuê</th>
+                                        <th>Địa Chỉ / Vị Trí</th>
+                                        <th>Trạng Thái</th>
+                                        <th class="text-right">Thao Tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="venuesTableBody">
+                                    <tr>
+                                        <td colspan="7" class="text-center">Đang tải danh sách sảnh tiệc...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </section>
+
+                
+
+                <!-- TAB THANH TOÁN (PAYMENTS) -->
+                <section id="tab-payments" class="admin-tab-pane">
+                    <div class="tab-header-row">
+                        <div>
+                            <h2>Quản Lý Thanh Toán & Thu Tiền Cọc (Payments)</h2>
+                            <p class="tab-subtitle" style="color:#64748b;margin:4px 0 0 0;">Theo dõi thanh toán VietQR 24/7, đối soát giao dịch và tiến độ đặt cọc hợp đồng.</p>
+                        </div>
+                        <a href="customer.html" class="btn btn-primary" target="_blank">
+                            📱 Xem VietQR Khách Hàng
+                        </a>
+                    </div>
+                    <div class="card" style="padding:1.5rem;">
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:1rem;margin-bottom:1.5rem;">
+                            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;">
+                                <span style="font-size:0.85rem;color:#64748b;font-weight:600;">Tổng tiền đã thu cọc (30%):</span>
+                                <strong id="totalPaidDepositEl" style="font-size:1.4rem;color:#087f82;display:block;">165.000.000 đ</strong>
+                                <small style="color:#059669;">Qua VietQR Vietcombank</small>
+                            </div>
+                            <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:1rem;">
+                                <span style="font-size:0.85rem;color:#991b1b;font-weight:600;">Công nợ còn lại chờ thanh toán:</span>
+                                <strong style="font-size:1.4rem;color:#dc2626;display:block;">385.000.000 đ</strong>
+                                <small style="color:#ef4444;">Thanh toán vào ngày tiệc</small>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="admin-table mini-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã Giao Dịch</th>
+                                        <th>Hợp Đồng</th>
+                                        <th>Khách Hàng</th>
+                                        <th>Số Tiền</th>
+                                        <th>Hình Thức</th>
+                                        <th>Thời Gian</th>
+                                        <th>Trạng Thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="paymentsTableBody">
+                                    <tr>
+                                        <td><strong>#TXN-88912</strong></td>
+                                        <td>HD-2026-VIP01</td>
+                                        <td>Nguyễn Thu Thảo</td>
+                                        <td style="color:#087f82;font-weight:700;">45.000.000 đ</td>
+                                        <td>VietQR (Napas 247)</td>
+                                        <td>01/11/2026 09:15</td>
+                                        <td><span class="summary-pill active">Thành công</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#TXN-88745</strong></td>
+                                        <td>HD-2026-WED02</td>
+                                        <td>Lê Quốc Dũng</td>
+                                        <td style="color:#087f82;font-weight:700;">54.000.000 đ</td>
+                                        <td>Chuyển khoản VCB</td>
+                                        <td>31/10/2026 14:30</td>
+                                        <td><span class="summary-pill active">Thành công</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#TXN-88620</strong></td>
+                                        <td>HD-2026-CORP03</td>
+                                        <td>Công ty CP Alpha</td>
+                                        <td style="color:#087f82;font-weight:700;">66.000.000 đ</td>
+                                        <td>VietQR Doanh nghiệp</td>
+                                        <td>30/10/2026 16:45</td>
+                                        <td><span class="summary-pill active">Thành công</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB BÁO CÁO DOANH THU & TÀI CHÍNH -->
+                <section id="tab-reports" class="admin-tab-pane">
+                    <div class="tab-header-row">
+                        <div>
+                            <h2>Báo Cáo Doanh Thu & Hiệu Suất Vận Hành</h2>
+                            <p class="tab-subtitle" style="color:#64748b;margin:4px 0 0 0;">Phân tích dòng tiền theo tháng, cơ cấu doanh thu theo sảnh tiệc và tỷ lệ hoàn tất hợp đồng.</p>
+                        </div>
+                        <button class="btn btn-outline" onclick="window.print()">
+                            🖨️ Xuất Báo Cáo
+                        </button>
+                    </div>
+                    <div class="card" style="padding:1.5rem;margin-bottom:1.5rem;">
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:1.25rem;margin-bottom:1.5rem;">
+                            <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:1.25rem;">
+                                <span style="font-size:0.85rem;color:#1d4ed8;font-weight:600;">Tổng doanh thu Quý 4/2026:</span>
+                                <strong style="font-size:1.6rem;color:#1e40af;display:block;margin:4px 0;">1.250.000.000 đ</strong>
+                                <small style="color:#2563eb;">+18.2% so với cùng kỳ năm trước</small>
+                            </div>
+                            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:1.25rem;">
+                                <span style="font-size:0.85rem;color:#166534;font-weight:600;">Hợp đồng hoàn tất:</span>
+                                <strong style="font-size:1.6rem;color:#15803d;display:block;margin:4px 0;">15 / 18 HĐ</strong>
+                                <small style="color:#16a34a;">Tỷ lệ chốt thành công 83.3%</small>
+                            </div>
+                            <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:1.25rem;">
+                                <span style="font-size:0.85rem;color:#b45309;font-weight:600;">Sảnh tiệc doanh thu cao nhất:</span>
+                                <strong style="font-size:1.4rem;color:#92400e;display:block;margin:4px 0;">Sảnh Diamond</strong>
+                                <small style="color:#d97706;">580.000.000 đ (46.4% tỷ trọng)</small>
+                            </div>
+                        </div>
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1.5rem;text-align:center;">
+                            <h3 style="font-size:1rem;color:#334155;margin-bottom:1rem;">📊 Biểu Đồ Tăng Trưởng Doanh Thu 6 Tháng Gần Nhất (Triệu VNĐ)</h3>
+                            <div style="display:flex;align-items:flex-end;justify-content:space-around;height:180px;padding:0 20px;">
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+                                    <div style="background:#94a3b8;width:38px;height:70px;border-radius:4px 4px 0 0;"></div>
+                                    <span style="font-size:0.75rem;font-weight:600;color:#64748b;">T6: 140tr</span>
+                                </div>
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+                                    <div style="background:#94a3b8;width:38px;height:90px;border-radius:4px 4px 0 0;"></div>
+                                    <span style="font-size:0.75rem;font-weight:600;color:#64748b;">T7: 180tr</span>
+                                </div>
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+                                    <div style="background:#94a3b8;width:38px;height:110px;border-radius:4px 4px 0 0;"></div>
+                                    <span style="font-size:0.75rem;font-weight:600;color:#64748b;">T8: 220tr</span>
+                                </div>
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+                                    <div style="background:#94a3b8;width:38px;height:130px;border-radius:4px 4px 0 0;"></div>
+                                    <span style="font-size:0.75rem;font-weight:600;color:#64748b;">T9: 260tr</span>
+                                </div>
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+                                    <div style="background:#0284c7;width:38px;height:155px;border-radius:4px 4px 0 0;"></div>
+                                    <span style="font-size:0.75rem;font-weight:700;color:#0284c7;">T10: 310tr</span>
+                                </div>
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+                                    <div style="background:#087f82;width:38px;height:175px;border-radius:4px 4px 0 0;"></div>
+                                    <span style="font-size:0.75rem;font-weight:700;color:#087f82;">T11 (Dự kiến): 350tr</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <section id="tab-settings" class="admin-tab-pane">
-                    <div class="panel empty-state-panel">
-                        <div class="empty-icon">⚙️</div>
-                        <h2>Cấu hình Hệ thống</h2>
-                        <p>Quản lý phân quyền tài khoản admin, cấu hình thông báo và kết nối email.</p>
+                    <div class="panel" style="background:#fff;border-radius:12px;padding:2rem;box-shadow:0 1px 3px rgba(0,0,0,0.08);max-width:800px;">
+                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.5rem;border-bottom:1px solid #e2e8f0;padding-bottom:1rem;">
+                            <span style="font-size:2rem;">🤖</span>
+                            <div>
+                                <h2 style="margin:0;font-size:1.35rem;color:#0f172a;">Quản lý & Cấu hình Trợ lý AI (Google Gemini)</h2>
+                                <p style="margin:4px 0 0 0;font-size:0.875rem;color:#64748b;">Giám sát trạng thái hoạt động, đổi API Key và chọn mô hình trí tuệ nhân tạo.</p>
+                            </div>
+                        </div>
+
+                        <div id="aiConfigAlert" style="display:none;padding:12px 16px;border-radius:8px;font-size:0.9rem;margin-bottom:1.5rem;font-weight:600;"></div>
+
+                        <!-- Thống kê AI Leads & Hiệu suất -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+                            <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:1rem;">
+                                <span style="font-size:0.85rem;color:#1e40af;font-weight:600;display:block;">🎯 Khách hàng tiềm năng (AI Leads):</span>
+                                <strong id="aiTotalLeadsCount" style="font-size:1.5rem;color:#1d4ed8;">0</strong>
+                                <small style="display:block;color:#60a5fa;margin-top:2px;">Khách gửi yêu cầu từ website</small>
+                            </div>
+                            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:1rem;">
+                                <span style="font-size:0.85rem;color:#166534;font-weight:600;display:block;">⚡ Tốc độ phản hồi trung bình:</span>
+                                <strong style="font-size:1.5rem;color:#15803d;">&lt; 1.2s</strong>
+                                <small style="display:block;color:#4ade80;margin-top:2px;">Mô hình Gemini 2.5 Flash</small>
+                            </div>
+                        </div>
+
+                        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:1.25rem;margin-bottom:1.5rem;">
+                            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;">
+                                <span style="font-weight:600;color:#334155;">Trạng thái hệ thống:</span>
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <span id="aiStatusDot" style="width:10px;height:10px;border-radius:50%;background:#eab308;display:inline-block;"></span>
+                                    <span id="aiStatusText" style="font-weight:700;font-size:0.9rem;color:#0f172a;">Đang kiểm tra...</span>
+                                </div>
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;">
+                                <span style="font-weight:600;color:#334155;">Model hiện tại:</span>
+                                <span id="aiCurrentModel" style="font-family:monospace;background:#e2e8f0;padding:2px 8px;border-radius:4px;font-weight:600;">gemini-2.5-flash</span>
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between;">
+                                <span style="font-weight:600;color:#334155;">API Key đã nạp:</span>
+                                <span id="aiMaskedKey" style="font-family:monospace;color:#64748b;">Đang tải...</span>
+                            </div>
+                        </div>
+
+                        <form id="aiAdminConfigForm">
+                            <!-- Công tắc Bật/Tắt Chatbot (Emergency Kill-Switch) -->
+                            <div style="background:#f1f5f9;border-radius:8px;padding:12px 16px;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;">
+                                <div>
+                                    <strong style="display:block;color:#0f172a;font-size:0.95rem;">Kích hoạt Trợ lý ảo AI trên Website</strong>
+                                    <small style="color:#64748b;">Gạt tắt để ẩn widget chatbot ngay lập tức khi bảo trì hoặc hết hạn mức.</small>
+                                </div>
+                                <label style="position:relative;display:inline-block;width:48px;height:26px;cursor:pointer;">
+                                    <input type="checkbox" id="aiEnabledToggle" checked style="opacity:0;width:0;height:0;">
+                                    <span style="position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#cbd5e1;transition:.3s;border-radius:34px;" id="toggleSlider"></span>
+                                </label>
+                            </div>
+
+                            <style>
+                                #aiEnabledToggle:checked + span { background-color: #0284c7; }
+                                #aiEnabledToggle:checked + span:before { transform: translateX(22px); }
+                                label span:before { position:absolute;content:"";height:20px;width:20px;left:3px;bottom:3px;background:white;transition:.3s;border-radius:50%; }
+                            </style>
+
+                            <div style="margin-bottom:1.25rem;">
+                                <label style="display:block;font-weight:600;color:#334155;margin-bottom:6px;">Cập nhật Gemini API Key mới:</label>
+                                <input type="password" id="aiNewApiKeyInput" placeholder="Nhập API Key bắt đầu bằng AIzaSy..." style="width:100%;padding:10px 14px;border:1px solid #cbd5e1;border-radius:6px;font-size:0.95rem;box-sizing:border-box;" />
+                                <small style="color:#64748b;display:block;margin-top:4px;">Để trống nếu chỉ muốn thay đổi Model hoặc giữ nguyên Key hiện tại.</small>
+                            </div>
+
+                            <div style="margin-bottom:1.5rem;">
+                                <label style="display:block;font-weight:600;color:#334155;margin-bottom:6px;">Chọn mô hình AI (Model):</label>
+                                <select id="aiModelSelect" style="width:100%;padding:10px 14px;border:1px solid #cbd5e1;border-radius:6px;font-size:0.95rem;background:#fff;box-sizing:border-box;">
+                                    <option value="gemini-2.5-flash">Gemini 2.5 Flash (Khuyến nghị - Tối ưu tốc độ & thông minh)</option>
+                                    <option value="gemini-1.5-flash">Gemini 1.5 Flash (Bản nhẹ)</option>
+                                    <option value="gemini-1.5-pro">Gemini 1.5 Pro (Bản suy luận sâu)</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" id="btnSaveAiConfig" style="background:#0284c7;color:#fff;border:none;padding:10px 20px;border-radius:6px;font-weight:700;cursor:pointer;font-size:0.95rem;display:inline-flex;align-items:center;gap:8px;">
+                                💾 Lưu Cấu Hình AI
+                            </button>
+                        </form>
                     </div>
                 </section>
             </div>
@@ -893,6 +1129,10 @@
     <script src="js/menus.js"></script>
     <script src="js/services.js"></script>
     <script src="js/contracts.js"></script>
+    <script src="js/venues.js"></script>
+    <script src="js/payments.js"></script>
+    <script src="js/role-switcher.js"></script>
+    <script src="js/ai-admin.js"></script>
 
         <!-- Modal Thêm/Sửa Dịch vụ -->
     <div class="admin-modal" id="serviceModal" aria-hidden="true">
@@ -929,6 +1169,57 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline" id="btnCancelServiceForm">Hủy bỏ</button>
                     <button type="submit" class="btn btn-primary" id="btnSaveService">Lưu dịch vụ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Modal Thêm/Sửa Sảnh Tiệc (Venue Modal) -->
+    <div class="admin-modal" id="venueModal" aria-hidden="true">
+        <div class="modal-backdrop" onclick="closeVenueModal()"></div>
+        <div class="modal-card" style="max-width: 520px;">
+            <div class="modal-header">
+                <h3 id="venueModalTitle">Thêm sảnh tiệc mới</h3>
+                <button class="modal-close" onclick="closeVenueModal()" type="button">×</button>
+            </div>
+            <form id="venueForm" class="modal-body">
+                <input type="hidden" id="venueEditId" />
+                <div class="form-group">
+                    <label for="venueName">Tên sảnh tiệc *</label>
+                    <input type="text" id="venueName" placeholder="Vd: Sảnh Diamond Luxury" required />
+                </div>
+                <div class="form-row" style="display:flex; gap:15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label for="venueMinCapacity">Sức chứa tối thiểu (Khách)</label>
+                        <input type="number" id="venueMinCapacity" min="0" value="50" required />
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label for="venueMaxCapacity">Sức chứa tối đa (Khách)</label>
+                        <input type="number" id="venueMaxCapacity" min="1" value="300" required />
+                    </div>
+                </div>
+                <div class="form-row" style="display:flex; gap:15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label for="venueRentalPrice">Giá thuê sảnh (VNĐ) *</label>
+                        <input type="number" id="venueRentalPrice" min="0" value="25000000" required />
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label for="venueStatus">Trạng thái</label>
+                        <select id="venueStatus">
+                            <option value="AVAILABLE">Sẵn sàng</option>
+                            <option value="MAINTENANCE">Đang bảo trì</option>
+                            <option value="INACTIVE">Tạm ngưng</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="venueAddress">Vị trí / Địa chỉ sảnh</label>
+                    <input type="text" id="venueAddress" placeholder="Vd: Tầng 3 - Tòa nhà trung tâm" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeVenueModal()">Hủy bỏ</button>
+                    <button type="submit" class="btn btn-primary" id="btnSaveVenue">Lưu sảnh tiệc</button>
                 </div>
             </form>
         </div>

@@ -151,10 +151,14 @@ public class ContractService {
         ContractResponse res = new ContractResponse();
         res.setContractId(contract.getContractId());
         res.setContractCode(contract.getContractCode());
-        res.setCustomerId(contract.getCustomer().getCustomerId());
-        res.setCustomerName(contract.getCustomer().getFullName());
-        res.setEventId(contract.getEvent().getEventId());
-        res.setEventName(contract.getEvent().getEventName());
+        if (contract.getCustomer() != null) {
+            res.setCustomerId(contract.getCustomer().getCustomerId());
+            res.setCustomerName(contract.getCustomer().getFullName());
+        }
+        if (contract.getEvent() != null) {
+            res.setEventId(contract.getEvent().getEventId());
+            res.setEventName(contract.getEvent().getEventName());
+        }
         
         res.setTableCount(contract.getTableCount());
         res.setReserveTableCount(contract.getReserveTableCount());
