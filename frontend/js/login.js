@@ -37,6 +37,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (loginForm) {
         loginForm.addEventListener('submit', async function(event) {
             event.preventDefault();
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
+            const originalBtnHtml = submitBtn ? submitBtn.innerHTML : 'Đăng nhập';
+            
             const formData = new FormData(event.currentTarget);
             const usernameOrEmail = (formData.get('username') || '').trim();
             const password = formData.get('password') || '';
@@ -45,6 +48,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (error) {
                 error.hidden = true;
                 error.textContent = '';
+            }
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '⏳ Đang xác thực...';
             }
 
             const payload = {
@@ -105,8 +113,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } catch (err) {
                 if (error) {
-                    error.textContent = 'Lỗi kết nối đến máy chủ. Vui lòng kiểm tra lại mạng hoặc liên hệ quản trị viên.';
+                    error.textContent = 'Lỗi kết nối đến máy chủ. Vui lòng thử lại sau vài giây hoặc liên hệ quản trị viên.';
                     error.hidden = false;
+                }
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHtml;
                 }
             }
         });

@@ -8,12 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     initToastNotification();
 });
 
-// Demo account credentials for 1-click seamless switching
+// Demo account credentials for 1-click seamless switching (Đã đồng bộ 100% với database)
 const DEMO_ACCOUNTS = {
-    ADMIN: { username: 'admin@evmanager.vn', password: 'admin123', url: 'admin.html' },
-    SALES: { username: 'sales@evmanager.vn', password: 'sales123', url: 'sales.html' },
-    COORDINATOR: { username: 'coordinator@evmanager.vn', password: 'coordinator123', url: 'coordinator.html' },
-    CUSTOMER: { username: 'customer@evmanager.vn', password: '123456', url: 'customer.html' }
+    ADMIN: { username: 'admin_demo', password: 'admin123', url: 'admin.html', label: '👑 Quản Trị Viên' },
+    SALES: { username: 'staff', password: 'staff123', url: 'sales.html', label: '💼 Chuyên Viên Sales' },
+    COORDINATOR: { username: 'coordinator', password: 'coordinator123', url: 'coordinator.html', label: '📋 Điều Phối Sự Kiện' },
+    CUSTOMER: { username: 'khachhang1', password: '123456', url: 'customer.html', label: '🎉 Khách Hàng VIP' }
 };
 
 window.switchDemoRole = async function(roleKey, targetUrl) {
@@ -21,6 +21,14 @@ window.switchDemoRole = async function(roleKey, targetUrl) {
     if (!cred) {
         window.location.href = targetUrl;
         return;
+    }
+
+    // Hiển thị phản hồi thị giác tức thì cho người dùng
+    const toast = document.getElementById('globalToastNotification');
+    const msg = document.getElementById('globalToastMessage');
+    if (toast && msg) {
+        msg.textContent = `Đang chuyển sang ${cred.label || roleKey}...`;
+        toast.classList.add('show');
     }
 
     try {
@@ -33,6 +41,7 @@ window.switchDemoRole = async function(roleKey, targetUrl) {
             const data = await res.json();
             if (data.accessToken) {
                 sessionStorage.setItem('accessToken', data.accessToken);
+                sessionStorage.setItem('currentUser', cred.username);
                 sessionStorage.setItem('userRole', roleKey);
             }
         }
@@ -114,8 +123,8 @@ function initToastNotification() {
     toast.id = 'globalToastNotification';
     toast.className = 'toast-notification';
     toast.innerHTML = `
-        <span style="font-size: 1.1rem;">✅</span>
-        <span id="globalToastMessage">Đã sao chép!</span>
+        <span style="font-size: 1.1rem;">⚡</span>
+        <span id="globalToastMessage">Đang xử lý...</span>
     `;
     document.body.appendChild(toast);
 }
