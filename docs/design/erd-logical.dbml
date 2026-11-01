@@ -1,0 +1,256 @@
+Project EVManager {
+  database_type: 'PostgreSQL'
+  Note: '''
+    Logical ERD for EVManager, normalized to Third Normal Form (3NF).
+    The model contains 11 business entities and 2 associative tables.
+    This is a design artifact only; it is not a Flyway migration.
+  '''
+}
+
+Table roles {
+  role_id bigint [pk, increment]
+  role_name varchar(50) [not null, unique]
+  description varchar(255)
+  status varchar(30) [not null, default: 'ACTIVE', note: 'ACTIVE or INACTIVE']
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+}
+
+Table users {
+  user_id bigint [pk, increment]
+  role_id bigint [not null]
+  username varchar(50) [not null, unique]
+  password_hash varchar(255) [not null, note: 'Store a strong password hash only']
+  full_name varchar(100) [not null]
+  email varchar(100) [unique]
+  phone varchar(20)
+  status varchar(30) [not null, default: 'ACTIVE', note: 'ACTIVE, LOCKED or INACTIVE']
+  last_login_at timestamptz
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    role_id [name: 'idx_users_role_id']
+  }
+}
+
+Table customers {
+  customer_id bigint [pk, increment]
+  full_name varchar(100) [not null]
+  phone varchar(20)
+  email varchar(100)
+  address varchar(255)
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+
+  checks {
+    `phone IS NOT NULL OR email IS NOT NULL` [name: 'chk_customers_contact']
+  }
+}
+
+Table venues {
+  venue_id bigint [pk, increment]
+  venue_name varchar(100) [not null]
+  min_capacity int [not null, default: 0]
+  max_capacity int [not null]
+  rental_price decimal(18,2) [not null]
+  address varchar(255) [not null]
+  status varchar(30) [not null, default: 'AVAILABLE', note: 'AVAILABLE, MAINTENANCE or INACTIVE']
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    (venue_name, address) [unique, name: 'uk_venues_name_address']
+  }
+
+  checks {
+    `min_capacity >= 0` [name: 'chk_venues_min_capacity']
+    `max_capacity >= min_capacity` [name: 'chk_venues_capacity_range']
+    `rental_price >= 0` [name: 'chk_venues_rental_price']
+  }
+}
+
+Table dishes {
+  dish_id bigint [pk, increment]
+  dish_name varchar(100) [not null]
+  category varchar(50) [not null]
+  price decimal(18,2) [not null]
+  description text
+  status varchar(30) [not null, default: 'ACTIVE', note: 'ACTIVE or INACTIVE']
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    (dish_name, category) [unique, name: 'uk_dishes_name_category']
+  }
+
+  checks {
+    `price >= 0` [name: 'chk_dishes_price']
+  }
+}
+
+Table menus {
+  menu_id bigint [pk, increment]
+  menu_name varchar(100) [not null, unique]
+  description text
+  price decimal(18,2) [not null, note: 'Current catalogue price; agreed contract total is stored separately']
+  status varchar(30) [not null, default: 'ACTIVE', note: 'ACTIVE or INACTIVE']
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+
+  checks {
+    `price >= 0` [name: 'chk_menus_price']
+  }
+}
+
+Table menu_dishes {
+  menu_id bigint [not null]
+  dish_id bigint [not null]
+  quantity int [not null, default: 1]
+  note varchar(255)
+
+  indexes {
+    (menu_id, dish_id) [pk, name: 'pk_menu_dishes']
+    dish_id [name: 'idx_menu_dishes_dish_id']
+  }
+
+  checks {
+    `quantity > 0` [name: 'chk_menu_dishes_quantity']
+  }
+
+  Note: 'Associative entity. Non-key attributes depend on the complete composite key.'
+}
+
+Table services {
+  service_id bigint [pk, increment]
+  service_name varchar(100) [not null, unique]
+  description text
+  unit_price decimal(18,2) [not null]
+  status varchar(30) [not null, default: 'ACTIVE', note: 'ACTIVE or INACTIVE']
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+
+  checks {
+    `unit_price >= 0` [name: 'chk_services_unit_price']
+  }
+}
+
+Table events {
+  event_id bigint [pk, increment]
+  venue_id bigint [not null]
+  event_name varchar(100) [not null]
+  start_at timestamptz [not null, note: 'Store an absolute instant; display in Asia/Ho_Chi_Minh']
+  end_at timestamptz [not null]
+  guest_count int [not null]
+  status varchar(30) [not null, default: 'SCHEDULED', note: 'SCHEDULED, PREPARING, IN_PROGRESS, COMPLETED or CANCELLED']
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    (venue_id, start_at, end_at) [name: 'idx_events_venue_time']
+  }
+
+  checks {
+    `end_at > start_at` [name: 'chk_events_time_range']
+    `guest_count > 0` [name: 'chk_events_guest_count']
+  }
+
+  Note: 'Venue-capacity and schedule-overlap rules require service validation and a PostgreSQL exclusion constraint in the physical design.'
+}
+
+Table contracts {
+  contract_id bigint [pk, increment]
+  customer_id bigint [not null]
+  event_id bigint
+  menu_id bigint
+  contract_code varchar(50) [not null, unique]
+  contract_date date [not null]
+  total_amount decimal(18,2) [not null, note: 'Agreed snapshot amount; paid amount is derived from successful payments']
+  status varchar(30) [not null, default: 'DRAFT', note: 'DRAFT, PENDING_CONFIRMATION, CONFIRMED, COMPLETED or CANCELLED']
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    customer_id [name: 'idx_contracts_customer_id']
+    event_id [unique, name: 'uk_contracts_event_id']
+    menu_id [name: 'idx_contracts_menu_id']
+  }
+
+  checks {
+    `total_amount >= 0` [name: 'chk_contracts_total_amount']
+  }
+
+  Note: 'One contract has at most one event and one selected menu. Event and menu remain optional while the contract is in draft.'
+}
+
+Table contract_services {
+  contract_id bigint [not null]
+  service_id bigint [not null]
+  quantity int [not null, default: 1]
+  agreed_unit_price decimal(18,2) [not null, note: 'Price snapshot at contract confirmation']
+  note varchar(255)
+
+  indexes {
+    (contract_id, service_id) [pk, name: 'pk_contract_services']
+    service_id [name: 'idx_contract_services_service_id']
+  }
+
+  checks {
+    `quantity > 0` [name: 'chk_contract_services_quantity']
+    `agreed_unit_price >= 0` [name: 'chk_contract_services_unit_price']
+  }
+
+  Note: 'Associative entity. Quantity and agreed price depend on the complete composite key.'
+}
+
+Table payments {
+  payment_id bigint [pk, increment]
+  contract_id bigint [not null]
+  external_reference varchar(100) [unique, note: 'Nullable reference or idempotency key from the payment channel']
+  payment_type varchar(30) [not null, note: 'DEPOSIT, INSTALLMENT, FINAL or REFUND']
+  amount decimal(18,2) [not null]
+  payment_date timestamptz [not null]
+  payment_method varchar(50) [not null]
+  status varchar(30) [not null, default: 'PENDING', note: 'PENDING, SUCCESS, FAILED or REFUNDED']
+  created_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    contract_id [name: 'idx_payments_contract_id']
+  }
+
+  checks {
+    `amount > 0` [name: 'chk_payments_amount']
+  }
+}
+
+Table audit_logs {
+  audit_log_id bigint [pk, increment]
+  user_id bigint
+  action varchar(100) [not null]
+  entity_type varchar(100) [not null]
+  entity_id varchar(100) [not null]
+  old_values jsonb
+  new_values jsonb
+  occurred_at timestamptz [not null, default: `now()`]
+  ip_address inet
+
+  indexes {
+    user_id [name: 'idx_audit_logs_user_id']
+    (entity_type, entity_id, occurred_at) [name: 'idx_audit_logs_entity_history']
+  }
+
+  Note: 'Append-only audit trail. entity_type plus entity_id is intentionally polymorphic and therefore has no physical foreign key.'
+}
+
+Ref fk_users_roles: users.role_id > roles.role_id [delete: restrict, update: restrict]
+Ref fk_audit_logs_users: audit_logs.user_id > users.user_id [delete: restrict, update: restrict]
+Ref fk_events_venues: events.venue_id > venues.venue_id [delete: restrict, update: restrict]
+Ref fk_contracts_customers: contracts.customer_id > customers.customer_id [delete: restrict, update: restrict]
+Ref fk_contracts_events: contracts.event_id > events.event_id [delete: restrict, update: restrict]
+Ref fk_contracts_menus: contracts.menu_id > menus.menu_id [delete: restrict, update: restrict]
+Ref fk_payments_contracts: payments.contract_id > contracts.contract_id [delete: restrict, update: restrict]
+
+Ref fk_menu_dishes_menus: menu_dishes.menu_id > menus.menu_id [delete: cascade, update: restrict]
+Ref fk_menu_dishes_dishes: menu_dishes.dish_id > dishes.dish_id [delete: restrict, update: restrict]
+Ref fk_contract_services_contracts: contract_services.contract_id > contracts.contract_id [delete: cascade, update: restrict]
+Ref fk_contract_services_services: contract_services.service_id > services.service_id [delete: restrict, update: restrict]

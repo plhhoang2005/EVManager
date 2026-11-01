@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "EVManager Conflict Checker",
+    "description": "Bộ test API cho tính năng kiểm tra trùng lịch sảnh (Conflict Checker).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Tiền đề - Tạo Event A",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "events"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"venueId\": 1,\n  \"eventName\": \"Event A\",\n  \"startAt\": \"2026-10-15T18:00:00+07:00\",\n  \"endAt\": \"2026-10-15T22:00:00+07:00\"\n}"
+        }
+      }
+    },
+    {
+      "name": "TC-CONF-01 (Trùng giờ cùng sảnh -> 409)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "events"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"venueId\": 1,\n  \"eventName\": \"Event B\",\n  \"startAt\": \"2026-10-15T19:00:00+07:00\",\n  \"endAt\": \"2026-10-15T21:00:00+07:00\"\n}"
+        }
+      }
+    },
+    {
+      "name": "TC-CONF-02 (Cùng giờ khác sảnh -> 201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "events"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"venueId\": 2,\n  \"eventName\": \"Event C\",\n  \"startAt\": \"2026-10-15T18:00:00+07:00\",\n  \"endAt\": \"2026-10-15T22:00:00+07:00\"\n}"
+        }
+      }
+    },
+    {
+      "name": "TC-CONF-03 (Cách nhau 5 tiếng -> 201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "events"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"venueId\": 1,\n  \"eventName\": \"Event D\",\n  \"startAt\": \"2026-10-15T11:00:00+07:00\",\n  \"endAt\": \"2026-10-15T13:00:00+07:00\"\n}"
+        }
+      }
+    },
+    {
+      "name": "TC-CONF-04 (Cách nhau < 60p -> 409)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "events"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"venueId\": 1,\n  \"eventName\": \"Event E\",\n  \"startAt\": \"2026-10-15T14:30:00+07:00\",\n  \"endAt\": \"2026-10-15T17:00:00+07:00\"\n}"
+        }
+      }
+    },
+    {
+      "name": "TC-CONF-05 (Tiệc bị hủy -> 201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/events",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "events"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"venueId\": 1,\n  \"eventName\": \"Event F\",\n  \"startAt\": \"2026-10-16T18:00:00+07:00\",\n  \"endAt\": \"2026-10-16T22:00:00+07:00\"\n}"
+        }
+      }
+    }
+  ]
+}

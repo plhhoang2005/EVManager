@@ -1,4 +1,4 @@
-﻿# Gantt Overview — LV34-001 EVManager
+# Gantt Overview — LV34-001 EVManager
 **Thời gian dự án:** 07/09/2026 – 01/11/2026 (8 tuần)  
 **Phiên bản:** v1.0 Baseline — 07/09/2026
 
@@ -118,14 +118,14 @@ Bao ve do an                                            ^^
 
 | Tuần | Kế hoạch (Planned) | Thực tế (Actual) | % hoàn thành | Ghi chú |
 |---|---|---|---|---|
-| T1 | Charter, RACI, Kickoff, Stakeholders, User flow, Tech stack, Entity | | | |
-| T2 | WBS, Gantt, SRS, UC, Wireframe, API spec, ERD | | | |
-| T3 | Auth/CRUD API, Login UI, CRUD screens, Migration, Seed, Test batch 1 | | | |
-| T4 | ≥50% + Demo giữa kỳ | | | |
-| T5 | Dashboard, Report, External service, Test batch 2 | | | |
-| T6 | Feature complete, ≥35 test case, Fix bug | | | |
-| T7 | UAT, Deploy, Tài liệu, Video | | | |
-| T8 | Bảo vệ, Closure | | | |
+| T1 | Charter, RACI, Kickoff, Stakeholders, User flow, Tech stack, Entity | Hoàn thành 22/22 issues Tuần 1 (Charter, Scope, RACI, SOW, Stakeholders, User flow, Tech stack, Conceptual ERD) | **100%** | Đạt Gate 1 đúng hạn |
+| T2 | WBS, Gantt, SRS, UC, Wireframe, API spec, ERD | Hoàn thành 30/30 issues Tuần 2 (WBS cấp 4, PERT/CPM, Gantt Baseline, COCOMO, BPMN 1–3, ERD 3NF 13 bảng, Test Plan & 35+ TC) | **100%** | Đạt Gate 2 đúng hạn |
+| T3 | Auth/CRUD API, Login UI, CRUD screens, Migration, Seed, Test batch 1 | Hoàn thành 23/23 issues Tuần 3 (Risk Register, 4T Plan, Fast-tracking, SRS v1.0, RTM, Auth JWT, RBAC, Users, Customers, Seed Data) | **100%** | Đạt Increment 1 |
+| T4 | ≥50% + Demo giữa kỳ | Hoàn thành 18/18 issues Tuần 4 (EVM Day 20, Variance Report, Slide & Demo Script, Venues, Conflict Checker, Midterm Test Report, CR-01) | **100%** | Hoàn thành Demo 50% |
+| T5 | Dashboard, Report, External service, Test batch 2 | Hoàn thành 20/21 issues Tuần 5 (Dishes, Menus, Services, Contracts, State Machine, Payments, Procurement & Vendor Plan, Concurrency Fix) | **95.2%** | Còn #84 đang hoàn thiện UI |
+| T6 | Feature complete, ≥35 test case, Fix bug | Đã hoàn thành Quality Plan, Quality Checklist, Pareto 80/20 Analysis, Regression Test, Performance Test (<3s) | **85.0%** | Đang chốt các API xuất file |
+| T7 | UAT, Deploy, Tài liệu, Video | Đã hoàn thành UAT Plan, UAT Scenarios Master và thực thi UAT đạt 15/15 kịch bản ACCEPTED (`uat-execution-results.md`) | **80.0%** | Sẵn sàng Gate 3 |
+| T8 | Bảo vệ, Closure | Đã hoàn thành dự thảo Báo cáo tổng kết 10 chương PMBOK, Lessons Learned & Peer Review, Biên bản đóng dự án | **90.0%** | Sẵn sàng Bảo vệ đồ án |
 
 ---
-*Phiên bản 1.0 — LV34-001 — MAN104 — 07/09/2026*
+*Phiên bản 1.2 — LV34-001 — MAN104 — Cập nhật 13/10/2026*

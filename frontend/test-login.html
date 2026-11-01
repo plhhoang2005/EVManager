@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+    <h2>Test Login</h2>
+    <input type="text" id="user" value="sales@evmanager.vn">
+    <input type="password" id="pass" value="sales123">
+    <button id="btn">Đăng nhập</button>
+    <div id="out" style="color:red; margin-top: 20px;"></div>
+    <script>
+        document.getElementById('btn').onclick = async function() {
+            document.getElementById('out').innerText = 'Đang gọi API...';
+            try {
+                const res = await fetch('http://localhost:8080/api/v1/auth/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({usernameOrEmail: document.getElementById('user').value, password: document.getElementById('pass').value})
+                });
+                const data = await res.json();
+                document.getElementById('out').innerText = 'Status: ' + res.status + '\nData: ' + JSON.stringify(data);
+                if (res.ok) {
+                    sessionStorage.setItem('accessToken', data.accessToken);
+                    window.location.href = 'sales.html';
+                }
+            } catch(e) {
+                document.getElementById('out').innerText = 'Lỗi mạng: ' + e.message;
+            }
+        }
+    </script>
+</body>
+</html>

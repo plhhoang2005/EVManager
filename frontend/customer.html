@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer VIP Portal - LV34 EVENTS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/role-portals.css">
+    <link rel="stylesheet" href="css/ai-chat.css">
+</head>
+<body class="home-body">
+    <div class="home-wrapper">
+        <!-- HEADER / NAVBAR -->
+        <header class="home-navbar" id="topNavbar" style="background: var(--surface); box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;">
+            <div class="nav-container">
+                <a href="index.html" class="nav-brand" id="brandLogo">
+                    <span class="brand-icon">✨</span>
+                    <span class="brand-text">LV34 <span>EVENTS</span></span>
+                </a>
+
+                <nav class="nav-menu" id="navMenu" style="margin-left: 2rem;">
+                    <a href="javascript:void(0)" class="nav-link active" data-cust-tab="tab-cust-overview">🎉 Tổng quan tiệc</a>
+                    <a href="javascript:void(0)" class="nav-link" data-cust-tab="tab-cust-menu">🍽️ Thực đơn món ăn</a>
+                    <a href="javascript:void(0)" class="nav-link" data-cust-tab="tab-cust-services">✨ Gói dịch vụ VIP</a>
+                    <a href="calculator.html" class="nav-link">💡 Dự toán ngân sách</a>
+                </nav>
+
+                <div class="nav-actions" style="margin-left: auto;">
+                    <div class="user-profile-menu" style="display: flex; align-items: center; gap: 12px;">
+                        <div class="user-info" style="text-align: right;">
+                            <span style="display: block; font-weight: 700; font-size: 0.95rem; color: #0f172a;" id="customerHeaderName">Chị Thu Thảo (Khách VIP)</span>
+                            <a href="#" onclick="sessionStorage.clear(); window.location.href='index.html'" style="font-size: 0.8rem; color: #dc2626; text-decoration: none; font-weight: 600;">Đăng xuất</a>
+                        </div>
+                        <div class="user-avatar" style="background: linear-gradient(135deg, #087f82, #055f61); color: white; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(8, 127, 130, 0.25);">TT</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <div class="customer-main-content" style="max-width: 1180px; margin: 30px auto; padding: 0 20px;">
+            <header class="content-header" style="margin-bottom: 1.75rem;">
+                <h1 style="font-size: 1.85rem; color:#0f172a; margin:0 0 6px 0;">Không Gian Sự Kiện Của Quý Khách</h1>
+                <p style="color:#64748b; font-size: 0.95rem; margin:0;">Theo dõi trực tuyến tiến độ chuẩn bị tiệc, thực đơn ẩm thực và quyết toán VietQR 24/7 an toàn.</p>
+            </header>
+
+            <!-- EVENT PROGRESS STEPPER (THANH TIẾN TRÌNH TIỆC ĐỘNG) -->
+            <div class="card" style="background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08);padding:1.5rem;margin-bottom:2rem;border:1px solid #e2e8f0;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px;">
+                    <h3 style="font-size: 1rem; font-weight: 700; color: #334155; margin:0; display:flex; align-items:center; gap:8px;">
+                        🎯 Tiến Trình Chuẩn Bị Sự Kiện Của Quý Khách
+                    </h3>
+                    <span id="custContractStatusBadge" style="background:#ecfdf5;color:#059669;padding:4px 12px;border-radius:9999px;font-size:0.8rem;font-weight:700;border:1px solid #a7f3d0;">
+                        ĐANG TIẾN HÀNH
+                    </span>
+                </div>
+                <div class="event-stepper" id="customerStepper">
+                    <div class="stepper-progress-fill" id="stepperFill" style="width: 50%;"></div>
+                    <div class="stepper-step completed" id="step1">
+                        <div class="stepper-circle">✓</div>
+                        <span class="stepper-label">1. Ký HĐ & Đặt cọc</span>
+                    </div>
+                    <div class="stepper-step active" id="step2">
+                        <div class="stepper-circle">2</div>
+                        <span class="stepper-label">2. Duyệt Thực đơn & Âm thanh</span>
+                    </div>
+                    <div class="stepper-step" id="step3">
+                        <div class="stepper-circle">3</div>
+                        <span class="stepper-label">3. Sẵn sàng & Diễn ra Sự kiện</span>
+                    </div>
+                    <div class="stepper-step" id="step4">
+                        <div class="stepper-circle">4</div>
+                        <span class="stepper-label">4. Quyết toán & Đánh giá</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OVERVIEW METRIC CARDS -->
+            <div class="overview-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <article class="metric-card" style="background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08);padding:1.25rem;border:1px solid #e2e8f0;">
+                    <div class="metric-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                        <div class="metric-icon" style="background-color: #ecfdf5; color: #059669; width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">📅</div>
+                        <span class="metric-trend positive" id="custEventTag" style="background:#ecfdf5;color:#059669;padding:4px 10px;border-radius:9999px;font-size:0.75rem;font-weight:700;">Đã giữ sảnh VIP</span>
+                    </div>
+                    <div class="metric-body">
+                        <h3 style="font-size:0.88rem;color:#64748b;margin:0 0 4px 0;">Sự kiện sắp tới</h3>
+                        <div class="metric-value" id="custNextEventDate" style="font-size:1.35rem;font-weight:800;color:#0f172a;">15/11/2026</div>
+                        <p class="metric-subtext" id="custNextEventTitle" style="color:#64748b;font-size:0.85rem;margin:4px 0 0 0;">Lễ cưới Tuấn Kiệt & Thu Thảo (Sảnh Diamond Luxury)</p>
+                    </div>
+                </article>
+
+                <article class="metric-card" style="background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08);padding:1.25rem;border:1px solid #e2e8f0;">
+                    <div class="metric-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                        <div class="metric-icon" style="background-color: #fef2f2; color: #dc2626; width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">💰</div>
+                        <span class="metric-trend positive" id="custDepositPaid" style="background:#e0f2fe;color:#0369a1;padding:4px 10px;border-radius:9999px;font-size:0.75rem;font-weight:700;">Đã cọc 45.000.000 đ</span>
+                    </div>
+                    <div class="metric-body">
+                        <h3 style="font-size:0.88rem;color:#64748b;margin:0 0 4px 0;">Còn lại cần quyết toán</h3>
+                        <div class="metric-value" id="custRemainingAmount" style="font-size:1.35rem;font-weight:800;color:#087f82;">105.000.000 đ</div>
+                        <p class="metric-subtext" style="color:#64748b;font-size:0.85rem;margin:4px 0 0 0;">Quyết toán vào ngày diễn ra tiệc</p>
+                    </div>
+                </article>
+            </div>
+
+            <!-- TAB 1: TỔNG QUAN TIỆC & VIETQR -->
+            <section id="tab-cust-overview" class="cust-tab-pane active">
+                <div id="customerContractContainer">
+                    <p style="text-align:center;color:#64748b;padding:2rem;">Đang tải thông tin hợp đồng của bạn...</p>
+                </div>
+
+                <!-- LỊCH SỬ GIAO DỊCH THANH TOÁN -->
+                <div class="card" style="background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08);padding:1.5rem;margin-top:2rem;border:1px solid #e2e8f0;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px;">
+                        <h3 style="margin:0;font-size:1.1rem;color:#0f172a;display:flex;align-items:center;gap:8px;">
+                            📋 Lịch Sử Giao Dịch & Đặt Cọc VietQR
+                        </h3>
+                        <span style="font-size:0.85rem;color:#64748b;">Giao dịch Napas 24/7 tự động xác thực</span>
+                    </div>
+                    <div id="customerPaymentHistoryContainer" class="table-container" style="overflow-x:auto;">
+                        <p style="text-align:center;color:#64748b;padding:1rem;">Đang kiểm tra giao dịch...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: THỰC ĐƠN MÓN ĂN -->
+            <section id="tab-cust-menu" class="cust-tab-pane" style="display:none;">
+                <div class="card" style="background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08);padding:1.75rem;border:1px solid #e2e8f0;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:12px;border-bottom:1px solid #e2e8f0;padding-bottom:1rem;">
+                        <div>
+                            <h2 style="margin:0 0 4px 0;font-size:1.35rem;color:#0f172a;">🍽️ Thực Đơn Ẩm Thực Đã Chọn</h2>
+                            <p style="margin:0;color:#64748b;font-size:0.9rem;">Set menu ẩm thực Á - Âu thượng hạng do Bếp trưởng LV34 chế biến.</p>
+                        </div>
+                        <span style="background:#fef3c7;color:#b45309;padding:6px 14px;border-radius:9999px;font-size:0.85rem;font-weight:700;border:1px solid #fde68a;">
+                            Set Hoàng Gia (8 Món)
+                        </span>
+                    </div>
+
+                    <div id="customerMenuDishesGrid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1rem;">
+                        <p style="color:#64748b;">Đang tải danh sách món ăn...</p>
+                    </div>
+
+                    <div style="margin-top:1.5rem;padding:1rem;background:#f0fdf4;border-radius:8px;border:1px solid #bbf7d0;color:#166534;font-size:0.9rem;display:flex;align-items:center;gap:10px;">
+                        <span>💡</span>
+                        <span>Đã bao gồm nước suối, nước ngọt và bia Heineken phục vụ suốt tiệc. Quý khách muốn điều chỉnh món vui lòng liên hệ Chuyên viên Sales phụ trách trước 5 ngày.</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: GÓI DỊCH VỤ VIP -->
+            <section id="tab-cust-services" class="cust-tab-pane" style="display:none;">
+                <div class="card" style="background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08);padding:1.75rem;border:1px solid #e2e8f0;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:12px;border-bottom:1px solid #e2e8f0;padding-bottom:1rem;">
+                        <div>
+                            <h2 style="margin:0 0 4px 0;font-size:1.35rem;color:#0f172a;">✨ Gói Dịch Vụ Âm Thanh & Nghi Thức VIP</h2>
+                            <p style="margin:0;color:#64748b;font-size:0.9rem;">Toàn bộ hạng mục âm thanh, ánh sáng và nhân sự điều phối sân khấu phục vụ tiệc cưới.</p>
+                        </div>
+                        <span style="background:#ecfdf5;color:#059669;padding:6px 14px;border-radius:9999px;font-size:0.85rem;font-weight:700;border:1px solid #a7f3d0;">
+                            ✓ Đã bao gồm trọn gói
+                        </span>
+                    </div>
+
+                    <div id="customerServicesGrid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1.25rem;">
+                        <p style="color:#64748b;">Đang tải danh sách gói dịch vụ...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- FLOATING AI TRIGGER FOR CUSTOMER -->
+        <a href="index.html#aiConciergeSection" class="customer-ai-fab" title="Trò chuyện với Trợ lý AI Concierge">
+            <span>✨</span>
+            <span>Hỏi Trợ Lý AI Sự Kiện</span>
+        </a>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/authGuard.js"></script>
+    <script src="js/role-switcher.js"></script>
+    <script src="js/customer.js"></script>
+</body>
+</html>

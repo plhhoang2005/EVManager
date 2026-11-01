@@ -1,0 +1,59 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1515 >>
+stream
+BT
+/F1 11 Tf
+50 760 Td
+18 TL
+(BAO CAO TONG KET DO AN MON HOC MAN104 - QUAN LY DU AN PHAN MEM) Tj T*
+(Du an: He thong Quan ly Dich vu Tiec Cuoi & Su Kien \(EVManager\)) Tj T*
+(------------------------------------------------------------------------) Tj T*
+(1. THONG TIN CHUNG:) Tj T*
+(   - Thoi gian thuc hien: 8 tuan \(02/03/2026 - 26/04/2026\)) Tj T*
+(   - Tong ngan sach \(BAC\): 180,000,000 VND | Chi phi thuc te \(AC\): 178,500,000 VND) Tj T*
+(   - Chi so Earned Value: SPI = 1.000 \(Dung tien do\), CPI = 1.008 \(Tiet kiem ngan sach\)) Tj T*
+() Tj T*
+(2. THANH VIEN NHOM & HOAN THANH CONG VIEC:) Tj T*
+(   - Pham Le Huy Hoang \(PM\): 30/30 Issues \(100% Done\)) Tj T*
+(   - Pham Nguyen Nhat Truong \(BA\): 30/30 Issues \(100% Done\)) Tj T*
+(   - Nguyen Hoang Trung \(Backend\): 30/30 Issues \(100% Done\)) Tj T*
+(   - Le Bui Hoang Ngan \(Frontend/Desktop\): 30/30 Issues \(100% Done\)) Tj T*
+(   - Ho Diep Quang Tien \(DB/QA\): 30/30 Issues \(100% Done\)) Tj T*
+() Tj T*
+(3. KET QUA KIEM THU & NGHIEM THU \(QUALITY & UAT\):) Tj T*
+(   - Unit & Integration Tests: 100% Passed \(JaCoCo >= 82%\)) Tj T*
+(   - System & E2E Tests: 52/52 Test Cases Passed \(0 Critical/High Bugs open\)) Tj T*
+(   - Performance Testing \(JMeter 500 VU\): p95 = 250ms, Error Rate = 0.00%) Tj T*
+(   - UAT Sign-off: 18/18 Scenarios Accepted \(100% Pass\)) Tj T*
+() Tj T*
+(4. KET LUAN: Du an EVManager chinh thuc nghiem thu va dong du an thanh cong.) Tj T*
+(   Chi tiet xem tai: docs/charter/final-project-management-report.md) Tj T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000001808 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1878
+%%EOF
