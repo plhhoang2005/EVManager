@@ -19,6 +19,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // 1-Click điền nhanh tài khoản demo
+    document.querySelectorAll('.btn-demo-fill').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const user = btn.getAttribute('data-user');
+            const pass = btn.getAttribute('data-pass');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            if (usernameInput) usernameInput.value = user;
+            if (passwordInput) passwordInput.value = pass;
+            const submitBtn = document.querySelector('.login-button');
+            if (submitBtn) submitBtn.focus();
+        });
+    });
+
     // Xử lý gửi form đăng nhập
     if (loginForm) {
         loginForm.addEventListener('submit', async function(event) {
