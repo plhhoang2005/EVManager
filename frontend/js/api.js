@@ -4,13 +4,20 @@
  */
 
 const API_BASE_URL = (() => {
-    if (typeof window !== 'undefined' && window.APP_CONFIG && window.APP_CONFIG.API_URL) {
-        return window.APP_CONFIG.API_URL;
+    if (typeof window !== 'undefined') {
+        if (window.APP_CONFIG && window.APP_CONFIG.API_URL) {
+            return window.APP_CONFIG.API_URL;
+        }
+        if (localStorage.getItem('API_URL')) {
+            return localStorage.getItem('API_URL');
+        }
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            return window.location.port === '8080' ? '' : 'http://localhost:8080';
+        }
+        // Khi deploy lên Cloud (Vercel / Netlify / GitHub Pages)
+        return 'https://evmanager-api.onrender.com';
     }
-    if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-        return window.location.port === '8080' ? '' : 'http://localhost:8080';
-    }
-    return typeof window !== 'undefined' ? window.location.origin : 'http://localhost:8080';
+    return 'http://localhost:8080';
 })();
 
 /**
@@ -52,8 +59,8 @@ async function fetchAPI(endpoint, options = {}) {
         headers.set('Authorization', `Bearer ${token}`);
     }
 
-    // Mặc định Content-Type là application/json nếu gửi body dạng chuỗi
-    if (options.body && !headers.has('Content-Type') && !(options.body instanceof FormData)) {
+    // Nếu gửi kèm Body mà chưa set Content-Type, mặc định là application/json
+    if (options.body && typeof options.body === 'string' && !headers.has('Content-Type')) {
         headers.set('Content-Type', 'application/json');
     }
 
@@ -65,19 +72,22 @@ async function fetchAPI(endpoint, options = {}) {
     try {
         const response = await fetch(url, config);
 
-        // Chỉ tự động logout khi gặp đúng HTTP 401 Unauthorized tại các trang nội bộ
+        // Xử lý bảo mật: Kiểm tra lỗi 401 (Unauthorized) hoặc 403 (Forbidden)
         if (response.status === 401) {
-            const isAuthEndpoint = endpoint.includes('/auth/login') || endpoint.includes('/auth/register');
-            if (!isAuthEndpoint && !window.location.pathname.includes('login.html')) {
-                console.warn('Phiên đăng nhập hết hạn (HTTP 401). Điều hướng về trang đăng nhập.');
-                sessionStorage.removeItem('accessToken');
-                sessionStorage.removeItem('currentUser');
+            console.warn(`[fetchAPI] Request to ${endpoint} returned 401 Unauthorized. Redirecting to login.`);
+            sessionStorage.removeItem('accessToken');
+            sessionStorage.removeItem('userRole');
+            
+            // Chỉ redirect nếu không đang ở trang login để tránh lặp vô tận
+            const currentPath = window.location.pathname.toLowerCase();
+            if (!currentPath.includes('login.html')) {
                 window.location.href = 'login.html';
             }
         }
 
         return response;
     } catch (error) {
+        console.error(`[fetchAPI] Network error while calling ${endpoint}:`, error);
         throw error;
     }
 }
@@ -129,4 +139,19 @@ window.showConfirm = function(title, text) {
     } else {
         return Promise.resolve(confirm(title + (text ? '\n' + text : '')));
     }
+};
+
+// Cho phép người dùng hoặc tester đổi Backend URL nhanh trên giao diện nếu cần
+window.setBackendUrl = function(newUrl) {
+    if (newUrl) {
+        localStorage.setItem('API_URL', newUrl);
+        alert(`Đã lưu Backend API URL: ${newUrl}. Trang sẽ tải lại!`);
+        window.location.reload();
+    }
+};
+
+window.resetBackendUrl = function() {
+    localStorage.removeItem('API_URL');
+    alert('Đã xóa URL tùy chỉnh, quay lại cấu hình mặc định. Trang sẽ tải lại!');
+    window.location.reload();
 };

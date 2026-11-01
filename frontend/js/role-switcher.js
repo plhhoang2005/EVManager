@@ -24,7 +24,7 @@ window.switchDemoRole = async function(roleKey, targetUrl) {
     }
 
     try {
-        const res = await fetch('/api/v1/auth/login', {
+        const res = await fetchAPI('/api/v1/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ usernameOrEmail: cred.username, password: cred.password })
