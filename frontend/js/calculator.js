@@ -202,7 +202,7 @@ function initAiPlannerLogic() {
             };
 
             try {
-                const apiBase = (typeof API_BASE_URL !== 'undefined') ? API_BASE_URL : (window.location.port === '8080' ? '' : ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8080' : window.location.origin));
+                const apiBase = (typeof API_BASE_URL !== 'undefined') ? API_BASE_URL : (window.location.port === '8080' ? '' : ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8080' : 'https://evmanager-api.onrender.com'));
                 const response = await fetch(`${apiBase}/api/v1/ai/plan-event`, {
                     method: 'POST',
                     headers: {
@@ -369,7 +369,7 @@ function initAiPlannerLogic() {
             };
 
             try {
-                const apiBase = (typeof API_BASE_URL !== 'undefined') ? API_BASE_URL : (window.location.port === '8080' ? '' : ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8080' : window.location.origin));
+                const apiBase = (typeof API_BASE_URL !== 'undefined') ? API_BASE_URL : (window.location.port === '8080' ? '' : ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8080' : 'https://evmanager-api.onrender.com'));
                 const res = await fetch(`${apiBase}/api/v1/ai/inquiry`, {
                     method: 'POST',
                     headers: {
